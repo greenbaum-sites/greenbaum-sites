@@ -1,0 +1,1196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Justin R. Greenbaum</title>
+  <meta name="description" content="Enterprise Operations Executive. 20+ years at Comcast, frontline to VP. Now focused on decision infrastructure, responsibility architecture, and AI governance.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Film grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-brand {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .nav-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a.active { color: var(--accent); }
+
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 8rem 3rem 6rem;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .hero-image {
+      position: relative;
+    }
+
+    .hero-image-placeholder {
+      aspect-ratio: 4/5;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .hero-image img {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 4/5;
+      object-fit: cover;
+      filter: grayscale(20%);
+    }
+
+    .hero-content {
+      max-width: 560px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.2s;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 5vw, 3.8rem);
+      line-height: 1.15;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.4s;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .hero-intro {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.6s;
+    }
+
+    .hero-intro strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.8s;
+    }
+
+    .btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 1.8rem;
+      transition: all 0.3s ease;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg-primary);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-primary:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: var(--text-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+
+    /* Section utilities */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--text-dim);
+    }
+
+    /* Thesis */
+    .thesis {
+      padding: 6rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .thesis-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .thesis blockquote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 300;
+      font-style: italic;
+      line-height: 1.5;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+    }
+
+    .thesis blockquote em {
+      color: var(--accent);
+      font-style: normal;
+    }
+
+    .thesis p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+    }
+
+    /* Stats */
+    .stats {
+      padding: 0 3rem;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
+    }
+
+    .stats-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .stat {
+      background: var(--bg-primary);
+      padding: 3.5rem 1.5rem;
+      text-align: center;
+    }
+
+    .stat-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-weight: 300;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .stat-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* The Arc */
+    .arc {
+      padding: 8rem 3rem;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
+    }
+
+    .arc-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .arc h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .arc-sub {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 600px;
+      margin-bottom: 4rem;
+    }
+
+    .arc-timeline {
+      position: relative;
+      padding-left: 3rem;
+      border-left: 1px solid var(--border);
+    }
+
+    .arc-phase {
+      position: relative;
+      padding-bottom: 3.5rem;
+    }
+
+    .arc-phase:last-child { padding-bottom: 0; }
+
+    .arc-phase::before {
+      content: '';
+      position: absolute;
+      left: -3rem;
+      top: 0.4rem;
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      transform: translateX(-50%);
+    }
+
+    .arc-phase.current::before {
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(201, 168, 76, 0.5);
+      width: 11px;
+      height: 11px;
+    }
+
+    .arc-years {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+
+    .arc-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .arc-company {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--accent);
+      text-transform: uppercase;
+      margin-bottom: 0.75rem;
+    }
+
+    .arc-phase.current .arc-title { color: var(--accent); }
+
+    .arc-detail {
+      font-size: 0.88rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 600px;
+    }
+
+    .arc-highlight {
+      display: inline-block;
+      margin-top: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      padding: 0.4rem 0.8rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+
+    /* Recognition */
+    .recognition {
+      padding: 6rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .recognition-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .recognition h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.8rem, 3vw, 2.5rem);
+      line-height: 1.2;
+      margin-bottom: 3rem;
+    }
+
+    .recognition-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .recognition-item {
+      background: var(--bg-secondary);
+      padding: 2rem;
+    }
+
+    .recognition-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .recognition-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .recognition-source {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* Services */
+    .services {
+      padding: 8rem 3rem;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
+    }
+
+    .services-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .services h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .services-sub {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 520px;
+      line-height: 1.8;
+      margin-bottom: 4rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .service {
+      background: var(--bg-primary);
+      padding: 3rem;
+      transition: background 0.3s ease;
+    }
+
+    .service:hover { background: var(--bg-card); }
+
+    .service-icon {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      opacity: 0.7;
+    }
+
+    .service-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 1rem;
+    }
+
+    .service-desc {
+      font-size: 0.85rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .service-includes {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    /* Expertise */
+    .expertise {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .expertise-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .expertise h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 4rem;
+    }
+
+    .expertise-cols {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 3rem;
+    }
+
+    .expertise-col h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .expertise-list {
+      list-style: none;
+    }
+
+    .expertise-list li {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .expertise-list li:last-child { border-bottom: none; }
+
+    /* Credentials */
+    .credentials {
+      padding: 6rem 3rem;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
+    }
+
+    .credentials-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+    }
+
+    .credentials-section h3 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .credential {
+      margin-bottom: 1.5rem;
+    }
+
+    .credential-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .credential-org {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Creative */
+    .creative {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .creative-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .creative-content h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 2.5rem);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .creative-content p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .creative-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .creative-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.7rem 1.2rem;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .creative-link:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .creative-images {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .creative-img {
+      aspect-ratio: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--text-dim);
+    }
+
+    /* Connect */
+    .connect {
+      padding: 10rem 3rem;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
+      text-align: center;
+    }
+
+    .connect-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .connect h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 5vw, 4rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .connect p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+    }
+
+    .connect-email {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 3rem;
+      transition: color 0.3s ease;
+    }
+
+    .connect-email:hover { color: var(--text-primary); }
+
+    .connect-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .connect-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.7rem 1.5rem;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .connect-btn:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-l, .footer-r {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .footer-r a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-r a:hover { color: var(--accent); }
+
+    /* Animations */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Responsive */
+    @media (max-width: 1024px) {
+      .hero { grid-template-columns: 1fr; gap: 3rem; }
+      .hero-image { order: -1; max-width: 400px; margin: 0 auto; }
+      .stats-grid { grid-template-columns: repeat(3, 1fr); }
+      .services-grid { grid-template-columns: 1fr; }
+      .expertise-cols { grid-template-columns: 1fr; gap: 2rem; }
+      .creative-inner { grid-template-columns: 1fr; }
+      .recognition-grid { grid-template-columns: 1fr; }
+      .credentials-inner { grid-template-columns: 1fr; gap: 3rem; }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .thesis, .stats, .arc, .recognition, .services, .expertise, .credentials, .creative, .connect { padding: 5rem 1.5rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-brand">
+      <span class="nav-name">Justin R. Greenbaum</span>
+      <span class="nav-role">Decision · Responsibility · Infrastructure</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="about.html" class="active">About</a></li>
+      <li><a href="coherence.html">Coherence</a></li>
+      <li><a href="index.html#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-image">
+      <!-- Replace with: <img src="your-photo.jpg" alt="Justin R. Greenbaum"> -->
+      <div class="hero-image-placeholder">Photo</div>
+    </div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">About</p>
+      <h1>I started on the frontline.<br>I ended up designing<br><em>the systems.</em></h1>
+      <p class="hero-intro">
+        <strong>20 years at Comcast.</strong> Tech support to VP. I've led regulatory escalations, executive complaints, privacy response, and cross-functional breakdowns where ownership was unclear and consequences were real. That path gave me something valuable: a clear view of how decisions made at the top land on people doing the work.
+      </p>
+      <div class="hero-cta">
+        <a href="mailto:hi@justingreenbaum.com" class="btn btn-primary">Get in Touch</a>
+        <a href="index.html#coherence" class="btn btn-secondary">See the Framework</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Thesis -->
+  <section class="thesis">
+    <div class="thesis-inner reveal">
+      <blockquote>"Organizations don't stall because people aren't capable. They stall because responsibility diffuses, decision rights drift, and good people end up <em>compensating for gaps that aren't theirs to fill.</em>"</blockquote>
+      <p>That's the conclusion I kept coming back to. Excellence alone doesn't create durability. Systems do.</p>
+    </div>
+  </section>
+
+  <!-- Stats -->
+  <section class="stats">
+    <div class="stats-inner reveal">
+      <div class="stats-grid">
+        <div class="stat">
+          <div class="stat-num">20+</div>
+          <div class="stat-label">Years in<br>Enterprise Ops</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">7,300+</div>
+          <div class="stat-label">Team Size<br>(Internal + Partner)</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">$200M+</div>
+          <div class="stat-label">Annual<br>Budget</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">50+</div>
+          <div class="stat-label">Lines of<br>Business</div>
+        </div>
+        <div class="stat">
+          <div class="stat-num">30M+</div>
+          <div class="stat-label">Customer<br>Households</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Arc -->
+  <section class="arc">
+    <div class="arc-inner">
+      <div class="reveal">
+        <div class="section-label">The Arc</div>
+        <h2>From frontline to VP. From operator to architect.</h2>
+        <p class="arc-sub">Every level of leadership, from the call center floor to the executive suite. That trajectory matters because I know what decisions feel like at every layer.</p>
+      </div>
+      <div class="arc-timeline reveal">
+        <div class="arc-phase">
+          <div class="arc-years">2023 — 2025</div>
+          <div class="arc-title">VP2, Specialty Queue Strategy & External Operations</div>
+          <div class="arc-company">Comcast</div>
+          <div class="arc-detail">Led enterprise strategy and operating model design covering regulatory response, customer security, privacy, executive escalations, social media, accessibility, and global partner operations. Aligned strategy across 50+ lines of business in areas with the highest trust, legal, and reputational exposure. Designed and stood up a new operating model that clarified decision authority, ownership, and accountability across the portfolio.</div>
+        </div>
+        <div class="arc-phase">
+          <div class="arc-years">2020 — 2023</div>
+          <div class="arc-title">VP, Customer Experience Strategy & Operations</div>
+          <div class="arc-company">Comcast</div>
+          <div class="arc-detail">Led 1,300 internal employees and 6,000 global partner agents across five national teams. $200M+ annual budget. Reported to SVP of Communications and National Care Operations. Led the largest Social Media Care organization in the United States. Directed Xfinity Mobile Care supporting millions of customers nationwide.</div>
+          <span class="arc-highlight">Largest Social Media Care org in the US</span>
+        </div>
+        <div class="arc-phase">
+          <div class="arc-years">2018 — 2020</div>
+          <div class="arc-title">Executive Director, Customer Service Strategy & Operations</div>
+          <div class="arc-company">Comcast</div>
+          <div class="arc-detail">Set strategy for executive customer care including social media and executive relations. 525 employees, $80M budget. Launched the Privacy Center of Excellence in partnership with the Chief Privacy Officer — recognized with a Circle of Innovation Award within its first year.</div>
+          <span class="arc-highlight">Circle of Innovation Award — Privacy Program</span>
+        </div>
+        <div class="arc-phase">
+          <div class="arc-years">2016 — 2018</div>
+          <div class="arc-title">Senior Director, Regulatory Compliance & Executive Customer Relations</div>
+          <div class="arc-company">Comcast</div>
+          <div class="arc-detail">Led national teams responding to FCC, BBB, and state Public Utilities Commission complaints. $50M budget. Improved Comcast's BBB rating from D to A/B+. Reduced regulatory escalation volume to the lowest level in 5+ years. Operating approach was recognized by the FCC as a best practice.</div>
+          <span class="arc-highlight">FCC-recognized best practice · BBB D → A/B+</span>
+        </div>
+        <div class="arc-phase">
+          <div class="arc-years">2015 — 2016</div>
+          <div class="arc-title">Director, Advanced Repair and Escalations</div>
+          <div class="arc-company">Comcast · Denver</div>
+          <div class="arc-detail">Led national Tier III technical support and escalation programs. Bridged technical system behavior and customer trust outcomes.</div>
+        </div>
+        <div class="arc-phase">
+          <div class="arc-years">2005 — 2015</div>
+          <div class="arc-title">Frontline → Supervisor → Manager → Senior Manager</div>
+          <div class="arc-company">Comcast</div>
+          <div class="arc-detail">Progressed from technical support through every level of leadership across regional, divisional, and HQ organizations. Multiple relocations. Firsthand exposure to how centrally designed systems play out differently across markets, teams, and customers.</div>
+        </div>
+        <div class="arc-phase current">
+          <div class="arc-years">2025 — Present</div>
+          <div class="arc-title">Independent · Advisory · Building</div>
+          <div class="arc-company">The Next Chapter</div>
+          <div class="arc-detail">MIT Sloan AI program. Writing publicly about systems, judgment, and responsible AI. Advisory and consulting focused on decision infrastructure, responsibility architecture, and AI governance. Taking everything I learned inside and making it available to organizations navigating the same structural challenges.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Recognition -->
+  <section class="recognition">
+    <div class="recognition-inner">
+      <div class="reveal">
+        <div class="section-label">Recognition</div>
+        <h2>The work that got noticed.</h2>
+      </div>
+      <div class="recognition-grid reveal">
+        <div class="recognition-item">
+          <div class="recognition-badge">Award</div>
+          <div class="recognition-title">Circle of Innovation</div>
+          <div class="recognition-source">Comcast · Privacy Program · 2020</div>
+        </div>
+        <div class="recognition-item">
+          <div class="recognition-badge">Industry</div>
+          <div class="recognition-title">FCC Best Practice Recognition</div>
+          <div class="recognition-source">Regulatory complaint resolution approach</div>
+        </div>
+        <div class="recognition-item">
+          <div class="recognition-badge">Turnaround</div>
+          <div class="recognition-title">BBB Rating: D → A/B+</div>
+          <div class="recognition-source">National regulatory compliance program</div>
+        </div>
+        <div class="recognition-item">
+          <div class="recognition-badge">Customer Satisfaction</div>
+          <div class="recognition-title">JD Power #1</div>
+          <div class="recognition-source">Xfinity Home</div>
+        </div>
+        <div class="recognition-item">
+          <div class="recognition-badge">Customer Satisfaction</div>
+          <div class="recognition-title">ACSI #1 — Multiple Years</div>
+          <div class="recognition-source">Xfinity Mobile · Satisfaction, Quality, Value</div>
+        </div>
+        <div class="recognition-item">
+          <div class="recognition-badge">Scale</div>
+          <div class="recognition-title">Largest Social Media Care Org in the US</div>
+          <div class="recognition-source">Real-time response, de-escalation, incident management</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section class="services">
+    <div class="services-inner">
+      <div class="reveal">
+        <div class="section-label">The Work Now</div>
+        <h2>How I can help.</h2>
+        <p class="services-sub">I work with senior leaders and organizations facing structural problems that get misdiagnosed as performance issues.</p>
+      </div>
+      <div class="services-grid reveal">
+        <div class="service">
+          <div class="service-icon">◈</div>
+          <div class="service-name">Advisory</div>
+          <div class="service-desc">Ongoing strategic counsel for executives navigating complex organizational challenges. Decision infrastructure, responsibility architecture, AI governance.</div>
+          <div class="service-includes">Retained engagements · Monthly/quarterly</div>
+        </div>
+        <div class="service">
+          <div class="service-icon">◇</div>
+          <div class="service-name">Executive Workshops</div>
+          <div class="service-desc">Intensive working sessions for leadership teams. Diagnostic assessments, failure mode identification, and structural intervention design.</div>
+          <div class="service-includes">Half-day · Full-day · Multi-session</div>
+        </div>
+        <div class="service">
+          <div class="service-icon">○</div>
+          <div class="service-name">Speaking</div>
+          <div class="service-desc">Keynotes and panels on systems thinking, organizational failure modes, responsibility infrastructure, and human-centered AI governance.</div>
+          <div class="service-includes">Conferences · Corporate · Podcasts</div>
+        </div>
+        <div class="service">
+          <div class="service-icon">□</div>
+          <div class="service-name">Diagnostic Partnerships</div>
+          <div class="service-desc">Deep-dive organizational assessments. Where are the seams? Where does ownership break down? Where are decisions getting displaced?</div>
+          <div class="service-includes">2-4 week engagements · Deliverable-focused</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Expertise -->
+  <section class="expertise">
+    <div class="expertise-inner">
+      <div class="reveal">
+        <div class="section-label">Expertise</div>
+        <h2>What I know deeply.</h2>
+      </div>
+      <div class="expertise-cols reveal">
+        <div class="expertise-col">
+          <h3>Operations</h3>
+          <ul class="expertise-list">
+            <li>Enterprise customer operations</li>
+            <li>Regulatory escalation management</li>
+            <li>Privacy & accessibility compliance</li>
+            <li>Executive complaint resolution</li>
+            <li>Social media care at scale</li>
+            <li>Global partner operations</li>
+            <li>Workforce strategy</li>
+          </ul>
+        </div>
+        <div class="expertise-col">
+          <h3>Systems</h3>
+          <ul class="expertise-list">
+            <li>Operating model design</li>
+            <li>Decision infrastructure</li>
+            <li>Responsibility architecture</li>
+            <li>Failure mode identification</li>
+            <li>Escalation pathway design</li>
+            <li>Cross-functional coordination</li>
+            <li>Enterprise analytics</li>
+          </ul>
+        </div>
+        <div class="expertise-col">
+          <h3>Governance</h3>
+          <ul class="expertise-list">
+            <li>AI governance frameworks</li>
+            <li>Responsible AI deployment</li>
+            <li>Human-AI collaboration</li>
+            <li>Regulatory compliance</li>
+            <li>Trust & safety operations</li>
+            <li>Risk assessment</li>
+            <li>Stakeholder alignment</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Credentials -->
+  <section class="credentials">
+    <div class="credentials-inner reveal">
+      <div class="credentials-section">
+        <h3>Education</h3>
+        <div class="credential">
+          <div class="credential-name">Artificial Intelligence: Implications for Business Strategy</div>
+          <div class="credential-org">MIT Sloan Executive Education · 2025</div>
+        </div>
+      </div>
+      <div class="credentials-section">
+        <h3>Certifications</h3>
+        <div class="credential">
+          <div class="credential-name">Prosci Certified Change Practitioner</div>
+          <div class="credential-org">Change management methodology</div>
+        </div>
+        <div class="credential">
+          <div class="credential-name">Making AI Work: Machine Intelligence for Business and Society</div>
+          <div class="credential-org">AI strategy & implementation</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Creative Practice -->
+  <section class="creative">
+    <div class="creative-inner">
+      <div class="creative-content reveal">
+        <div class="section-label">The Other Work</div>
+        <h2>Craft doesn't compartmentalize.</h2>
+        <p>The same principles — presence, attention, deliberate practice — show up across everything I make. Documentary and fine art photography on Leica. 50,000+ image archive across five continents. Published in Four Seasons Philadelphia and Philly Current Magazine. Fine art Lego photography that applies the same eye at a different scale.</p>
+        <div class="creative-links">
+          <a href="https://greenbaumphotography.com" class="creative-link" target="_blank">Photography →</a>
+          <a href="https://megabrixels.com" class="creative-link" target="_blank">Megabrixels →</a>
+          <a href="https://greenbaumlabs.com" class="creative-link" target="_blank">Labs →</a>
+        </div>
+      </div>
+      <div class="creative-images reveal">
+        <!-- Replace with actual images -->
+        <div class="creative-img">Photo 1</div>
+        <div class="creative-img">Photo 2</div>
+        <div class="creative-img">Photo 3</div>
+        <div class="creative-img">Photo 4</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Connect -->
+  <section class="connect">
+    <div class="connect-inner reveal">
+      <div class="section-label" style="justify-content: center;">Connect</div>
+      <h2>Let's talk about<br>what you're navigating.</h2>
+      <p>Whether you're facing a structural challenge, planning a transformation, or thinking through AI governance — I'm available for the conversation.</p>
+      <a href="mailto:hi@justingreenbaum.com" class="connect-email">hi@justingreenbaum.com</a>
+      <div class="connect-links">
+        <a href="https://linkedin.com/in/justingreenbaum" class="connect-btn" target="_blank">LinkedIn</a>
+        <a href="https://justinrgreenbaum.substack.com" class="connect-btn" target="_blank">Substack</a>
+        <a href="https://instagram.com/byjustinrg" class="connect-btn" target="_blank">Instagram</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-l">© 2026 Justin R. Greenbaum — All Rights Reserved</div>
+    <div class="footer-r">
+      <a href="https://greenbaumphotography.com">Photography</a> ·
+      <a href="https://megabrixels.com">Megabrixels</a> ·
+      <a href="https://greenbaumlabs.com">Labs</a>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 100);
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    reveals.forEach(el => observer.observe(el));
+  </script>
+
+</body>
+</html>
