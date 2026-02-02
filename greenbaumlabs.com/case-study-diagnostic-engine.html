@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Case Study: Coherence Diagnostic Engine — Greenbaum Labs</title>
+  <meta name="description" content="How I built an AI diagnostic system that observes but doesn't decide. Architecture, constraints, and philosophy.">
+
+  <meta property="og:title" content="Case Study: Coherence Diagnostic Engine">
+  <meta property="og:description" content="An AI system built on one constraint: it can observe, but it cannot decide.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://greenbaumlabs.com/case-study-diagnostic-engine.html">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #0e0e0e;
+      --bg-card: #141414;
+      --bg-terminal: #0c0c0c;
+      --text-primary: #e8e4dc;
+      --text-secondary: #7a7570;
+      --text-dim: #3e3b38;
+      --green: #5dba5d;
+      --green-dim: rgba(93, 186, 93, 0.08);
+      --green-glow: rgba(93, 186, 93, 0.15);
+      --accent: #c9a84c;
+      --warm: #c8553a;
+      --cyan: #5eb8c4;
+      --border: rgba(240, 236, 228, 0.05);
+      --border-green: rgba(93, 186, 93, 0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+      z-index: 100;
+    }
+
+    .back-link:hover { color: var(--green); }
+
+    .hero {
+      padding: 8rem 3rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--green);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+    }
+
+    .constraint-box {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-green);
+      padding: 2rem;
+      margin: 4rem auto;
+      max-width: 800px;
+    }
+
+    .constraint-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+
+    .constraint-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 3rem 6rem;
+    }
+
+    .content h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      margin: 4rem 0 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .content h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .content p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .content strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .stack-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border-green);
+      margin: 2rem 0;
+    }
+
+    .stack-item {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+    }
+
+    .stack-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--green);
+      margin-bottom: 0.5rem;
+    }
+
+    .stack-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+
+    .capability-list {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .capability-list li {
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 2rem;
+      align-items: baseline;
+    }
+
+    .capability-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
+    }
+
+    .capability-text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+    }
+
+    .video-placeholder {
+      background: var(--bg-card);
+      border: 1px solid var(--border-green);
+      aspect-ratio: 16/9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 2rem 0;
+    }
+
+    .video-placeholder span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    .cta-section {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-green);
+      padding: 4rem 3rem;
+      text-align: center;
+      margin-top: 4rem;
+    }
+
+    .cta-section h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      color: var(--text-secondary);
+      max-width: 400px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.7rem 1.5rem;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .cta-btn:hover {
+      border-color: var(--border-green);
+      color: var(--green);
+      background: var(--green-dim);
+    }
+
+    .cta-btn.primary {
+      background: var(--green-dim);
+      border-color: var(--border-green);
+      color: var(--green);
+    }
+
+    @media (max-width: 768px) {
+      .hero, .content { padding-left: 1.5rem; padding-right: 1.5rem; }
+      .back-link { position: static; margin: 1.5rem; }
+      .stack-grid { grid-template-columns: 1fr; }
+      .capability-list li { grid-template-columns: 1fr; gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/" class="back-link">← Back to Labs</a>
+
+  <section class="hero">
+    <div class="hero-label">Case Study · GL-001</div>
+    <h1>Coherence Diagnostic Engine</h1>
+    <p class="hero-sub">An AI system built on one constraint: it can search, surface, and observe. It cannot decide.</p>
+  </section>
+
+  <div class="constraint-box">
+    <div class="constraint-label">AR-001</div>
+    <div class="constraint-text">"Automation may observe, summarize, and suggest. Automation may not decide."</div>
+  </div>
+
+  <div class="content">
+    <h2>The Problem</h2>
+    <p>Years of decision logs, daily journals, and pattern observations. Thousands of entries. The signal is in there, but the volume makes it invisible.</p>
+    <p>I needed a system that could search semantically, surface patterns I'd never notice, and help me prepare for diagnostic conversations. What I didn't need: a system that draws conclusions or automates judgment.</p>
+
+    <h2>The Architecture</h2>
+    <p>Everything runs on local infrastructure. No data leaves my network.</p>
+
+    <div class="stack-grid">
+      <div class="stack-item">
+        <div class="stack-name">DGX Spark</div>
+        <div class="stack-desc">NVIDIA Grace Blackwell. Local inference and embedding generation.</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-name">Synology NAS</div>
+        <div class="stack-desc">Filesystem is source of truth. Markdown canon, schemas, project data.</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-name">ChromaDB</div>
+        <div class="stack-desc">Vector database for semantic search across all artifacts.</div>
+      </div>
+      <div class="stack-item">
+        <div class="stack-name">Python + Streamlit</div>
+        <div class="stack-desc">Interface layer. React rebuild on the roadmap.</div>
+      </div>
+    </div>
+
+    <h2>What It Does</h2>
+    <ul class="capability-list">
+      <li>
+        <span class="capability-label">Semantic Search</span>
+        <span class="capability-text">Natural language queries across years of logs. Meaning matching, not keyword matching.</span>
+      </li>
+      <li>
+        <span class="capability-label">Pattern Surfacing</span>
+        <span class="capability-text">"These three concepts appeared together in four entries this month." Observation without interpretation.</span>
+      </li>
+      <li>
+        <span class="capability-label">FM/FFN Analysis</span>
+        <span class="capability-text">Tag and retrieve decisions by pattern type. Familiar Mechanics vs. Familiar-Feeling Novelty.</span>
+      </li>
+      <li>
+        <span class="capability-label">Preparation Mode</span>
+        <span class="capability-text">Pull relevant context before diagnostic conversations. Past situations, how they resolved, what I wrote at the time.</span>
+      </li>
+    </ul>
+
+    <h2>What It Doesn't Do</h2>
+    <p>It doesn't summarize my thinking for me. It doesn't recommend actions. It doesn't decide what's important.</p>
+    <p>Every output is a surface. I decide what it means.</p>
+
+    <h2>Demo</h2>
+    <div class="video-placeholder">
+      <span>[ Video coming soon ]</span>
+    </div>
+
+    <h2>Why This Matters</h2>
+    <p>The default assumption is that AI should optimize, recommend, and automate decisions. I think that's backwards for a lot of contexts.</p>
+    <p><strong>Some domains require human judgment to remain human.</strong> Diagnosis is one of them. The value isn't in the answer. It's in the process of arriving at one.</p>
+    <p>Building tools that respect that distinction is the work.</p>
+  </div>
+
+  <section class="cta-section">
+    <h3>Building something similar?</h3>
+    <p>If you're thinking about AI governance, decision infrastructure, or human-in-the-loop systems, I'd welcome a conversation.</p>
+    <div class="cta-links">
+      <a href="https://writing.justingreenbaum.com" class="cta-btn primary">Read the essay</a>
+      <a href="mailto:justin@greenbaumlabs.com" class="cta-btn">Get in touch</a>
+      <a href="https://justingreenbaum.com" class="cta-btn">Main site</a>
+    </div>
+  </section>
+
+</body>
+</html>
