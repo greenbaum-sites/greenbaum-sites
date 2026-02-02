@@ -359,6 +359,107 @@
       color: var(--text-dim);
     }
 
+    /* ---- COHERENCE TRIANGLE ---- */
+    .coherence {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .coherence-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .coherence h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .coherence-sub {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      max-width: 520px;
+      margin-bottom: 4rem;
+    }
+
+    .triangle-container {
+      position: relative;
+      width: 320px;
+      height: 280px;
+      margin: 0 auto 3rem;
+    }
+
+    .vertex-label {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .vertex-truth { color: var(--accent); top: -25px; left: 50%; transform: translateX(-50%); }
+    .vertex-authority { color: var(--text-dim); bottom: -25px; left: 10px; }
+    .vertex-continuity { color: var(--text-secondary); bottom: -25px; right: 10px; }
+
+    .triangle-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin-top: 3rem;
+    }
+
+    .triangle-card {
+      background: var(--bg-secondary);
+      padding: 2rem 1.5rem;
+      border-left: 2px solid var(--text-dim);
+      transition: all 0.3s ease;
+    }
+
+    .triangle-card:hover { background: var(--bg-card); }
+    .triangle-card.truth { border-left-color: var(--accent); }
+    .triangle-card.continuity { border-left-color: var(--text-secondary); }
+
+    .triangle-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .triangle-card.truth h4 { color: var(--accent); }
+
+    .triangle-card p {
+      font-size: 0.8rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    .coherence-link {
+      display: inline-block;
+      margin-top: 3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 0.8rem 1.8rem;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .coherence-link:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
     /* ---- DIAGNOSTIC LANGUAGE ---- */
     .diagnostic {
       padding: 8rem 3rem;
@@ -423,6 +524,95 @@
       font-size: 0.8rem;
       line-height: 1.7;
       color: var(--text-secondary);
+    }
+
+    .signal-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .signal-column {
+      background: var(--bg-secondary);
+      padding: 2.5rem 2rem;
+    }
+
+    .signal-column h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .signal-column.modes h4 { color: var(--accent); }
+
+    .signal-list {
+      list-style: none;
+    }
+
+    .signal-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .signal-list li:last-child { border-bottom: none; }
+
+    .signal-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .signal-column.modes .signal-dot { background: var(--accent); }
+
+    .signal-note {
+      font-size: 0.7rem;
+      font-style: italic;
+      color: var(--text-dim);
+      margin-top: 1rem;
+    }
+
+    .crosswalk {
+      background: var(--bg-card);
+      padding: 2rem;
+      border: 1px solid var(--border);
+    }
+
+    .crosswalk h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+    }
+
+    .crosswalk-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      padding: 0.5rem 0;
+    }
+
+    .crosswalk-item .from { color: var(--text-dim); }
+    .crosswalk-item .arrow { color: var(--text-dim); }
+    .crosswalk-item .to { color: var(--accent); }
+
+    @media (max-width: 768px) {
+      .signal-columns { grid-template-columns: 1fr; }
     }
 
     /* ---- WRITING ---- */
@@ -769,6 +959,7 @@
     </a>
     <ul class="nav-links">
       <li><a href="#thesis">Work</a></li>
+      <li><a href="#coherence">Coherence</a></li>
       <li><a href="#diagnostic">Diagnostic</a></li>
       <li><a href="#writing">Writing</a></li>
       <li><a href="#domains">Portfolio</a></li>
@@ -840,44 +1031,118 @@
     </div>
   </section>
 
+  <!-- Coherence Triangle -->
+  <section class="coherence" id="coherence">
+    <div class="coherence-inner">
+      <div class="reveal">
+        <div class="section-label">The Framework</div>
+        <h2>Coherence.</h2>
+        <p class="coherence-sub">How the work moves through the world. The triangle holds when all three vertices are honest.</p>
+      </div>
+      <div class="reveal">
+        <div class="triangle-container">
+          <svg viewBox="0 0 320 260" style="width: 100%; height: 100%;">
+            <defs>
+              <linearGradient id="edge-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#c9a84c"/>
+                <stop offset="100%" style="stop-color:#4a4744"/>
+              </linearGradient>
+              <linearGradient id="edge-gray" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#4a4744"/>
+                <stop offset="100%" style="stop-color:#8a8580"/>
+              </linearGradient>
+              <linearGradient id="edge-return" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#8a8580"/>
+                <stop offset="100%" style="stop-color:#c9a84c"/>
+              </linearGradient>
+            </defs>
+            <!-- Triangle edges -->
+            <line x1="160" y1="30" x2="40" y2="220" stroke="url(#edge-gold)" stroke-width="2"/>
+            <line x1="40" y1="220" x2="280" y2="220" stroke="url(#edge-gray)" stroke-width="2"/>
+            <line x1="280" y1="220" x2="160" y2="30" stroke="url(#edge-return)" stroke-width="2"/>
+            <!-- Vertices -->
+            <circle cx="160" cy="30" r="10" fill="#c9a84c"/>
+            <circle cx="40" cy="220" r="8" fill="none" stroke="#4a4744" stroke-width="2"/>
+            <circle cx="280" cy="220" r="8" fill="none" stroke="#8a8580" stroke-width="2"/>
+          </svg>
+          <span class="vertex-label vertex-truth">Truth</span>
+          <span class="vertex-label vertex-authority">Authority</span>
+          <span class="vertex-label vertex-continuity">Continuity</span>
+        </div>
+        <div class="triangle-cards">
+          <div class="triangle-card truth">
+            <h4>Truth</h4>
+            <p>What IS, not what we wish. The signal that illuminates. Diagnostic clarity over comfortable narrative.</p>
+          </div>
+          <div class="triangle-card">
+            <h4>Authority</h4>
+            <p>Earned weight, not positional. Built through showing up. Responsibility matched with decision rights.</p>
+          </div>
+          <div class="triangle-card continuity">
+            <h4>Continuity</h4>
+            <p>Authenticity proven over time. The through-line that connects practice to presence to pattern.</p>
+          </div>
+        </div>
+        <div style="text-align: center;">
+          <a href="coherence.html" class="coherence-link">Explore the full system →</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Diagnostic Language -->
   <section class="diagnostic" id="diagnostic">
     <div class="diagnostic-inner">
       <div class="reveal">
         <div class="section-label">The Diagnostic Language</div>
         <h2>Naming what's already happening.</h2>
-        <p class="diagnostic-sub">These aren't frameworks to adopt. They're lenses for seeing patterns that are often felt but rarely surfaced.</p>
+        <p class="diagnostic-sub">Early signals become observable patterns. Patterns become durable reference language. Notice before it breaks.</p>
       </div>
-      <div class="terms-grid reveal">
-        <div class="term">
-          <div class="term-number">01</div>
-          <div class="term-name">Responsibility Sink</div>
-          <div class="term-desc">When accountability dissipates through organizational layers until no single person owns the outcome.</div>
+      <div class="signal-columns reveal">
+        <div class="signal-column">
+          <h4>Functional Field Notes · Early Signals</h4>
+          <ul class="signal-list">
+            <li><span class="signal-dot"></span>Signal Misread</li>
+            <li><span class="signal-dot"></span>Responsibility Compression</li>
+            <li><span class="signal-dot"></span>Context Collapse</li>
+            <li><span class="signal-dot"></span>Meaning Drift</li>
+            <li><span class="signal-dot"></span>Interpretive Drift</li>
+          </ul>
+          <p class="signal-note">Notice before it breaks.</p>
         </div>
-        <div class="term">
-          <div class="term-number">02</div>
-          <div class="term-name">Phantom Owner</div>
-          <div class="term-desc">A role that appears to own a process but lacks the authority, information, or mandate to actually govern it.</div>
+        <div class="signal-column modes">
+          <h4>Failure Modes · Breakdowns</h4>
+          <ul class="signal-list">
+            <li><span class="signal-dot"></span>Responsibility Without Authority</li>
+            <li><span class="signal-dot"></span>Metric Shadowing</li>
+            <li><span class="signal-dot"></span>Escalation Theater</li>
+            <li><span class="signal-dot"></span>Decision Displacement</li>
+            <li><span class="signal-dot"></span>Phantom Ownership</li>
+          </ul>
+          <p class="signal-note">Name the pattern.</p>
         </div>
-        <div class="term">
-          <div class="term-number">03</div>
-          <div class="term-name">Interpretive Drift</div>
-          <div class="term-desc">When a policy or principle gradually shifts in meaning as it moves through organizational context.</div>
+      </div>
+      <div class="crosswalk reveal">
+        <h4>Crosswalk</h4>
+        <div class="crosswalk-item">
+          <span class="from">Signal Misread</span>
+          <span class="arrow">→</span>
+          <span class="to">Metric Shadowing</span>
         </div>
-        <div class="term">
-          <div class="term-number">04</div>
-          <div class="term-name">Escalation Inversion</div>
-          <div class="term-desc">When the most critical problems get routed to people with the least structural power to resolve them.</div>
+        <div class="crosswalk-item">
+          <span class="from">Responsibility Compression</span>
+          <span class="arrow">→</span>
+          <span class="to">Responsibility Without Authority</span>
         </div>
-        <div class="term">
-          <div class="term-number">05</div>
-          <div class="term-name">Coherence</div>
-          <div class="term-desc">The diagnostic system underpinning this work. A framework for making structural failure visible before it becomes operational crisis.</div>
+        <div class="crosswalk-item">
+          <span class="from">Context Collapse</span>
+          <span class="arrow">→</span>
+          <span class="to">Decision Displacement</span>
         </div>
-        <div class="term">
-          <div class="term-number">06</div>
-          <div class="term-name">Failure Modes</div>
-          <div class="term-desc">The observable patterns of how systems degrade. Not what went wrong — how the structure made it inevitable.</div>
+        <div class="crosswalk-item">
+          <span class="from">Meaning Drift</span>
+          <span class="arrow">→</span>
+          <span class="to">Escalation Theater</span>
         </div>
       </div>
     </div>
