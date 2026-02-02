@@ -240,41 +240,41 @@
       font-size: 1rem;
       line-height: 1.85;
       color: var(--text-secondary);
-      max-width: 540px;
+      max-width: 560px;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.6s;
     }
 
-    .hero-status {
-      display: flex;
-      gap: 3rem;
-      margin-top: 3rem;
+    .hero-audience {
+      font-size: 0.9rem;
+      line-height: 1.75;
+      color: var(--text-dim);
+      max-width: 560px;
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.7s;
+    }
+
+    .hero-cta {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.8s;
     }
 
-    .status-item {
-      display: flex;
-      flex-direction: column;
-      gap: 0.3rem;
-    }
-
-    .status-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-    }
-
-    .status-value {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
+    .hero-cta a {
       color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-green);
+      transition: border-color 0.3s ease;
     }
 
-    .status-value.warm { color: var(--warm); }
-    .status-value.cyan { color: var(--cyan); }
+    .hero-cta a:hover {
+      border-color: var(--green);
+    }
 
     .hero-scroll {
       position: absolute;
@@ -350,7 +350,7 @@
       font-size: 0.95rem;
       color: var(--text-secondary);
       line-height: 1.8;
-      max-width: 520px;
+      max-width: 600px;
       margin-bottom: 4rem;
     }
 
@@ -403,6 +403,13 @@
       font-size: 1.4rem;
       font-weight: 400;
       margin-bottom: 0.5rem;
+    }
+
+    .node-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1rem;
     }
 
     .node-spec {
@@ -461,7 +468,7 @@
       font-size: 0.95rem;
       color: var(--text-secondary);
       line-height: 1.8;
-      max-width: 520px;
+      max-width: 600px;
       margin-bottom: 4rem;
     }
 
@@ -501,55 +508,58 @@
 
     .project-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.6rem;
+      font-size: 1.5rem;
       font-weight: 400;
-      transition: color 0.3s ease;
     }
 
-    .project:hover .project-name { color: var(--green); }
+    .project-problem {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
 
-    .project-desc {
+    .project-does {
       font-size: 0.85rem;
       color: var(--text-secondary);
-      line-height: 1.7;
-      max-width: 500px;
+      line-height: 1.6;
     }
 
     .project-stack {
       display: flex;
-      gap: 0.5rem;
       flex-wrap: wrap;
-      margin-top: 0.5rem;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
     }
 
     .tag {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.5rem;
-      letter-spacing: 0.08em;
-      padding: 0.3rem 0.7rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.6rem;
+      background: var(--bg-card);
       border: 1px solid var(--border);
-      color: var(--text-dim);
-      transition: all 0.3s ease;
+      color: var(--text-secondary);
     }
 
     .tag.green { border-color: var(--border-green); color: var(--green); }
-    .tag.warm { border-color: rgba(200,85,58,0.2); color: var(--warm); }
-    .tag.cyan { border-color: rgba(94,184,196,0.2); color: var(--cyan); }
-    .tag.gold { border-color: rgba(201,168,76,0.2); color: var(--accent); }
+    .tag.warm { border-color: rgba(200, 85, 58, 0.2); color: var(--warm); }
+    .tag.cyan { border-color: rgba(94, 184, 196, 0.2); color: var(--cyan); }
+    .tag.gold { border-color: rgba(201, 168, 76, 0.2); color: var(--accent); }
 
     .project-meta {
       display: flex;
       flex-direction: column;
       align-items: flex-end;
-      gap: 0.5rem;
-      padding-top: 0.3rem;
+      gap: 1rem;
     }
 
     .project-status {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.5rem;
-      letter-spacing: 0.15em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
+      color: var(--text-dim);
       display: flex;
       align-items: center;
       gap: 0.5rem;
@@ -559,29 +569,35 @@
       width: 5px;
       height: 5px;
       border-radius: 50%;
+      background: var(--text-dim);
     }
 
-    .project-status.live .dot { background: var(--green); box-shadow: 0 0 6px var(--green-glow); }
+    .project-status.live .dot {
+      background: var(--green);
+      box-shadow: 0 0 6px var(--green-glow);
+      animation: blink 3s ease infinite;
+    }
+
     .project-status.live { color: var(--green); }
 
-    .project-status.building .dot { background: var(--accent); box-shadow: 0 0 6px var(--accent-dim); }
-    .project-status.building { color: var(--accent); }
-
-    .project-status.shipped .dot { background: var(--cyan); box-shadow: 0 0 6px var(--cyan-dim); }
-    .project-status.shipped { color: var(--cyan); }
-
-    .project-status.planned .dot { background: var(--text-dim); }
-    .project-status.planned { color: var(--text-dim); }
+    .project-status.planned .dot { background: var(--accent); }
+    .project-status.planned { color: var(--accent); }
 
     .project-link {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.55rem;
+      letter-spacing: 0.05em;
       color: var(--text-dim);
       text-decoration: none;
-      transition: color 0.3s ease;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: all 0.3s ease;
     }
 
-    .project-link:hover { color: var(--green); }
+    .project-link:hover {
+      color: var(--green);
+      border-color: var(--green);
+    }
 
     /* ---- PHILOSOPHY ---- */
     .philosophy {
@@ -591,7 +607,7 @@
     }
 
     .philosophy-inner {
-      max-width: 800px;
+      max-width: 900px;
       margin: 0 auto;
     }
 
@@ -611,22 +627,20 @@
 
     .principle {
       display: grid;
-      grid-template-columns: 40px 1fr;
+      grid-template-columns: 60px 1fr;
       gap: 2rem;
       padding: 2rem 0;
       border-top: 1px solid var(--border);
-      align-items: baseline;
     }
 
     .principle-num {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
+      font-size: 0.7rem;
       color: var(--green);
-      letter-spacing: 0.1em;
     }
 
     .principle-text {
-      font-size: 0.95rem;
+      font-size: 1rem;
       line-height: 1.8;
       color: var(--text-secondary);
     }
@@ -648,7 +662,7 @@
       margin: 0 auto;
     }
 
-    .eco-inner h2 {
+    .ecosystem h2 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
       font-size: clamp(2rem, 3.5vw, 3rem);
@@ -659,8 +673,8 @@
     .eco-sub {
       font-size: 0.95rem;
       color: var(--text-secondary);
-      max-width: 500px;
       line-height: 1.8;
+      max-width: 520px;
       margin-bottom: 4rem;
     }
 
@@ -673,29 +687,13 @@
 
     .eco-card {
       background: var(--bg-primary);
-      padding: 3rem 2.5rem;
+      padding: 2rem;
       text-decoration: none;
-      color: inherit;
-      transition: all 0.3s ease;
-      position: relative;
-    }
-
-    .eco-card:hover { background: var(--bg-card); }
-
-    .eco-card::after {
-      content: '→';
-      position: absolute;
-      top: 3rem;
-      right: 2.5rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-dim);
       transition: all 0.3s ease;
     }
 
-    .eco-card:hover::after {
-      color: var(--green);
-      transform: translateX(4px);
+    .eco-card:hover {
+      background: var(--bg-card);
     }
 
     .eco-eyebrow {
@@ -709,28 +707,27 @@
 
     .eco-name {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 400;
+      font-size: 1.3rem;
+      color: var(--text-primary);
       margin-bottom: 0.75rem;
     }
 
     .eco-desc {
-      font-size: 0.8rem;
-      line-height: 1.7;
+      font-size: 0.85rem;
       color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
     }
 
     .eco-url {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.55rem;
-      color: var(--green);
-      margin-top: 1.5rem;
-      display: inline-block;
+      color: var(--text-dim);
     }
 
     /* ---- CONNECT ---- */
     .connect {
-      padding: 10rem 3rem;
+      padding: 8rem 3rem;
       background: var(--bg-secondary);
       border-top: 1px solid var(--border-green);
       text-align: center;
@@ -739,47 +736,49 @@
     .connect h2 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      font-size: clamp(2.5rem, 5vw, 4rem);
-      line-height: 1.15;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
       margin-bottom: 1.5rem;
     }
 
     .connect p {
-      font-size: 0.95rem;
+      font-size: 1rem;
       color: var(--text-secondary);
-      max-width: 420px;
-      margin: 0 auto 2.5rem;
       line-height: 1.8;
+      max-width: 520px;
+      margin: 0 auto 2rem;
     }
 
     .connect-email {
+      display: inline-block;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
-      font-weight: 400;
+      font-size: 1rem;
       color: var(--green);
       text-decoration: none;
-      display: inline-block;
-      margin-bottom: 3rem;
-      transition: color 0.3s ease;
+      border-bottom: 1px solid var(--border-green);
+      padding-bottom: 4px;
+      margin-bottom: 2.5rem;
+      transition: all 0.3s ease;
     }
 
-    .connect-email:hover { color: var(--text-primary); }
+    .connect-email:hover {
+      border-color: var(--green);
+    }
 
     .connect-links {
       display: flex;
       justify-content: center;
-      gap: 1.5rem;
-      flex-wrap: wrap;
+      gap: 1rem;
     }
 
     .connect-btn {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--text-secondary);
+      color: var(--text-dim);
       text-decoration: none;
-      padding: 0.7rem 1.5rem;
+      padding: 0.6rem 1.2rem;
       border: 1px solid var(--border);
       transition: all 0.3s ease;
     }
@@ -787,35 +786,33 @@
     .connect-btn:hover {
       border-color: var(--border-green);
       color: var(--green);
-      background: var(--green-dim);
     }
 
     /* ---- FOOTER ---- */
     footer {
-      padding: 2.5rem 3rem;
+      padding: 2rem 3rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       border-top: 1px solid var(--border);
-      background: var(--bg-primary);
     }
 
     .footer-l {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
+      font-size: 0.55rem;
       letter-spacing: 0.1em;
       color: var(--text-dim);
     }
 
     .footer-r {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.1em;
+      font-size: 0.55rem;
+      letter-spacing: 0.05em;
       color: var(--text-dim);
     }
 
     .footer-r a {
-      color: var(--text-secondary);
+      color: var(--text-dim);
       text-decoration: none;
       transition: color 0.3s ease;
     }
@@ -824,7 +821,7 @@
 
     /* ---- ANIMATIONS ---- */
     @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
@@ -839,13 +836,8 @@
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 0.3; }
-      50% { opacity: 1; }
-    }
-
-    @keyframes typeIn {
-      from { width: 0; }
-      to { width: 100%; }
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
     }
 
     .reveal {
@@ -874,7 +866,6 @@
       }
       .hero { padding: 0 1.5rem 4rem; }
       .hero-scroll { display: none; }
-      .hero-status { flex-direction: column; gap: 1.5rem; }
       .infra-grid { grid-template-columns: 1fr; }
       .eco-grid { grid-template-columns: 1fr; }
       .project { grid-template-columns: 1fr; gap: 1rem; }
@@ -914,21 +905,9 @@
         <span>~/greenbaumlabs $ status --all</span><span class="cursor"></span>
       </div>
       <h1>Greenbaum<br><span class="lab">Labs</span><em>A personal AI workshop running on local compute.</em></h1>
-      <p class="hero-sub">Side projects, diagnostic tools, and experiments in applied AI. Built on owned infrastructure. Shipped when ready. Open garage door.</p>
-      <div class="hero-status">
-        <div class="status-item">
-          <span class="status-label">Compute</span>
-          <span class="status-value">NVIDIA DGX Spark</span>
-        </div>
-        <div class="status-item">
-          <span class="status-label">Storage</span>
-          <span class="status-value cyan">Synology NAS · 10GbE</span>
-        </div>
-        <div class="status-item">
-          <span class="status-label">Interface</span>
-          <span class="status-value warm">Mac Studio</span>
-        </div>
-      </div>
+      <p class="hero-sub">Side projects, diagnostic tools, and experiments in applied AI—built on my own machines, wired together like a small internal platform. Three boxes on a 10 GbE backbone. Compute stays local, the filesystem is the source of truth, and dashboards are visibility layers, not authority.</p>
+      <p class="hero-audience">For operators, engineering leaders, and Chiefs of Staff who care less about AI demos and more about reliable, explainable systems that actually help people do better work.</p>
+      <p class="hero-cta">If something here feels adjacent to a problem you're wrestling with, I'd welcome a conversation: <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a></p>
     </div>
     <div class="hero-scroll">
       <span>Scroll</span>
@@ -942,43 +921,40 @@
       <div class="reveal">
         <div class="section-label">Infrastructure</div>
         <h2>The Workbench</h2>
-        <p class="infra-sub">Three machines on a 10 GbE backbone. Compute stays local. The filesystem is the source of truth. Dashboards are visibility layers, not authority.</p>
+        <p class="infra-sub">Greenbaum Labs is the workshop. These are the other rooms: three machines doing the quiet, unglamorous work of running local models, agents, and diagnostics.</p>
       </div>
       <div class="infra-grid reveal">
         <div class="infra-node">
           <div class="node-status"></div>
           <div class="node-type">Compute</div>
           <div class="node-name">DGX Spark</div>
+          <div class="node-desc">Main box: primary dev environment, orchestration, and most of the day-to-day experiments.</div>
           <div class="node-spec">
             <span class="highlight">NVIDIA Grace Blackwell</span><br>
             128GB unified memory<br>
-            NVLink-C2C interconnect<br>
-            Local inference · Fine-tuning<br>
-            Read-only NAS mount
+            Local inference · Fine-tuning
           </div>
         </div>
         <div class="infra-node">
           <div class="node-status"></div>
           <div class="node-type">Storage</div>
           <div class="node-name">Synology NAS</div>
+          <div class="node-desc">Storage / backbone: snapshots, logs, and the slow, boring parts that make the rest trustworthy.</div>
           <div class="node-spec">
             <span class="highlight">Filesystem-first truth store</span><br>
             10 GbE backbone<br>
-            Markdown canon · Schemas<br>
-            Image archive · Project data<br>
-            Read-only to Spark
+            Markdown canon · Schemas
           </div>
         </div>
         <div class="infra-node">
           <div class="node-status idle"></div>
           <div class="node-type">Interface</div>
           <div class="node-name">Mac Studio</div>
+          <div class="node-desc">Experiment box: throwaway agents, risky ideas, and things that might crash.</div>
           <div class="node-spec">
             <span class="highlight">Primary workstation</span><br>
             10 GbE backbone<br>
-            Development · Design<br>
-            Claude · Cursor · Terminal<br>
-            Bridge to everything
+            Claude · Cursor · Terminal
           </div>
         </div>
       </div>
@@ -999,7 +975,7 @@
 <span class="p">  │</span>                      <span class="c">│</span>                               <span class="p">│</span>
 <span class="p">  │</span>                 <span class="w">┌────┴─────┐</span>                          <span class="p">│</span>
 <span class="p">  │</span>                 <span class="w">│Mac Studio│</span>                          <span class="p">│</span>
-<span class="p">  │</span>                 <span class="w">│Interface │</span>                          <span class="p">│</span>
+<span class="p">  │</span>                 <span class="w">│ control  │</span>                          <span class="p">│</span>
 <span class="p">  │</span>                 <span class="w">└──────────┘</span>                          <span class="p">│</span>
 <span class="p">  │</span>                                                         <span class="p">│</span>
 <span class="p">  └─────────────────────────────────────────────────────────┘</span>
@@ -1011,27 +987,29 @@
   <section class="projects" id="projects">
     <div class="projects-inner">
       <div class="reveal">
-        <div class="section-label">What's on the Bench</div>
-        <h2>Projects</h2>
-        <p class="projects-sub">Things I'm building, things I've shipped, things I'm thinking about. Not all of these are finished. That's the point of a workshop.</p>
+        <div class="section-label">Projects</div>
+        <h2>What's on the bench.</h2>
+        <p class="projects-sub">Things I'm building, things I've shipped, and things I'm still thinking through. Not all of them are finished—that's the point of a workshop. Each project exists because of a real tension I've seen in organizations: invisible risk, narrative drift, siloed data, or teams flying blind. The lab is where I prototype ways to see and fix those problems earlier.</p>
       </div>
-      <div class="project-list reveal">
 
+      <div class="project-list reveal">
+        
         <div class="project">
           <div class="project-id">GL-001</div>
           <div class="project-main">
             <div class="project-name">Coherence Diagnostic Engine</div>
-            <div class="project-desc">The diagnostic system underlying all my advisory work. Semantic search across canon, FM/FFN pattern analysis, decision journaling, and structural observation. Currently Python/Streamlit with ChromaDB. React rebuild on the roadmap.</div>
+            <div class="project-problem">Leaders sense something is off but can't name it. Patterns repeat across teams without shared language.</div>
+            <div class="project-does">Semantic search across years of decision logs and observations. Surfaces recurring tensions without deciding what they mean.</div>
             <div class="project-stack">
-              <span class="tag green">Python</span>
-              <span class="tag green">Streamlit</span>
+              <span class="tag green">DGX Spark</span>
               <span class="tag cyan">ChromaDB</span>
-              <span class="tag gold">LLM APIs</span>
+              <span class="tag">Local LLM</span>
+              <span class="tag gold">Decision Support</span>
             </div>
           </div>
           <div class="project-meta">
-            <div class="project-status building"><div class="dot"></div>Building</div>
-            <a href="/case-study-diagnostic-engine.html" class="project-link">View case study →</a>
+            <div class="project-status live"><div class="dot"></div>Live</div>
+            <a href="/case-study-diagnostic-engine.html" class="project-link">Case Study →</a>
           </div>
         </div>
 
@@ -1039,17 +1017,16 @@
           <div class="project-id">GL-002</div>
           <div class="project-main">
             <div class="project-name">RC Pit Boss</div>
-            <div class="project-desc">Mobile PWA for RC racing pit management. Session logging, component wear tracking, inventory management, AI crew chief. Built as a gift, shipped as a product. React + Supabase + Claude Haiku API.</div>
+            <div class="project-problem">RC race directors lose track of timing, heats, and standings during chaotic race days.</div>
+            <div class="project-does">Voice-controlled race management that handles marshals, timing, and announcements. Built for one person, shipped as a gift.</div>
             <div class="project-stack">
-              <span class="tag green">React</span>
-              <span class="tag cyan">Supabase</span>
-              <span class="tag gold">Claude API</span>
-              <span class="tag">PWA</span>
+              <span class="tag green">Python</span>
+              <span class="tag cyan">Whisper</span>
+              <span class="tag">Voice UI</span>
             </div>
           </div>
           <div class="project-meta">
-            <div class="project-status shipped"><div class="dot"></div>Shipped</div>
-            <a href="https://rcpitboss.com" class="project-link" target="_blank">rcpitboss.com</a>
+            <div class="project-status live"><div class="dot"></div>Live</div>
           </div>
         </div>
 
@@ -1057,10 +1034,9 @@
           <div class="project-id">GL-003</div>
           <div class="project-main">
             <div class="project-name">Brand Ecosystem Builder</div>
-            <div class="project-desc">The interconnected portfolio you're navigating. Four domains, unified design system, coordinated positioning. justingreenbaum.com, greenbaumlabs.com, greenbaumphotography.com, megabrixels.com. Built with Claude, Cursor, and Vercel.</div>
+            <div class="project-problem">Personal brand assets scattered across platforms with inconsistent voice and visual language.</div>
+            <div class="project-does">Unified design system across justingreenbaum.com, Substack, photography portfolio, and Labs. Single source of truth for brand.</div>
             <div class="project-stack">
-              <span class="tag green">HTML/CSS</span>
-              <span class="tag cyan">Vercel</span>
               <span class="tag gold">Claude</span>
               <span class="tag">Design System</span>
             </div>
@@ -1074,40 +1050,9 @@
         <div class="project">
           <div class="project-id">GL-004</div>
           <div class="project-main">
-            <div class="project-name">Canon Retrieval System</div>
-            <div class="project-desc">Local RAG pipeline running on DGX Spark. Indexes LifeOS and Bridge canon for semantic retrieval during diagnostic sessions. Filesystem is source of truth. Automation observes and suggests, it does not decide.</div>
-            <div class="project-stack">
-              <span class="tag green">DGX Spark</span>
-              <span class="tag cyan">RAG</span>
-              <span class="tag">Local Inference</span>
-            </div>
-          </div>
-          <div class="project-meta">
-            <div class="project-status planned"><div class="dot"></div>Planned</div>
-          </div>
-        </div>
-
-        <div class="project">
-          <div class="project-id">GL-005</div>
-          <div class="project-main">
-            <div class="project-name">Python Tools Library</div>
-            <div class="project-desc">Collection of standalone Python utilities built during diagnostic and development work. Image processing, schema validation, markdown parsing, API wrappers. Open source when ready.</div>
-            <div class="project-stack">
-              <span class="tag green">Python</span>
-              <span class="tag">CLI</span>
-              <span class="tag cyan">Open Source</span>
-            </div>
-          </div>
-          <div class="project-meta">
-            <div class="project-status planned"><div class="dot"></div>Planned</div>
-          </div>
-        </div>
-
-        <div class="project">
-          <div class="project-id">GL-006</div>
-          <div class="project-main">
             <div class="project-name">50K Image Index</div>
-            <div class="project-desc">AI-assisted cataloging of a decade of photography. Metadata extraction, location tagging, semantic search across the full archive. Built to make the invisible archive visible and usable.</div>
+            <div class="project-problem">A decade of photography sitting invisible on drives. No way to find what I shot or when.</div>
+            <div class="project-does">AI-assisted cataloging with metadata extraction, location tagging, and semantic search across the full archive.</div>
             <div class="project-stack">
               <span class="tag green">DGX Spark</span>
               <span class="tag cyan">CLIP</span>
@@ -1120,26 +1065,11 @@
         </div>
 
         <div class="project">
-          <div class="project-id">GL-007</div>
-          <div class="project-main">
-            <div class="project-name">Artifact Validator</div>
-            <div class="project-desc">Schema validation pipeline for structured markdown artifacts: Daily Logs, Decision Logs, Handoffs, Radar Moments. Violations surface automatically. Mechanical enforcement of structural integrity.</div>
-            <div class="project-stack">
-              <span class="tag green">Python</span>
-              <span class="tag">YAML</span>
-              <span class="tag">Cron</span>
-            </div>
-          </div>
-          <div class="project-meta">
-            <div class="project-status planned"><div class="dot"></div>Planned</div>
-          </div>
-        </div>
-
-        <div class="project">
-          <div class="project-id">GL-008</div>
+          <div class="project-id">GL-005</div>
           <div class="project-main">
             <div class="project-name">Pattern Surfacer</div>
-            <div class="project-desc">Local model reads Daily Logs and Radar Moments, surfaces recurring signals without interpreting them. "These three things appeared together four times this month." Observation, not conclusion.</div>
+            <div class="project-problem">Important signals buried in daily logs. Patterns only visible in retrospect.</div>
+            <div class="project-does">Reads logs and flags recurring signals without interpretation. "These three things appeared together four times this month."</div>
             <div class="project-stack">
               <span class="tag green">DGX Spark</span>
               <span class="tag">Local LLM</span>
@@ -1229,7 +1159,8 @@
     <div class="reveal">
       <div class="section-label" style="justify-content: center;">~/connect</div>
       <h2>Open garage door.</h2>
-      <p>If you're building something interesting, or if this work resonates with something you're navigating, I'd welcome a conversation.</p>
+      <p>I've spent most of my career close to operations, risk, and workflows. Greenbaum Labs is where I test what happens when you give that kind of work a small, stubborn AI workshop instead of another slide deck.</p>
+      <p>If you're exploring an internal AI lab, advisor role, or just want to compare notes on how to wire these systems together on real infrastructure, send a note my way.</p>
       <a href="mailto:justin@greenbaumlabs.com" class="connect-email">justin@greenbaumlabs.com</a>
       <div class="connect-links">
         <a href="https://linkedin.com/in/justingreenbaum" class="connect-btn" target="_blank">LinkedIn</a>
@@ -1265,13 +1196,7 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(el => obs.observe(el));
-
-    document.querySelectorAll('a[href^="#"]').forEach(a => {
-      a.addEventListener('click', e => {
-        e.preventDefault();
-        document.querySelector(a.getAttribute('href')).scrollIntoView({ behavior: 'smooth' });
-      });
-    });
   </script>
+
 </body>
 </html>
