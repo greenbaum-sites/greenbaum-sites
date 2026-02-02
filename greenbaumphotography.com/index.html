@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Greenbaum Photography — Light. Time. Travel.</title>
+  <meta name="description" content="Fine art and documentary photography by Justin R. Greenbaum. Shot on Leica across five continents. Published in Four Seasons, Philly Current, and more.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--text-dim) var(--bg-primary);
+    }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Film grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ---- NAVIGATION ---- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+      backdrop-filter: blur(8px);
+      transition: all 0.4s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(10, 10, 10, 0.97);
+      padding: 1rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+    }
+
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .nav-tagline {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+
+    .nav-links .nav-studio {
+      color: var(--accent);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      padding: 0.5rem 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .nav-links .nav-studio:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--text-primary);
+      margin: 5px 0;
+    }
+
+    /* ---- HERO ---- */
+    .hero {
+      height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 3rem 6rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 70% 50% at 75% 35%, rgba(200, 85, 58, 0.05), transparent),
+        radial-gradient(ellipse 50% 70% at 15% 75%, rgba(201, 168, 76, 0.03), transparent),
+        var(--bg-primary);
+    }
+
+    .hero-grid-line {
+      position: absolute;
+      background: var(--border);
+    }
+
+    .hero-grid-line.v { width: 1px; top: 0; bottom: 0; }
+    .hero-grid-line.h { height: 1px; left: 0; right: 0; }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 800px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3.5rem, 8vw, 7rem);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.5s;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      display: block;
+      color: var(--text-secondary);
+      font-size: 0.55em;
+      margin-top: 0.2em;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      max-width: 480px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.7s;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.5s;
+    }
+
+    .hero-scroll span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--accent), transparent);
+      animation: pulse 2s ease infinite;
+    }
+
+    /* ---- PORTFOLIO SERIES ---- */
+    .portfolio {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--text-dim);
+    }
+
+    .portfolio-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .portfolio-header h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+    }
+
+    .portfolio-header p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      max-width: 400px;
+      line-height: 1.7;
+    }
+
+    .series-grid {
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      grid-auto-rows: 280px;
+      gap: 3px;
+    }
+
+    .series-item {
+      position: relative;
+      overflow: hidden;
+      cursor: pointer;
+      background: var(--bg-card);
+    }
+
+    .series-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.7s cubic-bezier(0.16, 1, 0.3, 1), filter 0.4s ease;
+      filter: brightness(0.8) contrast(1.05) saturate(0.95);
+    }
+
+    .series-item:hover img {
+      transform: scale(1.05);
+      filter: brightness(0.95) contrast(1.05) saturate(1);
+    }
+
+    .series-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to top, rgba(10,10,10,0.85) 0%, rgba(10,10,10,0.2) 40%, transparent 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 1.5rem;
+    }
+
+    .series-item:hover .series-overlay { opacity: 1; }
+
+    .series-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+
+    .series-location {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    /* Masonry-style layout for series */
+    .series-item:nth-child(1) { grid-column: span 7; grid-row: span 2; }
+    .series-item:nth-child(2) { grid-column: span 5; }
+    .series-item:nth-child(3) { grid-column: span 5; }
+    .series-item:nth-child(4) { grid-column: span 4; }
+    .series-item:nth-child(5) { grid-column: span 4; }
+    .series-item:nth-child(6) { grid-column: span 4; }
+    .series-item:nth-child(7) { grid-column: span 6; grid-row: span 2; }
+    .series-item:nth-child(8) { grid-column: span 6; }
+    .series-item:nth-child(9) { grid-column: span 6; }
+
+    /* ---- ABOUT / BIO ---- */
+    .about {
+      padding: 8rem 3rem;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
+    }
+
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 6rem;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .about-visual {
+      position: relative;
+    }
+
+    .about-image {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      filter: brightness(0.9) contrast(1.05);
+      border: 1px solid var(--border);
+    }
+
+    .about-image-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      margin-top: 1rem;
+      text-transform: uppercase;
+    }
+
+    .about-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    .about-text p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .about-text p strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ---- PUBLICATIONS ---- */
+    .publications {
+      padding: 6rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pub-grid {
+      display: flex;
+      gap: 4rem;
+      max-width: 1200px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+
+    .pub-item {
+      flex: 1;
+      min-width: 250px;
+      padding: 2rem 0;
+      border-top: 1px solid var(--border);
+    }
+
+    .pub-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .pub-detail {
+      font-size: 0.8rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .pub-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      margin-top: 0.75rem;
+    }
+
+    /* ---- GEAR ---- */
+    .gear {
+      padding: 8rem 3rem;
+      background: var(--bg-primary);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .gear-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .gear h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .gear-sub {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.8;
+      margin-bottom: 4rem;
+      max-width: 480px;
+    }
+
+    .gear-list {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .gear-item {
+      background: var(--bg-primary);
+      padding: 2.5rem 2rem;
+      transition: background 0.3s ease;
+    }
+
+    .gear-item:hover { background: var(--bg-secondary); }
+
+    .gear-item-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .gear-item-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 0.3rem;
+    }
+
+    .gear-item-spec {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+    }
+
+    /* ---- MEGABRIXELS BRIDGE ---- */
+    .studio-bridge {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
+      border-bottom: 1px solid var(--border);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .studio-bridge::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 50% 60% at 80% 50%, rgba(200, 85, 58, 0.04), transparent),
+        radial-gradient(ellipse 40% 50% at 20% 50%, rgba(201, 168, 76, 0.03), transparent);
+    }
+
+    .bridge-content {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: center;
+    }
+
+    .bridge-text h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+
+    .bridge-text h2 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .bridge-text p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+    }
+
+    .bridge-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 0.8rem 1.8rem;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      transition: all 0.3s ease;
+    }
+
+    .bridge-link:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    .bridge-link svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s ease;
+    }
+
+    .bridge-link:hover svg {
+      transform: translateX(3px);
+    }
+
+    .bridge-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px;
+    }
+
+    .bridge-thumb {
+      aspect-ratio: 1;
+      overflow: hidden;
+      background: var(--bg-card);
+    }
+
+    .bridge-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.85);
+      transition: all 0.4s ease;
+    }
+
+    .bridge-thumb:hover img {
+      filter: brightness(1);
+      transform: scale(1.03);
+    }
+
+    /* ---- CONNECT ---- */
+    .connect {
+      padding: 10rem 3rem;
+      background: var(--bg-primary);
+      text-align: center;
+    }
+
+    .connect h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 5vw, 4.5rem);
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+
+    .connect p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      max-width: 420px;
+      margin: 0 auto 1rem;
+      line-height: 1.8;
+    }
+
+    .connect-email {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--accent);
+      text-decoration: none;
+      display: inline-block;
+      margin-bottom: 3rem;
+      transition: color 0.3s ease;
+    }
+
+    .connect-email:hover { color: var(--text-primary); }
+
+    .social-row {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    .social-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      padding: 0.7rem 1.5rem;
+      border: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+
+    .social-btn:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      background: var(--bg-primary);
+    }
+
+    .footer-l, .footer-r {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .footer-r a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+
+    /* ---- ANIMATIONS ---- */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 1024px) {
+      .about-grid, .bridge-content { grid-template-columns: 1fr; gap: 3rem; }
+      .series-grid { grid-template-columns: repeat(6, 1fr); grid-auto-rows: 220px; }
+      .series-item:nth-child(1) { grid-column: span 6; grid-row: span 1; }
+      .series-item:nth-child(2) { grid-column: span 3; }
+      .series-item:nth-child(3) { grid-column: span 3; }
+      .series-item:nth-child(4) { grid-column: span 3; }
+      .series-item:nth-child(5) { grid-column: span 3; }
+      .series-item:nth-child(6) { grid-column: span 6; }
+      .series-item:nth-child(7) { grid-column: span 3; grid-row: span 1; }
+      .series-item:nth-child(8) { grid-column: span 3; }
+      .series-item:nth-child(9) { grid-column: span 6; }
+      .gear-list { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .nav-toggle { display: block; }
+      section, .portfolio, .about, .gear, .studio-bridge, .publications { padding: 5rem 1.5rem; }
+      .hero { padding: 0 1.5rem 4rem; }
+      .hero-scroll { display: none; }
+      .series-grid { grid-template-columns: 1fr 1fr; grid-auto-rows: 200px; }
+      .series-item:nth-child(n) { grid-column: span 1; grid-row: span 1; }
+      .series-item:nth-child(1) { grid-column: span 2; }
+      .bridge-visual { grid-template-columns: repeat(4, 1fr); }
+      .gear-list { grid-template-columns: 1fr; }
+      .connect { padding: 6rem 1.5rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+
+    @media (max-width: 480px) {
+      .series-grid { grid-template-columns: 1fr; grid-auto-rows: 250px; }
+      .series-item:nth-child(1) { grid-column: span 1; }
+      .bridge-visual { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav id="nav">
+    <a href="#" class="nav-brand">
+      <span class="nav-name">Greenbaum Photography</span>
+      <span class="nav-tagline">Light · Time · Travel</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="#portfolio">Portfolio</a></li>
+      <li><a href="#about">About</a></li>
+      <li><a href="#publications">Published</a></li>
+      <li><a href="#gear">Gear</a></li>
+      <li><a href="#connect">Contact</a></li>
+      <li><a href="https://megabrixels.com" class="nav-studio" target="_blank">Megabrixels →</a></li>
+    </ul>
+    <button class="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-grid-line v" style="left: 20%;"></div>
+    <div class="hero-grid-line v" style="left: 80%;"></div>
+    <div class="hero-grid-line h" style="top: 40%;"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Photography by Justin R. Greenbaum</p>
+      <h1>Light. Time.<br>Travel.<em>Shot on Leica across five continents.</em></h1>
+      <p class="hero-sub">Documentary and fine art photography exploring architecture, landscape, street, and the spaces where light meets the built world.</p>
+    </div>
+    <div class="hero-scroll">
+      <span>Scroll</span>
+      <div class="scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Portfolio -->
+  <section class="portfolio" id="portfolio">
+    <div class="reveal">
+      <div class="section-label">Selected Series</div>
+      <div class="portfolio-header">
+        <h2>The Work</h2>
+        <p>Each series is a place, a time, and a way of seeing. Built over years of travel and practice with Leica glass.</p>
+      </div>
+    </div>
+    <div class="series-grid reveal">
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/c5ff9e8d-f556-4d78-8dce-2559fe7be20c/L1020203.jpg" alt="New York">
+        <div class="series-overlay">
+          <div class="series-name">New York Tones</div>
+          <div class="series-location">Manhattan · Brooklyn · Queens</div>
+        </div>
+      </div>
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/3c742434-a38f-4d8d-9311-187435ceeafd/L1022366.jpg" alt="Taj Mahal">
+        <div class="series-overlay">
+          <div class="series-name">Crown Palace</div>
+          <div class="series-location">Agra · India</div>
+        </div>
+      </div>
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/d5b16635-f23d-4afe-959b-3d2fe69db48e/L1020203.jpg" alt="Prague">
+        <div class="series-overlay">
+          <div class="series-name">Praha</div>
+          <div class="series-location">Prague · Czech Republic</div>
+        </div>
+      </div>
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/daba2e45-16bc-43d3-8cec-3f3b15647da0/Chicago+El.jpg" alt="Chicago">
+        <div class="series-overlay">
+          <div class="series-name">Summertime Chi</div>
+          <div class="series-location">Chicago · Illinois</div>
+        </div>
+      </div>
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/933395b6-2645-455f-a44b-8ad3bdd19974/DSC03829.jpg" alt="Washington DC">
+        <div class="series-overlay">
+          <div class="series-name">The District</div>
+          <div class="series-location">Washington · D.C.</div>
+        </div>
+      </div>
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/1688397006906-P9K06RJH2QN9EXJV7AF3/L1002539.jpg" alt="Montmartre">
+        <div class="series-overlay">
+          <div class="series-name">An Afternoon in Montmartre</div>
+          <div class="series-location">Paris · France</div>
+        </div>
+      </div>
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/bd5cc490-689a-456d-84c3-98257946126f/DJI_0108.jpg" alt="Philadelphia">
+        <div class="series-overlay">
+          <div class="series-name">Philly Holiday</div>
+          <div class="series-location">Philadelphia · Pennsylvania</div>
+        </div>
+      </div>
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/1688596332087-7QN54SMJR7Z61ZABR9TM/L1021479.jpg" alt="Coney Island">
+        <div class="series-overlay">
+          <div class="series-name">Fourth of July</div>
+          <div class="series-location">Coney Island · New York</div>
+        </div>
+      </div>
+      <div class="series-item">
+        <img src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/16e5bc2a-27a5-4cb4-90c8-e95b2a2dac35/L1000128-2.jpg" alt="Monochrome">
+        <div class="series-overlay">
+          <div class="series-name">Monochrome Moments</div>
+          <div class="series-location">Various</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About -->
+  <section class="about" id="about">
+    <div class="about-grid">
+      <div class="about-visual reveal">
+        <img class="about-image" src="https://images.squarespace-cdn.com/content/v1/648fec7cd6ae747bd508b75a/9f21bb77-bb48-46e9-a34b-f28f157252e8/DSC09457.jpg" alt="Justin R. Greenbaum" onerror="this.style.background='var(--bg-card)'">
+        <div class="about-image-caption">Self-portrait · Leica Q2 Reporter</div>
+      </div>
+      <div class="about-text reveal">
+        <div class="section-label">About</div>
+        <h2>Justin R. Greenbaum</h2>
+        <p>I'm a photographer based in New Jersey who works across <strong>architecture, landscape, street, wildlife, and travel photography</strong>. My practice is built around a simple premise: show up, pay attention, and let the light do the talking.</p>
+        <p>I shoot exclusively on <strong>Leica</strong> — four bodies spanning digital and film — because the glass has a way of seeing that matches how I think about images. Deliberate. Present. Unhurried.</p>
+        <p>My work has been <strong>published in Four Seasons Philadelphia</strong> and <strong>Philly Current Magazine</strong>, and my archive spans over 50,000 images shot across five continents — from the red rock formations of the American Southwest to the lantern-lit alleyways of Japan, from the spires of Prague to the Taj Mahal at dawn.</p>
+        <p>I also run <strong><a href="https://megabrixels.com" style="color: var(--accent); text-decoration: none;">Megabrixels</a></strong>, a creative studio where fine art photography meets miniature worlds built from Lego — because craft doesn't care about scale.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Publications -->
+  <section class="publications" id="publications">
+    <div class="reveal">
+      <div class="section-label">Published Work</div>
+    </div>
+    <div class="pub-grid reveal">
+      <div class="pub-item">
+        <div class="pub-name">Four Seasons Philadelphia</div>
+        <div class="pub-detail">Featured photography in the Festive Planning Guide. Aerial and architectural work capturing the city from above.</div>
+        <div class="pub-year">2021</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-name">Philly Current Magazine</div>
+        <div class="pub-detail">Multiple editorial features across The Dirty Issue, The Bud Issue, and The Blue Issue. Street and documentary photography.</div>
+        <div class="pub-year">2017 — 2020</div>
+      </div>
+      <div class="pub-item">
+        <div class="pub-name">50,000+ Image Archive</div>
+        <div class="pub-detail">A decade of work across five continents, currently being indexed and curated for exhibition, licensing, and print.</div>
+        <div class="pub-year">Ongoing</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Gear -->
+  <section class="gear" id="gear">
+    <div class="gear-inner">
+      <div class="reveal">
+        <div class="section-label">The Kit</div>
+        <h2>All Leica. All Glass.</h2>
+        <p class="gear-sub">Four bodies across digital and film. Because the optics are part of the authorship.</p>
+      </div>
+      <div class="gear-list reveal">
+        <div class="gear-item">
+          <div class="gear-item-type">Mirrorless</div>
+          <div class="gear-item-name">Leica SL3S</div>
+          <div class="gear-item-spec">24-90 Vario-Elmarit · 35mm Summicron</div>
+        </div>
+        <div class="gear-item">
+          <div class="gear-item-type">Fixed Lens</div>
+          <div class="gear-item-name">Leica Q2 Reporter</div>
+          <div class="gear-item-spec">28mm Summilux f/1.7 · Kevlar wrap</div>
+        </div>
+        <div class="gear-item">
+          <div class="gear-item-type">Rangefinder</div>
+          <div class="gear-item-name">Leica M11-P</div>
+          <div class="gear-item-spec">135mm Tele-Elmarit · 50mm Summilux f/1.4</div>
+        </div>
+        <div class="gear-item">
+          <div class="gear-item-type">Film</div>
+          <div class="gear-item-name">Leica M2</div>
+          <div class="gear-item-spec">35mm Summicron f/2 · Silver Chrome · 1957</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Megabrixels Bridge -->
+  <section class="studio-bridge" id="studio">
+    <div class="bridge-content">
+      <div class="bridge-text reveal">
+        <div class="section-label">The Studio</div>
+        <h2>Same eye.<br><em>Smaller worlds.</em></h2>
+        <p>Megabrixels is where the same Leica glass and photographic practice gets pointed at miniature worlds built from Lego. Fine art photography meets craft, presence, and play — because the making is where the meaning lives.</p>
+        <a href="https://megabrixels.com" class="bridge-link" target="_blank">
+          <span>Visit Megabrixels</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="bridge-visual reveal">
+        <div class="bridge-thumb">
+          <img src="photo_eiffel.jpeg" alt="Lego Eiffel Tower" onerror="this.parentElement.style.background='var(--bg-card)'">
+        </div>
+        <div class="bridge-thumb">
+          <img src="photo_cabinet.jpeg" alt="Display cabinet" onerror="this.parentElement.style.background='var(--bg-card)'">
+        </div>
+        <div class="bridge-thumb">
+          <img src="photo_turntable.jpeg" alt="Studio setup" onerror="this.parentElement.style.background='var(--bg-card)'">
+        </div>
+        <div class="bridge-thumb">
+          <img src="photo_ships.jpeg" alt="Lego ships" onerror="this.parentElement.style.background='var(--bg-card)'">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Connect -->
+  <section class="connect" id="connect">
+    <div class="reveal">
+      <div class="section-label" style="justify-content: center;">Connect</div>
+      <h2>Let's work together.</h2>
+      <p>Inquiries for editorial, licensing, prints, and collaboration.</p>
+      <a href="/cdn-cgi/l/email-protection#bdd7c8cec9d4d3fddacfd8d8d3dfdcc8d0cdd5d2c9d2dacfdccdd5c493ded2d0" class="connect-email"><span class="__cf_email__" data-cfemail="d6bca3a5a2bfb896b1a4b3b3b8b4b7a3bba6beb9a2b9b1a4b7a6beaff8b5b9bb">[email&#160;protected]</span></a>
+      <div class="social-row">
+        <a href="https://instagram.com/byjustinrg" class="social-btn" target="_blank">Instagram</a>
+        <a href="https://threads.net/@byjustinrg" class="social-btn" target="_blank">Threads</a>
+        <a href="https://megabrixels.com" class="social-btn" target="_blank">Megabrixels</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-l">© 2026 Greenbaum Photography — All Rights Reserved</div>
+    <div class="footer-r">Shot on Leica · Built with <a href="https://megabrixels.com">intention</a></div>
+  </footer>
+
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => obs.observe(el));
+
+    document.querySelectorAll('a[href^=
