@@ -633,22 +633,26 @@
       .nav-links {
         display: none;
         position: fixed;
-        top: 0;
+        top: 60px;
         left: 0;
         right: 0;
         bottom: 0;
         background: var(--bg-primary);
         flex-direction: column;
-        justify-content: center;
+        justify-content: flex-start;
         align-items: center;
-        gap: 2rem;
-        z-index: 100;
+        padding-top: 4rem;
+        gap: 1.5rem;
+        z-index: 99;
       }
       .nav-links.active {
         display: flex;
       }
+      .nav-links li {
+        list-style: none;
+      }
       .nav-links a {
-        font-size: 1rem;
+        font-size: 0.9rem;
         letter-spacing: 0.2em;
       }
       header { padding: 8rem 1.5rem 3rem; }
