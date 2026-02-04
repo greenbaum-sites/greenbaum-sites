@@ -1,0 +1,1369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FM Scanner | Greenbaum Labs</title>
+    <style>
+        /* Self-hosted font stack - no external requests */
+        @font-face {
+            font-family: 'GL Serif';
+            src: local('Cormorant Garamond'), local('Georgia'), local('Times New Roman');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'GL Mono';
+            src: local('JetBrains Mono'), local('Fira Code'), local('Consolas'), local('Monaco');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'GL Sans';
+            src: local('Instrument Sans'), local('Inter'), local('-apple-system'), local('BlinkMacSystemFont');
+            font-weight: 400;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --bg-card: #141414;
+            --border-subtle: #222222;
+            --border-active: #333333;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent-red: #e94560;
+            --accent-amber: #fbbf24;
+            --accent-purple: #533483;
+            --signal-high: #e94560;
+            --signal-medium: #fbbf24;
+            --signal-low: #4a5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'GL Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Film grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 3rem 0 4rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 3rem;
+        }
+
+        .header-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-red);
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .ar-badge {
+            display: inline-block;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            color: var(--text-muted);
+        }
+
+        /* Main Scanner Interface */
+        .scanner-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .scanner-interface {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .panel-body {
+            padding: 1.5rem;
+        }
+
+        /* Input Panel */
+        .input-textarea {
+            width: 100%;
+            min-height: 300px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            padding: 1rem;
+            font-family: 'GL Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        .input-textarea:focus {
+            outline: none;
+            border-color: var(--accent-red);
+        }
+
+        .input-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .scan-button {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            background: var(--accent-red);
+            border: none;
+            border-radius: 2px;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .scan-button:hover {
+            background: #d63d56;
+            transform: translateY(-1px);
+        }
+
+        .scan-button:disabled {
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .scan-button.scanning {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Results Panel */
+        .results-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .results-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Triangle Indicator */
+        .triangle-indicator {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+        }
+
+        .triangle-vertex {
+            text-align: center;
+            padding: 0.75rem 0.5rem;
+        }
+
+        .triangle-vertex-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .triangle-vertex-load {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .triangle-vertex.stressed .triangle-vertex-load {
+            color: var(--accent-red);
+        }
+
+        .triangle-vertex.moderate .triangle-vertex-load {
+            color: var(--accent-amber);
+        }
+
+        .triangle-vertex.stable .triangle-vertex-load {
+            color: var(--text-muted);
+        }
+
+        .triangle-stressed-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+        }
+
+        .summary-stat-value {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-stat-value.high { color: var(--signal-high); }
+        .summary-stat-value.medium { color: var(--signal-medium); }
+        .summary-stat-value.total { color: var(--text-primary); }
+
+        .summary-stat-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* Lexical scan notice */
+        .scan-notice {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        /* FM Match Cards */
+        .matches-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .match-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .match-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .match-header {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .match-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .match-fm-id {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-red);
+        }
+
+        .match-occurrence-count {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: 0.15rem 0.4rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+        }
+
+        .match-signal-strength {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border-radius: 2px;
+        }
+
+        .match-signal-strength.high {
+            background: rgba(233, 69, 96, 0.2);
+            color: var(--signal-high);
+        }
+
+        .match-signal-strength.medium {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--signal-medium);
+        }
+
+        .match-signal-strength.low {
+            background: rgba(74, 85, 104, 0.2);
+            color: var(--signal-low);
+        }
+
+        .match-body {
+            padding: 1rem;
+        }
+
+        .match-fm-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.75rem;
+        }
+
+        .match-excerpt {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-left: 2px solid var(--accent-red);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .match-signals {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .match-signals span {
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.25rem;
+            padding: 0.2rem 0.4rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+        }
+
+        /* All excerpts expandable */
+        .all-excerpts {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .all-excerpts-toggle {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            user-select: none;
+        }
+
+        .all-excerpts-toggle:hover {
+            color: var(--text-secondary);
+        }
+
+        .all-excerpts-toggle .arrow {
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .all-excerpts-toggle.expanded .arrow {
+            transform: rotate(90deg);
+        }
+
+        .all-excerpts-list {
+            display: none;
+            margin-top: 0.75rem;
+        }
+
+        .all-excerpts-list.visible {
+            display: block;
+            padding-left: 0.75rem;
+            border-left: 1px solid var(--border-subtle);
+        }
+
+        .all-excerpts-item {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-primary);
+            border-left: 1px solid var(--border-subtle);
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .all-excerpts-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* FM Distribution Chart */
+        .distribution-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .distribution-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .distribution-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .distribution-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            width: 60px;
+            flex-shrink: 0;
+        }
+
+        .distribution-track {
+            flex: 1;
+            height: 8px;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            overflow: hidden;
+            margin: 0 0.75rem;
+        }
+
+        .distribution-fill {
+            height: 100%;
+            background: var(--accent-red);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+        }
+
+        .distribution-count {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            width: 30px;
+            text-align: right;
+        }
+
+        /* Is / Is Not Section */
+        .boundary-section {
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .boundary-toggle {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 0;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            user-select: none;
+        }
+
+        .boundary-toggle:hover {
+            color: var(--text-secondary);
+        }
+
+        .boundary-toggle .arrow {
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .boundary-toggle.expanded .arrow {
+            transform: rotate(90deg);
+        }
+
+        .boundary-content {
+            display: none;
+            padding: 1.5rem 0;
+        }
+
+        .boundary-content.visible {
+            display: block;
+        }
+
+        .boundary-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .boundary-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .boundary-column h3 {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .boundary-column.is-col h3 {
+            color: var(--accent-red);
+        }
+
+        .boundary-column.isnot-col h3 {
+            color: var(--text-muted);
+        }
+
+        .boundary-column ul {
+            list-style: none;
+        }
+
+        .boundary-column li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .boundary-column li:last-child {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 3rem;
+        }
+
+        .footer-quote {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .footer-version {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .footer-version span {
+            opacity: 0.6;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            margin-bottom: 3rem;
+        }
+
+        .how-it-works h2 {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .step {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+        }
+
+        .step-number {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: var(--accent-red);
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Loading state */
+        .loading-dots {
+            display: inline-block;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-label">Greenbaum Labs</div>
+            <h1>FM Scanner</h1>
+            <p class="header-subtitle">
+                Surface structural dysfunction patterns in organizational artifacts. 
+                Transcripts, emails, meeting notes—what patterns are hiding in plain sight?
+            </p>
+        </header>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Input</div>
+                    <div class="step-desc">Paste transcript, email thread, or meeting notes</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Chunk</div>
+                    <div class="step-desc">Text is segmented for pattern analysis</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Scan</div>
+                    <div class="step-desc">Each segment checked against 17 Failure Modes</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Surface</div>
+                    <div class="step-desc">Matches flagged with excerpts and signal strength</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scanner Interface -->
+        <div class="scanner-interface">
+            <!-- Input Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Input Artifact</span>
+                </div>
+                <div class="panel-body">
+                    <textarea 
+                        class="input-textarea" 
+                        id="inputText"
+                        placeholder="Paste your transcript, email thread, meeting notes, or any organizational text here...
+
+Example signals the scanner detects:
+
+• &quot;I'm making these calls but I don't have the authority...&quot;
+• &quot;Why didn't this come up sooner?&quot;
+• &quot;Here's how we actually do it, ignore the documentation...&quot;
+• &quot;We need more alignment before we can decide...&quot;
+• &quot;The numbers look good but something feels off...&quot;"></textarea>
+                    <button class="scan-button" id="scanButton" onclick="runScan()">
+                        Scan for Failure Modes
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Scan Results</span>
+                    <span id="resultStatus" style="font-size: 0.75rem; color: var(--text-muted);"></span>
+                </div>
+                <div class="panel-body" id="resultsPanel">
+                    <div class="results-empty">
+                        <div class="results-empty-icon">⎔</div>
+                        <p>Paste text and click scan to detect failure mode patterns</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Is / Is Not Section -->
+        <section class="boundary-section">
+            <div class="boundary-toggle" id="boundaryToggle" onclick="toggleBoundary()">
+                <span class="arrow">▶</span>
+                <span>What this tool is / What this tool is not</span>
+            </div>
+            <div class="boundary-content" id="boundaryContent">
+                <div class="boundary-columns">
+                    <div class="boundary-column is-col">
+                        <h3>This tool is</h3>
+                        <ul>
+                            <li>A lexical pattern scanner using keyword density and regex matching</li>
+                            <li>A lead generator for further investigation</li>
+                            <li>A way to surface what might be hiding in plain sight</li>
+                            <li>A starting point for structural diagnosis</li>
+                            <li>AR-001 compliant: it observes and suggests</li>
+                        </ul>
+                    </div>
+                    <div class="boundary-column isnot-col">
+                        <h3>This tool is not</h3>
+                        <ul>
+                            <li>A verdict or diagnosis—interpretation remains with you</li>
+                            <li>Semantic AI analysis—it matches patterns, not meaning</li>
+                            <li>A substitute for judgment or context</li>
+                            <li>Guaranteed accurate—false positives and negatives occur</li>
+                            <li>A decision-maker—it does not prescribe action</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-quote">"Tools that see without deciding."</div>
+            <p class="footer-note">AR-001: Observes, summarizes, suggests. Does not decide.</p>
+            <div class="footer-version">
+                <span>FM Scanner v0.3.1</span>
+                <span>Taxonomy v2</span>
+                <span>2026-02-03</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // FM definitions with Triangle vertex mapping
+        // Truth: FM-04, FM-06, FM-11, FM-14, FM-17 (reality vs narrative)
+        // Authority: FM-01, FM-02, FM-03, FM-07, FM-08, FM-09, FM-10, FM-16 (ownership vs diffusion)
+        // Continuity: FM-05, FM-12, FM-13, FM-15 (stability vs drift)
+
+        const FM_DATA = {
+            "FM-01": {
+                name: "Responsibility Compression at the Edge",
+                vertex: "authority",
+                keywords: ["responsibility", "authority", "burden", "frontline", "edge", "compression", "decision", "accountability", "absorbing", "load"],
+                patterns: [
+                    /I('m| am) making (the |these )?calls? (but|without)/i,
+                    /(no one|nobody) (else )?(will|would|does)/i,
+                    /falls? (on|to) (me|us)/i,
+                    /not my (job|role|authority) but/i
+                ],
+                signals: ["Escalation without mandate", "Decision-making without authority", "Exhaustion framed as resilience"]
+            },
+            "FM-02": {
+                name: "Escalation Inversion",
+                vertex: "authority",
+                keywords: ["escalation", "escalate", "surface", "risk", "costly", "punished", "hide", "informal"],
+                patterns: [
+                    /why didn't (this |someone |you )?(come up|tell me|escalate)/i,
+                    /off the (books|record)/i,
+                    /(don't|didn't) (want to |wanna )?(escalate|raise|bring)/i,
+                    /handle it (ourselves|internally|quietly)/i
+                ],
+                signals: ["Teams solve issues 'off the books'", "Known problems circulate informally", "Escalations spike only after failure"]
+            },
+            "FM-03": {
+                name: "Responsibility Without Authority",
+                vertex: "authority",
+                keywords: ["responsibility", "authority", "control", "accountability", "ownership", "decision rights", "approve", "permission"],
+                patterns: [
+                    /(responsible|accountable|on the hook) (for|but) (can't|cannot|don't have)/i,
+                    /need(ed)? (approval|permission|sign.?off)/i,
+                    /(not|don't have) (the )?authority (to|but)/i,
+                    /own(s)? (the |this )?(outcome|result|metric) but (can't|cannot)/i
+                ],
+                signals: ["Leaders 'on the hook' but cannot approve changes", "Problems acknowledged without structural change"]
+            },
+            "FM-04": {
+                name: "Metric Shadowing",
+                vertex: "truth",
+                keywords: ["metrics", "dashboard", "KPI", "measured", "numbers", "data", "visible", "tracked"],
+                patterns: [
+                    /(numbers|metrics|dashboard) (look|say|show) (good|fine|okay) but/i,
+                    /is (this|that|it) (being )?(measured|tracked)/i,
+                    /(doesn't|won't) (show up|appear) (in|on) (the )?(metrics|dashboard|numbers)/i
+                ],
+                signals: ["Teams ask 'Is this measured?' before acting", "Frontline intuition contradicts dashboards"]
+            },
+            "FM-05": {
+                name: "Normalized Workarounds",
+                vertex: "continuity",
+                keywords: ["workaround", "actually", "really", "supposed to", "hack", "shortcut", "shadow", "informal"],
+                patterns: [
+                    /(here's |this is )how (we|it) (actually|really) (do|work)/i,
+                    /(don't|ignore) (the |that )?(doc|documentation|process)/i,
+                    /you (just )?(have to|gotta) know/i
+                ],
+                signals: ["'Don't follow the doc—here's how it actually works'", "New hires succeed only after shadowing"]
+            },
+            "FM-06": {
+                name: "Exception Inflation",
+                vertex: "truth",
+                keywords: ["exception", "edge case", "special", "one-off", "override", "approval", "waiver"],
+                patterns: [
+                    /(this is |it's )(an )?exception (but|that) (happens|occurs) (a lot|often|frequently)/i,
+                    /(just |only )?(this once|one time|this time)/i,
+                    /(special|edge) case/i
+                ],
+                signals: ["'This is an exception, but it happens a lot'", "Exception logic outnumbers core rules"]
+            },
+            "FM-07": {
+                name: "Coordination Decay",
+                vertex: "authority",
+                keywords: ["handoff", "coordination", "ownership", "teams", "cross-functional", "who owns", "falls between"],
+                patterns: [
+                    /(falls?|fell) (between|through) (the )?(cracks|teams|groups)/i,
+                    /who (owns|is responsible for|has) (this|that)/i,
+                    /(handed|passed) (off|over|to)/i
+                ],
+                signals: ["Work 'falls between teams'", "Progress depends on specific individuals"]
+            },
+            "FM-08": {
+                name: "Decision Latency",
+                vertex: "authority",
+                keywords: ["alignment", "consensus", "decision", "delay", "waiting", "next steps", "not ready"],
+                patterns: [
+                    /(need|require|want) (more )?(alignment|consensus|buy.?in)/i,
+                    /(we're |not )?(not |quite )?(there|ready) yet/i,
+                    /(next steps|follow.?up|revisit)/i,
+                    /(waiting|wait) (for|on) (approval|decision|alignment)/i
+                ],
+                signals: ["Decisions require 'alignment' but no clear decider", "Meetings end with 'next steps' instead of decisions"]
+            },
+            "FM-09": {
+                name: "Over-Escalation",
+                vertex: "authority",
+                keywords: ["escalate", "senior", "executive", "approval", "sanity check", "sign off", "cover"],
+                patterns: [
+                    /(just )?(want(ed)? to |wanna )?(sanity.?check|run (this |it )?by|get your (take|thoughts))/i,
+                    /(need|want) (you|them|leadership) to (sign off|approve|bless)/i,
+                    /(cover|CYA|protect) (myself|ourselves|my)/i
+                ],
+                signals: ["Executives involved in routine decisions", "'Just want to sanity-check this' language"]
+            },
+            "FM-10": {
+                name: "Leadership Saturation",
+                vertex: "authority",
+                keywords: ["leader", "executive", "bottleneck", "overloaded", "calendar", "availability", "run it by"],
+                patterns: [
+                    /run (it |this )?by [A-Z][a-z]+/i,
+                    /(waiting|wait) (for|on) [A-Z][a-z]+'s (calendar|time|availability)/i,
+                    /[A-Z][a-z]+ (is|has been) (in|back.?to.?back|swamped|overloaded)/i
+                ],
+                signals: ["Executives approving routine actions", "Strategy work repeatedly postponed"]
+            },
+            "FM-11": {
+                name: "Metric Authority Drift",
+                vertex: "truth",
+                keywords: ["metric", "data", "numbers", "anecdote", "target", "score", "dashboard"],
+                patterns: [
+                    /(what|where)('s| is| are) the (data|numbers|metrics)/i,
+                    /(that's |it's )?(just )?(an )?anecdote/i,
+                    /(data|numbers|metrics) (says?|shows?|tells?)/i
+                ],
+                signals: ["Decisions justified solely by numbers", "Qualitative signals dismissed as anecdotes"]
+            },
+            "FM-12": {
+                name: "Strategic Myopia",
+                vertex: "continuity",
+                keywords: ["quarter", "short-term", "long-term", "strategy", "roadmap", "vision", "future"],
+                patterns: [
+                    /(next|this) quarter/i,
+                    /(can't|don't|won't) (think|plan|look) (past|beyond|further than)/i,
+                    /(table|defer|postpone|push) (the )?(strategy|long.?term|future)/i
+                ],
+                signals: ["Strategy conversations constantly postponed", "'Next quarter' replaces 'next year'"]
+            },
+            "FM-13": {
+                name: "Capability Atrophy",
+                vertex: "continuity",
+                keywords: ["knowledge", "skill", "expertise", "lost", "forgot", "only one", "outsource"],
+                patterns: [
+                    /(no one|nobody) (knows|remembers|understands) (how|why|what)/i,
+                    /(only|just) [A-Z][a-z]+ (knows|understands|can)/i,
+                    /(lost|losing|lose) (the |that )?(knowledge|skill|expertise|capability)/i
+                ],
+                signals: ["Key knowledge held by single individuals", "No one knows how [system] works"]
+            },
+            "FM-14": {
+                name: "Narrative Collapse",
+                vertex: "truth",
+                keywords: ["why", "purpose", "mission", "story", "narrative", "meaning", "reason"],
+                patterns: [
+                    /why (are we|do we|did we) (doing|do|did) (this|that)/i,
+                    /(what's|what is) the (point|purpose|goal|reason)/i,
+                    /(lost|losing|lose) (sight|track) of (why|what)/i
+                ],
+                signals: ["Different teams give different mission statements", "'Why are we doing this?' has no clear answer"]
+            },
+            "FM-15": {
+                name: "Trust Exhaustion",
+                vertex: "continuity",
+                keywords: ["trust", "cynicism", "believe", "follow through", "promise", "commitment"],
+                patterns: [
+                    /(don't|doesn't|can't) trust/i,
+                    /(never|won't|don't) follow(s)? through/i,
+                    /(heard|seen|done) (this|that) before/i,
+                    /(believe|trust) (it )?(when|if) (I|we) see (it|results)/i
+                ],
+                signals: ["Teams protect information from each other", "'They never follow through' becomes common"]
+            },
+            "FM-16": {
+                name: "Process Inflation",
+                vertex: "authority",
+                keywords: ["process", "approval", "steps", "bureaucracy", "overhead", "compliance"],
+                patterns: [
+                    /(how many|all the) (steps|approvals|reviews)/i,
+                    /(used to|it was) (be )?(faster|easier|simpler)/i,
+                    /(added|add|new) (step|approval|review|process)/i
+                ],
+                signals: ["Approval chains lengthen over time", "Time-to-completion increases while output stays flat"]
+            },
+            "FM-17": {
+                name: "Structural Amnesia",
+                vertex: "truth",
+                keywords: ["why", "history", "context", "forgot", "remember", "original", "reason"],
+                patterns: [
+                    /(why|when) did we (start|begin|decide)/i,
+                    /(don't|doesn't|no one) (know|remember)s? (why|when|how)/i,
+                    /(always|just) (done|do|did) (it )?(this|that) way/i
+                ],
+                signals: ["'Why do we do it this way?' has no answer", "Policies persist after original conditions change"]
+            }
+        };
+
+        function chunkText(text, chunkSize = 400) {
+            const sentences = text.split(/(?<=[.!?])\s+/);
+            const chunks = [];
+            let current = "";
+
+            for (const sentence of sentences) {
+                if ((current + sentence).length <= chunkSize) {
+                    current += sentence + " ";
+                } else {
+                    if (current.trim()) chunks.push(current.trim());
+                    current = sentence + " ";
+                }
+            }
+            if (current.trim()) chunks.push(current.trim());
+            return chunks;
+        }
+
+        function scanChunk(chunk, chunkIndex) {
+            const matches = [];
+            const chunkLower = chunk.toLowerCase();
+
+            for (const [fmId, fmData] of Object.entries(FM_DATA)) {
+                const keywordHits = fmData.keywords.filter(kw => chunkLower.includes(kw.toLowerCase())).length;
+                const keywordDensity = keywordHits / fmData.keywords.length;
+                const patternHits = fmData.patterns.filter(p => p.test(chunk));
+
+                if (keywordDensity > 0.25 || patternHits.length > 0) {
+                    let strength = "low";
+                    if (patternHits.length > 0 && keywordDensity > 0.3) {
+                        strength = "high";
+                    } else if (patternHits.length > 0 || keywordDensity > 0.25) {
+                        strength = "medium";
+                    }
+
+                    matches.push({
+                        fmId,
+                        fmName: fmData.name,
+                        vertex: fmData.vertex,
+                        strength,
+                        excerpt: chunk.length > 250 ? chunk.substring(0, 250) + "..." : chunk,
+                        chunkIndex,
+                        signals: fmData.signals.slice(0, 2)
+                    });
+                }
+            }
+
+            return matches;
+        }
+
+        function toggleBoundary() {
+            const toggle = document.getElementById('boundaryToggle');
+            const content = document.getElementById('boundaryContent');
+            toggle.classList.toggle('expanded');
+            content.classList.toggle('visible');
+        }
+
+        function toggleExcerpts(fmId) {
+            const card = document.querySelector(`[data-fm="${fmId}"]`);
+            if (!card) return;
+            const toggle = card.querySelector('.all-excerpts-toggle');
+            const list = card.querySelector('.all-excerpts-list');
+            if (toggle && list) {
+                toggle.classList.toggle('expanded');
+                list.classList.toggle('visible');
+            }
+        }
+
+        function runScan() {
+            const inputText = document.getElementById('inputText').value.trim();
+            const resultsPanel = document.getElementById('resultsPanel');
+            const scanButton = document.getElementById('scanButton');
+            const resultStatus = document.getElementById('resultStatus');
+
+            if (!inputText) {
+                resultsPanel.innerHTML = `
+                    <div class="results-empty">
+                        <div class="results-empty-icon">⚠</div>
+                        <p>Please paste some text to scan</p>
+                    </div>
+                `;
+                return;
+            }
+
+            scanButton.disabled = true;
+            scanButton.classList.add('scanning');
+            scanButton.innerHTML = 'Scanning<span class="loading-dots"></span>';
+            resultStatus.textContent = 'Analyzing...';
+
+            setTimeout(() => {
+                const chunks = chunkText(inputText);
+                let allMatches = [];
+                
+                for (let i = 0; i < chunks.length; i++) {
+                    const matches = scanChunk(chunks[i], i);
+                    allMatches = allMatches.concat(matches);
+                }
+
+                // Group ALL matches by FM (keep all excerpts)
+                const byFM = {};
+                for (const match of allMatches) {
+                    if (!byFM[match.fmId]) {
+                        byFM[match.fmId] = {
+                            fmId: match.fmId,
+                            fmName: match.fmName,
+                            vertex: match.vertex,
+                            strength: match.strength,
+                            signals: match.signals,
+                            excerpts: []
+                        };
+                    }
+                    byFM[match.fmId].excerpts.push(match.excerpt);
+                    // Upgrade strength if we find a higher one
+                    if (match.strength === 'high') {
+                        byFM[match.fmId].strength = 'high';
+                    } else if (match.strength === 'medium' && byFM[match.fmId].strength === 'low') {
+                        byFM[match.fmId].strength = 'medium';
+                    }
+                }
+
+                const matches = Object.values(byFM);
+
+                scanButton.disabled = false;
+                scanButton.classList.remove('scanning');
+                scanButton.innerHTML = 'Scan for Failure Modes';
+
+                if (matches.length === 0) {
+                    resultStatus.textContent = `Scanned ${chunks.length} segments`;
+                    resultsPanel.innerHTML = `
+                        <div class="results-empty">
+                            <div class="results-empty-icon">✓</div>
+                            <p>No significant failure mode patterns detected</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-muted);">
+                                This doesn't mean the text is problem-free—just that obvious structural patterns weren't found.
+                            </p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Calculate Triangle signal load (relative lexical pressure, not health score)
+                const vertexLoad = { truth: 0, authority: 0, continuity: 0 };
+                for (const match of matches) {
+                    const weight = match.strength === 'high' ? 3 : match.strength === 'medium' ? 2 : 1;
+                    const occurrences = match.excerpts.length;
+                    vertexLoad[match.vertex] += weight * occurrences;
+                }
+
+                const maxLoad = Math.max(...Object.values(vertexLoad));
+                const stressedVertex = Object.entries(vertexLoad).find(([v, l]) => l === maxLoad)?.[0];
+
+                // Normalize to 0-10 scale
+                const normalizedLoad = {};
+                for (const [v, l] of Object.entries(vertexLoad)) {
+                    normalizedLoad[v] = maxLoad > 0 ? Math.round((l / maxLoad) * 10) : 0;
+                }
+
+                // Count by strength
+                const highCount = matches.filter(m => m.strength === 'high').length;
+                const mediumCount = matches.filter(m => m.strength === 'medium').length;
+                const totalOccurrences = matches.reduce((sum, m) => sum + m.excerpts.length, 0);
+
+                resultStatus.textContent = `${matches.length} patterns, ${totalOccurrences} occurrences in ${chunks.length} segments`;
+
+                // Render results
+                let html = '';
+
+                // Triangle indicator
+                html += `
+                    <div class="triangle-indicator">
+                        <div class="triangle-vertex ${stressedVertex === 'truth' ? 'stressed' : normalizedLoad.truth > 5 ? 'moderate' : 'stable'}">
+                            <div class="triangle-vertex-label">Truth</div>
+                            <div class="triangle-vertex-load">${normalizedLoad.truth}</div>
+                        </div>
+                        <div class="triangle-vertex ${stressedVertex === 'authority' ? 'stressed' : normalizedLoad.authority > 5 ? 'moderate' : 'stable'}">
+                            <div class="triangle-vertex-label">Authority</div>
+                            <div class="triangle-vertex-load">${normalizedLoad.authority}</div>
+                        </div>
+                        <div class="triangle-vertex ${stressedVertex === 'continuity' ? 'stressed' : normalizedLoad.continuity > 5 ? 'moderate' : 'stable'}">
+                            <div class="triangle-vertex-label">Continuity</div>
+                            <div class="triangle-vertex-load">${normalizedLoad.continuity}</div>
+                        </div>
+                    </div>
+                    <div class="triangle-stressed-note">Most stressed vertex (relative): ${stressedVertex.charAt(0).toUpperCase() + stressedVertex.slice(1)}</div>
+                `;
+
+                // Summary stats
+                html += `
+                    <div class="results-summary">
+                        <div class="summary-stat">
+                            <div class="summary-stat-value total">${matches.length}</div>
+                            <div class="summary-stat-label">Patterns</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="summary-stat-value high">${highCount}</div>
+                            <div class="summary-stat-label">High Signal</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="summary-stat-value medium">${mediumCount}</div>
+                            <div class="summary-stat-label">Medium Signal</div>
+                        </div>
+                    </div>
+                `;
+
+                // Lexical scan notice
+                html += `
+                    <div class="scan-notice">
+                        This is a lexical scan. Treat results as leads, not verdicts.
+                    </div>
+                `;
+
+                html += `<div class="matches-list">`;
+
+                // Sort by strength then by occurrence count
+                matches.sort((a, b) => {
+                    const order = { high: 0, medium: 1, low: 2 };
+                    if (order[a.strength] !== order[b.strength]) {
+                        return order[a.strength] - order[b.strength];
+                    }
+                    return b.excerpts.length - a.excerpts.length;
+                });
+
+                for (const match of matches) {
+                    const occurrenceCount = match.excerpts.length;
+                    const uniqueExcerpts = [...new Set(match.excerpts)];
+
+                    html += `
+                        <div class="match-card" data-fm="${match.fmId}">
+                            <div class="match-header">
+                                <div class="match-header-left">
+                                    <span class="match-fm-id">${match.fmId}</span>
+                                    <span class="match-occurrence-count">${occurrenceCount} occurrence${occurrenceCount > 1 ? 's' : ''}</span>
+                                </div>
+                                <span class="match-signal-strength ${match.strength}">${match.strength} signal</span>
+                            </div>
+                            <div class="match-body">
+                                <div class="match-fm-name">${match.fmName}</div>
+                                <div class="match-excerpt">"${uniqueExcerpts[0]}"</div>
+                                <div class="match-signals">
+                                    ${match.signals.map(s => `<span>${s}</span>`).join('')}
+                                </div>
+                                ${uniqueExcerpts.length > 1 ? `
+                                    <div class="all-excerpts">
+                                        <div class="all-excerpts-toggle" onclick="toggleExcerpts('${match.fmId}')">
+                                            <span class="arrow">▶</span>
+                                            <span>Show all ${uniqueExcerpts.length} excerpts</span>
+                                        </div>
+                                        <div class="all-excerpts-list">
+                                            ${uniqueExcerpts.slice(1).map(e => `<div class="all-excerpts-item">"${e}"</div>`).join('')}
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `</div>`;
+
+                // Distribution chart
+                const distribution = {};
+                for (const match of matches) {
+                    distribution[match.fmId] = match.excerpts.length;
+                }
+                const sortedDist = Object.entries(distribution).sort((a, b) => b[1] - a[1]);
+                const maxCount = Math.max(...Object.values(distribution));
+
+                html += `
+                    <div class="distribution-section">
+                        <div class="distribution-title">Occurrence Distribution</div>
+                `;
+
+                for (const [fmId, count] of sortedDist) {
+                    const pct = (count / maxCount) * 100;
+                    html += `
+                        <div class="distribution-bar">
+                            <span class="distribution-label">${fmId}</span>
+                            <div class="distribution-track">
+                                <div class="distribution-fill" style="width: ${pct}%"></div>
+                            </div>
+                            <span class="distribution-count">${count}</span>
+                        </div>
+                    `;
+                }
+
+                html += `</div>`;
+
+                resultsPanel.innerHTML = html;
+
+            }, 800);
+        }
+
+        document.getElementById('inputText').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                runScan();
+            }
+        });
+    </script>
+</body>
+</html>
