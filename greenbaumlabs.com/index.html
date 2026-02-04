@@ -743,6 +743,22 @@
       color: var(--text-dim);
     }
 
+    .instruments-field-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 2px;
+      transition: all 0.3s ease;
+    }
+
+    .instruments-field-link:hover {
+      color: var(--text-secondary);
+      border-color: var(--text-secondary);
+    }
+
     /* ---- PHILOSOPHY ---- */
     .philosophy {
       padding: 8rem 3rem;
@@ -1299,6 +1315,7 @@
       </div>
       <div class="instruments-footer">
         <span class="instruments-quote">"Tools that see without deciding."</span>
+        <a href="/field.html" class="instruments-field-link">Orientation: The Field</a>
         <span class="instruments-ar">AR-001 Compliant</span>
       </div>
     </div>
