@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Field — Greenbaum Labs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-field: #0d0d0d;
+      --text-primary: #e8e4dc;
+      --text-secondary: #7a7570;
+      --text-dim: #3e3b38;
+      --border: rgba(240, 236, 228, 0.08);
+      --border-authority: rgba(201, 168, 76, 0.4);
+      --signal-blue: #4a90d9;
+      --failure-orange: #d97b4a;
+      --governance-maroon: #8b2332;
+      --recovery-olive: #6b7b4a;
+      --continuity-slate: #5a6a7a;
+      --green: #4a9e4a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Film grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.03;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .field-container {
+      max-width: 1000px;
+      width: 100%;
+    }
+
+    .field-header {
+      text-align: center;
+      margin-bottom: 3rem;
+    }
+
+    .field-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      letter-spacing: 0.02em;
+      margin-bottom: 0.75rem;
+    }
+
+    .field-subtitle {
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* The Field */
+    .field {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0;
+      background: var(--bg-field);
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    /* Empty edges */
+    .field::before,
+    .field::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 40px;
+      pointer-events: none;
+    }
+
+    .field::before {
+      left: -40px;
+      background: linear-gradient(to right, transparent, var(--bg-field));
+      opacity: 0.3;
+    }
+
+    .field::after {
+      right: -40px;
+      background: linear-gradient(to left, transparent, var(--bg-field));
+      opacity: 0.3;
+    }
+
+    /* Regions */
+    .region {
+      padding: 2.5rem 2rem;
+    }
+
+    .region-diagnosis {
+      border-right: none;
+    }
+
+    .region-record {
+      border-left: none;
+    }
+
+    .region-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.35rem;
+    }
+
+    .region-subtitle {
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      font-style: italic;
+      margin-bottom: 2rem;
+    }
+
+    .region-diagnosis .region-label { color: var(--text-primary); }
+    .region-record .region-label { color: var(--text-primary); }
+
+    /* The Boundary */
+    .boundary {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+      min-width: 120px;
+    }
+
+    .boundary::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 50%;
+      width: 1px;
+      background: var(--border-authority);
+      box-shadow: 0 0 20px rgba(201, 168, 76, 0.15);
+    }
+
+    .boundary-label {
+      font-size: 0.45rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--border-authority);
+      writing-mode: vertical-rl;
+      text-orientation: mixed;
+      transform: rotate(180deg);
+      position: relative;
+      z-index: 1;
+      background: var(--bg-field);
+      padding: 1rem 0;
+    }
+
+    /* Tools */
+    .tools {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .tool {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 0.8rem;
+      background: transparent;
+      border: 1px solid var(--border);
+      text-decoration: none;
+      transition: all 0.25s ease;
+      cursor: pointer;
+    }
+
+    .tool:hover {
+      background: rgba(240, 236, 228, 0.02);
+      border-color: var(--text-dim);
+    }
+
+    .tool-num {
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      min-width: 24px;
+    }
+
+    .tool[data-layer="signal"] .tool-num { color: var(--signal-blue); }
+    .tool[data-layer="failure"] .tool-num { color: var(--failure-orange); }
+    .tool[data-layer="governance"] .tool-num { color: var(--governance-maroon); }
+    .tool[data-layer="recovery"] .tool-num { color: var(--recovery-olive); }
+    .tool[data-layer="continuity"] .tool-num { color: var(--continuity-slate); }
+
+    .tool-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.95rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      transition: color 0.25s ease;
+    }
+
+    .tool:hover .tool-name {
+      color: var(--green);
+    }
+
+    /* Zone indicators within regions */
+    .zone-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .zone-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .zone-letter {
+      font-size: 0.45rem;
+      letter-spacing: 0.25em;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+      padding-left: 0.8rem;
+    }
+
+    /* Footer */
+    .field-footer {
+      margin-top: 3rem;
+      text-align: center;
+    }
+
+    .field-note {
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .field {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+      }
+
+      .boundary {
+        min-width: unset;
+        padding: 1rem 2rem;
+        flex-direction: row;
+      }
+
+      .boundary::before {
+        top: 50%;
+        bottom: unset;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 1px;
+      }
+
+      .boundary-label {
+        writing-mode: horizontal-tb;
+        transform: none;
+        padding: 0 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="field-container">
+    <header class="field-header">
+      <h1 class="field-title">The Field</h1>
+      <p class="field-subtitle">Orientation Map</p>
+    </header>
+
+    <div class="field">
+      <!-- Diagnosis Region -->
+      <div class="region region-diagnosis">
+        <div class="region-label">Diagnostic</div>
+        <div class="region-subtitle">Tools that see</div>
+        
+        <div class="tools">
+          <div class="zone-group">
+            <div class="zone-letter">S — Signal</div>
+            <a href="/tools/ffn-surface.html" class="tool" data-layer="signal">
+              <span class="tool-num">002</span>
+              <span class="tool-name">FFN Surface</span>
+            </a>
+          </div>
+          
+          <div class="zone-group">
+            <div class="zone-letter">F — Failure</div>
+            <a href="/tools/fm-scanner.html" class="tool" data-layer="failure">
+              <span class="tool-num">001</span>
+              <span class="tool-name">FM Scanner</span>
+            </a>
+            <a href="/tools/system-nav-locator.html" class="tool" data-layer="failure" style="margin-top: 0.5rem;">
+              <span class="tool-num">003</span>
+              <span class="tool-name">System Nav Locator</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- The Boundary -->
+      <div class="boundary">
+        <span class="boundary-label">Authority enters</span>
+      </div>
+
+      <!-- Record Region -->
+      <div class="region region-record">
+        <div class="region-label">Record</div>
+        <div class="region-subtitle">Tools that remember</div>
+        
+        <div class="tools">
+          <div class="zone-group">
+            <div class="zone-letter">G — Governance</div>
+            <a href="/tools/declaration-log.html" class="tool" data-layer="governance">
+              <span class="tool-num">004</span>
+              <span class="tool-name">Declaration Log</span>
+            </a>
+          </div>
+          
+          <div class="zone-group">
+            <div class="zone-letter">R — Recovery</div>
+            <a href="/tools/verified-independence.html" class="tool" data-layer="recovery">
+              <span class="tool-num">005</span>
+              <span class="tool-name">Verified Independence</span>
+            </a>
+          </div>
+          
+          <div class="zone-group">
+            <div class="zone-letter">C — Continuity</div>
+            <a href="/tools/regression-watch.html" class="tool" data-layer="continuity">
+              <span class="tool-num">006</span>
+              <span class="tool-name">Regression Watch</span>
+            </a>
+            <a href="/tools/continuity-chain.html" class="tool" data-layer="continuity" style="margin-top: 0.5rem;">
+              <span class="tool-num">007</span>
+              <span class="tool-name">Continuity Chain</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="field-footer">
+      <p class="field-note">AR-001 · Observe · Summarize · Suggest</p>
+    </footer>
+  </div>
+
+</body>
+</html>
