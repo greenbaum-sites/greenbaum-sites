@@ -613,11 +613,141 @@
       border-color: var(--green);
     }
 
-    /* ---- PHILOSOPHY ---- */
-    .philosophy {
+    /* ---- INSTRUMENTS ---- */
+    .instruments {
       padding: 8rem 3rem;
       background: var(--bg-secondary);
       border-top: 1px solid var(--border-green);
+    }
+
+    .instruments-inner {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .instruments h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+
+    .instruments-explainer {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.9;
+      max-width: 680px;
+      margin-bottom: 3rem;
+    }
+
+    .instruments-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .instrument {
+      display: grid;
+      grid-template-columns: 60px 1fr auto;
+      gap: 2rem;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--border);
+      text-decoration: none;
+      transition: all 0.3s ease;
+    }
+
+    .instrument:last-child {
+      border-bottom: 1px solid var(--border);
+    }
+
+    .instrument:hover {
+      padding-left: 1rem;
+      background: linear-gradient(90deg, var(--bg-card), transparent);
+    }
+
+    .instrument-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    .instrument[data-layer="signal"] .instrument-num { color: #4a90d9; }
+    .instrument[data-layer="failure"] .instrument-num { color: #d97b4a; }
+    .instrument[data-layer="governance"] .instrument-num { color: #8b2332; }
+    .instrument[data-layer="recovery"] .instrument-num { color: #6b7b4a; }
+    .instrument[data-layer="continuity"] .instrument-num { color: #5a6a7a; }
+
+    .instrument-main {
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .instrument-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      transition: color 0.3s ease;
+    }
+
+    .instrument:hover .instrument-name {
+      color: var(--green);
+    }
+
+    .instrument-purpose {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.05em;
+      color: var(--text-dim);
+    }
+
+    .instrument-arrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      transition: all 0.3s ease;
+    }
+
+    .instrument:hover .instrument-arrow {
+      color: var(--green);
+      transform: translateX(4px);
+    }
+
+    .instruments-footer {
+      margin-top: 3rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .instruments-quote {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-secondary);
+    }
+
+    .instruments-ar {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* ---- PHILOSOPHY ---- */
+    .philosophy {
+      padding: 8rem 3rem;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
     }
 
     .philosophy-inner {
@@ -901,6 +1031,7 @@
     <ul class="nav-links">
       <li><a href="#infra">Infrastructure</a></li>
       <li><a href="#projects">Projects</a></li>
+      <li><a href="#instruments">Instruments</a></li>
       <li><a href="#philosophy">Principles</a></li>
       <li><a href="#ecosystem">Ecosystem</a></li>
       <li><a href="#connect">Contact</a></li>
@@ -921,7 +1052,7 @@
       <h1>Greenbaum<br><span class="lab">Labs</span><em>A personal AI workshop running on local compute.</em></h1>
       <p class="hero-sub">Side projects, diagnostic tools, and experiments in applied AI—built on my own machines, wired together like a small internal platform. Three boxes on a 10 GbE backbone. Compute stays local, the filesystem is the source of truth, and dashboards are visibility layers, not authority.</p>
       <p class="hero-audience">For operators, engineering leaders, and Chiefs of Staff who care less about AI demos and more about reliable, explainable systems that actually help people do better work.</p>
-      <p class="hero-cta">If something here feels adjacent to a problem you're wrestling with, I'd welcome a conversation: <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a></p>
+      <p class="hero-cta">If something here feels adjacent to a problem you're wrestling with, I'd welcome a conversation: <a href="/cdn-cgi/l/email-protection#117b646265787f51766374747f7370647c7d7073623f727e7c"><span class="__cf_email__" data-cfemail="214b545255484f61465344444f4340544c4d4043520f424e4c">[email&#160;protected]</span></a></p>
     </div>
     <div class="hero-scroll">
       <span>Scroll</span>
@@ -932,12 +1063,12 @@
   <!-- Infrastructure -->
   <section class="infra" id="infra">
     <div class="infra-inner">
-      <div class="reveal">
+      <div >
         <div class="section-label">Infrastructure</div>
         <h2>The Workbench</h2>
         <p class="infra-sub">Greenbaum Labs is the workshop. These are the other rooms: three machines doing the quiet, unglamorous work of running local models, agents, and diagnostics.</p>
       </div>
-      <div class="infra-grid reveal">
+      <div class="infra-grid">
         <div class="infra-node">
           <div class="node-status"></div>
           <div class="node-type">Compute</div>
@@ -972,7 +1103,7 @@
           </div>
         </div>
       </div>
-      <div class="topo reveal">
+      <div class="topo">
 <span class="p">  ┌─────────────────────────────────────────────────────────┐</span>
 <span class="p">  │</span>  <span class="g">GREENBAUM LABS</span> · Network Topology                       <span class="p">│</span>
 <span class="p">  ├─────────────────────────────────────────────────────────┤</span>
@@ -1000,13 +1131,13 @@
   <!-- Projects -->
   <section class="projects" id="projects">
     <div class="projects-inner">
-      <div class="reveal">
+      <div >
         <div class="section-label">Projects</div>
         <h2>What's on the bench.</h2>
-        <p class="projects-sub">Things I'm building, things I've shipped, and things I'm still thinking through. Not all of them are finished—that's the point of a workshop. Each project exists because of a real tension I've seen in organizations: invisible risk, narrative drift, siloed data, or teams flying blind. The lab is where I prototype ways to see and fix those problems earlier.</p>
+        <p class="projects-sub">Not everything here is meant to ship. Some projects exist to test an idea, learn a constraint, or solve a problem for one person. The ones that matter tend to stay. Some projects are tools. Some are experiments. Not all are meant to scale.</p>
       </div>
 
-      <div class="project-list reveal">
+      <div class="project-list">
         
         <div class="project">
           <div class="project-id">GL-001</div>
@@ -1041,6 +1172,7 @@
           </div>
           <div class="project-meta">
             <div class="project-status live"><div class="dot"></div>Live</div>
+            <a href="https://rcpitboss.com" class="project-link" target="_blank">rcpitboss.com</a>
           </div>
         </div>
 
@@ -1099,14 +1231,87 @@
     </div>
   </section>
 
+  <!-- Instruments -->
+  <section class="instruments" id="instruments">
+    <div class="instruments-inner">
+      <div>
+        <div class="section-label">~/instruments</div>
+        <h2>Diagnostic tools. Live.</h2>
+        <p class="instruments-explainer">Most organizations don't lack information. They lack shared meaning. Truth drifts from authority. Authority drifts from continuity. People absorb the gap. These seven instruments surface where that absorption is happening, name the structural conditions causing it, and record what changes when someone acts. They observe, summarize, and suggest. They do not decide.</p>
+      </div>
+      <div class="instruments-grid">
+        <a href="/tools/fm-scanner.html" class="instrument" data-layer="failure">
+          <span class="instrument-num">001</span>
+          <div class="instrument-main">
+            <span class="instrument-name">FM Scanner</span>
+            <span class="instrument-purpose">Detect failure mode patterns</span>
+          </div>
+          <span class="instrument-arrow">→</span>
+        </a>
+        <a href="/tools/ffn-surface.html" class="instrument" data-layer="signal">
+          <span class="instrument-num">002</span>
+          <div class="instrument-main">
+            <span class="instrument-name">FFN Surface</span>
+            <span class="instrument-purpose">Surface early warning signals</span>
+          </div>
+          <span class="instrument-arrow">→</span>
+        </a>
+        <a href="/tools/system-nav-locator.html" class="instrument" data-layer="signal">
+          <span class="instrument-num">003</span>
+          <div class="instrument-main">
+            <span class="instrument-name">System Nav Locator</span>
+            <span class="instrument-purpose">Orient on the diagnostic map</span>
+          </div>
+          <span class="instrument-arrow">→</span>
+        </a>
+        <a href="/tools/declaration-log.html" class="instrument" data-layer="governance">
+          <span class="instrument-num">004</span>
+          <div class="instrument-main">
+            <span class="instrument-name">Declaration Log</span>
+            <span class="instrument-purpose">Record when authority acted</span>
+          </div>
+          <span class="instrument-arrow">→</span>
+        </a>
+        <a href="/tools/verified-independence.html" class="instrument" data-layer="recovery">
+          <span class="instrument-num">005</span>
+          <div class="instrument-main">
+            <span class="instrument-name">Verified Independence</span>
+            <span class="instrument-purpose">Prove fixes are real</span>
+          </div>
+          <span class="instrument-arrow">→</span>
+        </a>
+        <a href="/tools/regression-watch.html" class="instrument" data-layer="continuity">
+          <span class="instrument-num">006</span>
+          <div class="instrument-main">
+            <span class="instrument-name">Regression Watch</span>
+            <span class="instrument-purpose">Test if fixes hold over time</span>
+          </div>
+          <span class="instrument-arrow">→</span>
+        </a>
+        <a href="/tools/continuity-chain.html" class="instrument" data-layer="continuity">
+          <span class="instrument-num">007</span>
+          <div class="instrument-main">
+            <span class="instrument-name">Continuity Chain</span>
+            <span class="instrument-purpose">Custody of meaning across time</span>
+          </div>
+          <span class="instrument-arrow">→</span>
+        </a>
+      </div>
+      <div class="instruments-footer">
+        <span class="instruments-quote">"Tools that see without deciding."</span>
+        <span class="instruments-ar">AR-001 Compliant</span>
+      </div>
+    </div>
+  </section>
+
   <!-- Philosophy -->
   <section class="philosophy" id="philosophy">
     <div class="philosophy-inner">
-      <div class="reveal">
+      <div >
         <div class="section-label">Operating Principles</div>
         <h2>How the lab works.</h2>
       </div>
-      <div class="principles reveal">
+      <div class="principles">
         <div class="principle">
           <div class="principle-num">01</div>
           <div class="principle-text"><strong>Own the compute.</strong> Local inference on local hardware. The DGX isn't a luxury, it's a design constraint. When you control the infrastructure, you control the dependencies.</div>
@@ -1134,12 +1339,12 @@
   <!-- Ecosystem -->
   <section class="ecosystem" id="ecosystem">
     <div class="eco-inner">
-      <div class="reveal">
+      <div >
         <div class="section-label">The Ecosystem</div>
         <h2>Where this fits.</h2>
         <p class="eco-sub">Greenbaum Labs is the workshop. These are the other rooms.</p>
       </div>
-      <div class="eco-grid reveal">
+      <div class="eco-grid">
         <a href="https://justingreenbaum.com" class="eco-card" target="_blank">
           <div class="eco-eyebrow">The Thesis</div>
           <div class="eco-name">Justin Greenbaum</div>
@@ -1170,12 +1375,12 @@
 
   <!-- Connect -->
   <section class="connect" id="connect">
-    <div class="reveal">
+    <div >
       <div class="section-label" style="justify-content: center;">~/connect</div>
       <h2>Open garage door.</h2>
       <p>I've spent most of my career close to operations, risk, and workflows. Greenbaum Labs is where I test what happens when you give that kind of work a small, stubborn AI workshop instead of another slide deck.</p>
       <p>If you're exploring an internal AI lab, advisor role, or just want to compare notes on how to wire these systems together on real infrastructure, send a note my way.</p>
-      <a href="mailto:justin@greenbaumlabs.com" class="connect-email">justin@greenbaumlabs.com</a>
+      <a href="/cdn-cgi/l/email-protection#2d47585e5944436d4a5f4848434f4c5840414c4f5e034e4240" class="connect-email"><span class="__cf_email__" data-cfemail="6b011e181f02052b0c190e0e05090a1e06070a091845080406">[email&#160;protected]</span></a>
       <div class="connect-links">
         <a href="https://linkedin.com/in/justingreenbaum" class="connect-btn" target="_blank">LinkedIn</a>
         <a href="https://writing.justingreenbaum.com" class="connect-btn" target="_blank">Substack</a>
@@ -1194,23 +1399,11 @@
     </div>
   </footer>
 
-  <script>
+  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 80);
     });
 
     const reveals = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 100);
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(el => obs.observe(el));
-  </script>
-
-</body>
-</html>
+  
