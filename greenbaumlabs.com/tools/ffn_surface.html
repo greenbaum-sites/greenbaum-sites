@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FFN Surface | Greenbaum Labs</title>
+    <style>
+        /* Self-hosted font stack - no external requests */
+        @font-face {
+            font-family: 'GL Serif';
+            src: local('Cormorant Garamond'), local('Georgia'), local('Times New Roman');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'GL Mono';
+            src: local('JetBrains Mono'), local('Fira Code'), local('Consolas'), local('Monaco');
+            font-weight: 400;
+        }
+        @font-face {
+            font-family: 'GL Sans';
+            src: local('Instrument Sans'), local('Inter'), local('-apple-system'), local('BlinkMacSystemFont');
+            font-weight: 400;
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --bg-card: #141414;
+            --border-subtle: #222222;
+            --border-active: #333333;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            --accent-blue: #6495ed;
+            --accent-amber: #fbbf24;
+            --accent-red: #e94560;
+            --signal-high: #6495ed;
+            --signal-medium: #fbbf24;
+            --signal-low: #4a5568;
+            --confirmed: #6495ed;
+            --observed: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'GL Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        /* Film grain overlay */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 3rem 0 4rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 3rem;
+        }
+
+        .header-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--accent-blue);
+            margin-bottom: 1rem;
+        }
+
+        .header h1 {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 3.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 1rem;
+        }
+
+        .header-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto 1.5rem;
+        }
+
+        .ar-badge {
+            display: inline-block;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            padding: 0.4rem 0.8rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            color: var(--text-muted);
+        }
+
+        /* Main Scanner Interface */
+        .scanner-interface {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        @media (max-width: 900px) {
+            .scanner-interface {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.8rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .panel-body {
+            padding: 1.5rem;
+        }
+
+        /* Input Panel */
+        .input-textarea {
+            width: 100%;
+            min-height: 300px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            padding: 1rem;
+            font-family: 'GL Sans', sans-serif;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+            resize: vertical;
+            line-height: 1.7;
+        }
+
+        .input-textarea:focus {
+            outline: none;
+            border-color: var(--accent-blue);
+        }
+
+        .input-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .scan-button {
+            width: 100%;
+            margin-top: 1rem;
+            padding: 1rem 2rem;
+            background: var(--accent-blue);
+            border: none;
+            border-radius: 2px;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.85rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .scan-button:hover {
+            background: #5a8ad8;
+            transform: translateY(-1px);
+        }
+
+        .scan-button:disabled {
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .scan-button.scanning {
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Results Panel */
+        .results-empty {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+
+        .results-empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.3;
+        }
+
+        /* Domain Distribution */
+        .domain-indicator {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+        }
+
+        @media (max-width: 500px) {
+            .domain-indicator {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .domain-cell {
+            text-align: center;
+            padding: 0.75rem 0.5rem;
+        }
+
+        .domain-cell-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .domain-cell-count {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.5rem;
+            font-weight: 500;
+        }
+
+        .domain-cell.active .domain-cell-count {
+            color: var(--accent-blue);
+        }
+
+        .domain-cell.inactive .domain-cell-count {
+            color: var(--text-muted);
+        }
+
+        .results-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 2px;
+        }
+
+        .summary-stat-value {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 2rem;
+            font-weight: 500;
+            line-height: 1;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-stat-value.high { color: var(--signal-high); }
+        .summary-stat-value.medium { color: var(--signal-medium); }
+        .summary-stat-value.total { color: var(--text-primary); }
+
+        .summary-stat-label {
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* Lexical scan notice */
+        .scan-notice {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        /* FFN Match Cards */
+        .matches-list {
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .match-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .match-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .match-header {
+            padding: 0.75rem 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .match-header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .match-ffn-id {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--accent-blue);
+        }
+
+        .match-status-badge {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.15rem 0.4rem;
+            border-radius: 2px;
+        }
+
+        .match-status-badge.confirmed {
+            background: rgba(100, 149, 237, 0.2);
+            color: var(--confirmed);
+        }
+
+        .match-status-badge.observed {
+            background: rgba(136, 136, 136, 0.2);
+            color: var(--observed);
+        }
+
+        .match-occurrence-count {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            padding: 0.15rem 0.4rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+        }
+
+        .match-signal-strength {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border-radius: 2px;
+        }
+
+        .match-signal-strength.high {
+            background: rgba(100, 149, 237, 0.2);
+            color: var(--signal-high);
+        }
+
+        .match-signal-strength.medium {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--signal-medium);
+        }
+
+        .match-signal-strength.low {
+            background: rgba(74, 85, 104, 0.2);
+            color: var(--signal-low);
+        }
+
+        .match-body {
+            padding: 1rem;
+        }
+
+        .match-ffn-name {
+            font-size: 0.95rem;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+
+        .match-domain {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .match-excerpt {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-left: 2px solid var(--accent-blue);
+            margin-bottom: 0.75rem;
+            font-style: italic;
+        }
+
+        .match-leads-to {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .match-leads-to span {
+            display: inline-block;
+            margin-right: 0.5rem;
+            margin-bottom: 0.25rem;
+            padding: 0.2rem 0.4rem;
+            background: rgba(233, 69, 96, 0.15);
+            border-radius: 2px;
+            color: var(--accent-red);
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+        }
+
+        .match-leads-to-label {
+            color: var(--text-muted);
+            margin-right: 0.5rem;
+        }
+
+        /* All excerpts expandable */
+        .all-excerpts {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .all-excerpts-toggle {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            user-select: none;
+        }
+
+        .all-excerpts-toggle:hover {
+            color: var(--text-secondary);
+        }
+
+        .all-excerpts-toggle .arrow {
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .all-excerpts-toggle.expanded .arrow {
+            transform: rotate(90deg);
+        }
+
+        .all-excerpts-list {
+            display: none;
+            margin-top: 0.75rem;
+        }
+
+        .all-excerpts-list.visible {
+            display: block;
+            padding-left: 0.75rem;
+            border-left: 1px solid var(--border-subtle);
+        }
+
+        .all-excerpts-item {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-primary);
+            border-left: 1px solid var(--border-subtle);
+            margin-bottom: 0.5rem;
+            font-style: italic;
+        }
+
+        .all-excerpts-item:last-child {
+            margin-bottom: 0;
+        }
+
+        /* Temporal clustering */
+        .temporal-section {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .temporal-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .temporal-chart {
+            display: flex;
+            align-items: flex-end;
+            height: 60px;
+            gap: 2px;
+        }
+
+        .temporal-bar {
+            flex: 1;
+            background: var(--accent-blue);
+            border-radius: 1px 1px 0 0;
+            min-height: 2px;
+            transition: height 0.3s ease;
+        }
+
+        .temporal-bar.empty {
+            background: var(--bg-tertiary);
+        }
+
+        .temporal-note {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+            font-style: italic;
+        }
+
+        /* Is / Is Not Section */
+        .boundary-section {
+            margin-top: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .boundary-toggle {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 0;
+            border-top: 1px solid var(--border-subtle);
+            border-bottom: 1px solid var(--border-subtle);
+            user-select: none;
+        }
+
+        .boundary-toggle:hover {
+            color: var(--text-secondary);
+        }
+
+        .boundary-toggle .arrow {
+            transition: transform 0.2s ease;
+            display: inline-block;
+        }
+
+        .boundary-toggle.expanded .arrow {
+            transform: rotate(90deg);
+        }
+
+        .boundary-content {
+            display: none;
+            padding: 1.5rem 0;
+        }
+
+        .boundary-content.visible {
+            display: block;
+        }
+
+        .boundary-columns {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 600px) {
+            .boundary-columns {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .boundary-column h3 {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        .boundary-column.is-col h3 {
+            color: var(--accent-blue);
+        }
+
+        .boundary-column.isnot-col h3 {
+            color: var(--text-muted);
+        }
+
+        .boundary-column ul {
+            list-style: none;
+        }
+
+        .boundary-column li {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .boundary-column li:last-child {
+            border-bottom: none;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 3rem;
+        }
+
+        .footer-quote {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.5rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .footer-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .footer-version {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-top: 1.5rem;
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+        }
+
+        .footer-version span {
+            opacity: 0.6;
+        }
+
+        /* How It Works Section */
+        .how-it-works {
+            margin-bottom: 3rem;
+        }
+
+        .how-it-works h2 {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.8rem;
+            font-weight: 400;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .steps {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .step {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+        }
+
+        .step-number {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 500;
+            color: var(--accent-blue);
+            line-height: 1;
+            margin-bottom: 0.75rem;
+        }
+
+        .step-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Loading state */
+        .loading-dots {
+            display: inline-block;
+        }
+
+        .loading-dots::after {
+            content: '';
+            animation: dots 1.5s steps(4, end) infinite;
+        }
+
+        @keyframes dots {
+            0%, 20% { content: ''; }
+            40% { content: '.'; }
+            60% { content: '..'; }
+            80%, 100% { content: '...'; }
+        }
+
+        /* Tool relationship note */
+        .tool-relationship {
+            text-align: center;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            margin-bottom: 3rem;
+        }
+
+        .tool-relationship-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .tool-relationship-text strong {
+            color: var(--accent-blue);
+        }
+
+        .tool-relationship-text .fm {
+            color: var(--accent-red);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-label">Greenbaum Labs</div>
+            <h1>FFN Surface</h1>
+            <p class="header-subtitle">
+                Surface early warning signals before they harden into failure modes.
+                What is starting to go wrong—quietly?
+            </p>
+        </header>
+
+        <!-- Tool Relationship -->
+        <div class="tool-relationship">
+            <p class="tool-relationship-text">
+                <strong>FM Scanner</strong> shows what's broken. <strong>FFN Surface</strong> shows what's breaking.
+                <br>
+                <span style="color: var(--text-muted); font-size: 0.8rem;">Field Notes are conditions. Failure Modes are patterns. Conditions precede patterns.</span>
+            </p>
+        </div>
+
+        <!-- How It Works -->
+        <section class="how-it-works">
+            <h2>How It Works</h2>
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-title">Input</div>
+                    <div class="step-desc">Paste transcript, email thread, or meeting notes</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-title">Scan</div>
+                    <div class="step-desc">Each segment checked against 21 Field Notes</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-title">Cluster</div>
+                    <div class="step-desc">Signals grouped by domain and density</div>
+                </div>
+                <div class="step">
+                    <div class="step-number">4</div>
+                    <div class="step-title">Surface</div>
+                    <div class="step-desc">Early warnings with what they lead to</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Scanner Interface -->
+        <div class="scanner-interface">
+            <!-- Input Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Input Artifact</span>
+                </div>
+                <div class="panel-body">
+                    <textarea 
+                        class="input-textarea" 
+                        id="inputText"
+                        placeholder="Paste your transcript, email thread, meeting notes, or any organizational text here...
+
+Example early signals the scanner detects:
+
+• &quot;The data says... but I'm not sure we all agree what it means&quot;
+• &quot;Let's wait for more data&quot; (after risk is acknowledged)
+• &quot;I have the authority but let me check first&quot;
+• &quot;Here's how we actually do it—ignore the doc&quot;
+• &quot;We should standardize this&quot; (said for the third time)"></textarea>
+                    <button class="scan-button" id="scanButton" onclick="runScan()">
+                        Surface Early Signals
+                    </button>
+                </div>
+            </div>
+
+            <!-- Results Panel -->
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title">Early Signals</span>
+                    <span id="resultStatus" style="font-size: 0.75rem; color: var(--text-muted);"></span>
+                </div>
+                <div class="panel-body" id="resultsPanel">
+                    <div class="results-empty">
+                        <div class="results-empty-icon">◎</div>
+                        <p>Paste text and click scan to detect early warning signals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Is / Is Not Section -->
+        <section class="boundary-section">
+            <div class="boundary-toggle" id="boundaryToggle" onclick="toggleBoundary()">
+                <span class="arrow">▶</span>
+                <span>What this tool is / What this tool is not</span>
+            </div>
+            <div class="boundary-content" id="boundaryContent">
+                <div class="boundary-columns">
+                    <div class="boundary-column is-col">
+                        <h3>This tool is</h3>
+                        <ul>
+                            <li>An early signal detector using keyword density and pattern matching</li>
+                            <li>A way to see conditions before they become patterns</li>
+                            <li>A companion to FM Scanner (conditions → patterns)</li>
+                            <li>A lead generator for structural attention</li>
+                            <li>AR-001 compliant: it whispers, not accuses</li>
+                        </ul>
+                    </div>
+                    <div class="boundary-column isnot-col">
+                        <h3>This tool is not</h3>
+                        <ul>
+                            <li>A diagnosis—Field Notes are observations, not conclusions</li>
+                            <li>Predictive—it shows what's present, not what will happen</li>
+                            <li>Complete—21 FFNs, 4 Confirmed + 17 Observed</li>
+                            <li>Certain—lexical matching has limits</li>
+                            <li>Prescriptive—no recommendations, no fixes</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-quote">"Most systems don't fail suddenly. They fail after months of ignored signal."</div>
+            <p class="footer-note">AR-001: Observes, summarizes, suggests. Does not decide.</p>
+            <div class="footer-version">
+                <span>FFN Surface v0.1</span>
+                <span>FFN Index v1 (21 notes)</span>
+                <span>2026-02-03</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // FFN definitions with FM relationships from CrossMap
+        // Status: Confirmed (4) + Observed (17)
+        const FFN_DATA = {
+            "FFN-01": {
+                name: "Responsibility Compression",
+                domain: "Structural",
+                status: "confirmed",
+                keywords: ["responsibility", "burden", "absorb", "frontline", "edge", "pushed down", "accountability", "ownership", "carrying", "load", "backstop"],
+                patterns: [
+                    /falls? (on|to) (me|us)/i,
+                    /(I|we) (end up|always) (handling|dealing|absorbing)/i,
+                    /not my (job|role) but/i,
+                    /someone has to/i,
+                    /buck stops/i
+                ],
+                leadsTo: ["FM-01", "FM-03", "FM-15"]
+            },
+            "FFN-02": {
+                name: "Interpretive Drift",
+                domain: "Structural / Cognitive",
+                status: "confirmed",
+                keywords: ["means", "interpret", "disagree", "meaning", "understand", "clarity", "consensus", "divergent", "defensiveness", "argue"],
+                patterns: [
+                    /the data says.{0,20}but/i,
+                    /(disagree|different) (on |about )?(what|how) (it|this|that) means/i,
+                    /depends (on )?(what|who) you ask/i,
+                    /(not sure|unclear) (what|if) (we|they) (mean|meant)/i,
+                    /same (metric|number|data).{0,20}different (conclusion|interpretation|meaning)/i
+                ],
+                leadsTo: ["FM-04", "FM-11", "FM-14", "FM-17"]
+            },
+            "FFN-03": {
+                name: "Authority Without Commitment",
+                domain: "Structural / Governance",
+                status: "confirmed",
+                keywords: ["authority", "decision", "defer", "wait", "commitment", "consensus", "scope", "ownership", "stall", "indecision"],
+                patterns: [
+                    /let's wait (for|until) (more )?(data|clarity|alignment)/i,
+                    /we should.{0,30}but (let's|we need to)/i,
+                    /I will.{0,10}(became|becomes|turned into) we should/i,
+                    /(my|the) (decision|call|authority) but.{0,20}(check|align|socialize)/i,
+                    /ownership clarified after/i
+                ],
+                leadsTo: ["FM-01", "FM-03", "FM-08"]
+            },
+            "FFN-04": {
+                name: "Escalation Inversion",
+                domain: "Structural",
+                status: "confirmed",
+                keywords: ["escalate", "escalation", "surface", "risk", "upward", "senior", "circulate", "urgent", "weigh in", "hierarchy"],
+                patterns: [
+                    /escalate.{0,20}even (when|though)/i,
+                    /weigh in.{0,15}without (clear|specific)/i,
+                    /escalat(e|ed|ion).{0,20}(defensive|protect|blame)/i,
+                    /moved? upward.{0,15}not (because|due to)/i,
+                    /asked to decide.{0,15}(unclear|ambiguous) (what|who)/i
+                ],
+                leadsTo: ["FM-02", "FM-09", "FM-10"]
+            },
+            "FFN-05": {
+                name: "Escalation Bounceback",
+                domain: "Decision Systems",
+                status: "observed",
+                keywords: ["return", "bounce", "back", "circulate", "loop", "pass", "redirect", "handling"],
+                patterns: [
+                    /thought you were handling/i,
+                    /(came|sent|went) back (to|without)/i,
+                    /returned without (resolution|decision|answer)/i,
+                    /passed (it )?(back )?down/i
+                ],
+                leadsTo: ["FM-02", "FM-09", "FM-15"]
+            },
+            "FFN-06": {
+                name: "Signal Misread",
+                domain: "Metrics",
+                status: "observed",
+                keywords: ["tracking", "code", "category", "mismatch", "capture", "reality", "actual", "log", "record"],
+                patterns: [
+                    /(tracking|code|category) (doesn't|don't) (match|reflect|capture)/i,
+                    /data (says|shows).{0,20}(but|doesn't) (match|reflect) (what|reality)/i,
+                    /logged as.{0,15}(but|actually)/i,
+                    /(customer|user) (said|meant).{0,15}(but|recorded as)/i
+                ],
+                leadsTo: ["FM-04", "FM-14"]
+            },
+            "FFN-07": {
+                name: "Orphaned Escalation",
+                domain: "Governance",
+                status: "observed",
+                keywords: ["owner", "ownership", "responsible", "handoff", "queue", "age", "movement", "closure"],
+                patterns: [
+                    /who('s| is) responsible for (this|that|closing)/i,
+                    /(no one|nobody) owns (the |this )?resolution/i,
+                    /handoffs? (multiply|multiplied|keep)/i,
+                    /sitting in (queue|limbo)/i,
+                    /ages? without (movement|progress|resolution)/i
+                ],
+                leadsTo: ["FM-02", "FM-07", "FM-15"]
+            },
+            "FFN-08": {
+                name: "Authority Fog",
+                domain: "Governance",
+                status: "observed",
+                keywords: ["unclear", "authority", "approve", "approval", "who can", "permission", "process", "procedure"],
+                patterns: [
+                    /(who|unclear who) can approve/i,
+                    /(don't|doesn't) know who (can|has) (authority|approval)/i,
+                    /same (procedural |process )question.{0,15}(again|repeatedly)/i,
+                    /debate (process|procedure) without (resolving|resolution)/i
+                ],
+                leadsTo: ["FM-03", "FM-07", "FM-08"]
+            },
+            "FFN-09": {
+                name: "Shadow Infrastructure",
+                domain: "Operations",
+                status: "observed",
+                keywords: ["workaround", "bypass", "homegrown", "informal", "shadow", "actual", "really", "unofficial"],
+                patterns: [
+                    /(here's |this is )how (we|it) (actually|really)/i,
+                    /(ignore|don't follow) (the |that )?(doc|documentation|process)/i,
+                    /you (just )?(have to|gotta) know/i,
+                    /(ticket|workaround) to bypass/i,
+                    /taught.{0,15}workaround.{0,15}before.{0,15}(official|formal)/i
+                ],
+                leadsTo: ["FM-05", "FM-06", "FM-13"]
+            },
+            "FFN-10": {
+                name: "Metric Displacement",
+                domain: "Metrics",
+                status: "observed",
+                keywords: ["metric", "score", "scorecard", "measured", "optimize", "dashboard", "KPI", "unmeasured"],
+                patterns: [
+                    /(numbers|metrics|dashboard) (look|looks) (good|fine).{0,15}but/i,
+                    /optimiz(e|ing) (for|against) (the )?(score|metric|dashboard)/i,
+                    /(unmeasured|off.?ledger|invisible) (cost|risk|impact)/i,
+                    /is (this|that|it) (being )?(measured|tracked)/i
+                ],
+                leadsTo: ["FM-04", "FM-11"]
+            },
+            "FFN-11": {
+                name: "Context Gap",
+                domain: "Metrics",
+                status: "observed",
+                keywords: ["context", "baseline", "comparison", "rate", "volume", "without", "missing", "absent"],
+                patterns: [
+                    /(results|numbers|data) (without|missing|lacking) (context|baseline|comparison)/i,
+                    /(impressive|great|good).{0,15}(but|without) (context|baseline)/i,
+                    /(rate|volume|baseline) (absent|missing|not included)/i,
+                    /compared to what/i
+                ],
+                leadsTo: ["FM-04", "FM-11", "FM-12"]
+            },
+            "FFN-12": {
+                name: "Authority Without Permission",
+                domain: "Governance",
+                status: "observed",
+                keywords: ["authority", "permission", "check", "approval", "formal", "paper", "practice", "seek"],
+                patterns: [
+                    /(have|has) (the )?authority (but|yet).{0,15}(check|approval|permission)/i,
+                    /authority on paper.{0,15}(but|still|yet)/i,
+                    /formal (rights|authority).{0,15}(don't|doesn't) match (actual|practice)/i,
+                    /(need to|let me) check (first|with)/i
+                ],
+                leadsTo: ["FM-01", "FM-03"]
+            },
+            "FFN-13": {
+                name: "Alignment Creep",
+                domain: "Decision Systems",
+                status: "observed",
+                keywords: ["alignment", "stakeholder", "loop in", "buy-in", "consensus", "consultation", "include"],
+                patterns: [
+                    /loop in (one more|another)/i,
+                    /stakeholder (list|requirements).{0,15}(expand|grew|growing)/i,
+                    /(need|want|require) (more )?(alignment|buy.?in|consensus)/i,
+                    /consultation (requirements|needs).{0,15}exceed/i,
+                    /aligned.{0,15}(but|before).{0,15}(decide|decision|move)/i
+                ],
+                leadsTo: ["FM-06", "FM-08", "FM-10", "FM-16"]
+            },
+            "FFN-14": {
+                name: "Frozen Recognition",
+                domain: "Organizational Design",
+                status: "observed",
+                keywords: ["acknowledge", "recognize", "know", "should", "standardize", "problem", "fix", "address"],
+                patterns: [
+                    /we (should|need to) (standardize|fix|address) this/i,
+                    /(acknowledged|recognized|known).{0,20}(without|but no) (action|change|fix)/i,
+                    /(same|this) (problem|issue|fix).{0,15}(proposed|raised|mentioned).{0,15}(again|before|quarterly)/i,
+                    /on the roadmap.{0,10}(but|for)/i
+                ],
+                leadsTo: ["FM-05", "FM-06", "FM-12", "FM-13", "FM-16", "FM-17"]
+            },
+            "FFN-15": {
+                name: "Permission Cascade",
+                domain: "Structural",
+                status: "observed",
+                keywords: ["permission", "approval", "boundary", "team", "cross-functional", "handoff", "sign-off"],
+                patterns: [
+                    /(need|require) sign.?off from (their|that|another) (side|team)/i,
+                    /each (team|boundary).{0,15}(adds|requires|needs).{0,15}approval/i,
+                    /cross.?functional.{0,15}(stall|stalled|stalls)/i,
+                    /latency (scales|increases) with (organizational |team )?distance/i
+                ],
+                leadsTo: ["FM-07", "FM-16"]
+            },
+            "FFN-16": {
+                name: "Defensive Escalation",
+                domain: "Decision Systems",
+                status: "observed",
+                keywords: ["escalate", "defensive", "cover", "blame", "protect", "document", "CYA", "visibility"],
+                patterns: [
+                    /(escalat|push).{0,15}(avoid|transfer|shift).{0,15}(blame|accountability)/i,
+                    /(want|wanted) (to )?(make sure|ensure) you knew/i,
+                    /(cover|CYA|protect) (my|our|myself)/i,
+                    /escalat.{0,15}as (cover|protection|documentation)/i
+                ],
+                leadsTo: ["FM-02", "FM-09", "FM-10"]
+            },
+            "FFN-17": {
+                name: "Horizon Collapse",
+                domain: "Cognitive",
+                status: "observed",
+                keywords: ["short-term", "long-term", "quarter", "immediate", "future", "later", "strategy", "horizon"],
+                patterns: [
+                    /(deal with|address|worry about) (that|it) later/i,
+                    /second.?order (effects|consequences).{0,15}(invisible|ignored|not considered)/i,
+                    /strategy.{0,15}(collapse|collapsed|collapsing) into (reaction|tactical)/i,
+                    /(can't|don't|won't) (think|plan|look) (past|beyond) (this|next) quarter/i
+                ],
+                leadsTo: ["FM-12", "FM-14", "FM-17"]
+            },
+            "FFN-18": {
+                name: "Now Over Later",
+                domain: "Cognitive",
+                status: "observed",
+                keywords: ["quarter", "quarterly", "immediate", "now", "later", "future", "trade-off", "short-term"],
+                patterns: [
+                    /(know|acknowledge).{0,15}but.{0,15}(need|have to).{0,15}(this|the) quarter/i,
+                    /long.?term.{0,15}(acknowledged|known|understood).{0,15}(but )?not weighted/i,
+                    /future (discounted|ignored|not weighted)/i,
+                    /(quarterly|q[1-4]) (targets|goals|numbers).{0,15}override/i
+                ],
+                leadsTo: ["FM-12", "FM-17"]
+            },
+            "FFN-19": {
+                name: "Judgment Erosion",
+                domain: "Cognitive",
+                status: "observed",
+                keywords: ["overwork", "burnout", "judgment", "prioritize", "delegate", "capacity", "exhausted", "tired"],
+                patterns: [
+                    /(struggle|struggling) to (prioritize|delegate|focus)/i,
+                    /(sustained|chronic) overwork/i,
+                    /judgment (declining|weakened|degraded|eroded)/i,
+                    /(I'm fine|they're fine).{0,15}(but|clearly|obviously)/i
+                ],
+                leadsTo: ["FM-10", "FM-13", "FM-15"]
+            },
+            "FFN-20": {
+                name: "Memory Scatter",
+                domain: "Cognitive",
+                status: "observed",
+                keywords: ["recall", "remember", "decided", "agreed", "thought", "version", "narrative", "alignment"],
+                patterns: [
+                    /thought we (agreed|decided)/i,
+                    /(different|conflicting) (version|memory|recollection)/i,
+                    /(don't|doesn't) recall.{0,15}(same|differently)/i,
+                    /alignment.{0,15}difficult to (verify|confirm)/i,
+                    /shared narrative.{0,15}(inconsistent|fragmented|different)/i
+                ],
+                leadsTo: ["FM-14", "FM-17"]
+            },
+            "FFN-21": {
+                name: "Opaque Logic Drift",
+                domain: "Cognitive",
+                status: "observed",
+                keywords: ["AI", "logic", "explain", "reasoning", "opaque", "trust", "why", "understand"],
+                patterns: [
+                    /why did (it|the (AI|system|model)) (do|decide|recommend)/i,
+                    /(AI|system|model).{0,15}(logic|reasoning|decision).{0,15}(opaque|unclear|unexplained)/i,
+                    /trust.{0,15}(deplet|erode|decline).{0,15}(opaque|unexplained)/i,
+                    /(don't|doesn't) (understand|know) why (it|the system)/i
+                ],
+                leadsTo: ["FM-04", "FM-11"]
+            }
+        };
+
+        const DOMAINS = ["Structural", "Governance", "Metrics", "Cognitive", "Operations", "Decision Systems", "Organizational Design"];
+
+        function chunkText(text, chunkSize = 400) {
+            const sentences = text.split(/(?<=[.!?])\s+/);
+            const chunks = [];
+            let current = "";
+
+            for (const sentence of sentences) {
+                if ((current + sentence).length <= chunkSize) {
+                    current += sentence + " ";
+                } else {
+                    if (current.trim()) chunks.push(current.trim());
+                    current = sentence + " ";
+                }
+            }
+            if (current.trim()) chunks.push(current.trim());
+            return chunks;
+        }
+
+        function scanChunk(chunk, chunkIndex) {
+            const matches = [];
+            const chunkLower = chunk.toLowerCase();
+
+            for (const [ffnId, ffnData] of Object.entries(FFN_DATA)) {
+                const keywordHits = ffnData.keywords.filter(kw => chunkLower.includes(kw.toLowerCase())).length;
+                const keywordDensity = keywordHits / ffnData.keywords.length;
+                const patternHits = ffnData.patterns.filter(p => p.test(chunk));
+
+                if (keywordDensity > 0.2 || patternHits.length > 0) {
+                    let strength = "low";
+                    if (patternHits.length > 0 && keywordDensity > 0.25) {
+                        strength = "high";
+                    } else if (patternHits.length > 0 || keywordDensity > 0.2) {
+                        strength = "medium";
+                    }
+
+                    matches.push({
+                        ffnId,
+                        ffnName: ffnData.name,
+                        domain: ffnData.domain,
+                        status: ffnData.status,
+                        strength,
+                        excerpt: chunk.length > 250 ? chunk.substring(0, 250) + "..." : chunk,
+                        chunkIndex,
+                        leadsTo: ffnData.leadsTo
+                    });
+                }
+            }
+
+            return matches;
+        }
+
+        function toggleBoundary() {
+            const toggle = document.getElementById('boundaryToggle');
+            const content = document.getElementById('boundaryContent');
+            toggle.classList.toggle('expanded');
+            content.classList.toggle('visible');
+        }
+
+        function toggleExcerpts(ffnId) {
+            const card = document.querySelector(`[data-ffn="${ffnId}"]`);
+            if (!card) return;
+            const toggle = card.querySelector('.all-excerpts-toggle');
+            const list = card.querySelector('.all-excerpts-list');
+            if (toggle && list) {
+                toggle.classList.toggle('expanded');
+                list.classList.toggle('visible');
+            }
+        }
+
+        function runScan() {
+            const inputText = document.getElementById('inputText').value.trim();
+            const resultsPanel = document.getElementById('resultsPanel');
+            const scanButton = document.getElementById('scanButton');
+            const resultStatus = document.getElementById('resultStatus');
+
+            if (!inputText) {
+                resultsPanel.innerHTML = `
+                    <div class="results-empty">
+                        <div class="results-empty-icon">⚠</div>
+                        <p>Please paste some text to scan</p>
+                    </div>
+                `;
+                return;
+            }
+
+            scanButton.disabled = true;
+            scanButton.classList.add('scanning');
+            scanButton.innerHTML = 'Surfacing<span class="loading-dots"></span>';
+            resultStatus.textContent = 'Analyzing...';
+
+            setTimeout(() => {
+                const chunks = chunkText(inputText);
+                let allMatches = [];
+                
+                for (let i = 0; i < chunks.length; i++) {
+                    const matches = scanChunk(chunks[i], i);
+                    allMatches = allMatches.concat(matches);
+                }
+
+                // Group ALL matches by FFN (keep all excerpts)
+                const byFFN = {};
+                for (const match of allMatches) {
+                    if (!byFFN[match.ffnId]) {
+                        byFFN[match.ffnId] = {
+                            ffnId: match.ffnId,
+                            ffnName: match.ffnName,
+                            domain: match.domain,
+                            status: match.status,
+                            strength: match.strength,
+                            leadsTo: match.leadsTo,
+                            excerpts: [],
+                            chunkIndices: []
+                        };
+                    }
+                    byFFN[match.ffnId].excerpts.push(match.excerpt);
+                    byFFN[match.ffnId].chunkIndices.push(match.chunkIndex);
+                    // Upgrade strength if we find a higher one
+                    if (match.strength === 'high') {
+                        byFFN[match.ffnId].strength = 'high';
+                    } else if (match.strength === 'medium' && byFFN[match.ffnId].strength === 'low') {
+                        byFFN[match.ffnId].strength = 'medium';
+                    }
+                }
+
+                const matches = Object.values(byFFN);
+
+                scanButton.disabled = false;
+                scanButton.classList.remove('scanning');
+                scanButton.innerHTML = 'Surface Early Signals';
+
+                if (matches.length === 0) {
+                    resultStatus.textContent = `Scanned ${chunks.length} segments`;
+                    resultsPanel.innerHTML = `
+                        <div class="results-empty">
+                            <div class="results-empty-icon">✓</div>
+                            <p>No significant early warning signals detected</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.5rem; color: var(--text-muted);">
+                                This doesn't mean the text is healthy—just that obvious precursor signals weren't found.
+                            </p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                // Calculate domain distribution
+                const domainCounts = {};
+                for (const match of matches) {
+                    const primaryDomain = match.domain.split(' / ')[0];
+                    domainCounts[primaryDomain] = (domainCounts[primaryDomain] || 0) + match.excerpts.length;
+                }
+
+                // Count by strength and status
+                const highCount = matches.filter(m => m.strength === 'high').length;
+                const mediumCount = matches.filter(m => m.strength === 'medium').length;
+                const confirmedCount = matches.filter(m => m.status === 'confirmed').length;
+                const totalOccurrences = matches.reduce((sum, m) => sum + m.excerpts.length, 0);
+
+                // Calculate temporal clustering (signal density across document)
+                const chunkSignalCounts = new Array(chunks.length).fill(0);
+                for (const match of matches) {
+                    for (const idx of match.chunkIndices) {
+                        chunkSignalCounts[idx]++;
+                    }
+                }
+                const maxChunkSignals = Math.max(...chunkSignalCounts, 1);
+                const hasCluster = chunkSignalCounts.some((c, i, arr) => {
+                    if (i === 0 || i === arr.length - 1) return false;
+                    return c > 1 && (arr[i-1] > 0 || arr[i+1] > 0);
+                });
+
+                resultStatus.textContent = `${matches.length} signals, ${totalOccurrences} occurrences in ${chunks.length} segments`;
+
+                // Render results
+                let html = '';
+
+                // Domain distribution
+                const activeDomains = ['Structural', 'Governance', 'Metrics', 'Cognitive'];
+                html += `<div class="domain-indicator">`;
+                for (const domain of activeDomains) {
+                    const count = domainCounts[domain] || 0;
+                    html += `
+                        <div class="domain-cell ${count > 0 ? 'active' : 'inactive'}">
+                            <div class="domain-cell-label">${domain}</div>
+                            <div class="domain-cell-count">${count}</div>
+                        </div>
+                    `;
+                }
+                html += `</div>`;
+
+                // Summary stats
+                html += `
+                    <div class="results-summary">
+                        <div class="summary-stat">
+                            <div class="summary-stat-value total">${matches.length}</div>
+                            <div class="summary-stat-label">Signals</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="summary-stat-value high">${confirmedCount}</div>
+                            <div class="summary-stat-label">Confirmed FFNs</div>
+                        </div>
+                        <div class="summary-stat">
+                            <div class="summary-stat-value medium">${highCount}</div>
+                            <div class="summary-stat-label">High Density</div>
+                        </div>
+                    </div>
+                `;
+
+                // Lexical scan notice
+                html += `
+                    <div class="scan-notice">
+                        This is a lexical scan for early conditions. Treat results as whispers, not warnings.
+                    </div>
+                `;
+
+                html += `<div class="matches-list">`;
+
+                // Sort: confirmed first, then by strength, then by occurrence count
+                matches.sort((a, b) => {
+                    // Confirmed first
+                    if (a.status === 'confirmed' && b.status !== 'confirmed') return -1;
+                    if (b.status === 'confirmed' && a.status !== 'confirmed') return 1;
+                    // Then by strength
+                    const order = { high: 0, medium: 1, low: 2 };
+                    if (order[a.strength] !== order[b.strength]) {
+                        return order[a.strength] - order[b.strength];
+                    }
+                    // Then by occurrence count
+                    return b.excerpts.length - a.excerpts.length;
+                });
+
+                for (const match of matches) {
+                    const occurrenceCount = match.excerpts.length;
+                    const uniqueExcerpts = [...new Set(match.excerpts)];
+
+                    html += `
+                        <div class="match-card" data-ffn="${match.ffnId}">
+                            <div class="match-header">
+                                <div class="match-header-left">
+                                    <span class="match-ffn-id">${match.ffnId}</span>
+                                    <span class="match-status-badge ${match.status}">${match.status}</span>
+                                    <span class="match-occurrence-count">${occurrenceCount} occurrence${occurrenceCount > 1 ? 's' : ''}</span>
+                                </div>
+                                <span class="match-signal-strength ${match.strength}">${match.strength} density</span>
+                            </div>
+                            <div class="match-body">
+                                <div class="match-ffn-name">${match.ffnName}</div>
+                                <div class="match-domain">${match.domain}</div>
+                                <div class="match-excerpt">"${uniqueExcerpts[0]}"</div>
+                                <div class="match-leads-to">
+                                    <span class="match-leads-to-label">May lead to:</span>
+                                    ${match.leadsTo.map(fm => `<span>${fm}</span>`).join('')}
+                                </div>
+                                ${uniqueExcerpts.length > 1 ? `
+                                    <div class="all-excerpts">
+                                        <div class="all-excerpts-toggle" onclick="toggleExcerpts('${match.ffnId}')">
+                                            <span class="arrow">▶</span>
+                                            <span>Show all ${uniqueExcerpts.length} excerpts</span>
+                                        </div>
+                                        <div class="all-excerpts-list">
+                                            ${uniqueExcerpts.slice(1).map(e => `<div class="all-excerpts-item">"${e}"</div>`).join('')}
+                                        </div>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                html += `</div>`;
+
+                // Temporal clustering visualization
+                if (chunks.length > 3) {
+                    html += `
+                        <div class="temporal-section">
+                            <div class="temporal-title">Signal Density Across Document</div>
+                            <div class="temporal-chart">
+                                ${chunkSignalCounts.map(count => {
+                                    const height = count > 0 ? Math.max(10, (count / maxChunkSignals) * 100) : 0;
+                                    return `<div class="temporal-bar ${count === 0 ? 'empty' : ''}" style="height: ${height}%"></div>`;
+                                }).join('')}
+                            </div>
+                            <div class="temporal-note">
+                                ${hasCluster ? 'Signals are clustering in specific sections.' : 'Signals are distributed across the document.'}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                resultsPanel.innerHTML = html;
+
+            }, 800);
+        }
+
+        document.getElementById('inputText').addEventListener('keydown', function(e) {
+            if (e.ctrlKey && e.key === 'Enter') {
+                runScan();
+            }
+        });
+    </script>
+</body>
+</html>
