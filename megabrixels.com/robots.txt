@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://megabrixels.com/sitemap.xml
