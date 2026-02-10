@@ -19,7 +19,7 @@
   <meta name="twitter:description" content="Personal AI Workshop">
   <meta name="twitter:image" content="https://greenbaumlabs.com/og-greenbaumlabs.png">
 
-<!-- JSON-LD Structured Data -->
+  <!-- JSON-LD Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -46,7 +46,6 @@
   }
   </script>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
@@ -76,6 +75,7 @@
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
+
     html {
       scroll-behavior: smooth;
       scrollbar-width: thin;
@@ -213,7 +213,6 @@
         var(--bg-primary);
     }
 
-    /* Faint grid */
     .hero-grid {
       position: absolute;
       inset: 0;
@@ -262,9 +261,7 @@
       animation: fadeUp 0.8s ease forwards 0.4s;
     }
 
-    .hero h1 .lab {
-      color: var(--green);
-    }
+    .hero h1 .lab { color: var(--green); }
 
     .hero h1 em {
       font-style: italic;
@@ -313,9 +310,7 @@
       transition: border-color 0.3s ease;
     }
 
-    .hero-cta a:hover {
-      border-color: var(--green);
-    }
+    .hero-cta a:hover { border-color: var(--green); }
 
     .hero-scroll {
       position: absolute;
@@ -409,9 +404,7 @@
       transition: all 0.3s ease;
     }
 
-    .infra-node:hover {
-      background: var(--bg-card);
-    }
+    .infra-node:hover { background: var(--bg-card); }
 
     .node-status {
       width: 5px;
@@ -460,11 +453,8 @@
       line-height: 1.8;
     }
 
-    .node-spec .highlight {
-      color: var(--green);
-    }
+    .node-spec .highlight { color: var(--green); }
 
-    /* Network topology visualization */
     .topo {
       margin-top: 4rem;
       padding: 3rem;
@@ -529,9 +519,7 @@
       transition: all 0.3s ease;
     }
 
-    .project:hover {
-      padding-left: 1rem;
-    }
+    .project:hover { padding-left: 1rem; }
 
     .project-id {
       font-family: 'JetBrains Mono', monospace;
@@ -620,7 +608,6 @@
     }
 
     .project-status.live { color: var(--green); }
-
     .project-status.planned .dot { background: var(--accent); }
     .project-status.planned { color: var(--accent); }
 
@@ -685,9 +672,7 @@
       transition: all 0.3s ease;
     }
 
-    .instrument:last-child {
-      border-bottom: 1px solid var(--border);
-    }
+    .instrument:last-child { border-bottom: 1px solid var(--border); }
 
     .instrument:hover {
       padding-left: 1rem;
@@ -721,9 +706,7 @@
       transition: color 0.3s ease;
     }
 
-    .instrument:hover .instrument-name {
-      color: var(--green);
-    }
+    .instrument:hover .instrument-name { color: var(--green); }
 
     .instrument-purpose {
       font-family: 'JetBrains Mono', monospace;
@@ -879,9 +862,7 @@
       transition: all 0.3s ease;
     }
 
-    .eco-card:hover {
-      background: var(--bg-card);
-    }
+    .eco-card:hover { background: var(--bg-card); }
 
     .eco-eyebrow {
       font-family: 'JetBrains Mono', monospace;
@@ -948,9 +929,7 @@
       transition: all 0.3s ease;
     }
 
-    .connect-email:hover {
-      border-color: var(--green);
-    }
+    .connect-email:hover { border-color: var(--green); }
 
     .connect-links {
       display: flex;
@@ -1106,12 +1085,12 @@
   <!-- Infrastructure -->
   <section class="infra" id="infra">
     <div class="infra-inner">
-      <div >
+      <div class="reveal">
         <div class="section-label">Infrastructure</div>
         <h2>The Workbench</h2>
         <p class="infra-sub">Greenbaum Labs is the workshop. These are the other rooms: three machines doing the quiet, unglamorous work of running local models, agents, and diagnostics.</p>
       </div>
-      <div class="infra-grid">
+      <div class="infra-grid reveal">
         <div class="infra-node">
           <div class="node-status"></div>
           <div class="node-type">Compute</div>
@@ -1146,7 +1125,7 @@
           </div>
         </div>
       </div>
-      <div class="topo">
+      <div class="topo reveal">
 <span class="p">  ┌─────────────────────────────────────────────────────────┐</span>
 <span class="p">  │</span>  <span class="g">GREENBAUM LABS</span> · Network Topology                       <span class="p">│</span>
 <span class="p">  ├─────────────────────────────────────────────────────────┤</span>
@@ -1174,13 +1153,13 @@
   <!-- Projects -->
   <section class="projects" id="projects">
     <div class="projects-inner">
-      <div >
+      <div class="reveal">
         <div class="section-label">Projects</div>
         <h2>What's on the bench.</h2>
         <p class="projects-sub">Not everything here is meant to ship. Some projects exist to test an idea, learn a constraint, or solve a problem for one person. The ones that matter tend to stay. Some projects are tools. Some are experiments. Not all are meant to scale.</p>
       </div>
 
-      <div class="project-list">
+      <div class="project-list reveal">
         
         <div class="project">
           <div class="project-id">GL-001</div>
@@ -1277,12 +1256,12 @@
   <!-- Instruments -->
   <section class="instruments" id="instruments">
     <div class="instruments-inner">
-      <div>
+      <div class="reveal">
         <div class="section-label">~/instruments</div>
         <h2>Diagnostic tools. Live.</h2>
         <p class="instruments-explainer">Most organizations don't lack information. They lack shared meaning. Truth drifts from authority. Authority drifts from continuity. People absorb the gap. These seven instruments surface where that absorption is happening, name the structural conditions causing it, and record what changes when someone acts. They observe, summarize, and suggest. They do not decide.</p>
       </div>
-      <div class="instruments-grid">
+      <div class="instruments-grid reveal">
         <a href="/tools/fm-scanner.html" class="instrument" data-layer="failure">
           <span class="instrument-num">001</span>
           <div class="instrument-main">
@@ -1340,7 +1319,7 @@
           <span class="instrument-arrow">→</span>
         </a>
       </div>
-      <div class="instruments-footer">
+      <div class="instruments-footer reveal">
         <span class="instruments-quote">"Tools that see without deciding."</span>
         <a href="/field.html" class="instruments-field-link">Orientation: The Field</a>
         <span class="instruments-ar">AR-001 Compliant</span>
@@ -1351,11 +1330,11 @@
   <!-- Philosophy -->
   <section class="philosophy" id="philosophy">
     <div class="philosophy-inner">
-      <div >
+      <div class="reveal">
         <div class="section-label">Operating Principles</div>
         <h2>How the lab works.</h2>
       </div>
-      <div class="principles">
+      <div class="principles reveal">
         <div class="principle">
           <div class="principle-num">01</div>
           <div class="principle-text"><strong>Own the compute.</strong> Local inference on local hardware. The DGX isn't a luxury, it's a design constraint. When you control the infrastructure, you control the dependencies.</div>
@@ -1383,12 +1362,12 @@
   <!-- Ecosystem -->
   <section class="ecosystem" id="ecosystem">
     <div class="eco-inner">
-      <div >
+      <div class="reveal">
         <div class="section-label">The Ecosystem</div>
         <h2>Where this fits.</h2>
         <p class="eco-sub">Greenbaum Labs is the workshop. These are the other rooms.</p>
       </div>
-      <div class="eco-grid">
+      <div class="eco-grid reveal">
         <a href="https://justingreenbaum.com" class="eco-card" target="_blank">
           <div class="eco-eyebrow">The Thesis</div>
           <div class="eco-name">Justin Greenbaum</div>
@@ -1419,7 +1398,7 @@
 
   <!-- Connect -->
   <section class="connect" id="connect">
-    <div >
+    <div class="reveal">
       <div class="section-label" style="justify-content: center;">~/connect</div>
       <h2>Open garage door.</h2>
       <p>I've spent most of my career close to operations, risk, and workflows. Greenbaum Labs is where I test what happens when you give that kind of work a small, stubborn AI workshop instead of another slide deck.</p>
@@ -1443,11 +1422,22 @@
     </div>
   </footer>
 
-  <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+  <script>
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 80);
     });
 
     const reveals = document.querySelectorAll('.reveal');
-  
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => obs.observe(el));
+  </script>
+</body>
+</html>
