@@ -1,0 +1,949 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coherence: A Diagnostic System for Structural Failure | Justin R. Greenbaum</title>
+  <meta name="description" content="Coherence is a diagnostic and operating system for identifying, naming, and correcting structural failure in human systems. Learn the framework for organizational diagnosis, decision infrastructure, and pattern recognition that preserves truth, authority, and continuity.">
+  <meta name="keywords" content="coherence, organizational diagnosis, structural failure, decision infrastructure, system failure, pattern recognition, responsible AI, AI governance, organizational structure, diagnostic framework, failure modes, authority continuity">
+  <meta name="author" content="Justin R. Greenbaum">
+  <link rel="canonical" href="https://justingreenbaum.com/coherence-deep">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://justingreenbaum.com/coherence">
+  <meta property="og:title" content="Coherence: A Diagnostic System for Structural Failure">
+  <meta property="og:description" content="The diagnostic framework for identifying structural failure in human systems before it metastasizes into exhaustion, reputational damage, or systemic collapse.">
+  <meta property="og:image" content="https://justingreenbaum.com/og-image.jpg">
+  <meta property="og:site_name" content="Justin R. Greenbaum">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://justingreenbaum.com/coherence">
+  <meta name="twitter:title" content="Coherence: A Diagnostic System for Structural Failure">
+  <meta name="twitter:description" content="The diagnostic framework for identifying structural failure in human systems before it metastasizes.">
+  <meta name="twitter:image" content="https://justingreenbaum.com/og-image.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Coherence: A Diagnostic System for Structural Failure",
+    "description": "Coherence is a diagnostic and operating system for identifying, naming, and correcting structural failure in human systems through the framework of Truth, Authority, and Continuity.",
+    "author": {
+      "@type": "Person",
+      "@id": "https://justingreenbaum.com/#person",
+      "name": "Justin R. Greenbaum",
+      "url": "https://justingreenbaum.com"
+    },
+    "publisher": {
+      "@type": "Person",
+      "@id": "https://justingreenbaum.com/#person"
+    },
+    "datePublished": "2026-02-10",
+    "dateModified": "2026-02-10",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://justingreenbaum.com/coherence"
+    },
+    "keywords": "coherence, organizational diagnosis, structural failure, decision infrastructure, system failure, pattern recognition, responsible AI, failure modes",
+    "about": [
+      {
+        "@type": "Thing",
+        "name": "Organizational Diagnosis"
+      },
+      {
+        "@type": "Thing",
+        "name": "Decision Infrastructure"
+      },
+      {
+        "@type": "Thing",
+        "name": "Structural Failure"
+      }
+    ]
+  }
+  </script>
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://justingreenbaum.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Coherence",
+        "item": "https://justingreenbaum.com/coherence"
+      }
+    ]
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--text-dim) var(--bg-primary);
+    }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Film grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-brand {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .nav-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a.active { color: var(--accent); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 101;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--text-primary);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    /* Hero */
+    .hero {
+      min-height: 60vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 3rem 6rem;
+      margin-top: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(201, 168, 76, 0.03), transparent),
+        var(--bg-primary);
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      max-width: 900px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.3s;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      line-height: 1.15;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.5s;
+    }
+
+    .hero-sub {
+      font-size: 1rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      max-width: 620px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.7s;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Section utilities */
+    section {
+      padding: 6rem 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    section:nth-child(even) {
+      background: var(--bg-secondary);
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+    }
+
+    .section-label::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--text-dim);
+    }
+
+    .section-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    .section-inner.wide {
+      max-width: 1200px;
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.5rem;
+      line-height: 1.3;
+      margin-top: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--text-primary);
+    }
+
+    p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    p strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    ul {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    ul li {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    ul li::before {
+      content: '';
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--accent);
+      margin-top: 0.7rem;
+      flex-shrink: 0;
+    }
+
+    /* Triangle visual */
+    .triangle-visual {
+      padding: 3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      margin: 3rem 0;
+    }
+
+    .triangle-container {
+      position: relative;
+      width: 320px;
+      height: 280px;
+      margin: 0 auto;
+    }
+
+    .vertex-label {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .vertex-truth { color: var(--accent); top: -25px; left: 50%; transform: translateX(-50%); }
+    .vertex-authority { color: var(--text-dim); bottom: -25px; left: 10px; }
+    .vertex-continuity { color: var(--text-secondary); bottom: -25px; right: 10px; }
+
+    .triangle-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 3rem 0;
+    }
+
+    .triangle-card {
+      background: var(--bg-card);
+      padding: 2rem 1.5rem;
+      border-left: 2px solid var(--text-dim);
+      transition: all 0.3s ease;
+    }
+
+    .triangle-card:hover { background: var(--bg-elevated); }
+    .triangle-card.truth { border-left-color: var(--accent); }
+    .triangle-card.continuity { border-left-color: var(--text-secondary); }
+
+    .triangle-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      margin-bottom: 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .triangle-card.truth h4 { color: var(--accent); }
+
+    .triangle-card p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* Definition box */
+    .definition-box {
+      background: var(--bg-card);
+      border-left: 3px solid var(--accent);
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .definition-box h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .definition-box p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    /* Principle box */
+    .principle-box {
+      background: rgba(201, 168, 76, 0.08);
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      padding: 2.5rem;
+      margin: 3rem 0;
+      text-align: center;
+    }
+
+    .principle-box p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-primary);
+      margin: 0;
+    }
+
+    /* Example link */
+    .example-link {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      padding: 0.8rem 1.8rem;
+      border: 1px solid rgba(201, 168, 76, 0.3);
+      margin-top: 1.5rem;
+      transition: all 0.3s ease;
+    }
+
+    .example-link:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    /* CTA Section */
+    .cta-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      margin: 4rem 0;
+      text-align: center;
+    }
+
+    .cta-section h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin: 0 0 1.5rem 0;
+      color: var(--text-primary);
+    }
+
+    .cta-section p {
+      margin-bottom: 2rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .cta-button {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg-primary);
+      background: var(--accent);
+      text-decoration: none;
+      padding: 0.9rem 1.8rem;
+      border: 1px solid var(--accent);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .cta-button.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .cta-button.secondary:hover {
+      background: var(--accent-dim);
+    }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      background: var(--bg-primary);
+    }
+
+    .footer-l, .footer-r {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .footer-r a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-r a:hover { color: var(--accent); }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-primary);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 4rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.active { display: flex; }
+      section { padding: 4rem 1.5rem; }
+      .hero { padding: 0 1.5rem 4rem; }
+      .triangle-cards { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-brand">
+      <span class="nav-name">Justin R. Greenbaum</span>
+      <span class="nav-role">Decision · Responsibility · Infrastructure</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/coherence" class="active">Coherence</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">Diagnostic Infrastructure</p>
+      <h1>Coherence</h1>
+      <p class="hero-sub">A diagnostic and operating system for identifying, naming, and correcting structural failure in human systems.</p>
+    </div>
+  </div>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">What Coherence Is</div>
+
+      <p>Coherence is a diagnostic and operating system for identifying, naming, and correcting structural failure in human systems.</p>
+
+      <p>It exists to surface truth, restore authority, and preserve continuity over time.</p>
+
+      <p>Coherence is not a productivity tool. It is not coaching. It is not therapy. It is not vibes.</p>
+
+      <p>It is a <strong>pattern-recognition system</strong> designed for environments where ambiguity is expensive and failure has real consequences.</p>
+
+      <div class="definition-box">
+        <h4>Core Objective</h4>
+        <p>The objective of Coherence is to reduce corrective effort by making structural dysfunction visible early, before it metastasizes into human exhaustion, reputational damage, or systemic collapse.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">The Problem</div>
+      <h2>Why Structural Failure Is Invisible</h2>
+
+      <p>Organizations fail in predictable ways. Authority diffuses. Narratives shift without acknowledgment. Reality becomes progressively harder to name. These breakdowns are not mysterious, but they are often invisible until the cost becomes undeniable.</p>
+
+      <p>Traditional problem-solving treats symptoms. A missed deadline becomes a project management issue. A misalignment becomes a communication problem. A recurring breakdown becomes someone's fault.</p>
+
+      <p>But beneath these visible failures lies structure. Authority that doesn't match responsibility. Commitments that dissolve without record. Truth that cannot be spoken without career risk.</p>
+
+      <p>Coherence treats these as <strong>structural failures</strong>, not performance failures. The system itself is producing the breakdown. No amount of individual effort, motivation, or communication training can fix what is broken at the level of design.</p>
+
+      <p>This is especially critical in <strong>decision infrastructure and AI governance</strong> contexts, where structural ambiguity compounds across layers of systems, models, and human oversight. When responsibility for AI system outcomes is diffuse, when the truth about model behavior cannot be named clearly, when commitments about safety or fairness evaporate between versions—these are not edge cases. They are structural failures that Coherence is built to detect and correct.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">The Framework</div>
+      <h2>The Coherence Triangle</h2>
+
+      <p>All Coherence diagnostics are grounded in three vertices. These are not aspirations. They are structural requirements for any system that must operate reliably over time.</p>
+
+      <div class="triangle-visual">
+        <div class="triangle-container">
+          <svg viewBox="0 0 320 260" style="width: 100%; height: 100%;">
+            <defs>
+              <linearGradient id="edge-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#c9a84c"/>
+                <stop offset="100%" style="stop-color:#4a4744"/>
+              </linearGradient>
+              <linearGradient id="edge-gray" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#4a4744"/>
+                <stop offset="100%" style="stop-color:#8a8580"/>
+              </linearGradient>
+              <linearGradient id="edge-return" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#8a8580"/>
+                <stop offset="100%" style="stop-color:#c9a84c"/>
+              </linearGradient>
+            </defs>
+            <line x1="160" y1="30" x2="40" y2="220" stroke="url(#edge-gold)" stroke-width="2"/>
+            <line x1="40" y1="220" x2="280" y2="220" stroke="url(#edge-gray)" stroke-width="2"/>
+            <line x1="280" y1="220" x2="160" y2="30" stroke="url(#edge-return)" stroke-width="2"/>
+            <circle cx="160" cy="30" r="10" fill="#c9a84c"/>
+            <circle cx="40" cy="220" r="8" fill="none" stroke="#4a4744" stroke-width="2"/>
+            <circle cx="280" cy="220" r="8" fill="none" stroke="#8a8580" stroke-width="2"/>
+          </svg>
+          <span class="vertex-label vertex-truth">Truth</span>
+          <span class="vertex-label vertex-authority">Authority</span>
+          <span class="vertex-label vertex-continuity">Continuity</span>
+        </div>
+      </div>
+
+      <div class="triangle-cards">
+        <div class="triangle-card truth">
+          <h4>Truth</h4>
+          <p>Is reality being accurately perceived and spoken? Truth measures whether the system can see what is actually happening and whether participants can name it without distortion, fear, or political cost.</p>
+        </div>
+        <div class="triangle-card">
+          <h4>Authority</h4>
+          <p>Does decision-making power match responsibility? Authority measures whether the people with the power to decide are the same people who bear the consequences.</p>
+        </div>
+        <div class="triangle-card continuity">
+          <h4>Continuity</h4>
+          <p>Are commitments, decisions, and narratives stable over time? Continuity measures whether the system remembers what it decided and why.</p>
+        </div>
+      </div>
+
+      <p>Every diagnostic must score all three vertices and identify which is most stressed. Findings are tied back to structure, not personality. If a response does not reference the Triangle, it is incomplete.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">Diagnostic Language</div>
+      <h2>Failure Modes and Field Notes</h2>
+
+      <p>Coherence uses two diagnostic primitives to make structural failure visible and actionable.</p>
+
+      <h3>Failure Modes (FM)</h3>
+
+      <p>Failure Modes are structural breakdowns that explain why a system fails. They are descriptive, not accusatory. They apply to systems, not people. They are finite and enumerated.</p>
+
+      <p>Each Failure Mode has a name, a definition, a structural signature, and observable symptoms. Once named, a Failure Mode can be tracked, measured, and corrected at the structural level.</p>
+
+      <p>Example Failure Modes include:</p>
+
+      <ul>
+        <li><strong>Authority-Responsibility Mismatch</strong> — Decision power and accountability are held by different actors, creating a system where no one can act effectively and no one bears full consequences.</li>
+        <li><strong>Structural Amnesia</strong> — The system loses memory of why decisions were made, causing repeated failures and inability to preserve institutional knowledge.</li>
+        <li><strong>Narrative Drift</strong> — Official explanations of what the system is doing diverge progressively from operational reality, eroding trust and strategic coherence.</li>
+        <li><strong>Dilution Cascades</strong> — Precision and accountability degrade across handoffs, meetings, or reporting layers, turning clear directives into ambient noise.</li>
+      </ul>
+
+      <p><a href="https://writing.justingreenbaum.com" class="example-link">Explore the Failure Mode Library →</a></p>
+
+      <h3>Functional Field Notes (FFN)</h3>
+
+      <p>Functional Field Notes are early signals that indicate a Failure Mode is forming. They are observational, not prescriptive. They surface before collapse. They exist to enable early intervention.</p>
+
+      <p>FFNs are weak signals captured in the moment: a repeated phrasing in meetings, a gap in who speaks, a decision that reverses without acknowledgment. Individually, they may seem minor. Longitudinally, they reveal pattern.</p>
+
+      <p>No new Failure Mode or Field Note may be invented without explicit canon update. Discipline in naming prevents diagnostic drift.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">Permission Boundaries</div>
+      <h2>Identity Modes</h2>
+
+      <p>Coherence recognizes that structural failure often emerges from <strong>mode violations</strong>—situations where someone operates outside the permissions granted by their role or context.</p>
+
+      <p>There are four identity modes. These are not personality types. They are permission boundaries.</p>
+
+      <ul>
+        <li><strong>Inhabitant</strong> — Operate within the system as-is. No redesign authority.</li>
+        <li><strong>Alchemist</strong> — Explore and test ideas. No commitment authority.</li>
+        <li><strong>Architect</strong> — Design or modify structure. No execution authority until design is approved.</li>
+        <li><strong>Executor</strong> — Act decisively within an approved structure. No redesign authority.</li>
+      </ul>
+
+      <p>Every Coherence recommendation identifies the detected mode and the appropriate mode for the situation. Mode bleed—acting as an Architect when you have Inhabitant permissions, or behaving as an Executor when you should be in Alchemist mode—is itself a coherence failure.</p>
+
+      <p>This framework is especially relevant in AI governance and decision infrastructure, where ambiguity about who has authority to modify system behavior, who is experimenting versus deploying, and who is accountable for outcomes creates catastrophic vulnerabilities.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">In Practice</div>
+      <h2>How Coherence Works</h2>
+
+      <h3>Evidence Discipline</h3>
+
+      <p>Coherence does not speculate. All claims must be supported by at least one of the following:</p>
+
+      <ul>
+        <li>Observable behavior</li>
+        <li>Repeated pattern occurrence</li>
+        <li>Structural constraint</li>
+        <li>Historical continuity (or rupture)</li>
+      </ul>
+
+      <p>Anecdotes without pattern recognition are flagged as weak signal. If information is insufficient, Coherence says so. Silence is preferable to confident nonsense.</p>
+
+      <h3>Memory and Continuity as Infrastructure</h3>
+
+      <p>Coherence treats memory as infrastructure, not accident. Decisions must retain rationale, not just outcome. Diagnostics are indexed, not forgotten. Repeated patterns are tracked longitudinally.</p>
+
+      <p>If the system forgets why it decided something, that is Structural Amnesia, not progress.</p>
+
+      <h3>Output Requirements</h3>
+
+      <p>Every full Coherence diagnostic includes, at minimum:</p>
+
+      <ul>
+        <li>Situation Summary</li>
+        <li>Triangle Assessment (Truth / Authority / Continuity scores)</li>
+        <li>Detected Failure Modes (with confidence levels)</li>
+        <li>Field Note Signals</li>
+        <li>Overall Coherence Score</li>
+        <li>Recommended Actions (Immediate, Structural, Monitor)</li>
+        <li>Watch List (indicators of improvement or decay)</li>
+      </ul>
+
+      <p>Anything less is a partial diagnostic and is labeled as such.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">Who This Is For</div>
+      <h2>Coherence Is Built For</h2>
+
+      <h3>Executives and Operators</h3>
+
+      <p>If you are responsible for systems that keep breaking in ways that feel familiar, Coherence is built for you. When the same failure occurs across different teams, when solutions don't stick, when you suspect the problem is not the people but the structure beneath them—Coherence provides the diagnostic language to make that visible and correctable.</p>
+
+      <h3>Strategic Advisors and Consultants</h3>
+
+      <p>If your work involves diagnosing organizational dysfunction, Coherence offers a rigorous alternative to vibes-based assessment. The Triangle provides a durable framework. Failure Modes provide repeatable diagnostic language. The evidence discipline prevents the diagnostic itself from becoming a source of ambiguity.</p>
+
+      <h3>AI Governance and Decision Infrastructure Practitioners</h3>
+
+      <p>If you work in responsible AI, algorithmic accountability, or decision system design, Coherence translates cleanly into your domain. AI systems inherit the structural failures of the organizations that build and deploy them. Authority-Responsibility Mismatch in model ownership, Narrative Drift in safety commitments, Structural Amnesia in incident response—these are not metaphors. They are load-bearing risks.</p>
+
+      <p>Coherence is designed for environments where failure has consequences and where the cost of not seeing clearly is compounding.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="cta-section reveal">
+        <h3>Work With Coherence</h3>
+        <p>There are three ways to engage with the Coherence framework:</p>
+
+        <div class="cta-buttons">
+          <a href="https://writing.justingreenbaum.com" class="cta-button" target="_blank">Read the Failure Mode Library</a>
+          <a href="https://writing.justingreenbaum.com/subscribe" class="cta-button secondary" target="_blank">Subscribe for Updates</a>
+          <a href="mailto:justin@greenbaumlabs.com" class="cta-button secondary">Contact for Diagnostic Work</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">Governing Principle</div>
+
+      <div class="principle-box">
+        <p>Coherence is preserved by saying less, not more. If an output increases noise, diffuses responsibility, or weakens continuity, it violates the system—even if it sounds helpful.</p>
+      </div>
+
+      <p>This principle governs how Coherence operates. Precision over persuasion. Clarity over comfort. Restraint over verbosity.</p>
+
+      <p>No hype. No "insights" without evidence. No metaphors unless they clarify structure.</p>
+
+      <p>If language sounds inspirational but cannot be operationalized, it is wrong.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner reveal">
+      <div class="section-label">Learn More</div>
+      <h2>About This Work</h2>
+
+      <p>The Coherence framework is developed and maintained by <a href="/" style="color: var(--accent); text-decoration: none;">Justin R. Greenbaum</a>, founder of <a href="https://greenbaumlabs.com" style="color: var(--accent); text-decoration: none;" target="_blank">Greenbaum Labs</a>. The Failure Mode library is published regularly on <a href="https://writing.justingreenbaum.com" style="color: var(--accent); text-decoration: none;" target="_blank">Substack</a>, where each mode is explored in depth with structural signatures, field notes, and diagnostic guidance.</p>
+
+      <p>For diagnostic engagements, organizational assessments, or questions about applying Coherence to decision infrastructure and AI governance contexts, contact <a href="mailto:justin@greenbaumlabs.com" style="color: var(--accent); text-decoration: none;">justin@greenbaumlabs.com</a>.</p>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-l">© 2026 Justin R. Greenbaum — All Rights Reserved</div>
+    <div class="footer-r">
+      <a href="/">Home</a> ·
+      <a href="https://writing.justingreenbaum.com" target="_blank">Writing</a> ·
+      <a href="https://greenbaumlabs.com" target="_blank">Labs</a> ·
+      <a href="https://linkedin.com/in/justingreenbaum" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => obs.observe(el));
+
+    // Smooth scroll for anchor links
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
