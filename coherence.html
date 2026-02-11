@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coherence — Justin R. Greenbaum</title>
+  <meta name="description" content="How the work moves through the world. A diagnostic system for making structural failure visible before it becomes operational crisis.">
+  <link rel="canonical" href="https://justingreenbaum.com/coherence">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://justingreenbaum.com/coherence">
+  <meta property="og:title" content="Coherence — Justin R. Greenbaum">
+  <meta property="og:description" content="How the work moves through the world. A diagnostic system for making structural failure visible before it becomes operational crisis.">
+  <meta property="og:image" content="https://justingreenbaum.com/og-image.jpg">
+  <meta property="og:site_name" content="Justin R. Greenbaum">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://justingreenbaum.com/coherence">
+  <meta name="twitter:title" content="Coherence — Justin R. Greenbaum">
+  <meta name="twitter:description" content="How the work moves through the world. A diagnostic system for making structural failure visible before it becomes operational crisis.">
+  <meta name="twitter:image" content="https://justingreenbaum.com/og-image.jpg">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Film grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* Nav */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 10, 10, 0.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+
+    .nav-brand {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .nav-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a.active { color: var(--accent); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 101;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--text-primary);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(4px, 4px);
+    }
+
+    .nav-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .nav-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(4px, -4px);
+    }
+
+    /* Header */
+    header {
+      padding: 10rem 3rem 4rem;
+      text-align: center;
+    }
+
+    .wordmark {
+      display: flex;
+      justify-content: center;
+      gap: 0.18em;
+      letter-spacing: 0.25em;
+    }
+
+    .wordmark-letter {
+      display: inline-block;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(3rem, 8vw, 5rem);
+      opacity: 0;
+      color: #262626;
+      animation: letterEmerge 2.5s ease-out forwards;
+    }
+
+    @keyframes letterEmerge {
+      0% { opacity: 0.1; color: #1a1a1a; transform: translateY(2px); }
+      30% { opacity: 0.25; color: #333333; }
+      60% { opacity: 0.5; color: #666666; }
+      85% { opacity: 0.8; color: #b8860b; }
+      100% { opacity: 1; color: var(--accent); transform: translateY(0); }
+    }
+
+    .wordmark-letter:nth-child(1) { animation-delay: 0s; }
+    .wordmark-letter:nth-child(2) { animation-delay: 0.12s; }
+    .wordmark-letter:nth-child(3) { animation-delay: 0.24s; }
+    .wordmark-letter:nth-child(4) { animation-delay: 0.36s; }
+    .wordmark-letter:nth-child(5) { animation-delay: 0.48s; }
+    .wordmark-letter:nth-child(6) { animation-delay: 0.60s; }
+    .wordmark-letter:nth-child(7) { animation-delay: 0.72s; }
+    .wordmark-letter:nth-child(8) { animation-delay: 0.84s; }
+    .wordmark-letter:nth-child(9) { animation-delay: 0.96s; }
+
+    .subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 2rem;
+      opacity: 0;
+      animation: fadeIn 1s ease-out 2.2s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 0.5; }
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0 3rem 3rem;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.7rem 1.5rem;
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .tab:hover {
+      border-color: var(--border-hover);
+      color: var(--text-primary);
+    }
+
+    .tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: var(--bg-primary);
+    }
+
+    /* Content */
+    main {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 3rem 6rem;
+    }
+
+    .fade-in {
+      animation: fadeUp 0.4s ease;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Flow nodes */
+    .node {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem 2rem;
+      margin-bottom: 0.75rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .node:hover {
+      transform: translateY(-2px);
+      border-color: var(--border-hover);
+    }
+
+    .node.accent {
+      background: rgba(201, 168, 76, 0.08);
+      border-color: rgba(201, 168, 76, 0.3);
+      box-shadow: 0 0 30px rgba(201, 168, 76, 0.1);
+    }
+
+    .node-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .node-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-weight: 400;
+      color: var(--text-primary);
+    }
+
+    .node.accent .node-title { color: var(--accent); }
+
+    .node-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    .node-toggle {
+      font-size: 1.2rem;
+      color: var(--text-dim);
+    }
+
+    .node-content {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .node-desc {
+      font-size: 0.9rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+
+    .node-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .node-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      padding: 0.4rem 0.8rem;
+      background: var(--bg-primary);
+      border: 1px solid var(--border);
+      color: var(--text-dim);
+    }
+
+    .connector {
+      display: flex;
+      justify-content: center;
+      padding: 0.25rem 0;
+    }
+
+    .connector-line {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+
+    /* Quote block */
+    .quote-block {
+      margin-top: 3rem;
+      padding: 2.5rem;
+      background: rgba(201, 168, 76, 0.05);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      text-align: center;
+      box-shadow: 0 0 30px rgba(201, 168, 76, 0.08);
+    }
+
+    .quote-block p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-style: italic;
+      line-height: 1.7;
+      color: var(--text-primary);
+    }
+
+    .loop-note {
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 2rem;
+    }
+
+    /* Arc timeline */
+    .arc-item {
+      display: flex;
+      gap: 1.5rem;
+      padding-bottom: 2rem;
+    }
+
+    .arc-marker {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .arc-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .arc-dot.current {
+      background: var(--accent);
+      box-shadow: 0 0 15px rgba(201, 168, 76, 0.4);
+    }
+
+    .arc-line {
+      width: 1px;
+      flex: 1;
+      background: var(--border);
+      margin-top: 0.5rem;
+    }
+
+    .arc-content {
+      flex: 1;
+      padding-bottom: 1rem;
+    }
+
+    .arc-year {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    .arc-label {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-top: 0.25rem;
+    }
+
+    .arc-item.current .arc-label { color: var(--accent); }
+
+    .arc-desc {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+
+    .arc-takeaway {
+      margin-top: 2rem;
+      padding: 1.5rem 2rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+
+    .arc-takeaway h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+    }
+
+    .arc-takeaway p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    /* Triangle */
+    .triangle-visual {
+      padding: 2.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+
+    .triangle-container {
+      position: relative;
+      width: 280px;
+      height: 250px;
+      margin: 0 auto;
+    }
+
+    .vertex-label {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+    }
+
+    .vertex-truth { color: var(--accent); top: -25px; left: 50%; transform: translateX(-50%); }
+    .vertex-authority { color: var(--text-dim); bottom: -25px; left: 0; }
+    .vertex-continuity { color: var(--text-secondary); bottom: -25px; right: 0; }
+
+    .triangle-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .tri-card {
+      padding: 1.25rem;
+      background: var(--bg-card);
+      border-left: 2px solid var(--text-dim);
+    }
+
+    .tri-card.truth { border-left-color: var(--accent); }
+    .tri-card.continuity { border-left-color: var(--text-secondary); }
+
+    .tri-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1rem;
+      font-weight: 400;
+      margin-bottom: 0.5rem;
+    }
+
+    .tri-card.truth h4 { color: var(--accent); }
+
+    .tri-card p {
+      font-size: 0.75rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .triangle-note {
+      text-align: center;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-top: 2rem;
+    }
+
+    /* Diagnostic */
+    .diagnostic-sig {
+      padding: 1.5rem 2rem;
+      background: rgba(201, 168, 76, 0.06);
+      border: 1px solid rgba(201, 168, 76, 0.25);
+      margin-bottom: 2rem;
+      box-shadow: 0 0 20px rgba(201, 168, 76, 0.08);
+    }
+
+    .diagnostic-sig-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .diagnostic-sig p {
+      font-size: 1rem;
+      line-height: 1.7;
+      color: var(--accent);
+    }
+
+    .signal-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .signal-box {
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+    }
+
+    .signal-box h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .signal-box.modes h4 { color: var(--accent); }
+
+    .signal-list {
+      list-style: none;
+    }
+
+    .signal-list li {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      padding: 0.4rem 0;
+    }
+
+    .sig-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--text-dim);
+    }
+
+    .signal-box.modes .sig-dot { background: var(--accent); }
+
+    .signal-note {
+      font-size: 0.65rem;
+      font-style: italic;
+      color: var(--text-dim);
+      margin-top: 0.75rem;
+    }
+
+    .crosswalk-box {
+      padding: 1.5rem;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+    }
+
+    .crosswalk-box h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .crosswalk-row {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      padding: 0.4rem 0;
+    }
+
+    .crosswalk-row .from { color: var(--text-dim); }
+    .crosswalk-row .arrow { color: var(--text-dim); }
+    .crosswalk-row .to { color: var(--accent); }
+
+    /* Footer */
+    footer {
+      padding: 2.5rem 3rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: var(--bg-primary);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 4rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.active {
+        display: flex;
+      }
+      .nav-links li {
+        list-style: none;
+      }
+      .nav-links a {
+        font-size: 0.9rem;
+        letter-spacing: 0.2em;
+      }
+      header { padding: 8rem 1.5rem 3rem; }
+      .tabs { padding: 0 1.5rem 2rem; }
+      main { padding: 0 1.5rem 4rem; }
+      .triangle-cards { grid-template-columns: 1fr; }
+      .signal-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-brand">
+      <span class="nav-name">Justin R. Greenbaum</span>
+      <span class="nav-role">Decision · Responsibility · Infrastructure</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">About</a></li>
+      <li><a href="/coherence" class="active">Coherence</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <header>
+    <h1>
+      <span class="wordmark">
+        <span class="wordmark-letter">C</span>
+        <span class="wordmark-letter">o</span>
+        <span class="wordmark-letter">h</span>
+        <span class="wordmark-letter">e</span>
+        <span class="wordmark-letter">r</span>
+        <span class="wordmark-letter">e</span>
+        <span class="wordmark-letter">n</span>
+        <span class="wordmark-letter">c</span>
+        <span class="wordmark-letter">e</span>
+      </span>
+    </h1>
+    <p class="subtitle">How the work moves through the world</p>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" onclick="showView('flow')" id="tab-flow">Flow</button>
+    <button class="tab" onclick="showView('arc')" id="tab-arc">Arc</button>
+    <button class="tab" onclick="showView('triangle')" id="tab-triangle">Triangle</button>
+    <button class="tab" onclick="showView('diagnostic')" id="tab-diagnostic">Diagnostic</button>
+  </div>
+
+  <main id="content"></main>
+
+ <footer>
+    <p>Grounded in lived operating reality</p>
+    <p style="margin-top: 1rem;">
+      <a href="/coherence-deep" style="color: var(--accent); text-decoration: none; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.3s ease;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--accent)'">
+        Read the complete framework →
+      </a>
+    </p>
+  </footer>
+
+  <script>
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+
+    // Close menu when clicking a link
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    const flowNodes = [
+      {
+        id: 'practice',
+        label: 'Lived Practice',
+        subtitle: 'Operating Reality',
+        description: 'Real work. Leadership under pressure. Systems actually running. This is where truth originates.',
+        examples: ['Frontline operations', 'Escalation patterns', 'Decision bottlenecks', 'Signal loss']
+      },
+      {
+        id: 'presence',
+        label: 'Presence & Trust',
+        subtitle: 'Recognition',
+        description: 'Demonstrate attention. Show continuity. Establish safety. No teaching. No framework.',
+        examples: ['The Quiet Work', 'Recognition', 'Human moments']
+      },
+      {
+        id: 'language',
+        label: 'Shared Language',
+        subtitle: 'Alignment',
+        description: 'Name what people already recognize. Reduce ambiguity. Create alignment without instruction.',
+        examples: ['Coherence essays', 'Interpretive Drift', 'Authenticity over time']
+      },
+      {
+        id: 'observation',
+        label: 'Observation',
+        subtitle: 'Functional Field Notes',
+        description: 'Capture early signals. Notice drift before failure. Preserve ambiguity without forcing conclusions.',
+        examples: ['Signal Misread', 'Responsibility Compression', 'Meaning Drift']
+      },
+      {
+        id: 'diagnosis',
+        label: 'Diagnosis',
+        subtitle: 'Failure Modes',
+        description: 'Name repeatable breakdowns. Create durable reference language. Support leaders under pressure.',
+        examples: ['Responsibility Without Authority', 'Metric Shadowing', 'Escalation Theater'],
+        accent: true
+      },
+      {
+        id: 'orientation',
+        label: 'Orientation',
+        subtitle: 'Return',
+        description: 'The loop closes. Signals noticed. Language existed. Diagnosis available. No rediscovery.',
+        examples: ['Improved decisions', 'Pattern recognition', 'Shared vocabulary']
+      }
+    ];
+
+    const arcPhases = [
+      { year: '2005–2025', label: 'The Insider', desc: '20 years inside. Watching. Learning. Carrying weight without full authority.' },
+      { year: 'Aug 2025', label: 'The Transition', desc: 'Processing change. MIT Sloan AI. New direction forming.' },
+      { year: 'Dec 2025', label: 'Diagnostic Voice', desc: 'Functional Field Notes emerge. Systems thinking goes public.' },
+      { year: 'Jan 2026', label: 'Frame Crystallizes', desc: 'Authenticity over time. Coherence as cornerstone.' },
+      { year: 'Now', label: 'The Human Turn', desc: 'Presence alongside structure. The Quiet Work.', current: true }
+    ];
+
+    let activeNode = null;
+
+    function toggleNode(id) {
+      activeNode = activeNode === id ? null : id;
+      renderFlow();
+    }
+
+    function renderFlow() {
+      let html = '<div>';
+      flowNodes.forEach((node, index) => {
+        const isActive = activeNode === node.id;
+        html += `
+          <div class="node ${node.accent ? 'accent' : ''}" onclick="toggleNode('${node.id}')">
+            <div class="node-header">
+              <div>
+                <div class="node-title">${node.label}</div>
+                <div class="node-subtitle">${node.subtitle}</div>
+              </div>
+              <div class="node-toggle">${isActive ? '−' : '+'}</div>
+            </div>
+            ${isActive ? `
+              <div class="node-content fade-in">
+                <p class="node-desc">${node.description}</p>
+                <div class="node-tags">
+                  ${node.examples.map(ex => `<span class="node-tag">${ex}</span>`).join('')}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+          ${index < flowNodes.length - 1 ? '<div class="connector"><div class="connector-line"></div></div>' : ''}
+        `;
+      });
+      html += `
+        <div class="quote-block">
+          <p>"Coherence as the cornerstone.<br>Authenticity is continuity proven over time."</p>
+        </div>
+        <p class="loop-note">Orientation returns to practice.</p>
+      </div>`;
+      document.getElementById('content').innerHTML = html;
+    }
+
+    function renderArc() {
+      let html = '<div>';
+      arcPhases.forEach((phase, index) => {
+        html += `
+          <div class="arc-item ${phase.current ? 'current' : ''}">
+            <div class="arc-marker">
+              <div class="arc-dot ${phase.current ? 'current' : ''}"></div>
+              ${index < arcPhases.length - 1 ? '<div class="arc-line"></div>' : ''}
+            </div>
+            <div class="arc-content">
+              <span class="arc-year">${phase.year}</span>
+              <h3 class="arc-label">${phase.label}</h3>
+              <p class="arc-desc">${phase.desc}</p>
+            </div>
+          </div>
+        `;
+      });
+      document.getElementById('content').innerHTML = html;
+    }
+
+    function renderTriangle() {
+      document.getElementById('content').innerHTML = `
+        <div>
+          <div class="triangle-visual">
+            <div class="triangle-container">
+              <svg viewBox="0 0 280 240" style="width: 100%; height: 100%;">
+                <defs>
+                  <linearGradient id="edge-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" style="stop-color:#c9a84c"/>
+                    <stop offset="100%" style="stop-color:#4a4744"/>
+                  </linearGradient>
+                  <linearGradient id="edge-gray" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#4a4744"/>
+                    <stop offset="100%" style="stop-color:#8a8580"/>
+                  </linearGradient>
+                  <linearGradient id="edge-return" x1="100%" y1="100%" x2="0%" y2="0%">
+                    <stop offset="0%" style="stop-color:#8a8580"/>
+                    <stop offset="100%" style="stop-color:#c9a84c"/>
+                  </linearGradient>
+                </defs>
+                <line x1="140" y1="30" x2="30" y2="210" stroke="url(#edge-gold)" stroke-width="2"/>
+                <line x1="30" y1="210" x2="250" y2="210" stroke="url(#edge-gray)" stroke-width="2"/>
+                <line x1="250" y1="210" x2="140" y2="30" stroke="url(#edge-return)" stroke-width="2"/>
+                <circle cx="140" cy="30" r="10" fill="#c9a84c"/>
+                <circle cx="30" cy="210" r="8" fill="none" stroke="#4a4744" stroke-width="2"/>
+                <circle cx="250" cy="210" r="8" fill="none" stroke="#8a8580" stroke-width="2"/>
+              </svg>
+              <span class="vertex-label vertex-truth">Truth</span>
+              <span class="vertex-label vertex-authority">Authority</span>
+              <span class="vertex-label vertex-continuity">Continuity</span>
+            </div>
+          </div>
+          <div class="triangle-cards">
+            <div class="tri-card truth">
+              <h4>Truth</h4>
+              <p>What IS, not what we wish. The signal that illuminates.</p>
+            </div>
+            <div class="tri-card">
+              <h4>Authority</h4>
+              <p>Earned weight, not positional. Built through showing up.</p>
+            </div>
+            <div class="tri-card continuity">
+              <h4>Continuity</h4>
+              <p>Authenticity proven over time. The through-line.</p>
+            </div>
+          </div>
+          <p class="triangle-note">The triangle holds when all three vertices are honest.</p>
+        </div>
+      `;
+    }
+
+    function renderDiagnostic() {
+      document.getElementById('content').innerHTML = `
+        <div>
+          <div class="diagnostic-sig">
+            <p class="diagnostic-sig-label">Diagnostic Signature</p>
+            <p>Responsibility assigned without decision rights, combined with signal distortion and meaning drift.</p>
+          </div>
+          <div class="signal-grid">
+            <div class="signal-box">
+              <h4>Functional Field Notes · Early Signals</h4>
+              <ul class="signal-list">
+                <li><span class="sig-dot"></span>Signal Misread</li>
+                <li><span class="sig-dot"></span>Responsibility Compression</li>
+                <li><span class="sig-dot"></span>Context Collapse</li>
+                <li><span class="sig-dot"></span>Meaning Drift</li>
+              </ul>
+              <p class="signal-note">Notice before it breaks.</p>
+            </div>
+            <div class="signal-box modes">
+              <h4>Failure Modes · Breakdowns</h4>
+              <ul class="signal-list">
+                <li><span class="sig-dot"></span>Responsibility Without Authority</li>
+                <li><span class="sig-dot"></span>Metric Shadowing</li>
+                <li><span class="sig-dot"></span>Escalation Theater</li>
+                <li><span class="sig-dot"></span>Decision Displacement</li>
+              </ul>
+              <p class="signal-note">Name the pattern.</p>
+            </div>
+          </div>
+          <div class="crosswalk-box">
+            <h4>Crosswalk</h4>
+            <div class="crosswalk-row"><span class="from">Signal Misread</span><span class="arrow">→</span><span class="to">Metric Shadowing</span></div>
+            <div class="crosswalk-row"><span class="from">Responsibility Compression</span><span class="arrow">→</span><span class="to">Responsibility Without Authority</span></div>
+            <div class="crosswalk-row"><span class="from">Context Collapse</span><span class="arrow">→</span><span class="to">Decision Displacement</span></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function showView(view) {
+      activeNode = null;
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      document.getElementById('tab-' + view).classList.add('active');
+      if (view === 'flow') renderFlow();
+      else if (view === 'arc') renderArc();
+      else if (view === 'triangle') renderTriangle();
+      else if (view === 'diagnostic') renderDiagnostic();
+    }
+
+    showView('flow');
+  </script>
+
+</body>
+</html>
