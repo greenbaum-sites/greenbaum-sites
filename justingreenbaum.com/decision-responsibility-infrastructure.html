@@ -3,39 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Decision & Responsibility Infrastructure: A Field Definition | Justin R. Greenbaum</title>
-  <meta name="description" content="Decision & Responsibility Infrastructure is the discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.">
+  <title>Decision & Responsibility Infrastructure™: A Field Definition | Justin R. Greenbaum</title>
+  <meta name="description" content="Decision & Responsibility Infrastructure™ is the discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.">
   <meta name="keywords" content="decision infrastructure, responsibility infrastructure, decision rights, accountability architecture, organizational structure, AI governance, responsible AI, decision-making systems, authority continuity, structural failure">
   <meta name="author" content="Justin R. Greenbaum">
   <link rel="canonical" href="https://justingreenbaum.com/decision-responsibility-infrastructure.html">
-
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:url" content="https://justingreenbaum.com/decision-responsibility-infrastructure.html">
-  <meta property="og:title" content="Decision & Responsibility Infrastructure: A Field Definition">
+  <meta property="og:title" content="Decision & Responsibility Infrastructure™: A Field Definition">
   <meta property="og:description" content="The discipline of designing the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes.">
   <meta property="og:image" content="https://justingreenbaum.com/og-image.jpg">
   <meta property="og:site_name" content="Justin R. Greenbaum">
-
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://justingreenbaum.com/decision-responsibility-infrastructure.html">
-  <meta name="twitter:title" content="Decision & Responsibility Infrastructure: A Field Definition">
+  <meta name="twitter:title" content="Decision & Responsibility Infrastructure™: A Field Definition">
   <meta name="twitter:description" content="The discipline of designing the structural conditions that determine whether organizations can make good decisions and hold themselves accountable.">
   <meta name="twitter:image" content="https://justingreenbaum.com/og-image.jpg">
-
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg">
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
   <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Decision & Responsibility Infrastructure: A Field Definition",
-    "description": "Decision & Responsibility Infrastructure is the discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.",
+    "headline": "Decision & Responsibility Infrastructure™: A Field Definition",
+    "description": "Decision & Responsibility Infrastructure™ is the discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.",
     "author": {
       "@type": "Person",
       "@id": "https://justingreenbaum.com/#person",
@@ -69,7 +65,6 @@
     ]
   }
   </script>
-
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -84,17 +79,15 @@
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Decision & Responsibility Infrastructure",
+        "name": "Decision & Responsibility Infrastructure™",
         "item": "https://justingreenbaum.com/decision-responsibility-infrastructure.html"
       }
     ]
   }
   </script>
-
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
-
   <style>
     :root {
       --bg-primary: #0a0a0a;
@@ -109,15 +102,12 @@
       --border: rgba(240, 236, 228, 0.06);
       --border-hover: rgba(240, 236, 228, 0.12);
     }
-
     * { margin: 0; padding: 0; box-sizing: border-box; }
-
     html {
       scroll-behavior: smooth;
       scrollbar-width: thin;
       scrollbar-color: var(--text-dim) var(--bg-primary);
     }
-
     body {
       font-family: 'Instrument Sans', sans-serif;
       background: var(--bg-primary);
@@ -125,7 +115,6 @@
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
     }
-
     body::after {
       content: '';
       position: fixed;
@@ -135,7 +124,6 @@
       pointer-events: none;
       z-index: 9999;
     }
-
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -148,13 +136,11 @@
       border-bottom: 1px solid var(--border);
       backdrop-filter: blur(8px);
     }
-
     .nav-brand {
       text-decoration: none;
       display: flex;
       flex-direction: column;
     }
-
     .nav-name {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
@@ -163,7 +149,6 @@
       text-transform: uppercase;
       color: var(--text-primary);
     }
-
     .nav-role {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.5rem;
@@ -172,13 +157,11 @@
       color: var(--text-dim);
       margin-top: 2px;
     }
-
     .nav-links {
       display: flex;
       gap: 2rem;
       list-style: none;
     }
-
     .nav-links a {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
@@ -188,10 +171,8 @@
       text-decoration: none;
       transition: color 0.3s ease;
     }
-
     .nav-links a:hover { color: var(--text-primary); }
     .nav-links a.active { color: var(--accent); }
-
     .nav-toggle {
       display: none;
       background: none;
@@ -200,7 +181,6 @@
       padding: 0.5rem;
       z-index: 101;
     }
-
     .nav-toggle span {
       display: block;
       width: 20px;
@@ -209,7 +189,6 @@
       margin: 5px 0;
       transition: all 0.3s ease;
     }
-
     .hero {
       min-height: 60vh;
       display: flex;
@@ -219,7 +198,6 @@
       position: relative;
       overflow: hidden;
     }
-
     .hero-bg {
       position: absolute;
       inset: 0;
@@ -227,13 +205,11 @@
         radial-gradient(ellipse 60% 50% at 70% 30%, rgba(201, 168, 76, 0.03), transparent),
         var(--bg-primary);
     }
-
     .hero-content {
       position: relative;
       z-index: 2;
       max-width: 900px;
     }
-
     .hero-eyebrow {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
@@ -245,7 +221,6 @@
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.3s;
     }
-
     .hero h1 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
@@ -256,7 +231,6 @@
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.5s;
     }
-
     .hero-sub {
       font-size: 1rem;
       line-height: 1.85;
@@ -265,21 +239,17 @@
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.7s;
     }
-
     @keyframes fadeUp {
       from { opacity: 0; transform: translateY(30px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     section {
       padding: 6rem 3rem;
       border-top: 1px solid var(--border);
     }
-
     section:nth-child(even) {
       background: var(--bg-secondary);
     }
-
     .section-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
@@ -292,30 +262,25 @@
       align-items: center;
       gap: 1.5rem;
     }
-
     .section-label::before {
       content: '';
       width: 40px;
       height: 1px;
       background: var(--text-dim);
     }
-
     .section-inner {
       max-width: 900px;
       margin: 0 auto;
     }
-
     .reveal {
       opacity: 0;
       transform: translateY(40px);
       transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
-
     .reveal.visible {
       opacity: 1;
       transform: translateY(0);
     }
-
     h2 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
@@ -323,7 +288,6 @@
       line-height: 1.2;
       margin-bottom: 2rem;
     }
-
     h3 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 400;
@@ -333,24 +297,20 @@
       margin-bottom: 1.5rem;
       color: var(--text-primary);
     }
-
     p {
       font-size: 0.95rem;
       line-height: 1.85;
       color: var(--text-secondary);
       margin-bottom: 1.5rem;
     }
-
     p strong {
       color: var(--text-primary);
       font-weight: 500;
     }
-
     ul {
       list-style: none;
       margin: 2rem 0;
     }
-
     ul li {
       display: flex;
       align-items: flex-start;
@@ -360,7 +320,6 @@
       color: var(--text-secondary);
       margin-bottom: 1rem;
     }
-
     ul li::before {
       content: '';
       width: 5px;
@@ -370,14 +329,12 @@
       margin-top: 0.7rem;
       flex-shrink: 0;
     }
-
     .definition-box {
       background: var(--bg-card);
       border-left: 3px solid var(--accent);
       padding: 2rem;
       margin: 2rem 0;
     }
-
     .definition-box h4 {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
@@ -386,14 +343,12 @@
       color: var(--text-dim);
       margin-bottom: 1rem;
     }
-
     .definition-box p {
       font-size: 1rem;
       line-height: 1.8;
       color: var(--text-primary);
       margin: 0;
     }
-
     .contrast-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -401,17 +356,14 @@
       background: var(--border);
       margin: 3rem 0;
     }
-
     .contrast-card {
       background: var(--bg-card);
       padding: 2rem 1.5rem;
       transition: all 0.3s ease;
     }
-
     .contrast-card:hover {
       background: var(--bg-elevated);
     }
-
     .contrast-card h4 {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
@@ -420,7 +372,6 @@
       color: var(--text-dim);
       margin-bottom: 1rem;
     }
-
     .contrast-card .field-name {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.2rem;
@@ -428,14 +379,12 @@
       color: var(--text-primary);
       margin-bottom: 0.75rem;
     }
-
     .contrast-card p {
       font-size: 0.85rem;
       line-height: 1.7;
       color: var(--text-secondary);
       margin: 0;
     }
-
     .principle-box {
       background: rgba(201, 168, 76, 0.08);
       border: 1px solid rgba(201, 168, 76, 0.3);
@@ -443,7 +392,6 @@
       margin: 3rem 0;
       text-align: center;
     }
-
     .principle-box p {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.3rem;
@@ -452,7 +400,6 @@
       color: var(--text-primary);
       margin: 0;
     }
-
     .cta-section {
       background: var(--bg-card);
       border: 1px solid var(--border);
@@ -460,7 +407,6 @@
       margin: 4rem 0;
       text-align: center;
     }
-
     .cta-section h3 {
       font-family: 'Cormorant Garamond', serif;
       font-size: 1.8rem;
@@ -468,11 +414,9 @@
       margin: 0 0 1.5rem 0;
       color: var(--text-primary);
     }
-
     .cta-section p {
       margin-bottom: 2rem;
     }
-
     .cta-buttons {
       display: flex;
       flex-wrap: wrap;
@@ -480,7 +424,6 @@
       gap: 1rem;
       margin-top: 2rem;
     }
-
     .cta-button {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
@@ -493,21 +436,17 @@
       border: 1px solid var(--accent);
       transition: all 0.3s ease;
     }
-
     .cta-button:hover {
       background: transparent;
       color: var(--accent);
     }
-
     .cta-button.secondary {
       background: transparent;
       color: var(--accent);
     }
-
     .cta-button.secondary:hover {
       background: var(--accent-dim);
     }
-
     footer {
       padding: 2.5rem 3rem;
       display: flex;
@@ -516,7 +455,6 @@
       border-top: 1px solid var(--border);
       background: var(--bg-primary);
     }
-
     .footer-l, .footer-r {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.5rem;
@@ -524,15 +462,12 @@
       color: var(--text-dim);
       text-transform: uppercase;
     }
-
     .footer-r a {
       color: var(--text-secondary);
       text-decoration: none;
       transition: color 0.3s ease;
     }
-
     .footer-r a:hover { color: var(--accent); }
-
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-toggle { display: block; }
@@ -560,11 +495,10 @@
   </style>
 </head>
 <body>
-
   <nav>
     <a href="index.html" class="nav-brand">
       <span class="nav-name">Justin R. Greenbaum</span>
-      <span class="nav-role">Decision · Responsibility · Infrastructure</span>
+      <span class="nav-role">Decision · Responsibility · Infrastructure™</span>
     </a>
     <ul class="nav-links" id="nav-links">
       <li><a href="index.html">Home</a></li>
@@ -576,90 +510,68 @@
       <span></span><span></span><span></span>
     </button>
   </nav>
-
   <div class="hero">
     <div class="hero-bg"></div>
     <div class="hero-content">
       <p class="hero-eyebrow">Field Definition</p>
-      <h1>Decision & Responsibility Infrastructure</h1>
+      <h1>Decision & Responsibility Infrastructure™</h1>
       <p class="hero-sub">The discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.</p>
     </div>
   </div>
-
   <section>
     <div class="section-inner reveal">
       <div class="section-label">What It Is</div>
-
-      <p><strong>Decision & Responsibility Infrastructure</strong> is the architecture of authority, accountability, and continuity that sits beneath organizational performance.</p>
-
+      <p><strong>Decision & Responsibility Infrastructure™</strong> is the architecture of authority, accountability, and continuity that sits beneath organizational performance.</p>
       <p>It's not about teaching people to make better decisions. It's about building the structural conditions that make good decisions possible—and sustainable—in the first place.</p>
-
       <p>This includes: who has the authority to decide, who bears the consequences, how decisions are remembered over time, how responsibility is distributed without diffusion, and how truth can be spoken without political cost.</p>
-
       <div class="definition-box">
         <h4>Core Definition</h4>
-        <p>Decision & Responsibility Infrastructure is the discipline of designing the structural conditions—authority boundaries, accountability mechanisms, decision rights, and memory systems—that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.</p>
+        <p>Decision & Responsibility Infrastructure™ is the discipline of designing the structural conditions—authority boundaries, accountability mechanisms, decision rights, and memory systems—that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.</p>
       </div>
-
       <p>It treats decision-making and accountability as <strong>infrastructural problems</strong>, not performance problems. When decisions consistently fail, when accountability evaporates, when the same mistakes repeat—these are symptoms of structural breakdown, not individual incompetence.</p>
     </div>
   </section>
-
   <section>
     <div class="section-inner reveal">
       <div class="section-label">The Problem</div>
       <h2>Why Organizations Fail at Scale</h2>
-
       <p>Organizations fail predictably when the structure beneath decision-making and accountability is poorly designed, invisible, or contradictory.</p>
-
       <p><strong>Authority separates from responsibility.</strong> People are held accountable for outcomes they cannot control. Decision rights are ambiguous. Ownership is diffuse. No one can act, and no one is truly responsible.</p>
-
       <p><strong>Decisions are forgotten.</strong> The system loses memory of why choices were made. Rationale evaporates. Context disappears. The organization repeats the same failures because it cannot remember what it learned.</p>
-
       <p><strong>Truth becomes politically expensive.</strong> Reality cannot be named without career risk. Signals are distorted. Feedback loops break. The gap between what is happening and what can be said grows until the organization operates on fiction.</p>
-
       <p>These are not communication failures. They are <strong>structural failures</strong>. And they compound in AI governance contexts, where decision rights about model behavior, accountability for system outcomes, and continuity of safety commitments are often invisible, contradictory, or nonexistent.</p>
     </div>
   </section>
-
   <section>
     <div class="section-inner reveal">
       <div class="section-label">What It Isn't</div>
       <h2>How This Differs from Adjacent Fields</h2>
-
-      <p>Decision & Responsibility Infrastructure is a distinct discipline. It overlaps with organizational design, change management, and AI ethics—but it is not reducible to any of them.</p>
-
+      <p>Decision & Responsibility Infrastructure™ is a distinct discipline. It overlaps with organizational design, change management, and AI ethics—but it is not reducible to any of them.</p>
       <div class="contrast-grid">
         <div class="contrast-card">
           <h4>Not</h4>
           <div class="field-name">Organizational Design</div>
-          <p>Org design focuses on structure (reporting lines, roles, teams). Decision & Responsibility Infrastructure focuses on the <strong>authority and accountability patterns</strong> that exist regardless of org chart. It asks: who can actually decide, and who actually bears consequences?</p>
+          <p>Org design focuses on structure (reporting lines, roles, teams). Decision & Responsibility Infrastructure™ focuses on the <strong>authority and accountability patterns</strong> that exist regardless of org chart. It asks: who can actually decide, and who actually bears consequences?</p>
         </div>
-
         <div class="contrast-card">
           <h4>Not</h4>
           <div class="field-name">Change Management</div>
-          <p>Change management focuses on adoption and transition. Decision & Responsibility Infrastructure focuses on <strong>durability and continuity</strong>—how decisions and accountability hold over time, especially when pressure increases or leadership changes.</p>
+          <p>Change management focuses on adoption and transition. Decision & Responsibility Infrastructure™ focuses on <strong>durability and continuity</strong>—how decisions and accountability hold over time, especially when pressure increases or leadership changes.</p>
         </div>
-
         <div class="contrast-card">
           <h4>Not</h4>
           <div class="field-name">AI Ethics</div>
-          <p>AI ethics focuses on values and principles. Decision & Responsibility Infrastructure focuses on the <strong>operational structures</strong> that make ethical commitments enforceable—who has authority to halt a deployment, who is accountable when harm occurs, how safety rationale is preserved.</p>
+          <p>AI ethics focuses on values and principles. Decision & Responsibility Infrastructure™ focuses on the <strong>operational structures</strong> that make ethical commitments enforceable—who has authority to halt a deployment, who is accountable when harm occurs, how safety rationale is preserved.</p>
         </div>
       </div>
-
-      <p>Where organizational design asks "how should we structure?", change management asks "how do we transition?", and AI ethics asks "what should we value?", Decision & Responsibility Infrastructure asks: <strong>"How do we build the conditions where good decisions are structurally supported and bad decisions have clear, traceable accountability?"</strong></p>
+      <p>Where organizational design asks "how should we structure?", change management asks "how do we transition?", and AI ethics asks "what should we value?", Decision & Responsibility Infrastructure™ asks: <strong>"How do we build the conditions where good decisions are structurally supported and bad decisions have clear, traceable accountability?"</strong></p>
     </div>
   </section>
-
   <section>
     <div class="section-inner reveal">
       <div class="section-label">What Problems It Solves</div>
       <h2>Structural Failures This Addresses</h2>
-
-      <p>Decision & Responsibility Infrastructure solves a specific class of organizational breakdown:</p>
-
+      <p>Decision & Responsibility Infrastructure™ solves a specific class of organizational breakdown:</p>
       <ul>
         <li><strong>Authority-Responsibility Mismatch</strong> — People are held accountable for outcomes they have no authority to control. Conversely, people with authority face no consequences for failure.</li>
         <li><strong>Structural Amnesia</strong> — Organizations forget why decisions were made. Rationale is lost. Context evaporates. The same mistakes repeat because the system has no memory.</li>
@@ -667,68 +579,48 @@
         <li><strong>Decision Displacement</strong> — Critical choices are made by people who lack context, authority, or consequences. The people closest to the problem cannot decide; the people deciding are furthest from reality.</li>
         <li><strong>Accountability Evaporation</strong> — When outcomes arrive, the people responsible have moved on, the structure has changed, or the commitment has been reinterpreted. Responsibility dissolves.</li>
       </ul>
-
       <p>These failures are especially catastrophic in <strong>AI deployment contexts</strong>, where decision rights about model behavior, accountability for system harm, and continuity of safety commitments determine whether organizations can govern AI responsibly—or whether AI becomes ungovernable.</p>
     </div>
   </section>
-
   <section>
     <div class="section-inner reveal">
       <div class="section-label">Who This Is For</div>
-      <h2>Practitioners of Decision & Responsibility Infrastructure</h2>
-
+      <h2>Practitioners of Decision & Responsibility Infrastructure™</h2>
       <h3>Executives and Operators</h3>
-
       <p>If you are responsible for systems where authority is unclear, accountability is diffuse, and decisions fail to hold over time, this discipline provides the diagnostic and design tools to make structural dysfunction visible and correctable.</p>
-
       <h3>Strategic Advisors and Consultants</h3>
-
-      <p>If your work involves diagnosing why organizations fail despite competent people and good intentions, Decision & Responsibility Infrastructure offers a framework for identifying and correcting structural breakdowns that exist beneath behavior, culture, and communication.</p>
-
+      <p>If your work involves diagnosing why organizations fail despite competent people and good intentions, Decision & Responsibility Infrastructure™ offers a framework for identifying and correcting structural breakdowns that exist beneath behavior, culture, and communication.</p>
       <h3>AI Governance and Policy Practitioners</h3>
-
       <p>If you work in responsible AI, algorithmic accountability, or AI policy, this discipline translates directly into your domain. AI systems inherit the decision and responsibility infrastructure of the organizations that build and deploy them. When that infrastructure is broken, AI governance becomes impossible.</p>
-
       <h3>Researchers and Academics</h3>
-
-      <p>If you study organizational theory, governance, decision science, or responsibility attribution, Decision & Responsibility Infrastructure provides a structural lens that bridges normative frameworks and operational reality.</p>
+      <p>If you study organizational theory, governance, decision science, or responsibility attribution, Decision & Responsibility Infrastructure™ provides a structural lens that bridges normative frameworks and operational reality.</p>
     </div>
   </section>
-
   <section>
     <div class="section-inner reveal">
       <div class="section-label">How It Works</div>
       <h2>Coherence as the Diagnostic Method</h2>
-
-      <p>The operational framework for Decision & Responsibility Infrastructure is <strong>Coherence</strong>—a diagnostic system for identifying, naming, and correcting structural failure in human systems.</p>
-
+      <p>The operational framework for Decision & Responsibility Infrastructure™ is <strong>Coherence</strong>—a diagnostic system for identifying, naming, and correcting structural failure in human systems.</p>
       <p>Coherence diagnoses organizational breakdowns through three structural vertices:</p>
-
       <ul>
         <li><strong>Truth</strong> — Is reality being accurately perceived and spoken?</li>
         <li><strong>Authority</strong> — Does decision-making power match responsibility?</li>
         <li><strong>Continuity</strong> — Are commitments, decisions, and narratives stable over time?</li>
       </ul>
-
       <p>Coherence uses two diagnostic primitives to make structural failure observable:</p>
-
       <ul>
         <li><strong>Failure Modes</strong> — Repeatable structural breakdowns that explain why systems fail (e.g., Authority-Responsibility Mismatch, Structural Amnesia, Narrative Drift).</li>
         <li><strong>Functional Field Notes</strong> — Early signals that indicate a Failure Mode is forming, captured before collapse occurs.</li>
       </ul>
-
-      <p>Where Decision & Responsibility Infrastructure defines the field, Coherence provides the method. It is the diagnostic infrastructure that makes structural failure visible, nameable, and correctable.</p>
-
+      <p>Where Decision & Responsibility Infrastructure™ defines the field, Coherence provides the method. It is the diagnostic infrastructure that makes structural failure visible, nameable, and correctable.</p>
       <p><a href="coherence-deep.html" style="color: var(--accent); text-decoration: none; font-weight: 500;">Read the complete Coherence framework →</a></p>
     </div>
   </section>
-
   <section>
     <div class="section-inner">
       <div class="cta-section reveal">
         <h3>Engage With This Work</h3>
-        <p>Decision & Responsibility Infrastructure is a field in formation. There are multiple ways to engage:</p>
-
+        <p>Decision & Responsibility Infrastructure™ is a field in formation. There are multiple ways to engage:</p>
         <div class="cta-buttons">
           <a href="mailto:justin@greenbaumlabs.com" class="cta-button">Contact for Advisory Work</a>
           <a href="coherence-deep.html" class="cta-button secondary">Read the Coherence Framework</a>
@@ -737,32 +629,24 @@
       </div>
     </div>
   </section>
-
   <section>
     <div class="section-inner reveal">
       <div class="section-label">Guiding Principle</div>
-
       <div class="principle-box">
         <p>Infrastructure is only visible when it fails. The work is to make failure visible before it becomes operational crisis.</p>
       </div>
-
-      <p>Decision & Responsibility Infrastructure treats authority, accountability, and continuity as load-bearing structures. When they fail, organizations collapse—not because people are incompetent, but because the infrastructure beneath decision-making and responsibility was never properly designed.</p>
-
+      <p>Decision & Responsibility Infrastructure™ treats authority, accountability, and continuity as load-bearing structures. When they fail, organizations collapse—not because people are incompetent, but because the infrastructure beneath decision-making and responsibility was never properly designed.</p>
       <p>This discipline exists to make that infrastructure visible, diagnosable, and maintainable.</p>
     </div>
   </section>
-
   <section>
     <div class="section-inner reveal">
       <div class="section-label">About This Work</div>
       <h2>Field Development</h2>
-
-      <p>Decision & Responsibility Infrastructure is developed and advanced by <a href="index.html" style="color: var(--accent); text-decoration: none;">Justin R. Greenbaum</a>, founder of <a href="https://greenbaumlabs.com" style="color: var(--accent); text-decoration: none;" target="_blank">Greenbaum Labs</a>. The diagnostic method—Coherence—is published regularly on <a href="https://writing.justingreenbaum.com" style="color: var(--accent); text-decoration: none;" target="_blank">Substack</a>, where Failure Modes and Field Notes are explored in depth.</p>
-
-      <p>For advisory engagements, organizational diagnostics, or questions about applying Decision & Responsibility Infrastructure to AI governance or enterprise operations, contact <a href="mailto:justin@greenbaumlabs.com" style="color: var(--accent); text-decoration: none;">justin@greenbaumlabs.com</a>.</p>
+      <p>Decision & Responsibility Infrastructure™ is developed and advanced by <a href="index.html" style="color: var(--accent); text-decoration: none;">Justin R. Greenbaum</a>, founder of <a href="https://greenbaumlabs.com" style="color: var(--accent); text-decoration: none;" target="_blank">Greenbaum Labs</a>. The diagnostic method—Coherence—is published regularly on <a href="https://writing.justingreenbaum.com" style="color: var(--accent); text-decoration: none;" target="_blank">Substack</a>, where Failure Modes and Field Notes are explored in depth.</p>
+      <p>For advisory engagements, organizational diagnostics, or questions about applying Decision & Responsibility Infrastructure™ to AI governance or enterprise operations, contact <a href="mailto:justin@greenbaumlabs.com" style="color: var(--accent); text-decoration: none;">justin@greenbaumlabs.com</a>.</p>
     </div>
   </section>
-
   <footer>
     <div class="footer-l">© 2026 Justin R. Greenbaum — All Rights Reserved</div>
     <div class="footer-r">
@@ -772,23 +656,19 @@
       <a href="https://linkedin.com/in/jrgreenbaum" target="_blank">LinkedIn</a>
     </div>
   </footer>
-
   <script>
     const navToggle = document.getElementById('nav-toggle');
     const navLinks = document.getElementById('nav-links');
-
     navToggle.addEventListener('click', () => {
       navToggle.classList.toggle('active');
       navLinks.classList.toggle('active');
     });
-
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navToggle.classList.remove('active');
         navLinks.classList.remove('active');
       });
     });
-
     const reveals = document.querySelectorAll('.reveal');
     const obs = new IntersectionObserver((entries) => {
       entries.forEach((entry, i) => {
@@ -799,7 +679,6 @@
       });
     }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(el => obs.observe(el));
-
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
       anchor.addEventListener('click', function(e) {
         const target = document.querySelector(this.getAttribute('href'));
@@ -810,6 +689,5 @@
       });
     });
   </script>
-
 </body>
 </html>
