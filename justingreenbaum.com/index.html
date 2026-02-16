@@ -97,6 +97,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
   <style>
     :root {
+      /* ---- DARK PALETTE (default) ---- */
       --bg-primary: #0a0a0a;
       --bg-secondary: #111111;
       --bg-card: #161616;
@@ -110,6 +111,19 @@
       --warm-dim: rgba(200, 85, 58, 0.1);
       --border: rgba(240, 236, 228, 0.06);
       --border-hover: rgba(240, 236, 228, 0.12);
+
+      /* ---- LIGHT PALETTE ---- */
+      --light-bg: #f5f1eb;
+      --light-bg-secondary: #ece7df;
+      --light-bg-card: #e8e3db;
+      --light-bg-elevated: #f9f6f1;
+      --light-text-primary: #1a1816;
+      --light-text-secondary: #5c5650;
+      --light-text-dim: #9e9690;
+      --light-accent: #a8872e;
+      --light-accent-dim: rgba(168, 135, 46, 0.1);
+      --light-border: rgba(26, 24, 22, 0.08);
+      --light-border-hover: rgba(26, 24, 22, 0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -137,6 +151,138 @@
       opacity: 0.025;
       pointer-events: none;
       z-index: 9999;
+    }
+
+    /* ============================================
+       LIGHT SECTION OVERRIDES
+       Background, Writing, and Contact sections
+
+       NOTE: These use high-specificity selectors to
+       guarantee they beat the base dark-theme rules
+       that come later in the stylesheet.
+       ============================================ */
+
+    .section-light {
+      background: var(--light-bg) !important;
+      color: var(--light-text-primary);
+      border-top-color: var(--light-border) !important;
+      position: relative;
+    }
+
+    .section-light + section:not(.section-light),
+    .section-light + footer {
+      border-top-color: var(--light-border) !important;
+    }
+
+    /* Generic light-section typography (baseline) */
+    .section-light h2 {
+      color: var(--light-text-primary) !important;
+    }
+
+    .section-light p {
+      color: var(--light-text-secondary) !important;
+    }
+
+    .section-light p strong {
+      color: var(--light-text-primary) !important;
+      font-weight: 600;
+    }
+
+    .section-light .section-label {
+      color: var(--light-text-dim) !important;
+    }
+
+    .section-light .section-label::before {
+      background: var(--light-text-dim) !important;
+    }
+
+    /* ---- Background section (light) ---- */
+    .background.section-light .stats-row {
+      background: var(--light-border);
+    }
+
+    .background.section-light .stat {
+      background: var(--light-bg);
+    }
+
+    .background.section-light .stat-num {
+      color: var(--light-text-primary) !important;
+    }
+
+    .background.section-light .stat-label {
+      color: var(--light-text-dim) !important;
+    }
+
+    /* ---- Writing section (light) ---- */
+    .writing.section-light .essay {
+      border-top-color: var(--light-border);
+      color: var(--light-text-primary);
+    }
+
+    .writing.section-light .essay:hover {
+      background: var(--light-bg-elevated);
+    }
+
+    .writing.section-light .essay-num {
+      color: var(--light-text-dim) !important;
+    }
+
+    .writing.section-light .essay-title {
+      color: var(--light-text-primary) !important;
+    }
+
+    .writing.section-light .essay:hover .essay-title {
+      color: var(--light-accent) !important;
+    }
+
+    .writing.section-light .essay-desc {
+      color: var(--light-text-dim) !important;
+    }
+
+    .writing.section-light .essay-arrow {
+      color: var(--light-text-dim) !important;
+    }
+
+    .writing.section-light .essay:hover .essay-arrow {
+      color: var(--light-accent) !important;
+    }
+
+    .writing.section-light .essay-more {
+      color: var(--light-accent);
+      border-color: rgba(168, 135, 46, 0.3);
+    }
+
+    .writing.section-light .essay-more:hover {
+      background: var(--light-accent-dim);
+      border-color: var(--light-accent);
+    }
+
+    /* ---- Contact section (light) ---- */
+    .contact.section-light .contact-inner {
+      color: var(--light-text-primary);
+    }
+
+    .contact.section-light p {
+      color: var(--light-text-secondary) !important;
+    }
+
+    .contact.section-light .contact-email {
+      color: var(--light-accent) !important;
+    }
+
+    .contact.section-light .contact-email:hover {
+      color: var(--light-text-primary) !important;
+    }
+
+    .contact.section-light .contact-btn {
+      color: var(--light-text-secondary);
+      border-color: var(--light-border);
+    }
+
+    .contact.section-light .contact-btn:hover {
+      color: var(--light-text-primary);
+      border-color: var(--light-border-hover);
+      background: var(--light-bg-elevated);
     }
 
     /* ---- NAV ---- */
@@ -1095,7 +1241,7 @@
     </button>
   </nav>
 
-  <!-- Hero -->
+  <!-- Hero — DARK -->
   <section class="hero">
     <div class="hero-bg"></div>
     <div class="hero-grid-line v" style="left: 25%;"></div>
@@ -1112,7 +1258,7 @@
     </div>
   </section>
 
-  <!-- Thesis -->
+  <!-- Thesis — DARK -->
   <section class="thesis" id="thesis">
     <div class="thesis-inner">
       <div class="thesis-left reveal">
@@ -1128,8 +1274,8 @@
     </div>
   </section>
 
-  <!-- Background -->
-  <section class="background" id="background">
+  <!-- Background — LIGHT -->
+  <section class="background section-light" id="background">
     <div class="background-inner reveal">
       <div class="section-label">Background</div>
       <h2>Two decades at the edge of normal operating models.</h2>
@@ -1156,7 +1302,7 @@
     </div>
   </section>
 
-  <!-- Coherence Triangle -->
+  <!-- Coherence Triangle — DARK -->
   <section class="coherence" id="coherence">
     <div class="coherence-inner">
       <div class="reveal">
@@ -1215,7 +1361,7 @@
     </div>
   </section>
 
-  <!-- Diagnostic Language -->
+  <!-- Diagnostic Language — DARK -->
   <section class="diagnostic" id="diagnostic">
     <div class="diagnostic-inner">
       <div class="reveal">
@@ -1273,8 +1419,8 @@
     </div>
   </section>
 
-  <!-- Writing -->
-  <section class="writing" id="writing">
+  <!-- Writing — LIGHT -->
+  <section class="writing section-light" id="writing">
     <div class="writing-inner">
       <div class="reveal">
         <div class="section-label">Writing</div>
@@ -1310,7 +1456,7 @@
     </div>
   </section>
 
-  <!-- Domains -->
+  <!-- Domains — DARK -->
   <section class="domains" id="domains">
     <div class="domains-inner">
       <div class="reveal">
@@ -1341,8 +1487,8 @@
     </div>
   </section>
 
-  <!-- Contact -->
-  <section class="contact" id="contact">
+  <!-- Contact — LIGHT -->
+  <section class="contact section-light" id="contact">
     <div class="contact-inner reveal">
       <div class="section-label" style="justify-content: center;">Connect</div>
       <h2>If this work intersects<br>with something you're<br>navigating.</h2>
