@@ -1181,30 +1181,25 @@
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-toggle { display: block; }
+      nav.open { background: rgba(10, 10, 10, 0.98); }
       .nav-links {
         display: none;
-        position: fixed;
-        top: 60px;
+        position: absolute;
+        top: 100%;
         left: 0;
         right: 0;
-        bottom: 0;
-        background: var(--bg-primary);
         flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-        padding-top: 4rem;
-        gap: 1.5rem;
-        z-index: 99;
+        gap: 0;
+        background: rgba(10, 10, 10, 0.98);
+        border-bottom: 1px solid rgba(255,255,255,0.08);
+        padding: 1rem 0;
       }
-      .nav-links.active {
-        display: flex;
-      }
-      .nav-links li {
-        list-style: none;
-      }
+      nav.open .nav-links { display: flex; }
+      .nav-links li { list-style: none; }
       .nav-links a {
-        font-size: 0.9rem;
-        letter-spacing: 0.2em;
+        display: block;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.7rem;
       }
       section, .thesis, .background, .diagnostic, .writing, .domains, .contact {
         padding: 5rem 1.5rem;
@@ -1512,26 +1507,22 @@
 
 
   <script>
-    // Mobile nav toggle
-    const navToggle = document.getElementById('nav-toggle');
-    const navLinks = document.getElementById('nav-links');
-
-    navToggle.addEventListener('click', () => {
-      navToggle.classList.toggle('active');
-      navLinks.classList.toggle('active');
-    });
-
-    // Close menu when clicking a link
-    navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        navToggle.classList.remove('active');
-        navLinks.classList.remove('active');
-      });
-    });
-
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // Mobile menu toggle
+    const toggle = document.querySelector('.nav-toggle');
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      toggle.classList.toggle('active');
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+      });
     });
 
     const reveals = document.querySelectorAll('.reveal');
