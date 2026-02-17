@@ -193,6 +193,7 @@
       height: 1px;
       background: var(--text-primary);
       margin: 5px 0;
+      transition: transform 0.3s ease, opacity 0.3s ease;
     }
 
     /* ---- HERO ---- */
@@ -1027,8 +1028,30 @@
 
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
-      .nav-links { display: none; }
+      nav.open { background: rgba(10, 10, 10, 0.98); }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        flex-direction: column;
+        gap: 0;
+        background: rgba(10, 10, 10, 0.98);
+        border-bottom: 1px solid var(--border-green);
+        padding: 1rem 0;
+      }
+      nav.open .nav-links { display: flex; }
+      .nav-links li { padding: 0; }
+      .nav-links a {
+        display: block;
+        padding: 0.75rem 1.5rem;
+        font-size: 0.7rem;
+      }
       .nav-toggle { display: block; }
+      .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+      .nav-toggle.active span:nth-child(2) { opacity: 0; }
+      .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
       section, .infra, .projects, .philosophy, .ecosystem, .connect {
         padding: 5rem 1.5rem;
       }
@@ -1428,6 +1451,19 @@
     const nav = document.getElementById('nav');
     window.addEventListener('scroll', () => {
       nav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // Mobile menu toggle
+    const toggle = document.querySelector('.nav-toggle');
+    toggle.addEventListener('click', () => {
+      nav.classList.toggle('open');
+      toggle.classList.toggle('active');
+    });
+    document.querySelectorAll('.nav-links a').forEach(link => {
+      link.addEventListener('click', () => {
+        nav.classList.remove('open');
+        toggle.classList.remove('active');
+      });
     });
 
     const reveals = document.querySelectorAll('.reveal');
