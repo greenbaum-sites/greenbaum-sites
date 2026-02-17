@@ -342,6 +342,11 @@
       animation: blink 3s ease infinite;
     }
 
+    .agent-status-dot.human {
+      background: var(--accent);
+      box-shadow: 0 0 6px rgba(201, 168, 76, 0.4);
+    }
+
     .agent-status-text {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.5rem;
@@ -528,7 +533,7 @@
         <span>~/greenbaumlabs $ cat /roster/agentforce.md</span><span class="cursor"></span>
       </div>
       <h1>Agent<span class="lab">force</span></h1>
-      <p class="hero-sub">Greenbaum Labs runs on a workforce of five. None of them sleep. All of them are accountable. This is the team that powers the diagnostic pipeline — from raw signal to structural diagnosis.</p>
+      <p class="hero-sub">Greenbaum Labs runs on a workforce of seven. One human. Six agents. None of them sleep. All of them are accountable. This is the team that powers the diagnostic pipeline, from raw signal to structural diagnosis.</p>
       <div class="hero-classified">Internal Personnel Roster · GL-Classified</div>
     </div>
   </section>
@@ -557,11 +562,37 @@
             <div class="agent-division">Sources Division</div>
             <div class="agent-title">The Collector</div>
             <div class="agent-quote">Goes where the signal is. Brings back everything. Judges nothing.</div>
-            <div class="agent-desc">Operates across five platforms — Reddit, X, App Store, Google Play, Trustpilot — pulling raw signal from wherever people speak without permission. Doesn't filter. Doesn't editorialize. Returns structured JSONL and moves on to the next source. The Collector's only opinion is that more data is better than less data.</div>
+            <div class="agent-desc">Operates across seven source types, pulling raw signal from wherever people speak. Customer reviews from Trustpilot. Social signal from X. News coverage. Press releases and job postings from the center. Employee reviews from Glassdoor. Doesn't filter. Doesn't editorialize. Returns structured JSONL and moves on to the next source.</div>
             <div class="agent-specs">
-<span class="highlight">SOURCES</span>  Reddit · X · App Store · Google Play · Trustpilot
-<span class="cyan">OUTPUT</span>   edge/customer_reviews/*.jsonl · edge/social_signal/*.jsonl
+<span class="highlight">CENTER</span>   press_releases · job_postings · earnings_transcripts
+<span class="cyan">EDGE</span>     customer_reviews · social_media · news_coverage · employee_reviews
+<span class="warm">OUTPUT</span>   1,800+ structured documents per collection
 <span class="gold">STYLE</span>    Messenger bag. Binoculars. Probably a trench coat.
+            </div>
+          </div>
+        </div>
+
+        <!-- The Extractor -->
+        <div class="agent reveal">
+          <div class="agent-portrait">
+            <div class="agent-photo">
+              <div class="agent-photo-placeholder">Minifig<br>Pending<br>· · ·</div>
+            </div>
+            <div class="agent-status-bar">
+              <div class="agent-status-dot"></div>
+              <span class="agent-status-text">Active</span>
+            </div>
+          </div>
+          <div class="agent-detail">
+            <div class="agent-division">Signal Processing</div>
+            <div class="agent-title">The Extractor</div>
+            <div class="agent-quote">I read everything. I miss nothing. I make it structured.</div>
+            <div class="agent-desc">The workhorse. Reads every raw document the Collector brings back and produces structured claims and observations with full schema validation. Center documents yield claims about what the organization says it does. Edge documents yield observations about what the world actually sees. Run 013: 1,377 claims and 4,736 observations. The single highest-leverage change in pipeline history was giving this agent individual documents instead of consolidated files. Observations increased 206x.</div>
+            <div class="agent-specs">
+<span class="highlight">ENGINE</span>   qwen3:32b via Ollama · batch_size=1
+<span class="cyan">OUTPUT</span>   Structured claims + observations with provenance hashes
+<span class="warm">RECORD</span>   1,377 claims · 4,736 observations (Run 013)
+<span class="gold">STYLE</span>    Reading glasses. Red pen. Infinite patience.
             </div>
           </div>
         </div>
@@ -578,13 +609,14 @@
             </div>
           </div>
           <div class="agent-detail">
-            <div class="agent-division">Identity Resolution</div>
+            <div class="agent-division">Quality Assurance</div>
             <div class="agent-title">The Validator</div>
             <div class="agent-quote">If you call yourself three different names across five platforms, that's not a disguise. That's a diagnostic.</div>
-            <div class="agent-desc">The pedantic one. Ensures that "Coinbase," "Coinbase Global," "COIN," and "$COIN" all resolve to the same entity before anything downstream touches the data. Runs entity name resolution across every source document, flags mismatches, and refuses to let ambiguity pass. The Validator has never once said "close enough."</div>
+            <div class="agent-desc">The pedantic one. Ensures that "Coinbase," "Coinbase Global," "COIN," and "$COIN" all resolve to the same entity before anything downstream touches the data. Enforces schema compliance on every extraction batch. Validates provenance hashes. Checks that claimed source types match actual source types. Has never once said "close enough."</div>
             <div class="agent-specs">
-<span class="highlight">FUNCTION</span>  Entity name resolution · Cross-source validation
-<span class="cyan">INPUTS</span>    entity.json · All collected JSONL
+<span class="highlight">FUNCTION</span>  Entity resolution · Schema validation · Provenance checks
+<span class="cyan">INPUTS</span>    entity.json · All extracted claims + observations
+<span class="warm">RECORD</span>    Zero schema failures across 276 batches (Run 012)
 <span class="gold">STYLE</span>     Magnifying glass. Clipboard. Raised eyebrow.
             </div>
           </div>
@@ -605,12 +637,37 @@
             <div class="agent-division">Coherence Engine</div>
             <div class="agent-title">The Diagnostician</div>
             <div class="agent-quote">Truth. Authority. Continuity. Everything else is noise.</div>
-            <div class="agent-desc">The serious one. Runs the Coherence scoring pipeline across all collected data — center narratives against edge signals — and produces structural diagnoses across three vertices. Identifies Failure Modes, flags Functional Field Notes, and scores the gap between what organizations say and what the evidence shows. Doesn't prescribe. Diagnoses.</div>
+            <div class="agent-desc">Scores the gap between what an organization says and what the evidence shows. Truth measures center-edge alignment. Authority measures whether the organizational voice carries weight and whether power matches accountability. Continuity will measure whether those signals hold over time. Produces structural findings with confidence scores, identifies Failure Modes, and flags where the architecture of an organization is working against itself.</div>
             <div class="agent-specs">
-<span class="highlight">VERTICES</span>  Truth · Authority · Continuity
-<span class="cyan">METHOD</span>    Center-edge comparison · Failure Mode detection
+<span class="highlight">VERTICES</span>  Truth (55%) · Authority (45%) · Continuity (Phase 2)
+<span class="cyan">METHOD</span>    Center-edge scoring · Failure Mode detection
 <span class="warm">AR-001</span>    May observe, summarize, suggest. May not decide.
 <span class="gold">STYLE</span>     Lab coat. Stethoscope. Zero small talk.
+            </div>
+          </div>
+        </div>
+
+        <!-- The Skeptic -->
+        <div class="agent reveal">
+          <div class="agent-portrait">
+            <div class="agent-photo">
+              <div class="agent-photo-placeholder">Minifig<br>Pending<br>· · ·</div>
+            </div>
+            <div class="agent-status-bar">
+              <div class="agent-status-dot"></div>
+              <span class="agent-status-text">Active</span>
+            </div>
+          </div>
+          <div class="agent-detail">
+            <div class="agent-division">Adversarial Review</div>
+            <div class="agent-title">The Skeptic</div>
+            <div class="agent-quote">Prove it. Again.</div>
+            <div class="agent-desc">Exists to prevent the system from believing its own conclusions. Every finding the Diagnostician produces gets challenged. The Skeptic debates each one, looking for weak evidence, circular reasoning, and unsupported confidence. Only findings that survive the challenge enter the evidence ledger. Run 013: 11 of 15 findings sustained, 4 rejected. The 27% rejection rate is the system working, not failing.</div>
+            <div class="agent-specs">
+<span class="highlight">METHOD</span>   Adversarial debate · Evidence challenge
+<span class="cyan">RATE</span>     73% sustained · 27% rejected (Run 013)
+<span class="warm">RULE</span>     If the Skeptic can break it, it doesn't ship.
+<span class="gold">STYLE</span>    Arms crossed. One eyebrow raised. Permanently unimpressed.
             </div>
           </div>
         </div>
@@ -630,10 +687,10 @@
             <div class="agent-division">Institutional Memory</div>
             <div class="agent-title">The Recorder</div>
             <div class="agent-quote">The system forgets. I don't.</div>
-            <div class="agent-desc">Maintains the institutional memory of Greenbaum Labs. Every run, every score, every decision gets logged. The Recorder is the reason run_006 can be compared to run_001 — and the reason the lab doesn't repeat its own mistakes. Writes The Coherence Record. Keeps the evidence chain intact. If it happened and wasn't recorded, it didn't happen.</div>
+            <div class="agent-desc">Maintains the institutional memory of Greenbaum Labs. Every run, every score, every decision gets logged the same day, before the lessons have time to soften. The Recorder is the reason Run 006 can be compared to Run 001, and the reason the lab doesn't repeat its own mistakes. Writes The Coherence Record. Keeps the evidence chain intact. If it happened and wasn't recorded, it didn't happen.</div>
             <div class="agent-specs">
-<span class="highlight">OUTPUTS</span>   The Coherence Record · Run logs · Evidence chains
-<span class="cyan">STORAGE</span>   NAS canonical filesystem · Markdown canon
+<span class="highlight">OUTPUTS</span>   The Coherence Record · Run reviews · Evidence chains
+<span class="cyan">STORAGE</span>   Canonical filesystem · 13 run reviews and counting
 <span class="gold">STYLE</span>     Press hat. Typewriter. Will not be rushed.
             </div>
           </div>
@@ -646,18 +703,19 @@
               <div class="agent-photo-placeholder">Minifig<br>Pending<br>· · ·</div>
             </div>
             <div class="agent-status-bar">
-              <div class="agent-status-dot"></div>
-              <span class="agent-status-text">Active</span>
+              <div class="agent-status-dot human"></div>
+              <span class="agent-status-text">Active · Human</span>
             </div>
           </div>
           <div class="agent-detail">
             <div class="agent-division">Infrastructure Design</div>
             <div class="agent-title">The Architect</div>
             <div class="agent-quote">Builds the things that build the things.</div>
-            <div class="agent-desc">Designs the pipeline, builds the other agents, writes the adapters, debugs the failures, authors the content, and does the strategy. The Architect is the reason the other four exist. Operates across every layer of the stack — from Python on the DGX to brand copy on the site. Has opinions about indentation. Will refactor your code while explaining why your org chart is broken.</div>
+            <div class="agent-desc">Designs the pipeline, builds the agents, writes the prompts, debugs the failures, authors the content, and sets the strategy. The Architect is the reason the other six exist. Operates across every layer of the stack, from Python on the DGX Spark to brand copy on the site. The only member of the team who sleeps. The only one who decides.</div>
             <div class="agent-specs">
 <span class="highlight">SCOPE</span>     Pipeline architecture · Agent design · Content · Strategy
-<span class="cyan">TOOLS</span>     Python · Node.js · Bash · English
+<span class="cyan">TOOLS</span>     Python · Bash · Ollama · DGX Spark · English
+<span class="warm">AR-001</span>    The one who decides.
 <span class="gold">STYLE</span>     Hardhat. Blueprints. Conductor's baton. All three at once.
             </div>
           </div>
@@ -673,12 +731,14 @@
 <span class="p">  │</span> <span class="g">AGENT</span>    <span class="p">│</span> <span class="g">DIVISION</span>             <span class="p">│</span> <span class="g">STATUS</span>       <span class="p">│</span> <span class="g">SINCE</span>         <span class="p">│</span>
 <span class="p">  ├──────────┼──────────────────────┼──────────────┼───────────────┤</span>
 <span class="p">  │</span> <span class="a">COLLECT</span>  <span class="p">│</span> Sources Division     <span class="p">│</span> <span class="g">● ACTIVE</span>     <span class="p">│</span> 2026-02-07    <span class="p">│</span>
-<span class="p">  │</span> <span class="a">VALID</span>    <span class="p">│</span> Identity Resolution  <span class="p">│</span> <span class="g">● ACTIVE</span>     <span class="p">│</span> 2026-02-04    <span class="p">│</span>
+<span class="p">  │</span> <span class="a">EXTRACT</span>  <span class="p">│</span> Signal Processing    <span class="p">│</span> <span class="g">● ACTIVE</span>     <span class="p">│</span> 2026-02-09    <span class="p">│</span>
+<span class="p">  │</span> <span class="a">VALID</span>    <span class="p">│</span> Quality Assurance    <span class="p">│</span> <span class="g">● ACTIVE</span>     <span class="p">│</span> 2026-02-04    <span class="p">│</span>
 <span class="p">  │</span> <span class="a">DIAG</span>     <span class="p">│</span> Coherence Engine     <span class="p">│</span> <span class="g">● ACTIVE</span>     <span class="p">│</span> 2026-01-28    <span class="p">│</span>
+<span class="p">  │</span> <span class="a">SKEPTIC</span>  <span class="p">│</span> Adversarial Review   <span class="p">│</span> <span class="g">● ACTIVE</span>     <span class="p">│</span> 2026-02-09    <span class="p">│</span>
 <span class="p">  │</span> <span class="a">RECORD</span>   <span class="p">│</span> Institutional Memory <span class="p">│</span> <span class="g">● ACTIVE</span>     <span class="p">│</span> 2026-02-03    <span class="p">│</span>
 <span class="p">  │</span> <span class="a">ARCH</span>     <span class="p">│</span> Infrastructure Design<span class="p">│</span> <span class="g">● ACTIVE</span>     <span class="p">│</span> 2026-01-15    <span class="p">│</span>
 <span class="p">  ├──────────┴──────────────────────┴──────────────┴───────────────┤</span>
-<span class="p">  │</span>  <span class="w">HEADCOUNT: 5</span>  ·  <span class="g">ACTIVE: 5</span>  ·  <span class="c">HUMANS: 1</span>  ·  <span class="a">AGENTS: 4</span>       <span class="p">│</span>
+<span class="p">  │</span>  <span class="w">HEADCOUNT: 7</span>  ·  <span class="g">ACTIVE: 7</span>  ·  <span class="c">HUMANS: 1</span>  ·  <span class="a">AGENTS: 6</span>       <span class="p">│</span>
 <span class="p">  └─────────────────────────────────────────────────────────────────┘</span>
       </div>
 
