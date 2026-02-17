@@ -1,0 +1,43 @@
+# greenbaumlabs.com
+
+> Greenbaum Labs is a personal AI workshop running on local compute. Founded by Justin R. Greenbaum. Builds diagnostic systems, analytical frameworks, and AI instruments for measuring organizational alignment. All inference runs on owned hardware — no cloud dependency.
+
+## Primary Project: Coherence Diagnostic Engine (GL-001)
+Measures alignment between what organizations say (center) and what the world observes (edge). Produces structured diagnostic reports scoring on Truth, Authority, and Continuity using the Coherence Triangle. Product category: Decision & Responsibility Infrastructure (DRI).
+
+## Key Pages
+- [Home](https://greenbaumlabs.com/): Workshop overview, infrastructure, projects, instruments, operating principles
+- [The Field](https://greenbaumlabs.com/field.html): Orientation map of diagnostic and record regions
+- [Agentforce](https://greenbaumlabs.com/agentforce.html): Personnel roster — 6 autonomous agents + 1 human architect
+- [Case Study: Diagnostic Engine](https://greenbaumlabs.com/case-study-diagnostic-engine.html): Technical deep-dive on the Coherence engine
+
+## Diagnostic Instruments
+- [FM Scanner](https://greenbaumlabs.com/tools/fm-scanner.html): Detect organizational failure modes
+- [FFN Surface](https://greenbaumlabs.com/tools/ffn-surface.html): Surface early-warning field notes
+- [System Nav Locator](https://greenbaumlabs.com/tools/system-nav-locator.html): Navigate the diagnostic map
+- [Declaration Log](https://greenbaumlabs.com/tools/declaration-log.html): Record when authority acted
+- [Verified Independence](https://greenbaumlabs.com/tools/verified-independence.html): Prove fixes are real
+- [Regression Watch](https://greenbaumlabs.com/tools/regression-watch.html): Test if fixes hold over time
+- [Continuity Chain](https://greenbaumlabs.com/tools/continuity-chain.html): Maintain meaning across time
+
+## Infrastructure
+- NVIDIA DGX Spark (Grace Blackwell GB10, 128GB unified memory) — primary compute
+- Synology NAS (10 GbE) — filesystem-as-truth-store
+- Mac Studio — interface and workstation
+- Local models via Ollama (qwen3:32b, nomic-embed-text)
+
+## Operating Principles
+1. Own the compute
+2. Filesystem is source of truth
+3. Automation observes, summarizes, suggests — never decides (AR-001)
+4. Ship gifts, not pitches
+5. Build ahead of demand
+
+## Related Properties
+- [Justin Greenbaum](https://justingreenbaum.com): Personal advisory site and DRI thesis
+- [Writing](https://writing.justingreenbaum.com): Essays on coherence and governance
+- [Greenbaum Photography](https://greenbaumphotography.com): Documentary photography
+- [Megabrixels](https://megabrixels.com): Lego photography
+
+## Contact
+- Email: justin@greenbaumlabs.com

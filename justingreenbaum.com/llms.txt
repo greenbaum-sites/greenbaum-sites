@@ -1,0 +1,31 @@
+# justingreenbaum.com
+
+> Personal site of Justin R. Greenbaum — enterprise operations executive, advisor, and founder of Greenbaum Labs. 20+ years in operations (Comcast, frontline to VP). Now building Decision & Responsibility Infrastructure (DRI) — diagnostic systems that measure organizational alignment.
+
+## About Justin
+- Enterprise operations veteran (2005–present)
+- Founder, Greenbaum Labs — AI diagnostic systems on local compute
+- MIT Sloan Executive Education, Prosci Certified Change Practitioner
+- Creator of the Coherence diagnostic framework
+
+## Key Pages
+- [Home](https://justingreenbaum.com/): Thesis on structural failure and Decision & Responsibility Infrastructure
+- [About](https://justingreenbaum.com/about.html): Professional biography, career arc, services, credentials
+- [Coherence Framework](https://justingreenbaum.com/coherence.html): Interactive overview of the Coherence diagnostic system
+- [Coherence Deep Dive](https://justingreenbaum.com/coherence-deep.html): Failure modes, field notes, evidence discipline, AI governance
+- [Decision & Responsibility Infrastructure](https://justingreenbaum.com/decision-responsibility-infrastructure.html): Field definition of DRI as a discipline
+
+## Core Concepts
+- **Coherence Triangle:** Truth (center-edge alignment), Authority (signal strength), Continuity (temporal consistency)
+- **Decision & Responsibility Infrastructure (DRI):** Designing structural conditions where good decisions and clear accountability are the default
+- **Failure Modes:** Taxonomy of 17 structural failure patterns in organizations (FM-01 through FM-17)
+- **Functional Field Notes:** 21 early-warning observations from diagnostic fieldwork
+
+## Related Properties
+- [Greenbaum Labs](https://greenbaumlabs.com): AI workshop and diagnostic tools
+- [Writing](https://writing.justingreenbaum.com): Essays on systems, responsibility, and governance
+- [Greenbaum Photography](https://greenbaumphotography.com): Fine art and documentary photography
+- [Megabrixels](https://megabrixels.com): Lego photography
+
+## Contact
+- Email: justin@greenbaumlabs.com
