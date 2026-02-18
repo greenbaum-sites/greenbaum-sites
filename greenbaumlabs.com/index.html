@@ -5,14 +5,14 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Greenbaum Labs — Personal AI Workshop</title>
   <meta name="description" content="A personal AI workshop running on local compute. Side projects, diagnostic tools, and experiments in applied AI by Justin R. Greenbaum.">
-  
+
   <!-- Open Graph -->
   <meta property="og:title" content="Greenbaum Labs">
   <meta property="og:description" content="Personal AI Workshop — Where diagnostic systems, analytical frameworks, and AI experiments come to life.">
   <meta property="og:image" content="https://greenbaumlabs.com/og-greenbaumlabs.png">
   <meta property="og:url" content="https://greenbaumlabs.com">
   <meta property="og:type" content="website">
-  
+
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Greenbaum Labs">
@@ -232,27 +232,6 @@
       max-width: 760px;
     }
 
-    .hero-terminal {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      font-weight: 300;
-      letter-spacing: 0.05em;
-      color: var(--green);
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.6s ease forwards 0.2s;
-    }
-
-    .hero-terminal .cursor {
-      display: inline-block;
-      width: 7px;
-      height: 13px;
-      background: var(--green);
-      margin-left: 4px;
-      animation: blink 1s step-end infinite;
-      vertical-align: text-bottom;
-    }
-
     .hero h1 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
@@ -261,7 +240,7 @@
       letter-spacing: -0.02em;
       margin-bottom: 2rem;
       opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.4s;
+      animation: fadeUp 0.8s ease forwards 0.3s;
     }
 
     .hero h1 .lab { color: var(--green); }
@@ -283,72 +262,14 @@
       color: var(--text-secondary);
       max-width: 560px;
       opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.6s;
+      animation: fadeUp 0.8s ease forwards 0.5s;
     }
 
-    .hero-audience {
-      font-size: 0.9rem;
-      line-height: 1.75;
-      color: var(--text-dim);
-      max-width: 560px;
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--border);
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.8s;
-    }
-
-    .hero-cta {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.9s;
-    }
-
-    .hero-cta a {
-      color: var(--green);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border-green);
-      transition: border-color 0.3s ease;
-    }
-
-    .hero-cta a:hover { border-color: var(--green); }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 2rem;
-      right: 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards 1.5s;
-    }
-
-    .hero-scroll span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      writing-mode: vertical-rl;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--green), transparent);
-      animation: pulse 2s ease infinite;
-    }
-
-    /* ---- HERO DIAGRAM ---- */
     .hero-diagram {
       max-width: 560px;
       margin-top: 2.5rem;
       opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.7s;
+      animation: fadeUp 0.8s ease forwards 0.6s;
     }
 
     .hero-diagram-row {
@@ -402,6 +323,51 @@
       margin-top: 0.75rem;
     }
 
+    .hero-cta {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.7s;
+    }
+
+    .hero-cta a {
+      color: var(--green);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border-green);
+      transition: border-color 0.3s ease;
+    }
+
+    .hero-cta a:hover { border-color: var(--green); }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2rem;
+      right: 3rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      opacity: 0;
+      animation: fadeIn 1s ease forwards 1.5s;
+    }
+
+    .hero-scroll span {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      writing-mode: vertical-rl;
+    }
+
+    .scroll-line {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, var(--green), transparent);
+      animation: pulse 2s ease infinite;
+    }
+
     /* ---- SECTION UTILITIES ---- */
     .section-label {
       font-family: 'JetBrains Mono', monospace;
@@ -424,8 +390,40 @@
       opacity: 0.4;
     }
 
-    /* ---- INFRASTRUCTURE ---- */
-    .infra {
+    /* ---- FAMILIAR ---- */
+    .familiar {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .familiar-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .familiar h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    .familiar p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .familiar p strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ---- FLAGSHIP ---- */
+    .flagship {
       padding: 8rem 3rem;
       background:
         radial-gradient(ellipse 60% 40% at 50% 30%, rgba(93,186,93,0.03), transparent),
@@ -433,57 +431,56 @@
       border-top: 1px solid var(--border-green);
     }
 
-    .infra-inner {
-      max-width: 1200px;
+    .flagship-inner {
+      max-width: 800px;
       margin: 0 auto;
     }
 
-    .infra h2 {
+    .flagship h2 {
       font-family: 'Cormorant Garamond', serif;
       font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-size: clamp(2.5rem, 4vw, 3.5rem);
       line-height: 1.2;
-      margin-bottom: 1rem;
+      margin-bottom: 1.5rem;
     }
 
-    .infra-sub {
+    .flagship-problem {
+      font-size: 1.05rem;
+      line-height: 1.85;
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+    }
+
+    .flagship-does {
       font-size: 0.95rem;
+      line-height: 1.85;
       color: var(--text-secondary);
-      line-height: 1.8;
-      max-width: 600px;
-      margin-bottom: 4rem;
+      margin-bottom: 2rem;
     }
 
-    .infra-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1px;
-      background: var(--border-green);
+    .flagship-proof {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.25rem 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
     }
 
-    .infra-node {
-      background: var(--bg-card);
-      padding: 2.5rem 2rem;
-      position: relative;
-      transition: all 0.3s ease;
-    }
-
-    .infra-node:hover { background: var(--bg-elevated); }
-
-    .infra-node.node-green { border-left: 2px solid var(--green); }
-    .infra-node.node-gold { border-left: 2px solid var(--accent); }
-    .infra-node.node-cyan { border-left: 2px solid var(--cyan); }
-
-    .node-status {
-      position: absolute;
-      top: 2.5rem;
-      right: 2rem;
+    .flagship-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green);
       display: flex;
       align-items: center;
       gap: 0.5rem;
     }
 
-    .status-dot {
+    .flagship-status .dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
@@ -492,270 +489,40 @@
       animation: blink 3s ease infinite;
     }
 
-    .status-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--green);
-    }
-
-    .node-status.idle .status-dot {
-      background: var(--accent);
-      box-shadow: 0 0 6px var(--accent-dim);
-      animation: none;
-    }
-
-    .node-status.idle .status-label {
-      color: var(--accent);
-    }
-
-    .node-type {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 1rem;
-    }
-
-    .node-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      margin-bottom: 0.25rem;
-    }
-
-    .node-hostname {
+    .flagship-stat {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.6rem;
-      color: rgba(93, 186, 93, 0.5);
-      margin-bottom: 0.75rem;
-    }
-
-    .node-desc {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 1rem;
-    }
-
-    .node-spec {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
+      letter-spacing: 0.05em;
       color: var(--text-dim);
-      line-height: 1.8;
-      padding-top: 1rem;
-      margin-top: 1rem;
-      border-top: 1px solid var(--border);
     }
 
-    .node-spec .highlight { color: var(--green); }
-
-    .topo-container {
-      margin-top: 4rem;
-      background: var(--bg-terminal);
-      border: 1px solid var(--border-green);
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .topo-title {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      padding: 1rem 1.5rem;
-      border-bottom: 1px solid var(--border-green);
-    }
-
-    .topo-title .g { color: var(--green); }
-
-    .topo-svg {
-      padding: 2rem 1.5rem;
+    .flagship-stack {
       display: flex;
-      justify-content: center;
-      overflow-x: auto;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
     }
 
-    .topo-svg svg {
-      width: 100%;
-      max-width: 800px;
-      height: auto;
-      min-width: 500px;
-    }
-
-    /* ---- ARCHITECTURE ---- */
-    .architecture {
-      padding: 8rem 3rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-green);
-    }
-
-    .arch-inner {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .architecture h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-
-    .arch-sub {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      max-width: 600px;
-      margin-bottom: 4rem;
-    }
-
-    .arch-diagram {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .arch-hub {
-      width: 100%;
-      max-width: 340px;
-    }
-
-    .arch-node {
-      background: var(--bg-terminal);
-      border: 1px solid var(--border-green);
-      padding: 2rem 1.5rem;
-      text-align: center;
-      transition: background 0.3s ease;
-    }
-
-    .arch-node:hover { background: var(--bg-card); }
-
-    .arch-node-role {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin-bottom: 0.75rem;
-    }
-
-    .arch-node-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
-      font-weight: 400;
-      color: var(--text-primary);
-      margin-bottom: 0.5rem;
-    }
-
-    .arch-node-desc {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .arch-connectors {
-      width: 100%;
-      max-width: 600px;
-      display: block;
-    }
-
-    .arch-leaves {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      width: 100%;
-      max-width: 600px;
-      background: var(--border-green);
-    }
-
-    .arch-one-liner {
-      text-align: center;
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-style: italic;
-      color: var(--text-secondary);
-      margin-top: 3rem;
-    }
-
-    .arch-about {
-      margin-top: 5rem;
-      padding-top: 4rem;
-      border-top: 1px solid var(--border);
-    }
-
-    .arch-about h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: 1.8rem;
-      margin-bottom: 1rem;
-    }
-
-    .arch-about-intro {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      max-width: 640px;
-      margin-bottom: 3rem;
-    }
-
-    .arch-layers {
-      display: flex;
-      flex-direction: column;
-    }
-
-    .arch-layer {
-      display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 2rem;
-      padding: 1.5rem 0;
-      border-top: 1px solid var(--border);
-    }
-
-    .arch-layer:last-child {
-      border-bottom: 1px solid var(--border);
-    }
-
-    .arch-layer-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-weight: 400;
-      color: var(--text-primary);
-      padding-top: 0.1rem;
-    }
-
-    .arch-layer-desc {
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
-    .arch-dri-link {
+    .flagship-link {
       display: inline-block;
-      margin-top: 2rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
       letter-spacing: 0.05em;
-      color: var(--text-dim);
+      color: var(--green);
       text-decoration: none;
-      border-bottom: 1px solid var(--border);
+      border-bottom: 1px solid var(--border-green);
       padding-bottom: 2px;
       transition: all 0.3s ease;
     }
 
-    .arch-dri-link:hover {
-      color: var(--green);
+    .flagship-link:hover {
       border-color: var(--green);
     }
 
     /* ---- PROJECTS ---- */
     .projects {
       padding: 8rem 3rem;
-      background: var(--bg-primary);
+      background: var(--bg-secondary);
       border-top: 1px solid var(--border);
     }
 
@@ -907,12 +674,12 @@
     /* ---- INSTRUMENTS ---- */
     .instruments {
       padding: 8rem 3rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-green);
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
     }
 
     .instruments-inner {
-      max-width: 1000px;
+      max-width: 800px;
       margin: 0 auto;
     }
 
@@ -932,123 +699,8 @@
       margin-bottom: 3rem;
     }
 
-    .instruments-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .instrument {
-      display: grid;
-      grid-template-columns: 60px 1fr auto;
-      gap: 2rem;
-      align-items: center;
-      padding: 1.25rem 0;
-      border-top: 1px solid var(--border);
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .instrument:last-child { border-bottom: 1px solid var(--border); }
-
-    .instrument:hover {
-      padding-left: 1rem;
-      background: linear-gradient(90deg, var(--bg-card), transparent);
-    }
-
-    .instrument-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.1em;
-      color: var(--text-dim);
-    }
-
-    .instrument[data-layer="signal"] .instrument-num { color: #4a90d9; }
-    .instrument[data-layer="failure"] .instrument-num { color: #d97b4a; }
-    .instrument[data-layer="governance"] .instrument-num { color: #8b2332; }
-    .instrument[data-layer="recovery"] .instrument-num { color: #6b7b4a; }
-    .instrument[data-layer="continuity"] .instrument-num { color: #5a6a7a; }
-
-    .instrument-main {
-      display: flex;
-      flex-direction: column;
-      gap: 0.15rem;
-    }
-
-    .instrument-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.25rem;
-      font-weight: 400;
-      color: var(--text-primary);
-      transition: color 0.3s ease;
-    }
-
-    .instrument:hover .instrument-name { color: var(--green); }
-
-    .instrument-purpose {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.05em;
-      color: var(--text-dim);
-    }
-
-    .instrument-arrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--text-dim);
-      transition: all 0.3s ease;
-    }
-
-    .instrument:hover .instrument-arrow {
-      color: var(--green);
-      transform: translateX(4px);
-    }
-
-    .instruments-footer {
-      margin-top: 3rem;
-      padding-top: 2rem;
-      border-top: 1px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-
-    .instruments-quote {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-style: italic;
-      color: var(--text-secondary);
-    }
-
-    .instruments-ar {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-    }
-
-    .instruments-field-link {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.08em;
-      color: var(--text-dim);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .instruments-field-link:hover {
-      color: var(--text-secondary);
-      border-color: var(--text-secondary);
-    }
-
-    /* ---- INSTRUMENTS CATALOG ---- */
     .instruments-catalog {
-      margin-bottom: 3rem;
+      margin-bottom: 0;
     }
 
     .catalog-item {
@@ -1075,89 +727,6 @@
       font-size: 0.8rem;
       color: var(--text-secondary);
       line-height: 1.5;
-    }
-
-    /* ---- PHILOSOPHY ---- */
-    .philosophy {
-      padding: 8rem 3rem;
-      background: var(--bg-primary);
-      border-top: 1px solid var(--border);
-    }
-
-    .philosophy-inner {
-      max-width: 900px;
-      margin: 0 auto;
-    }
-
-    .philosophy h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 3rem;
-    }
-
-    .principles {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .principle {
-      display: grid;
-      grid-template-columns: 60px 1fr;
-      gap: 2rem;
-      padding: 2rem 0;
-      border-top: 1px solid var(--border);
-    }
-
-    .principle-num {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      color: var(--green);
-    }
-
-    .principle-text {
-      font-size: 1rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-    }
-
-    .principle-text strong {
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    /* ---- FAMILIAR ---- */
-    .familiar {
-      padding: 8rem 3rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border);
-    }
-
-    .familiar-inner {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .familiar h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 2rem;
-    }
-
-    .familiar p {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.85;
-      margin-bottom: 1.5rem;
-    }
-
-    .familiar p strong {
-      color: var(--text-primary);
-      font-weight: 500;
     }
 
     /* ---- ECOSYSTEM ---- */
@@ -1359,7 +928,6 @@
 
     /* ---- RESPONSIVE ---- */
     @media (max-width: 1024px) {
-      .infra-grid { grid-template-columns: 1fr 1fr; }
       .eco-grid { grid-template-columns: 1fr 1fr; }
     }
 
@@ -1389,27 +957,20 @@
       .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
       .nav-toggle.active span:nth-child(2) { opacity: 0; }
       .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+      .hero { padding: 0 1.5rem 4rem; }
+      .hero-scroll { display: none; }
       .hero-diagram-row { flex-direction: column; gap: 0; }
       .hero-diagram-line { width: 1px; height: 12px; }
       .hero-diagram-box { width: 100%; }
-      .catalog-item { grid-template-columns: 1fr; gap: 0.3rem; }
-      section, .infra, .projects, .philosophy, .familiar, .ecosystem, .connect, .architecture {
+      .familiar, .flagship, .projects, .instruments, .ecosystem, .connect {
         padding: 5rem 1.5rem;
       }
-      .hero { padding: 0 1.5rem 4rem; }
-      .hero-scroll { display: none; }
-      .infra-grid { grid-template-columns: 1fr; }
-      .eco-grid { grid-template-columns: 1fr; }
+      .flagship-proof { gap: 1rem; }
       .project { grid-template-columns: 1fr; gap: 1rem; }
       .project-meta { align-items: flex-start; flex-direction: row; gap: 1.5rem; }
       .project-id { display: none; }
-      .topo-container { margin-top: 2rem; }
-      .topo-svg { padding: 1rem; }
-      .topo-svg svg { min-width: 400px; }
-      .arch-hub { max-width: 100%; }
-      .arch-leaves { grid-template-columns: 1fr; max-width: 100%; }
-      .arch-connectors { display: none; }
-      .arch-layer { grid-template-columns: 80px 1fr; gap: 1rem; }
+      .catalog-item { grid-template-columns: 1fr; gap: 0.3rem; }
+      .eco-grid { grid-template-columns: 1fr; }
       footer { flex-direction: column; gap: 1rem; text-align: center; }
     }
   </style>
@@ -1423,11 +984,9 @@
       <span class="nav-name">greenbaum<span>labs</span></span>
     </a>
     <ul class="nav-links">
-      <li><a href="#architecture">Architecture</a></li>
-      <li><a href="#infra">Infrastructure</a></li>
+      <li><a href="#coherence">Coherence</a></li>
       <li><a href="#projects">Projects</a></li>
       <li><a href="#instruments">Instruments</a></li>
-      <li><a href="#philosophy">Principles</a></li>
       <li><a href="#ecosystem">Ecosystem</a></li>
       <li><a href="#connect">Contact</a></li>
     </ul>
@@ -1441,11 +1000,8 @@
     <div class="hero-bg"></div>
     <div class="hero-grid"></div>
     <div class="hero-content">
-      <div class="hero-terminal">
-        <span>~/greenbaumlabs $ status --all</span><span class="cursor"></span>
-      </div>
       <h1>Greenbaum<br><span class="lab">Labs</span><em>A personal AI workshop running on local compute.</em></h1>
-      <p class="hero-sub">Side projects, diagnostic tools, and experiments in applied AI—built on my own machines, wired together like a small internal platform. Three boxes on a 10 GbE backbone. Compute stays local, the filesystem is the source of truth, and dashboards are visibility layers, not authority.</p>
+      <p class="hero-sub">A working diagnostic lab. Three machines, local inference, structured outputs. One governing constraint: automation observes, summarizes, and suggests — it does not decide.</p>
       <div class="hero-diagram">
         <div class="hero-diagram-row">
           <div class="hero-diagram-box">
@@ -1465,8 +1021,7 @@
         </div>
         <p class="hero-diagram-caption">Compute handles inference. Storage holds truth. Humans hold authority.</p>
       </div>
-      <p class="hero-audience">For operators, engineering leaders, and Chiefs of Staff who care less about AI demos and more about reliable, explainable systems that actually help people do better work.</p>
-      <p class="hero-cta">If something here feels adjacent to a problem you're wrestling with, I'd welcome a conversation: <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a></p>
+      <p class="hero-cta">If something here feels adjacent to a problem you're navigating: <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a></p>
     </div>
     <div class="hero-scroll">
       <span>Scroll</span>
@@ -1474,157 +1029,42 @@
     </div>
   </section>
 
-  <!-- Responsibility Architecture -->
-  <section class="architecture" id="architecture">
-    <div class="arch-inner">
+  <!-- If This Feels Familiar -->
+  <section class="familiar" id="familiar">
+    <div class="familiar-inner">
       <div class="reveal">
-        <div class="section-label">Responsibility Architecture</div>
-        <h2>How authority flows.</h2>
-        <p class="arch-sub">Three nodes, one routing rule: all decision paths pass through the human seat.</p>
+        <div class="section-label">Recognition</div>
+        <h2>If this feels familiar.</h2>
       </div>
-
-      <div class="arch-diagram reveal" role="img" aria-label="Architecture diagram: Mac Studio as central cockpit connected bidirectionally to DGX Spark and Cloud AI. No direct path exists between DGX Spark and Cloud AI.">
-        <div class="arch-node arch-hub">
-          <div class="arch-node-role">Cockpit</div>
-          <div class="arch-node-name">Mac Studio</div>
-          <div class="arch-node-desc">Truth surface and authority seat. Decisions are made here; tools only suggest.</div>
-        </div>
-
-        <svg class="arch-connectors" viewBox="0 0 600 70" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <marker id="ah" markerWidth="8" markerHeight="6" refX="4" refY="3" orient="auto-start-reverse">
-              <path d="M0,0.5 L7,3 L0,5.5" stroke="rgba(93,186,93,0.5)" stroke-width="1" fill="none"/>
-            </marker>
-          </defs>
-          <line x1="300" y1="4" x2="155" y2="66" stroke="rgba(93,186,93,0.3)" stroke-width="1" marker-start="url(#ah)" marker-end="url(#ah)"/>
-          <line x1="300" y1="4" x2="445" y2="66" stroke="rgba(93,186,93,0.3)" stroke-width="1" marker-start="url(#ah)" marker-end="url(#ah)"/>
-        </svg>
-
-        <div class="arch-leaves">
-          <div class="arch-node">
-            <div class="arch-node-role">Execution Substrate</div>
-            <div class="arch-node-name">DGX Spark</div>
-            <div class="arch-node-desc">Runs local LLMs, agents, and diagnostics. Has no mandate to decide.</div>
-          </div>
-          <div class="arch-node">
-            <div class="arch-node-role">Outside Counsel</div>
-            <div class="arch-node-name">Cloud AI</div>
-            <div class="arch-node-desc">Useful for pattern recognition and synthesis. Explicitly not the system of record.</div>
-          </div>
-        </div>
-      </div>
-
-      <p class="arch-one-liner reveal">"This is what 'responsibility is infrastructure' looks like when you wire it into actual machines."</p>
-
-      <div class="arch-about reveal">
-        <h3>What This Lab Is For</h3>
-        <p class="arch-about-intro">Greenbaum Labs is where I prototype Decision &amp; Responsibility Infrastructure on real hardware, not slides.</p>
-        <div class="arch-layers">
-          <div class="arch-layer">
-            <div class="arch-layer-name">Truth</div>
-            <div class="arch-layer-desc">Structured logs, test results, and telemetry from DGX jobs — what actually happened, not what was intended.</div>
-          </div>
-          <div class="arch-layer">
-            <div class="arch-layer-name">Authority</div>
-            <div class="arch-layer-desc">Clear contracts on who and what decides, encoded in the way agents are allowed to act.</div>
-          </div>
-          <div class="arch-layer">
-            <div class="arch-layer-name">Continuity</div>
-            <div class="arch-layer-desc">Runbooks, replayable jobs, and persistent configs across Mac/DGX/cloud — so nothing depends on memory alone.</div>
-          </div>
-        </div>
-        <a href="https://justingreenbaum.com/decision-responsibility-infrastructure" class="arch-dri-link">Read the full field definition →</a>
+      <div class="reveal">
+        <p><strong>When truth drifts from authority,</strong> you see it in the same places every time. The executive team says one thing in the earnings call; the frontline team lives something else entirely. Customer reviews tell a different story than press releases. People absorb the gap — and that absorption is invisible until it isn't.</p>
+        <p><strong>When you wire a diagnostic lab into your workflows</strong> — local compute, adversarial validation, structured outputs — you stop guessing where the misalignment lives. You start measuring it. Not with surveys or sentiment dashboards, but with scored findings that survive challenge. The infrastructure is small. The implications aren't.</p>
       </div>
     </div>
   </section>
 
-  <!-- Infrastructure -->
-  <section class="infra" id="infra">
-    <div class="infra-inner">
+  <!-- Coherence -->
+  <section class="flagship" id="coherence">
+    <div class="flagship-inner">
       <div class="reveal">
-        <div class="section-label">Infrastructure</div>
-        <h2>The Workbench</h2>
-        <p class="infra-sub">Greenbaum Labs is the workshop. These are the other rooms: three machines doing the quiet, unglamorous work of running local models, agents, and diagnostics.</p>
+        <div class="section-label">The Diagnostic Engine</div>
+        <h2>Coherence</h2>
+        <p class="flagship-problem">Organizations can't measure the gap between what they say and what the world sees. The disconnect compounds silently until it surfaces as a crisis.</p>
       </div>
-      <div class="infra-grid reveal">
-        <div class="infra-node node-green">
-          <div class="node-status"><span class="status-dot"></span><span class="status-label">Active</span></div>
-          <div class="node-type">Compute</div>
-          <div class="node-name">DGX Spark</div>
-          <div class="node-hostname">spark-a044</div>
-          <div class="node-desc">Main box: primary dev environment, orchestration, and most of the day-to-day experiments.</div>
-          <div class="node-spec">
-            <span class="highlight">NVIDIA Grace Blackwell GB10</span><br>
-            128GB unified · 10 GbE<br>
-            Ollama · qwen3:32b · nomic-embed<br>
-            Primary compute · Local inference
-          </div>
+      <div class="reveal">
+        <p class="flagship-does">A four-stage diagnostic pipeline — Collect, Extract, Score, Synthesize — that compares center narrative against edge reality. Every finding is challenged by an adversarial Skeptic before it enters the record. All local compute. No data leaves the network.</p>
+        <div class="flagship-proof">
+          <div class="flagship-status"><div class="dot"></div>Live</div>
+          <span class="flagship-stat">13 pipeline runs</span>
+          <span class="flagship-stat">1,377 claims scored</span>
         </div>
-        <div class="infra-node node-gold">
-          <div class="node-status"><span class="status-dot"></span><span class="status-label">Active</span></div>
-          <div class="node-type">Storage</div>
-          <div class="node-name">Synology NAS</div>
-          <div class="node-hostname">gl_nas</div>
-          <div class="node-desc">Storage / backbone: snapshots, logs, and the slow, boring parts that make the rest trustworthy.</div>
-          <div class="node-spec">
-            <span class="highlight">Filesystem-first truth store</span><br>
-            10 GbE backbone · SMB/NFS<br>
-            Snapshots · Markdown canon · Schemas<br>
-            Persistent storage · Backup target
-          </div>
+        <div class="flagship-stack">
+          <span class="tag green">DGX Spark</span>
+          <span class="tag cyan">ChromaDB</span>
+          <span class="tag">qwen3:32b</span>
+          <span class="tag gold">DRI&trade;</span>
         </div>
-        <div class="infra-node node-cyan">
-          <div class="node-status idle"><span class="status-dot"></span><span class="status-label">Idle</span></div>
-          <div class="node-type">Interface</div>
-          <div class="node-name">Mac Studio</div>
-          <div class="node-hostname">control</div>
-          <div class="node-desc">Authority seat and human interface. Decisions are made here; tools only suggest.</div>
-          <div class="node-spec">
-            <span class="highlight">Apple Silicon workstation</span><br>
-            10 GbE backbone<br>
-            Claude Code · Cursor · Terminal<br>
-            Authority seat · Human interface
-          </div>
-        </div>
-      </div>
-      <div class="topo-container reveal">
-        <div class="topo-title"><span class="g">GREENBAUM LABS</span> · Network Topology</div>
-        <div class="topo-svg">
-          <svg viewBox="0 0 800 300" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-            <!-- Connection lines -->
-            <line x1="220" y1="105" x2="310" y2="105" stroke="rgba(93,186,93,0.25)" stroke-width="1"/>
-            <line x1="490" y1="105" x2="580" y2="105" stroke="rgba(93,186,93,0.25)" stroke-width="1"/>
-            <line x1="400" y1="130" x2="400" y2="210" stroke="rgba(93,186,93,0.25)" stroke-width="1"/>
-            <!-- Connection labels -->
-            <text x="265" y="98" font-family="'JetBrains Mono', monospace" font-size="9" fill="rgba(93,186,93,0.4)" text-anchor="middle">10 GbE</text>
-            <text x="535" y="98" font-family="'JetBrains Mono', monospace" font-size="9" fill="rgba(93,186,93,0.4)" text-anchor="middle">10 GbE</text>
-            <text x="414" y="175" font-family="'JetBrains Mono', monospace" font-size="9" fill="rgba(93,186,93,0.4)">10 GbE</text>
-            <!-- DGX Spark -->
-            <rect x="40" y="55" width="180" height="100" rx="3" fill="rgba(10,10,10,0.8)" stroke="rgba(93,186,93,0.4)" stroke-width="1"/>
-            <text x="130" y="78" font-family="'JetBrains Mono', monospace" font-size="8" fill="#3e3b38" text-anchor="middle" letter-spacing="0.15em">COMPUTE</text>
-            <circle cx="202" cy="73" r="3" fill="#5dba5d"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></circle>
-            <text x="130" y="100" font-family="'JetBrains Mono', monospace" font-size="12" fill="#e8e4dc" text-anchor="middle">DGX Spark</text>
-            <text x="130" y="118" font-family="'JetBrains Mono', monospace" font-size="9" fill="rgba(93,186,93,0.5)" text-anchor="middle">spark-a044</text>
-            <text x="130" y="140" font-family="'JetBrains Mono', monospace" font-size="8" fill="#3e3b38" text-anchor="middle">128 GB · GB10</text>
-            <!-- USW Flex XG -->
-            <rect x="310" y="80" width="180" height="50" rx="3" fill="rgba(10,10,10,0.8)" stroke="rgba(240,236,228,0.1)" stroke-width="1"/>
-            <text x="400" y="101" font-family="'JetBrains Mono', monospace" font-size="8" fill="#3e3b38" text-anchor="middle" letter-spacing="0.15em">SWITCH</text>
-            <text x="400" y="119" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7a7570" text-anchor="middle">USW Flex XG</text>
-            <!-- Synology NAS -->
-            <rect x="580" y="55" width="180" height="100" rx="3" fill="rgba(10,10,10,0.8)" stroke="rgba(201,168,76,0.4)" stroke-width="1"/>
-            <text x="670" y="78" font-family="'JetBrains Mono', monospace" font-size="8" fill="#3e3b38" text-anchor="middle" letter-spacing="0.15em">STORAGE</text>
-            <circle cx="742" cy="73" r="3" fill="#c9a84c"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></circle>
-            <text x="670" y="100" font-family="'JetBrains Mono', monospace" font-size="12" fill="#e8e4dc" text-anchor="middle">Synology NAS</text>
-            <text x="670" y="118" font-family="'JetBrains Mono', monospace" font-size="9" fill="rgba(93,186,93,0.5)" text-anchor="middle">gl_nas</text>
-            <text x="670" y="140" font-family="'JetBrains Mono', monospace" font-size="8" fill="#3e3b38" text-anchor="middle">SMB/NFS · 10 GbE</text>
-            <!-- Mac Studio -->
-            <rect x="310" y="210" width="180" height="70" rx="3" fill="rgba(10,10,10,0.8)" stroke="rgba(94,184,196,0.4)" stroke-width="1"/>
-            <text x="400" y="233" font-family="'JetBrains Mono', monospace" font-size="8" fill="#3e3b38" text-anchor="middle" letter-spacing="0.15em">INTERFACE</text>
-            <circle cx="472" cy="228" r="3" fill="#5eb8c4"><animate attributeName="opacity" values="1;0.3;1" dur="3s" repeatCount="indefinite"/></circle>
-            <text x="400" y="252" font-family="'JetBrains Mono', monospace" font-size="12" fill="#e8e4dc" text-anchor="middle">Mac Studio</text>
-            <text x="400" y="268" font-family="'JetBrains Mono', monospace" font-size="9" fill="rgba(93,186,93,0.5)" text-anchor="middle">control</text>
-          </svg>
-        </div>
+        <a href="/case-study-diagnostic-engine" class="flagship-link">Read the technical case study &rarr;</a>
       </div>
     </div>
   </section>
@@ -1634,30 +1074,11 @@
     <div class="projects-inner">
       <div class="reveal">
         <div class="section-label">Projects</div>
-        <h2>What's on the bench.</h2>
-        <p class="projects-sub">Not everything here is meant to ship. Some projects exist to test an idea, learn a constraint, or solve a problem for one person. The ones that matter tend to stay. Some projects are tools. Some are experiments. Not all are meant to scale.</p>
+        <h2>What else is on the bench.</h2>
+        <p class="projects-sub">Not everything here is meant to ship. Some projects test an idea or solve a problem for one person. The ones that matter tend to stay.</p>
       </div>
 
       <div class="project-list reveal">
-        
-        <div class="project">
-          <div class="project-id">GL-001</div>
-          <div class="project-main">
-            <div class="project-name">Coherence Diagnostic Engine</div>
-            <div class="project-problem">Organizations can't measure the gap between what they say and what the world sees. The disconnect compounds silently until it surfaces as a crisis.</div>
-            <div class="project-does">A diagnostic pipeline that compares center narrative against edge reality, scoring organizations on Truth and Authority through an adversarial process. Four-stage pipeline: Collect, Extract, Score, Synthesize. All local compute — no data leaves the network.</div>
-            <div class="project-stack">
-              <span class="tag green">DGX Spark</span>
-              <span class="tag cyan">ChromaDB</span>
-              <span class="tag">qwen3:32b</span>
-              <span class="tag gold">DRI™</span>
-            </div>
-          </div>
-          <div class="project-meta">
-            <div class="project-status live"><div class="dot"></div>Live</div>
-            <a href="/case-study-diagnostic-engine" class="project-link">Case Study →</a>
-          </div>
-        </div>
 
         <div class="project">
           <div class="project-id">GL-002</div>
@@ -1721,8 +1142,8 @@
     <div class="instruments-inner">
       <div class="reveal">
         <div class="section-label">~/instruments</div>
-        <h2>Diagnostic tools. Live.</h2>
-        <p class="instruments-explainer">Most organizations don't lack information. They lack shared meaning. Truth drifts from authority. Authority drifts from continuity. People absorb the gap. These seven instruments surface where that absorption is happening, name the structural conditions causing it, and record what changes when someone acts. They observe, summarize, and suggest. They do not decide.</p>
+        <h2>Seven instruments.</h2>
+        <p class="instruments-explainer">Tools that surface where organizational meaning breaks down, name the structural conditions causing it, and record what changes when someone acts.</p>
       </div>
       <div class="instruments-catalog reveal">
         <div class="catalog-item"><span class="catalog-name">FM Scanner</span><span class="catalog-desc">Watches structural breakdowns. Records failure mode matches.</span></div>
@@ -1732,115 +1153,6 @@
         <div class="catalog-item"><span class="catalog-name">Verified Independence</span><span class="catalog-desc">Watches recovery claims. Records evidence that a fix is real.</span></div>
         <div class="catalog-item"><span class="catalog-name">Regression Watch</span><span class="catalog-desc">Watches fix durability. Records whether corrections hold or decay.</span></div>
         <div class="catalog-item"><span class="catalog-name">Continuity Chain</span><span class="catalog-desc">Watches meaning persistence. Records the through-line across time.</span></div>
-      </div>
-      <div class="instruments-grid reveal">
-        <a href="/tools/fm-scanner" class="instrument" data-layer="failure">
-          <span class="instrument-num">001</span>
-          <div class="instrument-main">
-            <span class="instrument-name">FM Scanner</span>
-            <span class="instrument-purpose">Detect failure mode patterns</span>
-          </div>
-          <span class="instrument-arrow">→</span>
-        </a>
-        <a href="/tools/ffn-surface" class="instrument" data-layer="signal">
-          <span class="instrument-num">002</span>
-          <div class="instrument-main">
-            <span class="instrument-name">FFN Surface</span>
-            <span class="instrument-purpose">Surface early warning signals</span>
-          </div>
-          <span class="instrument-arrow">→</span>
-        </a>
-        <a href="/tools/system-nav-locator" class="instrument" data-layer="signal">
-          <span class="instrument-num">003</span>
-          <div class="instrument-main">
-            <span class="instrument-name">System Nav Locator</span>
-            <span class="instrument-purpose">Orient on the diagnostic map</span>
-          </div>
-          <span class="instrument-arrow">→</span>
-        </a>
-        <a href="/tools/declaration-log" class="instrument" data-layer="governance">
-          <span class="instrument-num">004</span>
-          <div class="instrument-main">
-            <span class="instrument-name">Declaration Log</span>
-            <span class="instrument-purpose">Record when authority acted</span>
-          </div>
-          <span class="instrument-arrow">→</span>
-        </a>
-        <a href="/tools/verified-independence" class="instrument" data-layer="recovery">
-          <span class="instrument-num">005</span>
-          <div class="instrument-main">
-            <span class="instrument-name">Verified Independence</span>
-            <span class="instrument-purpose">Prove fixes are real</span>
-          </div>
-          <span class="instrument-arrow">→</span>
-        </a>
-        <a href="/tools/regression-watch" class="instrument" data-layer="continuity">
-          <span class="instrument-num">006</span>
-          <div class="instrument-main">
-            <span class="instrument-name">Regression Watch</span>
-            <span class="instrument-purpose">Test if fixes hold over time</span>
-          </div>
-          <span class="instrument-arrow">→</span>
-        </a>
-        <a href="/tools/continuity-chain" class="instrument" data-layer="continuity">
-          <span class="instrument-num">007</span>
-          <div class="instrument-main">
-            <span class="instrument-name">Continuity Chain</span>
-            <span class="instrument-purpose">Custody of meaning across time</span>
-          </div>
-          <span class="instrument-arrow">→</span>
-        </a>
-      </div>
-      <div class="instruments-footer reveal">
-        <span class="instruments-quote">"Tools that see without deciding."</span>
-        <a href="/field" class="instruments-field-link">Orientation: The Field</a>
-        <span class="instruments-ar">AR-001 Compliant</span>
-      </div>
-    </div>
-  </section>
-
-  <!-- Philosophy -->
-  <section class="philosophy" id="philosophy">
-    <div class="philosophy-inner">
-      <div class="reveal">
-        <div class="section-label">Operating Principles</div>
-        <h2>How the lab works.</h2>
-      </div>
-      <div class="principles reveal">
-        <div class="principle">
-          <div class="principle-num">01</div>
-          <div class="principle-text"><strong>Own the compute.</strong> Local inference on local hardware. The DGX isn't a luxury, it's a design constraint. When you control the infrastructure, you control the dependencies.</div>
-        </div>
-        <div class="principle">
-          <div class="principle-num">02</div>
-          <div class="principle-text"><strong>Filesystem is source of truth.</strong> Dashboards are visibility layers, not authority. The NAS holds the canon. Everything else reads from it.</div>
-        </div>
-        <div class="principle">
-          <div class="principle-num">03</div>
-          <div class="principle-text"><strong>Automation may observe, summarize, and suggest. Automation may not decide.</strong> This is AR-001. Every tool in this lab operates under this constraint.</div>
-        </div>
-        <div class="principle">
-          <div class="principle-num">04</div>
-          <div class="principle-text"><strong>Ship gifts, not pitches.</strong> RC Pit Boss was built for one person. The best projects start as something useful for someone specific.</div>
-        </div>
-        <div class="principle">
-          <div class="principle-num">05</div>
-          <div class="principle-text"><strong>Build ahead of demand.</strong> The work will become important. The question is whether the infrastructure is ready when the need arrives.</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- If This Feels Familiar -->
-  <section class="familiar" id="familiar">
-    <div class="familiar-inner">
-      <div class="reveal">
-        <div class="section-label">Recognition</div>
-        <h2>If this feels familiar.</h2>
-      </div>
-      <div class="reveal">
-        <p><strong>When truth drifts from authority,</strong> you see it in the same places every time. The executive team says one thing in the earnings call; the frontline team lives something else entirely. Customer reviews tell a different story than press releases. People absorb the gap between what the org says and what it does — and that absorption is invisible until it isn't. The structural name for this is Responsibility Compression. It shows up in every diagnostic run.</p>
-        <p><strong>When you wire a lab like this into your workflows</strong> — local compute, adversarial validation, structured outputs — you stop guessing where the misalignment lives. You start measuring it. Not with surveys or sentiment dashboards, but with scored findings that survive challenge. The infrastructure is small. The implications aren't.</p>
       </div>
     </div>
   </section>
@@ -1900,10 +1212,10 @@
 
   <!-- Footer -->
   <footer>
-    <div class="footer-l">© 2026 Greenbaum Labs — Built on owned infrastructure</div>
+    <div class="footer-l">&copy; 2026 Greenbaum Labs &mdash; Built on owned infrastructure</div>
     <div class="footer-r">
-      <a href="https://justingreenbaum.com">Person</a> ·
-      <a href="https://greenbaumphotography.com">Photography</a> ·
+      <a href="https://justingreenbaum.com">Person</a> &middot;
+      <a href="https://greenbaumphotography.com">Photography</a> &middot;
       <a href="https://megabrixels.com">Studio</a>
     </div>
   </footer>
