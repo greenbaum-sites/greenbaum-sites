@@ -10,19 +10,18 @@
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
 
   <title>Case Study: Coherence Diagnostic Engine — Greenbaum Labs</title>
-  <meta name="description" content="How I built an AI diagnostic system that observes but doesn't decide. Architecture, constraints, and philosophy.">
+  <meta name="description" content="How I built a diagnostic pipeline that measures organizational coherence — the gap between center narrative and edge reality. Architecture, constraints, and what it doesn't do.">
 
   <meta property="og:title" content="Case Study: Coherence Diagnostic Engine">
-  <meta property="og:description" content="An AI system built on one constraint: it can observe, but it cannot decide.">
+  <meta property="og:description" content="A diagnostic pipeline measuring the gap between what organizations say and what the world sees. Local compute, adversarial process, no decisions.">
   <meta property="og:type" content="article">
   <meta property="og:image" content="https://greenbaumlabs.com/og-diagnostic-engine.png">
   <meta property="og:url" content="https://greenbaumlabs.com/case-study-diagnostic-engine">
 
-  
   <!-- Twitter -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Case Study: Coherence Diagnostic Engine">
-  <meta name="twitter:description" content="An AI system built on one constraint: it can observe, but it cannot decide.">
+  <meta name="twitter:description" content="A diagnostic pipeline measuring the gap between what organizations say and what the world sees.">
   <meta name="twitter:image" content="https://greenbaumlabs.com/og-diagnostic-engine.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -31,20 +30,20 @@
   <style>
     :root {
       --bg-primary: #0a0a0a;
-      --bg-secondary: #0e0e0e;
-      --bg-card: #141414;
+      --bg-secondary: #161616;
+      --bg-card: #1c1c1c;
       --bg-terminal: #0c0c0c;
       --text-primary: #e8e4dc;
-      --text-secondary: #7a7570;
-      --text-dim: #3e3b38;
+      --text-secondary: #8a857f;
+      --text-dim: #4d4945;
       --green: #5dba5d;
       --green-dim: rgba(93, 186, 93, 0.08);
       --green-glow: rgba(93, 186, 93, 0.15);
       --accent: #c9a84c;
       --warm: #c8553a;
       --cyan: #5eb8c4;
-      --border: rgba(240, 236, 228, 0.05);
-      --border-green: rgba(93, 186, 93, 0.12);
+      --border: rgba(240, 236, 228, 0.07);
+      --border-green: rgba(93, 186, 93, 0.15);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -170,6 +169,39 @@
       font-weight: 500;
     }
 
+    .triangle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-green);
+      margin: 2rem 0;
+    }
+
+    .triangle-item {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+    }
+
+    .triangle-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--green);
+      margin-bottom: 0.25rem;
+    }
+
+    .triangle-weight {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .triangle-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
     .stack-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -195,48 +227,64 @@
       color: var(--text-secondary);
     }
 
-    .capability-list {
+    .pipeline-steps {
+      list-style: none;
+      margin: 2rem 0;
+      counter-reset: step;
+    }
+
+    .pipeline-steps li {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+      counter-increment: step;
+    }
+
+    .pipeline-steps li::before {
+      content: counter(step);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--green);
+    }
+
+    .step-name {
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .step-desc {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .constraint-list {
       list-style: none;
       margin: 2rem 0;
     }
 
-    .capability-list li {
-      padding: 1rem 0;
+    .constraint-list li {
+      padding: 0.75rem 0;
+      padding-left: 1.5rem;
       border-bottom: 1px solid var(--border);
-      display: grid;
-      grid-template-columns: 120px 1fr;
-      gap: 2rem;
-      align-items: baseline;
-    }
-
-    .capability-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--green);
-    }
-
-    .capability-text {
       font-size: 0.95rem;
       color: var(--text-secondary);
+      position: relative;
     }
 
-    .video-placeholder {
-      background: var(--bg-card);
-      border: 1px solid var(--border-green);
-      aspect-ratio: 16/9;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 2rem 0;
-    }
-
-    .video-placeholder span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      letter-spacing: 0.1em;
-      color: var(--text-dim);
+    .constraint-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.1rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
     }
 
     .cta-section {
@@ -294,8 +342,10 @@
     @media (max-width: 768px) {
       .hero, .content { padding-left: 1.5rem; padding-right: 1.5rem; }
       .back-link { position: static; margin: 1.5rem; }
+      .triangle-grid { grid-template-columns: 1fr; }
       .stack-grid { grid-template-columns: 1fr; }
-      .capability-list li { grid-template-columns: 1fr; gap: 0.5rem; }
+      .pipeline-steps li { grid-template-columns: 30px 1fr; gap: 1rem; }
+      .constraint-box { margin: 2rem 1.5rem; }
     }
   </style>
 </head>
@@ -306,80 +356,128 @@
   <section class="hero">
     <div class="hero-label">Case Study · GL-001</div>
     <h1>Coherence Diagnostic Engine</h1>
-    <p class="hero-sub">An AI system built on one constraint: it can search, surface, and observe. It cannot decide.</p>
+    <p class="hero-sub">Measuring the gap between what organizations say and what the world sees. Built on local compute. Governed by one rule.</p>
   </section>
 
   <div class="constraint-box">
-    <div class="constraint-label">AR-001</div>
+    <div class="constraint-label">AR-001 · Governing Constraint</div>
     <div class="constraint-text">"Automation may observe, summarize, and suggest. Automation may not decide."</div>
   </div>
 
   <div class="content">
     <h2>The Problem</h2>
-    <p>Years of decision logs, daily journals, and pattern observations. Thousands of entries. The signal is in there, but the volume makes it invisible.</p>
-    <p>I needed a system that could search semantically, surface patterns I'd never notice, and help me prepare for diagnostic conversations. What I didn't need: a system that draws conclusions or automates judgment.</p>
+    <p>Organizations project a narrative from the center — press releases, job postings, earnings calls. The edge — customers, employees, media, social — tells a different story.</p>
+    <p>The distance between these two stories is where coherence breaks down. Most companies can't measure this gap because nothing in their stack is designed to surface it. Surveys measure satisfaction. Sentiment tools measure mood. <strong>Nothing measures structural alignment between what an organization claims and what actually shows up in the world.</strong></p>
 
-    <h2>The Architecture</h2>
-    <p>Everything runs on local infrastructure. No data leaves my network.</p>
+    <h2>The Coherence Triangle</h2>
+    <p>Three dimensions, weighted by structural importance:</p>
+
+    <div class="triangle-grid">
+      <div class="triangle-item">
+        <div class="triangle-name">Truth</div>
+        <div class="triangle-weight">55% weight</div>
+        <div class="triangle-desc">Does the center narrative match edge reality? Measured by comparing claims from official sources against observations from the outside world.</div>
+      </div>
+      <div class="triangle-item">
+        <div class="triangle-name">Authority</div>
+        <div class="triangle-weight">45% weight</div>
+        <div class="triangle-desc">Does the entity's voice carry weight and consistency? Signal strength, message discipline, and whether the center speaks with one voice.</div>
+      </div>
+      <div class="triangle-item">
+        <div class="triangle-name">Continuity</div>
+        <div class="triangle-weight">Phase 2</div>
+        <div class="triangle-desc">Temporal consistency across collection periods. Not yet implemented — requires multiple data windows to measure drift over time.</div>
+      </div>
+    </div>
+
+    <p>Overall coherence = Truth × 0.55 + Authority × 0.45. Continuity will factor in once multi-period collection is live.</p>
+
+    <h2>The Pipeline</h2>
+    <p>Four stages. Each produces structured, schema-validated outputs. The full pipeline runs on a single DGX Spark with no external API calls.</p>
+
+    <ul class="pipeline-steps">
+      <li>
+        <div>
+          <div class="step-name">Collect</div>
+          <div class="step-desc">Gather center sources (press releases, job postings, earnings transcripts) and edge sources (customer reviews, social media, news coverage, employee reviews). All publicly available data.</div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-name">Extract</div>
+          <div class="step-desc">Agent-based extraction via local LLMs. Each source document yields structured claims and observations with type annotations and schema validation. A single run produces over 1,000 claims and 4,000+ typed observations.</div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-name">Score</div>
+          <div class="step-desc">Agents score findings on Truth and Authority. An adversarial Skeptic challenges every finding — only sustained findings enter the evidence ledger. Stable sustain rate: 73–75%.</div>
+        </div>
+      </li>
+      <li>
+        <div>
+          <div class="step-name">Synthesize</div>
+          <div class="step-desc">Produces a scored case file: findings, failure mode codes, field notes, and an overall coherence narrative. The case file is the deliverable — structured evidence for diagnostic conversations.</div>
+        </div>
+      </li>
+    </ul>
+
+    <h2>The Adversarial Skeptic</h2>
+    <p>The scoring step includes a built-in challenge mechanism. Every finding is produced, then attacked by a Skeptic agent that argues against it. Only findings that survive the challenge are sustained and enter the record.</p>
+    <p>This isn't a gimmick — it's structural quality control. If the sustain rate drops below 60%, the problem is in extraction quality, not the Skeptic. <strong>The Skeptic is a load-bearing constraint</strong> that prevents the pipeline from producing findings it can't defend.</p>
+
+    <h2>The Infrastructure</h2>
+    <p>Everything runs on local hardware. No data leaves the network. No API calls to cloud inference providers.</p>
 
     <div class="stack-grid">
       <div class="stack-item">
         <div class="stack-name">DGX Spark</div>
-        <div class="stack-desc">NVIDIA Grace Blackwell. Local inference and embedding generation.</div>
+        <div class="stack-desc">NVIDIA Grace Blackwell GB10. 128GB unified memory. All inference runs here via Ollama. Primary compute for extraction, scoring, and synthesis.</div>
       </div>
       <div class="stack-item">
-        <div class="stack-name">Synology NAS</div>
-        <div class="stack-desc">Filesystem is source of truth. Markdown canon, schemas, project data.</div>
+        <div class="stack-name">qwen3:32b</div>
+        <div class="stack-desc">The proven stable model. 32.8B parameters, Q4_K_M quantization. Batch size of 1. Validated across 13 pipeline runs.</div>
       </div>
       <div class="stack-item">
         <div class="stack-name">ChromaDB</div>
-        <div class="stack-desc">Vector database for semantic search across all artifacts.</div>
+        <div class="stack-desc">Vector database indexing canon documents and pipeline memory. Embedded with nomic-embed-text.</div>
       </div>
       <div class="stack-item">
-        <div class="stack-name">Python + Streamlit</div>
-        <div class="stack-desc">Interface layer. React rebuild on the roadmap.</div>
+        <div class="stack-name">Synology NAS</div>
+        <div class="stack-desc">Filesystem-first truth store. Source data, schemas, and markdown canon live here. 10 GbE backbone to all nodes.</div>
       </div>
     </div>
 
-    <h2>What It Does</h2>
-    <ul class="capability-list">
-      <li>
-        <span class="capability-label">Semantic Search</span>
-        <span class="capability-text">Natural language queries across years of logs. Meaning matching, not keyword matching.</span>
-      </li>
-      <li>
-        <span class="capability-label">Pattern Surfacing</span>
-        <span class="capability-text">"These three concepts appeared together in four entries this month." Observation without interpretation.</span>
-      </li>
-      <li>
-        <span class="capability-label">FM/FFN Analysis</span>
-        <span class="capability-text">Tag and retrieve decisions by pattern type. Familiar Mechanics vs. Familiar-Feeling Novelty.</span>
-      </li>
-      <li>
-        <span class="capability-label">Preparation Mode</span>
-        <span class="capability-text">Pull relevant context before diagnostic conversations. Past situations, how they resolved, what I wrote at the time.</span>
-      </li>
+    <h2>Structural Constraints</h2>
+    <p>Not all limitations can be solved by model tuning. Some are structural — the pipeline telling you what evidence it doesn't have:</p>
+
+    <ul class="constraint-list">
+      <li>Authority capped at 0.70 without employee review data in the edge sources</li>
+      <li>Truth capped when fewer than 2 distinct edge source types are present</li>
+      <li>Overall confidence capped at 0.50 for single-period data (no Continuity signal)</li>
+      <li>Schema validation failures are prompt-driven, not model-driven — if extraction fails, check the prompts</li>
     </ul>
 
-    <h2>What It Doesn't Do</h2>
-    <p>It doesn't summarize my thinking for me. It doesn't recommend actions. It doesn't decide what's important.</p>
-    <p>Every output is a surface. I decide what it means.</p>
+    <p>These aren't bugs. They're binding constraints that enforce honesty about what the data can and cannot support.</p>
 
-    <h2>Demo</h2>
-    <div class="video-placeholder">
-      <span>[ Video coming soon ]</span>
-    </div>
+    <h2>What It Doesn't Do</h2>
+    <p>It doesn't decide what findings mean. It doesn't recommend actions. It doesn't access proprietary or private data — all sources are publicly available.</p>
+    <p>AR-001 isn't bolted onto this system. It's baked into the pipeline architecture. The Skeptic doesn't just challenge findings for quality — it enforces the principle that <strong>the system produces evidence, not conclusions.</strong></p>
 
     <h2>Why This Matters</h2>
-    <p>The default assumption is that AI should optimize, recommend, and automate decisions. I think that's backwards for a lot of contexts.</p>
-    <p><strong>Some domains require human judgment to remain human.</strong> Diagnosis is one of them. The value isn't in the answer. It's in the process of arriving at one.</p>
-    <p>Building tools that respect that distinction is the work.</p>
+    <p>The default assumption is that AI should optimize decisions and automate judgment. Coherence takes the opposite position: the diagnostic should surface what's there, challenge its own findings, and hand structured evidence to a human who decides what it means.</p>
+    <p>This is what Decision &amp; Responsibility Infrastructure™ looks like when it's built on actual machines instead of slides.</p>
   </div>
 
   <section class="cta-section">
     <h3>Building something similar?</h3>
-    <p>If you're thinking about AI governance, decision infrastructure, or human-in-the-loop systems, I'd welcome a conversation.</p>
+    <p>If you're thinking about AI governance, diagnostic infrastructure, or human-in-the-loop systems, I'd welcome a conversation.</p>
     <div class="cta-links">
-      <a href="https://writing.justingreenbaum.com" class="cta-btn primary">Read the essay</a>
-      <a href="/cdn-cgi/l/email-protection#0e647b7d7a67604e697c6b6b606c6f7b63626f6c7d206d6163" class="cta-btn">Get in touch</a>
-      <a href="https://justingreenbaum.com" class="cta-btn">Main sit
+      <a href="https://writing.justingreenbaum.com" class="cta-btn primary">Read the writing</a>
+      <a href="mailto:justin@greenbaumlabs.com" class="cta-btn">Get in touch</a>
+      <a href="https://justingreenbaum.com" class="cta-btn">Main site</a>
+    </div>
+  </section>
+
+</body>
+</html>
