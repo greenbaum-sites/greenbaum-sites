@@ -4,14 +4,14 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Coherence — Justin R. Greenbaum</title>
-  <meta name="description" content="How the work moves through the world. A diagnostic system for making structural failure visible before it becomes operational crisis.">
+  <meta name="description" content="A diagnostic system for measuring organizational alignment. Center vs. edge. Truth, Authority, and Continuity scored across structured pipeline runs.">
   <link rel="canonical" href="https://justingreenbaum.com/coherence">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://justingreenbaum.com/coherence">
   <meta property="og:title" content="Coherence — Justin R. Greenbaum">
-  <meta property="og:description" content="How the work moves through the world. A diagnostic system for making structural failure visible before it becomes operational crisis.">
+  <meta property="og:description" content="A diagnostic system for measuring organizational alignment. Center vs. edge. Truth, Authority, and Continuity scored across structured pipeline runs.">
   <meta property="og:image" content="https://justingreenbaum.com/og-image.jpg">
   <meta property="og:site_name" content="Justin R. Greenbaum">
 
@@ -19,7 +19,7 @@
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:url" content="https://justingreenbaum.com/coherence">
   <meta name="twitter:title" content="Coherence — Justin R. Greenbaum">
-  <meta name="twitter:description" content="How the work moves through the world. A diagnostic system for making structural failure visible before it becomes operational crisis.">
+  <meta name="twitter:description" content="A diagnostic system for measuring organizational alignment. Center vs. edge. Truth, Authority, and Continuity scored across structured pipeline runs.">
   <meta name="twitter:image" content="https://justingreenbaum.com/og-image.jpg">
 
   <!-- Favicon -->
@@ -68,7 +68,7 @@
       z-index: 9999;
     }
 
-    /* Nav */
+    /* ---- NAV ---- */
     nav {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -155,10 +155,11 @@
       transform: rotate(-45deg) translate(4px, -4px);
     }
 
-    /* Header */
+    /* ---- HERO ---- */
     header {
       padding: 10rem 3rem 4rem;
       text-align: center;
+      background: var(--bg-primary);
     }
 
     .wordmark {
@@ -207,263 +208,89 @@
       animation: fadeIn 1s ease-out 2.2s forwards;
     }
 
+    .hero-intro {
+      max-width: 600px;
+      margin: 2rem auto 0;
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      opacity: 0;
+      animation: fadeIn 1s ease-out 2.6s forwards;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; }
-      to { opacity: 0.5; }
+      to { opacity: 1; }
     }
 
-    /* Tabs */
-    .tabs {
-      display: flex;
-      justify-content: center;
-      gap: 0.5rem;
-      padding: 0 3rem 3rem;
-      flex-wrap: wrap;
-    }
-
-    .tab {
+    /* ---- SECTION UTILITIES ---- */
+    .section-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.1em;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
       text-transform: uppercase;
-      padding: 0.7rem 1.5rem;
-      border: 1px solid var(--border);
-      background: transparent;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all 0.3s ease;
+      color: var(--text-dim);
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
     }
 
-    .tab:hover {
-      border-color: var(--border-hover);
-      color: var(--text-primary);
+    .section-label::before {
+      content: '';
+      width: 40px;
+      height: 1px;
+      background: var(--text-dim);
     }
 
-    .tab.active {
-      background: var(--accent);
-      border-color: var(--accent);
-      color: var(--bg-primary);
+    /* ---- REVEAL ANIMATIONS ---- */
+    .reveal {
+      opacity: 0;
+      transform: translateY(40px);
+      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    /* Content */
-    main {
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- FRAMEWORK SECTION ---- */
+    .framework {
+      padding: 4rem 3rem 8rem;
+      background: var(--bg-primary);
+    }
+
+    .framework-inner {
       max-width: 700px;
       margin: 0 auto;
-      padding: 0 3rem 6rem;
     }
 
-    .fade-in {
-      animation: fadeUp 0.4s ease;
+    .framework p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
     }
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(-8px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* Flow nodes */
-    .node {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      padding: 1.5rem 2rem;
-      margin-bottom: 0.75rem;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-
-    .node:hover {
-      transform: translateY(-2px);
-      border-color: var(--border-hover);
-    }
-
-    .node.accent {
-      background: rgba(201, 168, 76, 0.08);
-      border-color: rgba(201, 168, 76, 0.3);
-      box-shadow: 0 0 30px rgba(201, 168, 76, 0.1);
-    }
-
-    .node-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .node-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      font-weight: 400;
+    .framework p strong {
       color: var(--text-primary);
+      font-weight: 500;
     }
 
-    .node.accent .node-title { color: var(--accent); }
-
-    .node-subtitle {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-top: 0.25rem;
-    }
-
-    .node-toggle {
-      font-size: 1.2rem;
-      color: var(--text-dim);
-    }
-
-    .node-content {
-      margin-top: 1.5rem;
-      padding-top: 1.5rem;
+    /* ---- TRIANGLE SECTION ---- */
+    .triangle-section {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
       border-top: 1px solid var(--border);
     }
 
-    .node-desc {
-      font-size: 0.9rem;
-      line-height: 1.8;
-      color: var(--text-secondary);
-      margin-bottom: 1rem;
+    .triangle-inner {
+      max-width: 900px;
+      margin: 0 auto;
     }
 
-    .node-tags {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-    }
-
-    .node-tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      padding: 0.4rem 0.8rem;
-      background: var(--bg-primary);
-      border: 1px solid var(--border);
-      color: var(--text-dim);
-    }
-
-    .connector {
-      display: flex;
-      justify-content: center;
-      padding: 0.25rem 0;
-    }
-
-    .connector-line {
-      width: 1px;
-      height: 16px;
-      background: var(--border);
-    }
-
-    /* Quote block */
-    .quote-block {
-      margin-top: 3rem;
-      padding: 2.5rem;
-      background: rgba(201, 168, 76, 0.05);
-      border: 1px solid rgba(201, 168, 76, 0.2);
-      text-align: center;
-      box-shadow: 0 0 30px rgba(201, 168, 76, 0.08);
-    }
-
-    .quote-block p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-style: italic;
-      line-height: 1.7;
-      color: var(--text-primary);
-    }
-
-    .loop-note {
-      text-align: center;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-top: 2rem;
-    }
-
-    /* Arc timeline */
-    .arc-item {
-      display: flex;
-      gap: 1.5rem;
-      padding-bottom: 2rem;
-    }
-
-    .arc-marker {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    .arc-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: var(--text-dim);
-      flex-shrink: 0;
-    }
-
-    .arc-dot.current {
-      background: var(--accent);
-      box-shadow: 0 0 15px rgba(201, 168, 76, 0.4);
-    }
-
-    .arc-line {
-      width: 1px;
-      flex: 1;
-      background: var(--border);
-      margin-top: 0.5rem;
-    }
-
-    .arc-content {
-      flex: 1;
-      padding-bottom: 1rem;
-    }
-
-    .arc-year {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      color: var(--text-dim);
-    }
-
-    .arc-label {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-weight: 400;
-      color: var(--text-primary);
-      margin-top: 0.25rem;
-    }
-
-    .arc-item.current .arc-label { color: var(--accent); }
-
-    .arc-desc {
-      font-size: 0.85rem;
-      line-height: 1.7;
-      color: var(--text-secondary);
-      margin-top: 0.5rem;
-    }
-
-    .arc-takeaway {
-      margin-top: 2rem;
-      padding: 1.5rem 2rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-    }
-
-    .arc-takeaway h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
-      color: var(--text-primary);
-      margin-bottom: 0.75rem;
-    }
-
-    .arc-takeaway p {
-      font-size: 0.85rem;
-      line-height: 1.7;
-      color: var(--text-secondary);
-    }
-
-    /* Triangle */
     .triangle-visual {
       padding: 2.5rem;
       background: var(--bg-card);
@@ -473,8 +300,8 @@
 
     .triangle-container {
       position: relative;
-      width: 280px;
-      height: 250px;
+      width: 320px;
+      height: 280px;
       margin: 0 auto;
     }
 
@@ -488,27 +315,30 @@
     }
 
     .vertex-truth { color: var(--accent); top: -25px; left: 50%; transform: translateX(-50%); }
-    .vertex-authority { color: var(--text-dim); bottom: -25px; left: 0; }
-    .vertex-continuity { color: var(--text-secondary); bottom: -25px; right: 0; }
+    .vertex-authority { color: var(--text-dim); bottom: -25px; left: 10px; }
+    .vertex-continuity { color: var(--text-secondary); bottom: -25px; right: 10px; }
 
     .triangle-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 1rem;
+      gap: 1px;
+      background: var(--border);
     }
 
     .tri-card {
-      padding: 1.25rem;
-      background: var(--bg-card);
+      padding: 1.5rem;
+      background: var(--bg-secondary);
       border-left: 2px solid var(--text-dim);
+      transition: background 0.3s ease;
     }
 
+    .tri-card:hover { background: var(--bg-card); }
     .tri-card.truth { border-left-color: var(--accent); }
     .tri-card.continuity { border-left-color: var(--text-secondary); }
 
     .tri-card h4 {
       font-family: 'Cormorant Garamond', serif;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: 400;
       margin-bottom: 0.5rem;
     }
@@ -516,20 +346,112 @@
     .tri-card.truth h4 { color: var(--accent); }
 
     .tri-card p {
-      font-size: 0.75rem;
-      line-height: 1.6;
+      font-size: 0.8rem;
+      line-height: 1.7;
       color: var(--text-secondary);
     }
 
-    .triangle-note {
+    .tri-card .weight {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      margin-top: 0.75rem;
+    }
+
+    .formula-note {
       text-align: center;
-      font-style: italic;
-      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
       color: var(--text-dim);
       margin-top: 2rem;
     }
 
-    /* Diagnostic */
+    /* ---- PIPELINE SECTION ---- */
+    .pipeline-section {
+      padding: 8rem 3rem;
+      background: var(--bg-primary);
+      border-top: 1px solid var(--border);
+    }
+
+    .pipeline-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .pipeline-intro {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 2.5rem;
+    }
+
+    .pipeline-steps {
+      list-style: none;
+      counter-reset: step;
+    }
+
+    .pipeline-steps li {
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      gap: 1.5rem;
+      align-items: baseline;
+      counter-increment: step;
+    }
+
+    .pipeline-steps li:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .pipeline-steps li::before {
+      content: counter(step);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--accent);
+    }
+
+    .step-name {
+      font-weight: 500;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .step-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .skeptic-note {
+      margin-top: 2.5rem;
+      padding: 1.5rem 2rem;
+      background: var(--accent-dim);
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+    }
+
+    .skeptic-note strong {
+      color: var(--accent);
+      font-weight: 500;
+    }
+
+    /* ---- DIAGNOSTIC SECTION ---- */
+    .diagnostic-section {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .diagnostic-inner {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
     .diagnostic-sig {
       padding: 1.5rem 2rem;
       background: rgba(201, 168, 76, 0.06);
@@ -556,14 +478,14 @@
     .signal-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1rem;
+      gap: 1px;
+      background: var(--border);
       margin-bottom: 2rem;
     }
 
     .signal-box {
-      padding: 1.5rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      padding: 2rem;
+      background: var(--bg-secondary);
     }
 
     .signal-box h4 {
@@ -572,7 +494,7 @@
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-dim);
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     .signal-box.modes h4 { color: var(--accent); }
@@ -584,64 +506,167 @@
     .signal-list li {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      font-size: 0.8rem;
+      gap: 0.75rem;
+      font-size: 0.85rem;
       color: var(--text-secondary);
-      padding: 0.4rem 0;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
     }
 
+    .signal-list li:last-child { border-bottom: none; }
+
     .sig-dot {
-      width: 4px;
-      height: 4px;
+      width: 5px;
+      height: 5px;
       border-radius: 50%;
       background: var(--text-dim);
+      flex-shrink: 0;
     }
 
     .signal-box.modes .sig-dot { background: var(--accent); }
 
     .signal-note {
-      font-size: 0.65rem;
+      font-size: 0.7rem;
       font-style: italic;
       color: var(--text-dim);
-      margin-top: 0.75rem;
+      margin-top: 1rem;
     }
 
     .crosswalk-box {
-      padding: 1.5rem;
-      background: var(--bg-secondary);
+      padding: 2rem;
+      background: var(--bg-card);
       border: 1px solid var(--border);
     }
 
     .crosswalk-box h4 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
+      font-size: 0.55rem;
       letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--text-dim);
-      margin-bottom: 1rem;
+      margin-bottom: 1.25rem;
     }
 
     .crosswalk-row {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
+      gap: 1rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      padding: 0.4rem 0;
+      font-size: 0.7rem;
+      padding: 0.5rem 0;
     }
 
     .crosswalk-row .from { color: var(--text-dim); }
     .crosswalk-row .arrow { color: var(--text-dim); }
     .crosswalk-row .to { color: var(--accent); }
 
-    /* Footer */
-    footer {
-      padding: 2.5rem 3rem;
-      text-align: center;
+    /* ---- CONSTRAINT SECTION ---- */
+    .constraint-section {
+      padding: 8rem 3rem;
+      background: var(--bg-primary);
       border-top: 1px solid var(--border);
     }
 
-    footer p {
+    .constraint-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .constraint-box {
+      background: #0c0c0c;
+      border: 1px solid rgba(201, 168, 76, 0.2);
+      padding: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    .constraint-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .constraint-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.5;
+    }
+
+    .constraint-desc {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .constraint-desc strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 4rem 3rem 2.5rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-links {
+      max-width: 700px;
+      margin: 0 auto 3rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+
+    .footer-link {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 0;
+      border-bottom: 1px solid var(--border);
+      text-decoration: none;
+      color: var(--text-primary);
+      transition: all 0.3s ease;
+    }
+
+    .footer-link:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-link:hover {
+      padding-left: 1rem;
+    }
+
+    .footer-link-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      transition: color 0.3s ease;
+    }
+
+    .footer-link:hover .footer-link-title {
+      color: var(--accent);
+    }
+
+    .footer-link-arrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      transition: all 0.3s ease;
+    }
+
+    .footer-link:hover .footer-link-arrow {
+      color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .footer-copy {
+      text-align: center;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.55rem;
       letter-spacing: 0.15em;
@@ -649,6 +674,7 @@
       color: var(--text-dim);
     }
 
+    /* ---- RESPONSIVE ---- */
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-toggle { display: block; }
@@ -678,10 +704,16 @@
         letter-spacing: 0.2em;
       }
       header { padding: 8rem 1.5rem 3rem; }
-      .tabs { padding: 0 1.5rem 2rem; }
-      main { padding: 0 1.5rem 4rem; }
+      .framework,
+      .triangle-section,
+      .pipeline-section,
+      .diagnostic-section,
+      .constraint-section {
+        padding: 5rem 1.5rem;
+      }
       .triangle-cards { grid-template-columns: 1fr; }
       .signal-grid { grid-template-columns: 1fr; }
+      footer { padding: 3rem 1.5rem 2rem; }
     }
   </style>
 </head>
@@ -703,6 +735,7 @@
     </button>
   </nav>
 
+  <!-- Hero -->
   <header>
     <h1>
       <span class="wordmark">
@@ -717,25 +750,207 @@
         <span class="wordmark-letter">e</span>
       </span>
     </h1>
-    <p class="subtitle">How the work moves through the world</p>
+    <p class="subtitle">A diagnostic system for measuring organizational alignment</p>
+    <p class="hero-intro">Every organization has a center — what it says about itself — and an edge — what the world actually sees. Coherence measures the gap between the two.</p>
   </header>
 
-  <div class="tabs" id="tabs">
-    <button class="tab active" onclick="showView('flow')" id="tab-flow">Flow</button>
-    <button class="tab" onclick="showView('arc')" id="tab-arc">Arc</button>
-    <button class="tab" onclick="showView('triangle')" id="tab-triangle">Triangle</button>
-    <button class="tab" onclick="showView('diagnostic')" id="tab-diagnostic">Diagnostic</button>
-  </div>
+  <!-- The Framework -->
+  <section class="framework">
+    <div class="framework-inner reveal">
+      <div class="section-label">The Framework</div>
+      <p><strong>Center</strong> is the narrative an organization projects: press releases, job postings, earnings calls. <strong>Edge</strong> is what actually reaches the world: customer reviews, employee sentiment, social media, news coverage. The distance between center and edge is where coherence breaks down.</p>
+      <p>This is not a survey tool. It is not sentiment analysis. Coherence is a structural alignment measurement — built on publicly available data, scored through adversarial validation, and designed to make invisible failure observable.</p>
+      <p>It is a running system, not a slide deck. Thirteen pipeline runs completed. Structured outputs. Scored findings. A real diagnostic record.</p>
+    </div>
+  </section>
 
-  <main id="content"></main>
+  <!-- The Triangle -->
+  <section class="triangle-section">
+    <div class="triangle-inner">
+      <div class="reveal">
+        <div class="section-label">The Triangle</div>
+      </div>
+      <div class="reveal">
+        <div class="triangle-visual">
+          <div class="triangle-container">
+            <svg viewBox="0 0 320 260" style="width: 100%; height: 100%;">
+              <defs>
+                <linearGradient id="edge-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#c9a84c"/>
+                  <stop offset="100%" style="stop-color:#4a4744"/>
+                </linearGradient>
+                <linearGradient id="edge-gray" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" style="stop-color:#4a4744"/>
+                  <stop offset="100%" style="stop-color:#8a8580"/>
+                </linearGradient>
+                <linearGradient id="edge-return" x1="100%" y1="100%" x2="0%" y2="0%">
+                  <stop offset="0%" style="stop-color:#8a8580"/>
+                  <stop offset="100%" style="stop-color:#c9a84c"/>
+                </linearGradient>
+              </defs>
+              <line x1="160" y1="30" x2="40" y2="220" stroke="url(#edge-gold)" stroke-width="2"/>
+              <line x1="40" y1="220" x2="280" y2="220" stroke="url(#edge-gray)" stroke-width="2"/>
+              <line x1="280" y1="220" x2="160" y2="30" stroke="url(#edge-return)" stroke-width="2"/>
+              <circle cx="160" cy="30" r="10" fill="#c9a84c"/>
+              <circle cx="40" cy="220" r="8" fill="none" stroke="#4a4744" stroke-width="2"/>
+              <circle cx="280" cy="220" r="8" fill="none" stroke="#8a8580" stroke-width="2"/>
+            </svg>
+            <span class="vertex-label vertex-truth">Truth</span>
+            <span class="vertex-label vertex-authority">Authority</span>
+            <span class="vertex-label vertex-continuity">Continuity</span>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="triangle-cards">
+          <div class="tri-card truth">
+            <h4>Truth</h4>
+            <p>Does the center narrative match edge reality? The gap between what an organization says and what the world sees.</p>
+            <div class="weight">55% weight</div>
+          </div>
+          <div class="tri-card">
+            <h4>Authority</h4>
+            <p>Does the entity's voice carry weight and consistency? Signal strength across sources, earned through showing up.</p>
+            <div class="weight">45% weight</div>
+          </div>
+          <div class="tri-card continuity">
+            <h4>Continuity</h4>
+            <p>Temporal consistency across collection periods. The through-line that connects past claims to present reality.</p>
+            <div class="weight">Phase 2</div>
+          </div>
+        </div>
+        <p class="formula-note">Overall = Truth &times; 0.55 + Authority &times; 0.45</p>
+      </div>
+    </div>
+  </section>
 
- <footer>
-    <p>Grounded in lived operating reality</p>
-    <p style="margin-top: 1rem;">
-      <a href="/coherence-deep" style="color: var(--accent); text-decoration: none; font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase; transition: color 0.3s ease;" onmouseover="this.style.color='var(--text-primary)'" onmouseout="this.style.color='var(--accent)'">
-        Read the complete framework →
+  <!-- The Pipeline -->
+  <section class="pipeline-section">
+    <div class="pipeline-inner">
+      <div class="reveal">
+        <div class="section-label">The Pipeline</div>
+        <p class="pipeline-intro">Four stages, each producing structured outputs.</p>
+      </div>
+      <div class="reveal">
+        <ul class="pipeline-steps">
+          <li>
+            <div>
+              <div class="step-name">Collect</div>
+              <div class="step-desc">Gather center sources (press releases, job postings, earnings transcripts) and edge sources (customer reviews, social media, news coverage, employee reviews). All publicly available.</div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="step-name">Extract</div>
+              <div class="step-desc">Agent-based extraction via local language models. Raw sources become structured claims and observations with schema validation.</div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="step-name">Score</div>
+              <div class="step-desc">Truth and Authority scoring with adversarial Skeptic challenge. Each finding is debated before it enters the evidence ledger.</div>
+            </div>
+          </li>
+          <li>
+            <div>
+              <div class="step-name">Synthesize</div>
+              <div class="step-desc">Scored case file with findings, failure modes, field notes, and overall narrative. The diagnostic record.</div>
+            </div>
+          </li>
+        </ul>
+      </div>
+      <div class="reveal">
+        <div class="skeptic-note">
+          <strong>The Skeptic.</strong> Every finding is challenged before it enters the record. Sustained findings become evidence. The rest are discarded. This is how the pipeline earns its own authority.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagnostic Instruments -->
+  <section class="diagnostic-section">
+    <div class="diagnostic-inner">
+      <div class="reveal">
+        <div class="section-label">Diagnostic Instruments</div>
+      </div>
+      <div class="reveal">
+        <div class="diagnostic-sig">
+          <p class="diagnostic-sig-label">Diagnostic Signature</p>
+          <p>Responsibility assigned without decision rights, combined with signal distortion and meaning drift.</p>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="signal-grid">
+          <div class="signal-box">
+            <h4>Functional Field Notes &middot; Early Signals</h4>
+            <ul class="signal-list">
+              <li><span class="sig-dot"></span>Signal Misread</li>
+              <li><span class="sig-dot"></span>Responsibility Compression</li>
+              <li><span class="sig-dot"></span>Context Collapse</li>
+              <li><span class="sig-dot"></span>Meaning Drift</li>
+            </ul>
+            <p class="signal-note">Notice before it breaks.</p>
+          </div>
+          <div class="signal-box modes">
+            <h4>Failure Modes &middot; Breakdowns</h4>
+            <ul class="signal-list">
+              <li><span class="sig-dot"></span>Responsibility Without Authority</li>
+              <li><span class="sig-dot"></span>Metric Shadowing</li>
+              <li><span class="sig-dot"></span>Escalation Theater</li>
+              <li><span class="sig-dot"></span>Decision Displacement</li>
+            </ul>
+            <p class="signal-note">Name the pattern.</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal">
+        <div class="crosswalk-box">
+          <h4>Crosswalk</h4>
+          <div class="crosswalk-row"><span class="from">Signal Misread</span><span class="arrow">&rarr;</span><span class="to">Metric Shadowing</span></div>
+          <div class="crosswalk-row"><span class="from">Responsibility Compression</span><span class="arrow">&rarr;</span><span class="to">Responsibility Without Authority</span></div>
+          <div class="crosswalk-row"><span class="from">Context Collapse</span><span class="arrow">&rarr;</span><span class="to">Decision Displacement</span></div>
+          <div class="crosswalk-row"><span class="from">Meaning Drift</span><span class="arrow">&rarr;</span><span class="to">Escalation Theater</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- The Constraint -->
+  <section class="constraint-section">
+    <div class="constraint-inner">
+      <div class="reveal">
+        <div class="section-label">The Constraint</div>
+      </div>
+      <div class="reveal">
+        <div class="constraint-box">
+          <div class="constraint-label">AR-001 &middot; Governing Constraint</div>
+          <div class="constraint-text">"Automation may observe, summarize, and suggest. Automation may not decide."</div>
+        </div>
+      </div>
+      <div class="reveal">
+        <p class="constraint-desc">AR-001 is baked into the pipeline architecture, not bolted on after the fact. The extraction agents observe. The scoring agents summarize. The Skeptic suggests which findings survive. But <strong>no automated system makes the final diagnostic call</strong> — that stays with a human who carries the context and the consequence.</p>
+        <p class="constraint-desc">The Skeptic enforces this structurally. It doesn't approve findings — it challenges them. What survives the challenge enters the record. What doesn't is discarded. The system is designed to resist its own confidence.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-links">
+      <a href="https://greenbaumlabs.com/case-study-diagnostic-engine" class="footer-link">
+        <span class="footer-link-title">Technical case study</span>
+        <span class="footer-link-arrow">&rarr;</span>
       </a>
-    </p>
+      <a href="/coherence-deep" class="footer-link">
+        <span class="footer-link-title">The complete framework</span>
+        <span class="footer-link-arrow">&rarr;</span>
+      </a>
+      <a href="/decision-responsibility-infrastructure" class="footer-link">
+        <span class="footer-link-title">Decision & Responsibility Infrastructure&trade;</span>
+        <span class="footer-link-arrow">&rarr;</span>
+      </a>
+    </div>
+    <p class="footer-copy">&copy; 2026 Justin R. Greenbaum</p>
   </footer>
 
   <script>
@@ -748,7 +963,6 @@
       navLinks.classList.toggle('active');
     });
 
-    // Close menu when clicking a link
     navLinks.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => {
         navToggle.classList.remove('active');
@@ -756,222 +970,17 @@
       });
     });
 
-    const flowNodes = [
-      {
-        id: 'practice',
-        label: 'Lived Practice',
-        subtitle: 'Operating Reality',
-        description: 'Real work. Leadership under pressure. Systems actually running. This is where truth originates.',
-        examples: ['Frontline operations', 'Escalation patterns', 'Decision bottlenecks', 'Signal loss']
-      },
-      {
-        id: 'presence',
-        label: 'Presence & Trust',
-        subtitle: 'Recognition',
-        description: 'Demonstrate attention. Show continuity. Establish safety. No teaching. No framework.',
-        examples: ['The Quiet Work', 'Recognition', 'Human moments']
-      },
-      {
-        id: 'language',
-        label: 'Shared Language',
-        subtitle: 'Alignment',
-        description: 'Name what people already recognize. Reduce ambiguity. Create alignment without instruction.',
-        examples: ['Coherence essays', 'Interpretive Drift', 'Authenticity over time']
-      },
-      {
-        id: 'observation',
-        label: 'Observation',
-        subtitle: 'Functional Field Notes',
-        description: 'Capture early signals. Notice drift before failure. Preserve ambiguity without forcing conclusions.',
-        examples: ['Signal Misread', 'Responsibility Compression', 'Meaning Drift']
-      },
-      {
-        id: 'diagnosis',
-        label: 'Diagnosis',
-        subtitle: 'Failure Modes',
-        description: 'Name repeatable breakdowns. Create durable reference language. Support leaders under pressure.',
-        examples: ['Responsibility Without Authority', 'Metric Shadowing', 'Escalation Theater'],
-        accent: true
-      },
-      {
-        id: 'orientation',
-        label: 'Orientation',
-        subtitle: 'Return',
-        description: 'The loop closes. Signals noticed. Language existed. Diagnosis available. No rediscovery.',
-        examples: ['Improved decisions', 'Pattern recognition', 'Shared vocabulary']
-      }
-    ];
-
-    const arcPhases = [
-      { year: '2005–2025', label: 'The Insider', desc: '20 years inside. Watching. Learning. Carrying weight without full authority.' },
-      { year: 'Aug 2025', label: 'The Transition', desc: 'Processing change. MIT Sloan AI. New direction forming.' },
-      { year: 'Dec 2025', label: 'Diagnostic Voice', desc: 'Functional Field Notes emerge. Systems thinking goes public.' },
-      { year: 'Jan 2026', label: 'Frame Crystallizes', desc: 'Authenticity over time. Coherence as cornerstone.' },
-      { year: 'Now', label: 'The Human Turn', desc: 'Presence alongside structure. The Quiet Work.', current: true }
-    ];
-
-    let activeNode = null;
-
-    function toggleNode(id) {
-      activeNode = activeNode === id ? null : id;
-      renderFlow();
-    }
-
-    function renderFlow() {
-      let html = '<div>';
-      flowNodes.forEach((node, index) => {
-        const isActive = activeNode === node.id;
-        html += `
-          <div class="node ${node.accent ? 'accent' : ''}" onclick="toggleNode('${node.id}')">
-            <div class="node-header">
-              <div>
-                <div class="node-title">${node.label}</div>
-                <div class="node-subtitle">${node.subtitle}</div>
-              </div>
-              <div class="node-toggle">${isActive ? '−' : '+'}</div>
-            </div>
-            ${isActive ? `
-              <div class="node-content fade-in">
-                <p class="node-desc">${node.description}</p>
-                <div class="node-tags">
-                  ${node.examples.map(ex => `<span class="node-tag">${ex}</span>`).join('')}
-                </div>
-              </div>
-            ` : ''}
-          </div>
-          ${index < flowNodes.length - 1 ? '<div class="connector"><div class="connector-line"></div></div>' : ''}
-        `;
+    // Reveal animations
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          obs.unobserve(entry.target);
+        }
       });
-      html += `
-        <div class="quote-block">
-          <p>"Coherence as the cornerstone.<br>Authenticity is continuity proven over time."</p>
-        </div>
-        <p class="loop-note">Orientation returns to practice.</p>
-      </div>`;
-      document.getElementById('content').innerHTML = html;
-    }
-
-    function renderArc() {
-      let html = '<div>';
-      arcPhases.forEach((phase, index) => {
-        html += `
-          <div class="arc-item ${phase.current ? 'current' : ''}">
-            <div class="arc-marker">
-              <div class="arc-dot ${phase.current ? 'current' : ''}"></div>
-              ${index < arcPhases.length - 1 ? '<div class="arc-line"></div>' : ''}
-            </div>
-            <div class="arc-content">
-              <span class="arc-year">${phase.year}</span>
-              <h3 class="arc-label">${phase.label}</h3>
-              <p class="arc-desc">${phase.desc}</p>
-            </div>
-          </div>
-        `;
-      });
-      document.getElementById('content').innerHTML = html;
-    }
-
-    function renderTriangle() {
-      document.getElementById('content').innerHTML = `
-        <div>
-          <div class="triangle-visual">
-            <div class="triangle-container">
-              <svg viewBox="0 0 280 240" style="width: 100%; height: 100%;">
-                <defs>
-                  <linearGradient id="edge-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" style="stop-color:#c9a84c"/>
-                    <stop offset="100%" style="stop-color:#4a4744"/>
-                  </linearGradient>
-                  <linearGradient id="edge-gray" x1="0%" y1="0%" x2="100%" y2="0%">
-                    <stop offset="0%" style="stop-color:#4a4744"/>
-                    <stop offset="100%" style="stop-color:#8a8580"/>
-                  </linearGradient>
-                  <linearGradient id="edge-return" x1="100%" y1="100%" x2="0%" y2="0%">
-                    <stop offset="0%" style="stop-color:#8a8580"/>
-                    <stop offset="100%" style="stop-color:#c9a84c"/>
-                  </linearGradient>
-                </defs>
-                <line x1="140" y1="30" x2="30" y2="210" stroke="url(#edge-gold)" stroke-width="2"/>
-                <line x1="30" y1="210" x2="250" y2="210" stroke="url(#edge-gray)" stroke-width="2"/>
-                <line x1="250" y1="210" x2="140" y2="30" stroke="url(#edge-return)" stroke-width="2"/>
-                <circle cx="140" cy="30" r="10" fill="#c9a84c"/>
-                <circle cx="30" cy="210" r="8" fill="none" stroke="#4a4744" stroke-width="2"/>
-                <circle cx="250" cy="210" r="8" fill="none" stroke="#8a8580" stroke-width="2"/>
-              </svg>
-              <span class="vertex-label vertex-truth">Truth</span>
-              <span class="vertex-label vertex-authority">Authority</span>
-              <span class="vertex-label vertex-continuity">Continuity</span>
-            </div>
-          </div>
-          <div class="triangle-cards">
-            <div class="tri-card truth">
-              <h4>Truth</h4>
-              <p>What IS, not what we wish. The signal that illuminates.</p>
-            </div>
-            <div class="tri-card">
-              <h4>Authority</h4>
-              <p>Earned weight, not positional. Built through showing up.</p>
-            </div>
-            <div class="tri-card continuity">
-              <h4>Continuity</h4>
-              <p>Authenticity proven over time. The through-line.</p>
-            </div>
-          </div>
-          <p class="triangle-note">The triangle holds when all three vertices are honest.</p>
-        </div>
-      `;
-    }
-
-    function renderDiagnostic() {
-      document.getElementById('content').innerHTML = `
-        <div>
-          <div class="diagnostic-sig">
-            <p class="diagnostic-sig-label">Diagnostic Signature</p>
-            <p>Responsibility assigned without decision rights, combined with signal distortion and meaning drift.</p>
-          </div>
-          <div class="signal-grid">
-            <div class="signal-box">
-              <h4>Functional Field Notes · Early Signals</h4>
-              <ul class="signal-list">
-                <li><span class="sig-dot"></span>Signal Misread</li>
-                <li><span class="sig-dot"></span>Responsibility Compression</li>
-                <li><span class="sig-dot"></span>Context Collapse</li>
-                <li><span class="sig-dot"></span>Meaning Drift</li>
-              </ul>
-              <p class="signal-note">Notice before it breaks.</p>
-            </div>
-            <div class="signal-box modes">
-              <h4>Failure Modes · Breakdowns</h4>
-              <ul class="signal-list">
-                <li><span class="sig-dot"></span>Responsibility Without Authority</li>
-                <li><span class="sig-dot"></span>Metric Shadowing</li>
-                <li><span class="sig-dot"></span>Escalation Theater</li>
-                <li><span class="sig-dot"></span>Decision Displacement</li>
-              </ul>
-              <p class="signal-note">Name the pattern.</p>
-            </div>
-          </div>
-          <div class="crosswalk-box">
-            <h4>Crosswalk</h4>
-            <div class="crosswalk-row"><span class="from">Signal Misread</span><span class="arrow">→</span><span class="to">Metric Shadowing</span></div>
-            <div class="crosswalk-row"><span class="from">Responsibility Compression</span><span class="arrow">→</span><span class="to">Responsibility Without Authority</span></div>
-            <div class="crosswalk-row"><span class="from">Context Collapse</span><span class="arrow">→</span><span class="to">Decision Displacement</span></div>
-          </div>
-        </div>
-      `;
-    }
-
-    function showView(view) {
-      activeNode = null;
-      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-      document.getElementById('tab-' + view).classList.add('active');
-      if (view === 'flow') renderFlow();
-      else if (view === 'arc') renderArc();
-      else if (view === 'triangle') renderTriangle();
-      else if (view === 'diagnostic') renderDiagnostic();
-    }
-
-    showView('flow');
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => obs.observe(el));
   </script>
 
 </body>
