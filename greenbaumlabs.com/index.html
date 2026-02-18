@@ -295,7 +295,7 @@
       padding-top: 1.5rem;
       border-top: 1px solid var(--border);
       opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.7s;
+      animation: fadeUp 0.8s ease forwards 0.8s;
     }
 
     .hero-cta {
@@ -303,7 +303,7 @@
       font-size: 0.9rem;
       color: var(--text-secondary);
       opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.8s;
+      animation: fadeUp 0.8s ease forwards 0.9s;
     }
 
     .hero-cta a {
@@ -341,6 +341,65 @@
       height: 60px;
       background: linear-gradient(to bottom, var(--green), transparent);
       animation: pulse 2s ease infinite;
+    }
+
+    /* ---- HERO DIAGRAM ---- */
+    .hero-diagram {
+      max-width: 560px;
+      margin-top: 2.5rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease forwards 0.7s;
+    }
+
+    .hero-diagram-row {
+      display: flex;
+      align-items: center;
+      gap: 0;
+    }
+
+    .hero-diagram-box {
+      flex: 1;
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-green);
+      padding: 0.75rem 1rem;
+      text-align: center;
+    }
+
+    .hero-diagram-box.gold { border-color: rgba(201, 168, 76, 0.3); }
+    .hero-diagram-box.cyan { border-color: rgba(94, 184, 196, 0.3); }
+
+    .hero-diagram-box-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.45rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.3rem;
+    }
+
+    .hero-diagram-box-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      color: var(--text-primary);
+    }
+
+    .hero-diagram-box .hero-diagram-box-name { color: var(--green); }
+    .hero-diagram-box.gold .hero-diagram-box-name { color: var(--accent); }
+    .hero-diagram-box.cyan .hero-diagram-box-name { color: var(--cyan); }
+
+    .hero-diagram-line {
+      width: 20px;
+      height: 1px;
+      background: var(--border-green);
+      flex-shrink: 0;
+    }
+
+    .hero-diagram-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.08em;
+      color: var(--text-dim);
+      margin-top: 0.75rem;
     }
 
     /* ---- SECTION UTILITIES ---- */
@@ -987,6 +1046,37 @@
       border-color: var(--text-secondary);
     }
 
+    /* ---- INSTRUMENTS CATALOG ---- */
+    .instruments-catalog {
+      margin-bottom: 3rem;
+    }
+
+    .catalog-item {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 1.5rem;
+      padding: 0.6rem 0;
+      border-bottom: 1px solid var(--border);
+      align-items: baseline;
+    }
+
+    .catalog-item:first-child {
+      border-top: 1px solid var(--border);
+    }
+
+    .catalog-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.05em;
+      color: var(--green);
+    }
+
+    .catalog-desc {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
     /* ---- PHILOSOPHY ---- */
     .philosophy {
       padding: 8rem 3rem;
@@ -1034,6 +1124,38 @@
     }
 
     .principle-text strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ---- FAMILIAR ---- */
+    .familiar {
+      padding: 8rem 3rem;
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border);
+    }
+
+    .familiar-inner {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .familiar h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.2;
+      margin-bottom: 2rem;
+    }
+
+    .familiar p {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.85;
+      margin-bottom: 1.5rem;
+    }
+
+    .familiar p strong {
       color: var(--text-primary);
       font-weight: 500;
     }
@@ -1267,7 +1389,11 @@
       .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
       .nav-toggle.active span:nth-child(2) { opacity: 0; }
       .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
-      section, .infra, .projects, .philosophy, .ecosystem, .connect, .architecture {
+      .hero-diagram-row { flex-direction: column; gap: 0; }
+      .hero-diagram-line { width: 1px; height: 12px; }
+      .hero-diagram-box { width: 100%; }
+      .catalog-item { grid-template-columns: 1fr; gap: 0.3rem; }
+      section, .infra, .projects, .philosophy, .familiar, .ecosystem, .connect, .architecture {
         padding: 5rem 1.5rem;
       }
       .hero { padding: 0 1.5rem 4rem; }
@@ -1320,6 +1446,25 @@
       </div>
       <h1>Greenbaum<br><span class="lab">Labs</span><em>A personal AI workshop running on local compute.</em></h1>
       <p class="hero-sub">Side projects, diagnostic tools, and experiments in applied AI—built on my own machines, wired together like a small internal platform. Three boxes on a 10 GbE backbone. Compute stays local, the filesystem is the source of truth, and dashboards are visibility layers, not authority.</p>
+      <div class="hero-diagram">
+        <div class="hero-diagram-row">
+          <div class="hero-diagram-box">
+            <div class="hero-diagram-box-label">Compute</div>
+            <div class="hero-diagram-box-name">DGX Spark</div>
+          </div>
+          <div class="hero-diagram-line"></div>
+          <div class="hero-diagram-box gold">
+            <div class="hero-diagram-box-label">Storage</div>
+            <div class="hero-diagram-box-name">Synology NAS</div>
+          </div>
+          <div class="hero-diagram-line"></div>
+          <div class="hero-diagram-box cyan">
+            <div class="hero-diagram-box-label">Interface</div>
+            <div class="hero-diagram-box-name">Mac Studio</div>
+          </div>
+        </div>
+        <p class="hero-diagram-caption">Compute handles inference. Storage holds truth. Humans hold authority.</p>
+      </div>
       <p class="hero-audience">For operators, engineering leaders, and Chiefs of Staff who care less about AI demos and more about reliable, explainable systems that actually help people do better work.</p>
       <p class="hero-cta">If something here feels adjacent to a problem you're wrestling with, I'd welcome a conversation: <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a></p>
     </div>
@@ -1579,6 +1724,15 @@
         <h2>Diagnostic tools. Live.</h2>
         <p class="instruments-explainer">Most organizations don't lack information. They lack shared meaning. Truth drifts from authority. Authority drifts from continuity. People absorb the gap. These seven instruments surface where that absorption is happening, name the structural conditions causing it, and record what changes when someone acts. They observe, summarize, and suggest. They do not decide.</p>
       </div>
+      <div class="instruments-catalog reveal">
+        <div class="catalog-item"><span class="catalog-name">FM Scanner</span><span class="catalog-desc">Watches structural breakdowns. Records failure mode matches.</span></div>
+        <div class="catalog-item"><span class="catalog-name">FFN Surface</span><span class="catalog-desc">Watches early drift signals. Records field notes before failure.</span></div>
+        <div class="catalog-item"><span class="catalog-name">System Nav Locator</span><span class="catalog-desc">Watches diagnostic position. Records where you stand.</span></div>
+        <div class="catalog-item"><span class="catalog-name">Declaration Log</span><span class="catalog-desc">Watches authority events. Records who decided and when.</span></div>
+        <div class="catalog-item"><span class="catalog-name">Verified Independence</span><span class="catalog-desc">Watches recovery claims. Records evidence that a fix is real.</span></div>
+        <div class="catalog-item"><span class="catalog-name">Regression Watch</span><span class="catalog-desc">Watches fix durability. Records whether corrections hold or decay.</span></div>
+        <div class="catalog-item"><span class="catalog-name">Continuity Chain</span><span class="catalog-desc">Watches meaning persistence. Records the through-line across time.</span></div>
+      </div>
       <div class="instruments-grid reveal">
         <a href="/tools/fm-scanner" class="instrument" data-layer="failure">
           <span class="instrument-num">001</span>
@@ -1673,6 +1827,20 @@
           <div class="principle-num">05</div>
           <div class="principle-text"><strong>Build ahead of demand.</strong> The work will become important. The question is whether the infrastructure is ready when the need arrives.</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- If This Feels Familiar -->
+  <section class="familiar" id="familiar">
+    <div class="familiar-inner">
+      <div class="reveal">
+        <div class="section-label">Recognition</div>
+        <h2>If this feels familiar.</h2>
+      </div>
+      <div class="reveal">
+        <p><strong>When truth drifts from authority,</strong> you see it in the same places every time. The executive team says one thing in the earnings call; the frontline team lives something else entirely. Customer reviews tell a different story than press releases. People absorb the gap between what the org says and what it does — and that absorption is invisible until it isn't. The structural name for this is Responsibility Compression. It shows up in every diagnostic run.</p>
+        <p><strong>When you wire a lab like this into your workflows</strong> — local compute, adversarial validation, structured outputs — you stop guessing where the misalignment lives. You start measuring it. Not with surveys or sentiment dashboards, but with scored findings that survive challenge. The infrastructure is small. The implications aren't.</p>
       </div>
     </div>
   </section>
