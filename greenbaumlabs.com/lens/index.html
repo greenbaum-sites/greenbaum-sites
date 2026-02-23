@@ -90,6 +90,7 @@
       font-size: 0.55rem;
       font-weight: 300;
       letter-spacing: 0.25em;
+      text-indent: 0.25em;
       text-transform: uppercase;
       color: var(--text-dim);
       opacity: 0;
@@ -157,6 +158,7 @@
       font-size: 0.5rem;
       font-weight: 300;
       letter-spacing: 0.2em;
+      text-indent: 0.2em;
       text-transform: uppercase;
       color: var(--text-dim);
     }
@@ -264,9 +266,10 @@
 
     .topbar-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
+      font-size: 0.55rem;
       font-weight: 300;
       letter-spacing: 0.18em;
+      text-indent: 0.18em;
       text-transform: uppercase;
       color: var(--text-dim);
     }
@@ -363,10 +366,10 @@
     }
 
     .layer-content {
-      max-width: 500px;
+      max-width: 560px;
       text-align: center;
       position: absolute;
-      top: 38%;
+      top: 34%;
       left: 50%;
       transform: translateX(-50%);
       z-index: 2;
@@ -526,7 +529,7 @@
 
     .fm-code {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
+      font-size: 0.6rem;
       font-weight: 400;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -537,11 +540,11 @@
     .fm-line {
       font-weight: 300;
       font-style: italic;
-      font-size: clamp(0.82rem, 1.1vw, 0.92rem);
-      color: var(--text-dim);
+      font-size: clamp(0.85rem, 1.15vw, 0.95rem);
+      color: var(--text-muted);
       line-height: 1.65;
       white-space: normal;
-      max-width: 460px;
+      max-width: 520px;
       margin: 0 auto;
     }
 
@@ -640,7 +643,7 @@
       display: inline-block;
       margin-top: 5rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
+      font-size: 0.55rem;
       font-weight: 300;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -665,7 +668,7 @@
 
     .closing-footer .footer-mono {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.45rem;
+      font-size: 0.5rem;
       font-weight: 300;
       letter-spacing: 0.15em;
       text-transform: uppercase;
@@ -675,6 +678,29 @@
     }
 
     .closing-footer .footer-mono:hover { color: var(--gold); }
+
+    /* ========== FOCUS STYLES ========== */
+    .grid-card:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .carousel-arrow:focus-visible,
+    .carousel-dot:focus-visible,
+    .back-btn:focus-visible,
+    .act1-chevron:focus-visible,
+    .closing-link:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .handle:focus-visible .handle-grip {
+      width: 15px; height: 15px;
+      opacity: 1;
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    .handle:focus-visible .handle-line { opacity: 0.55; }
 
     /* ========== KEYFRAMES ========== */
     @keyframes softIn {
@@ -755,8 +781,8 @@
         padding: 0 1.5rem;
         white-space: normal;
       }
-      .fm-code { font-size: 0.4rem; }
-      .fm-line { font-size: 0.75rem; line-height: 1.5; }
+      .fm-code { font-size: 0.45rem; }
+      .fm-line { font-size: 0.78rem; line-height: 1.5; }
       .carousel-nav { bottom: 0.3rem; }
       .carousel-arrow { width: 28px; height: 28px; }
     }
@@ -786,85 +812,85 @@
 
     <div class="grid" id="grid">
       <!-- Row 1: The vertical power stack -->
-      <article class="grid-card" data-lens="01">
+      <article class="grid-card" tabindex="0" role="button" data-lens="01">
         <h2 class="grid-card-title">The Operator</h2>
         <p class="grid-card-tagline">You own the problem. You don&rsquo;t own the decision.</p>
       </article>
-      <article class="grid-card" data-lens="03">
+      <article class="grid-card" tabindex="0" role="button" data-lens="03">
         <h2 class="grid-card-title">The Executive</h2>
         <p class="grid-card-tagline">You set direction. The system reinterprets.</p>
       </article>
-      <article class="grid-card" data-lens="18">
+      <article class="grid-card" tabindex="0" role="button" data-lens="18">
         <h2 class="grid-card-title">The Board</h2>
         <p class="grid-card-tagline">You govern what you can see. The system decides what you see.</p>
       </article>
 
       <!-- Row 2: The observers -->
-      <article class="grid-card" data-lens="04">
+      <article class="grid-card" tabindex="0" role="button" data-lens="04">
         <h2 class="grid-card-title">The Chief of Staff</h2>
         <p class="grid-card-tagline">You see it all. You can&rsquo;t say it all.</p>
       </article>
-      <article class="grid-card" data-lens="05">
+      <article class="grid-card" tabindex="0" role="button" data-lens="05">
         <h2 class="grid-card-title">The New Leader</h2>
         <p class="grid-card-tagline">You inherited decisions nobody can explain.</p>
       </article>
-      <article class="grid-card" data-lens="06">
+      <article class="grid-card" tabindex="0" role="button" data-lens="06">
         <h2 class="grid-card-title">The Investor</h2>
         <p class="grid-card-tagline">The structural risk no one&rsquo;s pricing.</p>
       </article>
 
       <!-- Row 3: The builders -->
-      <article class="grid-card" data-lens="11">
+      <article class="grid-card" tabindex="0" role="button" data-lens="11">
         <h2 class="grid-card-title">Product</h2>
         <p class="grid-card-tagline">You own the roadmap. You don&rsquo;t own the priorities.</p>
       </article>
-      <article class="grid-card" data-lens="12">
+      <article class="grid-card" tabindex="0" role="button" data-lens="12">
         <h2 class="grid-card-title">Engineering</h2>
         <p class="grid-card-tagline">You shipped what was asked. It wasn&rsquo;t what was needed.</p>
       </article>
-      <article class="grid-card" data-lens="13">
+      <article class="grid-card" tabindex="0" role="button" data-lens="13">
         <h2 class="grid-card-title">Sales</h2>
         <p class="grid-card-tagline">You closed the deal. The org can&rsquo;t deliver what you sold.</p>
       </article>
 
       <!-- Row 4: The connectors -->
-      <article class="grid-card" data-lens="14">
+      <article class="grid-card" tabindex="0" role="button" data-lens="14">
         <h2 class="grid-card-title">Marketing</h2>
         <p class="grid-card-tagline">You told the story. The experience didn&rsquo;t match.</p>
       </article>
-      <article class="grid-card" data-lens="02">
+      <article class="grid-card" tabindex="0" role="button" data-lens="02">
         <h2 class="grid-card-title">The Customer</h2>
         <p class="grid-card-tagline">The experience your customer has is structural output.</p>
       </article>
-      <article class="grid-card" data-lens="07">
+      <article class="grid-card" tabindex="0" role="button" data-lens="07">
         <h2 class="grid-card-title">HR</h2>
         <p class="grid-card-tagline">You measure engagement. The structure produces disengagement.</p>
       </article>
 
       <!-- Row 5: The foundations -->
-      <article class="grid-card" data-lens="09">
+      <article class="grid-card" tabindex="0" role="button" data-lens="09">
         <h2 class="grid-card-title">Finance</h2>
         <p class="grid-card-tagline">The budget was approved. The constraints weren&rsquo;t removed.</p>
       </article>
-      <article class="grid-card" data-lens="10">
+      <article class="grid-card" tabindex="0" role="button" data-lens="10">
         <h2 class="grid-card-title">Legal &amp; Compliance</h2>
         <p class="grid-card-tagline">You protect the org from risk. Nobody protects you from being the reason things are slow.</p>
       </article>
-      <article class="grid-card" data-lens="15">
+      <article class="grid-card" tabindex="0" role="button" data-lens="15">
         <h2 class="grid-card-title">IT &amp; Infrastructure</h2>
         <p class="grid-card-tagline">Everything runs until it doesn&rsquo;t. Then it&rsquo;s your fault.</p>
       </article>
 
       <!-- Row 6: The integrators -->
-      <article class="grid-card" data-lens="16">
+      <article class="grid-card" tabindex="0" role="button" data-lens="16">
         <h2 class="grid-card-title">Procurement</h2>
         <p class="grid-card-tagline">You manage the contract. You can&rsquo;t manage what they deliver.</p>
       </article>
-      <article class="grid-card" data-lens="17">
+      <article class="grid-card" tabindex="0" role="button" data-lens="17">
         <h2 class="grid-card-title">Program Management</h2>
         <p class="grid-card-tagline">You own the timeline. You don&rsquo;t own the dependencies.</p>
       </article>
-      <article class="grid-card" data-lens="08">
+      <article class="grid-card" tabindex="0" role="button" data-lens="08">
         <h2 class="grid-card-title">AI Integration</h2>
         <p class="grid-card-tagline">Automation doesn&rsquo;t create dysfunction. It reveals it.</p>
       </article>
@@ -939,6 +965,14 @@
       grid.addEventListener('click', function (e) {
         var card = e.target.closest('.grid-card');
         if (!card || loading) return;
+        openLens(card.dataset.lens, card);
+      });
+
+      grid.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var card = e.target.closest('.grid-card');
+        if (!card || loading) return;
+        e.preventDefault();
         openLens(card.dataset.lens, card);
       });
 
