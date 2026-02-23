@@ -46,6 +46,10 @@ greenbaum-sites/
 │   ├── field.html                 # The Field — tool orientation
 │   ├── case-study-diagnostic-engine.html
 │   ├── sitemap.xml
+│   ├── lens/                      # DRI™ | Coherence Lens system
+│   │   ├── index.html             # Landing page (three-act experience)
+│   │   └── 01-18/                 # 18 interactive drag-to-reveal lenses
+│   │       └── index.html         # Each: 5 FM cards + closing statement
 │   └── tools/                     # 7 diagnostic instruments
 │       ├── declaration-log.html
 │       ├── fm-scanner.html
