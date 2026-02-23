@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coherence &middot; Lens</title>
+  <title>DRI&trade; | Coherence &middot; Lens</title>
   <meta name="description" content="Same system. Different lens. Eighteen seats. Ninety reveals.">
 
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Coherence &middot; Lens">
+  <meta property="og:title" content="DRI&trade; | Coherence &middot; Lens">
   <meta property="og:description" content="Same system. Different lens. Pick your seat. See the structure.">
   <meta property="og:image" content="/lens/01/images/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -84,13 +84,14 @@
     .act1-label {
       position: absolute;
       top: 2.2rem;
-      left: 50%;
-      transform: translateX(-50%);
+      left: 0;
+      right: 0;
+      text-align: center;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.55rem;
       font-weight: 300;
       letter-spacing: 0.25em;
-      text-indent: 0.25em;
+      padding-left: 0.25em;
       text-transform: uppercase;
       color: var(--text-dim);
       opacity: 0;
@@ -158,7 +159,7 @@
       font-size: 0.5rem;
       font-weight: 300;
       letter-spacing: 0.2em;
-      text-indent: 0.2em;
+      padding-left: 0.2em;
       text-transform: uppercase;
       color: var(--text-dim);
     }
@@ -269,7 +270,7 @@
       font-size: 0.55rem;
       font-weight: 300;
       letter-spacing: 0.18em;
-      text-indent: 0.18em;
+      padding-left: 0.18em;
       text-transform: uppercase;
       color: var(--text-dim);
     }
@@ -803,7 +804,7 @@
 
   <!-- ==================== ACT 1: THE OPENING ==================== -->
   <div class="act1" id="act1">
-    <span class="act1-label">Coherence</span>
+    <span class="act1-label">DRI&trade; | Coherence</span>
     <div class="act1-center">
       <h1 class="act1-headline">Same system. Different lens.</h1>
       <p class="act1-subline">Find your seat.</p>
@@ -1073,7 +1074,7 @@
           var label = doc.querySelector('.header-label');
           var cards = doc.querySelectorAll('section.card:not(.closing-statement)');
           var data = {
-            headerLabel: label ? label.textContent : 'Coherence \u00b7 Lens ' + num,
+            headerLabel: label ? label.textContent : 'DRI\u2122 | Coherence \u00b7 Lens ' + num,
             cardNodes: []
           };
           for (var i = 0; i < cards.length; i++) {
@@ -1114,7 +1115,7 @@
             '<a class="closing-link" id="tryAnother">Try another lens \u2192</a>' +
             '<div class="closing-footer">' +
               '<a class="footer-mono" href="https://greenbaumlabs.com">greenbaumlabs.com</a>' +
-              '<span class="footer-mono">Coherence \u00b7 DRI\u2122</span>' +
+              '<span class="footer-mono">DRI\u2122 | Coherence</span>' +
             '</div>' +
           '</div>';
         carousel.appendChild(closing);
