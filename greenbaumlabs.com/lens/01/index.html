@@ -10,12 +10,12 @@
   <meta property="og:type" content="website">
   <meta property="og:title" content="Coherence · Lens 01 · The Operator">
   <meta property="og:description" content="Drag to examine where responsibility actually lands.">
-  <meta property="og:image" content="images/og-image.jpg">
+  <meta property="og:image" content="/lens/01/images/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
 
   <!-- Preload critical images -->
-  <link rel="preload" href="images/narrative.avif" as="image" type="image/avif">
-  <link rel="preload" href="images/structure.avif" as="image" type="image/avif">
+  <link rel="preload" href="/lens/01/images/narrative.avif" as="image" type="image/avif">
+  <link rel="preload" href="/lens/01/images/structure.avif" as="image" type="image/avif">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -66,7 +66,7 @@
       inset: 0;
       z-index: 200;
       pointer-events: none;
-      background-image: url('images/grain.png');
+      background-image: var(--grain-bg, url('images/grain.png'));
       background-repeat: repeat;
       background-size: 512px 512px;
       mix-blend-mode: overlay;
@@ -542,14 +542,11 @@
 
       function applyBackgrounds(format) {
         var ext = format === 'avif' ? 'avif' : 'webp';
-        document.documentElement.style.setProperty(
-          '--narrative-bg',
-          'url(images/narrative.' + ext + ')'
-        );
-        document.documentElement.style.setProperty(
-          '--structure-bg',
-          'url(images/structure.' + ext + ')'
-        );
+        var base = window.location.pathname.replace(/\/?$/, '/');
+        var root = document.documentElement.style;
+        root.setProperty('--narrative-bg', 'url(' + base + 'images/narrative.' + ext + ')');
+        root.setProperty('--structure-bg', 'url(' + base + 'images/structure.' + ext + ')');
+        root.setProperty('--grain-bg', 'url(' + base + 'images/grain.png)');
       }
 
       // ---- Elements ----
