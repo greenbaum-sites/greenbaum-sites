@@ -423,16 +423,54 @@
       .fm-label { opacity: 1 !important; }
     }
 
+    /* ========== SMALL DESKTOP ========== */
+    @media (max-height: 700px) {
+      .layer-content { top: 30%; }
+      .fm-label { bottom: 1.5rem; }
+      .fm-line { font-size: 0.75rem; }
+      .footer-left, .footer-right { bottom: 0.5rem; }
+    }
+
     /* ========== MOBILE ========== */
     @media (max-width: 768px) {
-      .layer { padding: 6rem 2rem 5rem; }
-      .layer-content { max-width: 100%; }
+      .layer { padding: 0; }
+      .layer-content {
+        max-width: 85%;
+        top: 28%;
+      }
+      .layer-headline {
+        font-size: clamp(1.3rem, 5.5vw, 1.8rem);
+        margin-bottom: 1rem;
+      }
+      .layer-body {
+        font-size: clamp(0.82rem, 3.2vw, 0.95rem);
+        line-height: 1.7;
+      }
+      .prompt-button {
+        font-size: 0.5rem;
+        padding: 0.6em 1.4em;
+      }
+      .prompt { margin-top: 1.5rem; }
+      .handle { width: 54px; }
+      .handle-grip {
+        width: 16px;
+        height: 16px;
+      }
       .fm-label {
-        bottom: 4.5rem;
+        bottom: 5rem;
         padding: 0 1.5rem;
         white-space: normal;
       }
-      .fm-code { font-size: 0.45rem; }
+      .fm-code { font-size: 0.4rem; }
+      .fm-line {
+        font-size: 0.75rem;
+        line-height: 1.5;
+      }
+      .footer-left, .footer-right {
+        bottom: 1rem;
+      }
+      .header { padding: 1.5rem 1.5rem 0; }
+      .header-label { font-size: 0.45rem; }
     }
   </style>
 </head>
