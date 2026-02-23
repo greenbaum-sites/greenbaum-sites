@@ -562,14 +562,15 @@
       var startX     = 0;
       var startPct   = 0;
       var touched    = false;
+      var halfHandle = handle.getBoundingClientRect().width / 2;
 
       // ---- Core position logic ----
       function setPosition(p) {
         pct = Math.max(0, Math.min(100, p));
         var px = (pct / 100) * window.innerWidth;
 
-        // Position handle
-        handle.style.left = (px - 22) + 'px';
+        // Position handle — use measured half-width, not hardcoded
+        handle.style.left = (px - halfHandle) + 'px';
 
         // Clip structural layer (reveals from left)
         structure.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
@@ -578,13 +579,15 @@
         narrative.style.clipPath = 'inset(0 0 0 ' + pct + '%)';
 
         // ARIA
-        handle.setAttribute('aria-valuenow', Math.round(pct));
+        var rounded = Math.round(pct);
+        handle.setAttribute('aria-valuenow', rounded);
+        handle.setAttribute('aria-valuetext', 'Structural view revealed: ' + rounded + '%');
 
         // ---- Opacity dynamics ----
 
-        // Narrative layer: subtle fade past 80%
-        if (pct > 80) {
-          var narrativeFade = 1 - ((pct - 80) / 20) * 0.15;
+        // Narrative layer: subtle credibility fade starting at 65%
+        if (pct > 65) {
+          var narrativeFade = 1 - ((pct - 65) / 35) * 0.12;
           narrative.style.opacity = narrativeFade;
         } else {
           narrative.style.opacity = 1;
@@ -595,8 +598,8 @@
         var structImgOpacity = 0.10 + (pct / 100) * 0.04;
         structure.style.setProperty('--live-structure-opacity', structImgOpacity);
 
-        // FM label at >55%
-        if (pct > 55) fmLabel.classList.add('visible');
+        // FM label at >62% — recognition first, naming second
+        if (pct > 62) fmLabel.classList.add('visible');
         else fmLabel.classList.remove('visible');
 
         // Footer at >80%
@@ -663,6 +666,7 @@
 
       // ---- Resize ----
       window.addEventListener('resize', function () {
+        halfHandle = handle.getBoundingClientRect().width / 2;
         setPosition(pct);
       });
 
