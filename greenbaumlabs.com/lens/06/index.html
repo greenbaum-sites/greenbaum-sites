@@ -70,6 +70,10 @@
     .footer-left { position: fixed; bottom: 1.5rem; left: 2rem; z-index: 60; opacity: 0; animation: softIn 1s ease 4s forwards; }
     .footer-mono { font-family: 'JetBrains Mono', monospace; font-size: 0.45rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.3s ease; }
     .footer-mono:hover { color: var(--gold); }
+    /* ========== CLOSING STATEMENT ========== */
+    .closing-statement { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; background: var(--bg); will-change: transform; }
+    .closing-line { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic; font-size: clamp(0.8rem, 1.1vw, 0.95rem); line-height: 1.8; color: var(--gold); max-width: 520px; margin: 0 auto; }
+    .closing-line + .closing-line { margin-top: 1.2rem; }
     @keyframes softIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes handleIn { from { opacity: 0; } to { opacity: 1; } }
     @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-delay: 0.01ms !important; transition-duration: 0.01ms !important; } .layer-structure { clip-path: none !important; } .layer-narrative { clip-path: none !important; } .handle { display: none; } .layer-narrative { width: 50%; position: absolute; right: 50%; } .layer-structure { width: 50%; position: absolute; left: 50%; } .fm-label { opacity: 1 !important; } }
@@ -145,6 +149,11 @@
       <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0"><div class="handle-line"></div><div class="handle-grip"></div></div>
       <div class="fm-label"><div class="fm-code">FM-01 &middot; Responsibility Compression</div><p class="fm-line">Key-person risk isn&rsquo;t a people problem. It&rsquo;s a structural retention problem you can measure before it costs you.</p></div>
     </section>
+    <!-- Closing Statement -->
+    <section class="card closing-statement" data-index="5">
+      <p class="closing-line">Every lens sees the same system. Shared language is how the system starts to learn.</p>
+      <p class="closing-line">These aren&rsquo;t failures of people. They&rsquo;re the physics of organizations operating at scale and speed.</p>
+    </section>
   </main>
   <nav class="carousel-nav" aria-label="FM card navigation">
     <button class="carousel-arrow carousel-prev" aria-label="Previous card" disabled>&#8249;</button>
@@ -154,11 +163,12 @@
       <button class="carousel-dot" data-index="2" aria-label="Card 3"></button>
       <button class="carousel-dot" data-index="3" aria-label="Card 4"></button>
       <button class="carousel-dot" data-index="4" aria-label="Card 5"></button>
+      <button class="carousel-dot" data-index="5" aria-label="Closing"></button>
     </div>
     <button class="carousel-arrow carousel-next" aria-label="Next card">&#8250;</button>
   </nav>
   <div class="footer-right" id="footerRight">
-    <a class="footer-mono" href="/lens/01">Explore the operator lens &rarr;</a>
+    <a class="footer-mono" href="/lens/07">Explore the HR lens &rarr;</a>
   </div>
   <div class="footer-left">
     <a class="footer-mono" href="https://greenbaumlabs.com">greenbaumlabs</a>

@@ -455,6 +455,35 @@
 
     .footer-mono:hover { color: var(--gold); }
 
+    /* ========== CLOSING STATEMENT ========== */
+    .closing-statement {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      background: var(--bg);
+      will-change: transform;
+    }
+
+    .closing-line {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+      line-height: 1.8;
+      color: var(--gold);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .closing-line + .closing-line {
+      margin-top: 1.2rem;
+    }
+
     /* ========== KEYFRAMES ========== */
     @keyframes softIn {
       from { opacity: 0; transform: translateY(5px); }
@@ -673,6 +702,12 @@
       </div>
     </section>
 
+    <!-- Closing Statement -->
+    <section class="card closing-statement" data-index="5">
+      <p class="closing-line">Every lens sees the same system. Shared language is how the system starts to learn.</p>
+      <p class="closing-line">These aren&rsquo;t failures of people. They&rsquo;re the physics of organizations operating at scale and speed.</p>
+    </section>
+
   </main>
 
   <!-- Carousel Navigation -->
@@ -684,6 +719,7 @@
       <button class="carousel-dot" data-index="2" aria-label="Card 3"></button>
       <button class="carousel-dot" data-index="3" aria-label="Card 4"></button>
       <button class="carousel-dot" data-index="4" aria-label="Card 5"></button>
+      <button class="carousel-dot" data-index="5" aria-label="Closing"></button>
     </div>
     <button class="carousel-arrow carousel-next" aria-label="Next card">&#8250;</button>
   </nav>

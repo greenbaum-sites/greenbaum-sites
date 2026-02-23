@@ -3,20 +3,28 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Coherence · Lens 03</title>
-  <meta name="description" content="You set direction. The system reinterprets.">
+  <title>Coherence &middot; Lens 18</title>
+  <meta name="description" content="You govern what you can see. The system decides what you see.">
+
+  <!-- OG -->
   <meta property="og:type" content="website">
-  <meta property="og:title" content="Coherence · Lens 03 · The Executive">
-  <meta property="og:description" content="You set direction. The system reinterprets.">
-  <meta property="og:image" content="/lens/03/images/og-image.jpg">
+  <meta property="og:title" content="Coherence &middot; Lens 18 &middot; The Board">
+  <meta property="og:description" content="You govern what you can see. The system decides what you see.">
+  <meta property="og:image" content="/lens/18/images/og-image.jpg">
   <meta name="twitter:card" content="summary_large_image">
-  <link rel="preload" href="/lens/03/images/narrative.avif" as="image" type="image/avif">
-  <link rel="preload" href="/lens/03/images/structure.avif" as="image" type="image/avif">
+
+  <!-- Preload critical images -->
+  <link rel="preload" href="/lens/18/images/narrative.avif" as="image" type="image/avif">
+  <link rel="preload" href="/lens/18/images/structure.avif" as="image" type="image/avif">
+
+  <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
     :root {
       --bg: #0d0d0d;
       --gold: #c9a84c;
@@ -32,6 +40,7 @@
       --img-structure-opacity-full: 0.14;
       --grain-opacity: 0.04;
     }
+
     html, body {
       height: 100%;
       overflow: hidden;
@@ -44,6 +53,8 @@
       -webkit-user-select: none;
       touch-action: manipulation;
     }
+
+    /* ========== GRAIN ========== */
     body::after {
       content: '';
       position: fixed;
@@ -56,6 +67,8 @@
       mix-blend-mode: overlay;
       opacity: var(--grain-opacity);
     }
+
+    /* ========== HEADER ========== */
     .header {
       position: fixed;
       top: 0; left: 0; right: 0;
@@ -65,6 +78,7 @@
       padding: 2.2rem 2rem 0;
       pointer-events: none;
     }
+
     .header-label {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.55rem;
@@ -75,30 +89,44 @@
       opacity: 0;
       animation: softIn 1.4s ease 0.5s forwards;
     }
+
+    /* ========== CAROUSEL ========== */
     .carousel {
       position: relative;
       width: 100vw;
       height: 100vh;
       overflow: hidden;
     }
+
     .card {
       position: absolute;
       inset: 0;
       overflow: hidden;
       will-change: transform;
     }
+
+    /* ========== PROMPT ========== */
     .prompt {
       margin-top: 2rem;
       text-align: center;
       z-index: 90;
       transition: opacity 1.2s ease;
     }
+
     .card:first-child .prompt {
       opacity: 0;
       animation: softIn 1.4s ease 2.8s forwards;
     }
-    .card:not(:first-child) .prompt { opacity: 1; }
-    .prompt.hidden { opacity: 0 !important; animation: none; }
+
+    .card:not(:first-child) .prompt {
+      opacity: 1;
+    }
+
+    .prompt.hidden {
+      opacity: 0 !important;
+      animation: none;
+    }
+
     .prompt-button {
       display: inline-flex;
       align-items: center;
@@ -118,17 +146,25 @@
       cursor: ew-resize;
       transition: border-color 0.4s ease, color 0.4s ease;
     }
-    .prompt-button:hover { border-color: var(--gold); color: #dfc06a; }
+
+    .prompt-button:hover {
+      border-color: var(--gold);
+      color: #dfc06a;
+    }
+
     .prompt-arrow {
       display: inline-block;
       font-size: 0.75rem;
       opacity: 0.7;
       animation: nudge 2s ease-in-out infinite;
     }
+
     @keyframes nudge {
       0%, 100% { transform: translateX(0); }
       50% { transform: translateX(4px); }
     }
+
+    /* ========== LAYERS ========== */
     .layer {
       position: absolute;
       inset: 0;
@@ -137,6 +173,7 @@
       justify-content: center;
       padding: 5rem 4rem;
     }
+
     .layer-content {
       max-width: 500px;
       text-align: center;
@@ -146,21 +183,26 @@
       transform: translateX(-50%);
       z-index: 2;
     }
+
     .layer-headline {
       font-weight: 400;
       font-size: clamp(1.5rem, 3.2vw, 2.6rem);
       line-height: 1.35;
       margin-bottom: 1.5rem;
     }
+
     .layer-body {
       font-weight: 300;
       font-size: clamp(1rem, 1.3vw, 1.08rem);
       line-height: 1.85;
     }
+
+    /* ---- Narrative ---- */
     .layer-narrative {
       z-index: 1;
       transition: opacity 0.8s ease;
     }
+
     .layer-narrative::before {
       content: '';
       position: absolute;
@@ -172,6 +214,7 @@
       opacity: var(--img-narrative-opacity);
       transition: opacity 0.8s ease;
     }
+
     .layer-narrative::after {
       content: '';
       position: absolute;
@@ -184,8 +227,10 @@
         rgba(13, 13, 13, 0.9) 100%
       );
     }
+
     .layer-narrative .layer-headline { color: var(--text-primary); }
     .layer-narrative .layer-body { color: var(--text-cold); }
+
     .card:first-child .layer-narrative .layer-headline {
       opacity: 0;
       animation: softIn 1s ease 2s forwards;
@@ -194,11 +239,14 @@
       opacity: 0;
       animation: softIn 1s ease 2.4s forwards;
     }
+
+    /* ---- Structure ---- */
     .layer-structure {
       z-index: 2;
       clip-path: inset(0 85% 0 0);
       background: var(--bg);
     }
+
     .layer-structure::before {
       content: '';
       position: absolute;
@@ -210,6 +258,7 @@
       opacity: var(--live-structure-opacity, 0.22);
       transition: opacity 0.6s ease;
     }
+
     .layer-structure::after {
       content: '';
       position: absolute;
@@ -219,8 +268,11 @@
       z-index: 1;
       background: rgba(201, 168, 76, 0.1);
     }
+
     .layer-structure .layer-headline { color: var(--text-primary); }
     .layer-structure .layer-body { color: var(--text-cold); }
+
+    /* ========== HANDLE ========== */
     .handle {
       position: absolute;
       top: 0; bottom: 0;
@@ -230,10 +282,12 @@
       cursor: ew-resize;
       touch-action: none;
     }
+
     .card:first-child .handle {
       opacity: 0;
       animation: handleIn 0.8s ease 3s forwards;
     }
+
     .handle-line {
       position: absolute;
       top: 0; left: 50%;
@@ -244,8 +298,10 @@
       opacity: 0.25;
       transition: opacity 0.4s ease;
     }
+
     .handle:hover .handle-line,
     .handle.active .handle-line { opacity: 0.55; }
+
     .handle-grip {
       position: absolute;
       top: 50%; left: 50%;
@@ -257,12 +313,15 @@
       opacity: 0.6;
       transition: all 0.35s ease;
     }
+
     .handle:hover .handle-grip,
     .handle.active .handle-grip {
       width: 15px; height: 15px;
       opacity: 1;
       box-shadow: 0 0 20px var(--gold-glow);
     }
+
+    /* ========== FM LABEL ========== */
     .fm-label {
       position: absolute;
       bottom: 2.8rem;
@@ -275,7 +334,9 @@
       pointer-events: none;
       white-space: nowrap;
     }
+
     .fm-label.visible { opacity: 1; }
+
     .fm-code {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.5rem;
@@ -285,6 +346,7 @@
       color: var(--gold);
       margin-bottom: 0.75rem;
     }
+
     .fm-line {
       font-weight: 300;
       font-style: italic;
@@ -295,6 +357,8 @@
       max-width: 460px;
       margin: 0 auto;
     }
+
+    /* ========== CAROUSEL NAV ========== */
     .carousel-nav {
       position: fixed;
       bottom: 0.6rem;
@@ -305,6 +369,7 @@
       align-items: center;
       gap: 0.75rem;
     }
+
     .carousel-arrow {
       background: none;
       border: 1px solid var(--gold-dim);
@@ -321,13 +386,24 @@
       transition: opacity 0.3s, border-color 0.3s;
       padding: 0;
     }
-    .carousel-arrow:hover { opacity: 1; border-color: var(--gold); }
-    .carousel-arrow:disabled { opacity: 0.1; cursor: default; pointer-events: none; }
+
+    .carousel-arrow:hover {
+      opacity: 1;
+      border-color: var(--gold);
+    }
+
+    .carousel-arrow:disabled {
+      opacity: 0.1;
+      cursor: default;
+      pointer-events: none;
+    }
+
     .carousel-dots {
       display: flex;
       gap: 0.5rem;
       align-items: center;
     }
+
     .carousel-dot {
       width: 5px; height: 5px;
       border-radius: 50%;
@@ -337,7 +413,13 @@
       cursor: pointer;
       transition: background 0.3s, transform 0.3s;
     }
-    .carousel-dot.active { background: var(--gold); transform: scale(1.4); }
+
+    .carousel-dot.active {
+      background: var(--gold);
+      transform: scale(1.4);
+    }
+
+    /* ========== FOOTER ========== */
     .footer-right {
       position: fixed;
       bottom: 1.5rem; right: 2rem;
@@ -346,7 +428,12 @@
       transition: opacity 0.8s ease;
       pointer-events: none;
     }
-    .footer-right.visible { opacity: 1; pointer-events: auto; }
+
+    .footer-right.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
     .footer-left {
       position: fixed;
       bottom: 1.5rem; left: 2rem;
@@ -354,6 +441,7 @@
       opacity: 0;
       animation: softIn 1s ease 4s forwards;
     }
+
     .footer-mono {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.45rem;
@@ -364,6 +452,7 @@
       text-decoration: none;
       transition: color 0.3s ease;
     }
+
     .footer-mono:hover { color: var(--gold); }
 
     /* ========== CLOSING STATEMENT ========== */
@@ -395,16 +484,24 @@
       margin-top: 1.2rem;
     }
 
+    /* ========== KEYFRAMES ========== */
     @keyframes softIn {
       from { opacity: 0; transform: translateY(5px); }
       to   { opacity: 1; transform: translateY(0); }
     }
+
     @keyframes handleIn {
       from { opacity: 0; }
       to   { opacity: 1; }
     }
+
+    /* ========== REDUCED MOTION ========== */
     @media (prefers-reduced-motion: reduce) {
-      * { animation-duration: 0.01ms !important; animation-delay: 0.01ms !important; transition-duration: 0.01ms !important; }
+      * {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
       .layer-structure { clip-path: none !important; }
       .layer-narrative { clip-path: none !important; }
       .handle { display: none; }
@@ -412,6 +509,8 @@
       .layer-structure { width: 50%; position: absolute; left: 50%; }
       .fm-label { opacity: 1 !important; }
     }
+
+    /* ========== SMALL DESKTOP ========== */
     @media (max-height: 700px) {
       .layer-content { top: 30%; }
       .fm-label { bottom: 1.5rem; }
@@ -419,6 +518,8 @@
       .footer-left, .footer-right { bottom: 0.5rem; }
       .carousel-nav { bottom: 0.2rem; }
     }
+
+    /* ========== MOBILE ========== */
     @media (max-width: 768px) {
       .layer { padding: 0; }
       .layer-content { max-width: 85%; top: 28%; }
@@ -428,7 +529,11 @@
       .prompt { margin-top: 1.5rem; }
       .handle { width: 54px; }
       .handle-grip { width: 16px; height: 16px; }
-      .fm-label { bottom: 5rem; padding: 0 1.5rem; white-space: normal; }
+      .fm-label {
+        bottom: 5rem;
+        padding: 0 1.5rem;
+        white-space: normal;
+      }
       .fm-code { font-size: 0.4rem; }
       .fm-line { font-size: 0.75rem; line-height: 1.5; }
       .footer-left, .footer-right { bottom: 1rem; }
@@ -440,95 +545,163 @@
   </style>
 </head>
 <body>
+
   <header class="header">
-    <span class="header-label">Coherence &middot; Lens 03 &middot; The Executive</span>
+    <span class="header-label">Coherence &middot; Lens 18 &middot; The Board</span>
   </header>
+
   <main class="carousel" id="carousel">
+
+    <!-- Card 1: FM-04 — Metric Shadowing -->
     <section class="card" data-index="0">
       <div class="layer layer-narrative">
         <div class="layer-content">
-          <h1 class="layer-headline">&ldquo;The strategy is clear. We communicated it.&rdquo;</h1>
-          <p class="layer-body">The offsite produced alignment. Every leader can recite the three priorities. The slides are on the shared drive. Communication happened.</p>
-          <div class="prompt"><div class="prompt-button"><span>Drag to examine</span><span class="prompt-arrow">&#8594;</span></div></div>
+          <h1 class="layer-headline">&ldquo;The board deck tells a clear story.&rdquo;</h1>
+          <p class="layer-body">Revenue, margin, growth, pipeline &mdash; the metrics are comprehensive. Management presents quarterly. The board is well-informed. Governance is strong.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="layer layer-structure">
         <div class="layer-content">
-          <h1 class="layer-headline">Everyone agreed on the strategy. They mean different things by it.</h1>
-          <p class="layer-body">Your three priorities are being read six different ways across four teams. Not because people didn&rsquo;t listen &mdash; because the same words carry different weight depending on where you sit. &ldquo;Customer-first&rdquo; means one thing to product and something else to finance. Agreement went up. Shared understanding didn&rsquo;t.</p>
+          <h1 class="layer-headline">The deck is curated. Not by accident &mdash; by design.</h1>
+          <p class="layer-body">Every number in the deck is accurate. What&rsquo;s missing is also a choice. The attrition in the engineering team. The customer segment that&rsquo;s churning quietly. The three workarounds propping up the fulfillment system. These aren&rsquo;t hidden by malice &mdash; they&rsquo;re hidden by structure. The board deck reflects what management measures. What management doesn&rsquo;t measure doesn&rsquo;t make the deck. Your oversight is bounded by their instrumentation.</p>
         </div>
       </div>
-      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0"><div class="handle-line"></div><div class="handle-grip"></div></div>
-      <div class="fm-label"><div class="fm-code">FM-14 &middot; Narrative Collapse</div><p class="fm-line">When people can&rsquo;t explain the why without slides, alignment is performance, not belief.</p></div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-04 &middot; Metric Shadowing</div>
+        <p class="fm-line">When the board only sees what management measures, governance is limited to the questions someone else chose to ask.</p>
+      </div>
     </section>
+
+    <!-- Card 2: FM-14 — Narrative Collapse -->
     <section class="card" data-index="1">
       <div class="layer layer-narrative">
         <div class="layer-content">
-          <h1 class="layer-headline">&ldquo;My door is always open.&rdquo;</h1>
-          <p class="layer-body">We&rsquo;re hands-on leaders. We stay close to the work. People bring decisions to us because they trust our judgment. Accessibility is a strength.</p>
-          <div class="prompt"><div class="prompt-button"><span>Drag to examine</span><span class="prompt-arrow">&#8594;</span></div></div>
+          <h1 class="layer-headline">&ldquo;Management is aligned and executing well.&rdquo;</h1>
+          <p class="layer-body">The leadership team presents a unified front. Strategy is clear. Execution is on track. The board has confidence in the team.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="layer layer-structure">
         <div class="layer-content">
-          <h1 class="layer-headline">Everything routes to the same three people.</h1>
-          <p class="layer-body">Your calendar isn&rsquo;t a sign of importance. It&rsquo;s a symptom. Decisions come to you not because they need your judgment but because the system has no other path. You&rsquo;ve become a routing mechanism, not a governing one. The more available you are, the less the system needs to build its own authority.</p>
+          <h1 class="layer-headline">The narrative you hear in the boardroom and the one operators live are two different stories.</h1>
+          <p class="layer-body">Management tells you the transformation is on track. Three levels down, people describe it as chaos. Both are telling the truth &mdash; from where they sit. The gap isn&rsquo;t deception. It&rsquo;s altitude. By the time operational reality reaches the boardroom, it&rsquo;s been translated through four layers of summarization, each one smoothing the edges. You&rsquo;re not being misled. You&rsquo;re being insulated by the structure of how information travels upward.</p>
         </div>
       </div>
-      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0"><div class="handle-line"></div><div class="handle-grip"></div></div>
-      <div class="fm-label"><div class="fm-code">FM-10 &middot; Leadership Saturation</div><p class="fm-line">When leaders are in every meeting, leadership has already collapsed.</p></div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-14 &middot; Narrative Collapse</div>
+        <p class="fm-line">When information travels through four layers to reach the board, each layer smooths the signal. What arrives is true. It&rsquo;s also incomplete.</p>
+      </div>
     </section>
+
+    <!-- Card 3: FM-10 — Leadership Saturation -->
     <section class="card" data-index="2">
       <div class="layer layer-narrative">
         <div class="layer-content">
-          <h1 class="layer-headline">&ldquo;We&rsquo;re thoughtful and deliberate.&rdquo;</h1>
-          <p class="layer-body">Big decisions deserve careful review. We align stakeholders. We gather input. Thoroughness is how we manage risk.</p>
-          <div class="prompt"><div class="prompt-button"><span>Drag to examine</span><span class="prompt-arrow">&#8594;</span></div></div>
+          <h1 class="layer-headline">&ldquo;The CEO is hands-on and deeply engaged.&rdquo;</h1>
+          <p class="layer-body">She&rsquo;s in the details. She knows the business. She attends key operational meetings. Board members value her command of the organization.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="layer layer-structure">
         <div class="layer-content">
-          <h1 class="layer-headline">The decision has an owner. It still took four months.</h1>
-          <p class="layer-body">The VP you promoted has authority on paper. She&rsquo;s used it twice &mdash; and both times took three alignment meetings, two escalations, and your quiet nod before anything moved. The system grants authority in titles and requires permission in practice. Your leaders aren&rsquo;t slow. They&rsquo;re structurally discouraged from being fast.</p>
+          <h1 class="layer-headline">The CEO is in the details because nobody else can make the decisions.</h1>
+          <p class="layer-body">You see it as leadership strength. From inside, it looks different. The CEO approves routine decisions because the system routes everything to the top. She&rsquo;s not choosing to be hands-on &mdash; she can&rsquo;t step back without things stalling. The organization has optimized for her availability instead of building decision-making below her. What you see as engagement is actually a structural dependency the board is applauding instead of diagnosing.</p>
         </div>
       </div>
-      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0"><div class="handle-line"></div><div class="handle-grip"></div></div>
-      <div class="fm-label"><div class="fm-code">FM-08 &middot; Decision Latency</div><p class="fm-line">If a decision requires alignment from everyone, it will be made by no one.</p></div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-10 &middot; Leadership Saturation</div>
+        <p class="fm-line">When the board celebrates the CEO&rsquo;s involvement in details, they may be celebrating the symptom instead of seeing the structural failure.</p>
+      </div>
     </section>
+
+    <!-- Card 4: FM-15 — Trust Exhaustion -->
     <section class="card" data-index="3">
       <div class="layer layer-narrative">
         <div class="layer-content">
-          <h1 class="layer-headline">&ldquo;The numbers tell the story.&rdquo;</h1>
-          <p class="layer-body">Quarterly review is data-driven. The dashboard is green. Revenue is growing. Targets are being met. The team delivers what they&rsquo;re asked to deliver.</p>
-          <div class="prompt"><div class="prompt-button"><span>Drag to examine</span><span class="prompt-arrow">&#8594;</span></div></div>
+          <h1 class="layer-headline">&ldquo;Employee engagement is strong.&rdquo;</h1>
+          <p class="layer-body">Survey scores are stable. Glassdoor is managed. HR reports engagement in acceptable ranges. Culture programs are active.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="layer layer-structure">
         <div class="layer-content">
-          <h1 class="layer-headline">The dashboard says green. The building is creaking.</h1>
-          <p class="layer-body">Every metric you track is being optimized. That&rsquo;s the problem. Teams learned what gets measured and what gets rewarded. The costs that don&rsquo;t fit a KPI &mdash; the attrition of your strongest people, the workarounds that keep things running, the customer friction no survey captures &mdash; those pile up where your dashboard can&rsquo;t see them.</p>
+          <h1 class="layer-headline">The scores are stable because the people who cared already left.</h1>
+          <p class="layer-body">The survey results look fine. But look at who&rsquo;s filling them out. Your most vocal employees &mdash; the ones who used to challenge leadership, who filed the honest feedback, who pushed for change &mdash; they&rsquo;re gone. The scores didn&rsquo;t improve because things got better. They stabilized because the dissatisfied population self-selected out. What remains is compliance. The engagement metric is real. The engagement isn&rsquo;t.</p>
         </div>
       </div>
-      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0"><div class="handle-line"></div><div class="handle-grip"></div></div>
-      <div class="fm-label"><div class="fm-code">FM-04 &middot; Metric Shadowing</div><p class="fm-line">When dashboards are green but people are struggling, the metrics aren&rsquo;t lying. They&rsquo;re just not looking.</p></div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-15 &middot; Trust Exhaustion</div>
+        <p class="fm-line">When engagement scores stabilize after a wave of attrition, the metric is measuring the survivors, not the system.</p>
+      </div>
     </section>
+
+    <!-- Card 5: FM-12 — Strategic Myopia -->
     <section class="card" data-index="4">
       <div class="layer layer-narrative">
         <div class="layer-content">
-          <h1 class="layer-headline">&ldquo;We want to hear about problems early.&rdquo;</h1>
-          <p class="layer-body">Leadership is accessible. We encourage people to raise issues before they grow. Escalation is part of how we manage risk.</p>
-          <div class="prompt"><div class="prompt-button"><span>Drag to examine</span><span class="prompt-arrow">&#8594;</span></div></div>
+          <h1 class="layer-headline">&ldquo;The company is executing well against plan.&rdquo;</h1>
+          <p class="layer-body">Quarterly targets are being met. The operating plan is on track. Short-term execution is strong. The board is satisfied with performance.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
         </div>
       </div>
       <div class="layer layer-structure">
         <div class="layer-content">
-          <h1 class="layer-headline">They stopped telling you. Not because it got better.</h1>
-          <p class="layer-body">Escalation volumes are down. You read that as progress. Your teams read it differently. They learned that raising something means a three-week review, their name on a report, and a reputation for not handling it themselves. The problems didn&rsquo;t go away. They went underground.</p>
+          <h1 class="layer-headline">Every quarter is being met. Nobody is building what comes after.</h1>
+          <p class="layer-body">This quarter looks great. So did the last four. But the R&amp;D investment that would have funded the next product line was deferred to hit margin. The platform rebuild that engineering has requested for two years keeps getting pushed. The market is shifting and the competitive response is &ldquo;next year.&rdquo; You&rsquo;re governing a company that&rsquo;s executing its present while consuming its future. The numbers won&rsquo;t show it until it&rsquo;s too late to fix.</p>
         </div>
       </div>
-      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0"><div class="handle-line"></div><div class="handle-grip"></div></div>
-      <div class="fm-label"><div class="fm-code">FM-02 &middot; Escalation Inversion</div><p class="fm-line">When escalation volumes drop without structural change, problems are being absorbed, not solved.</p></div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-12 &middot; Strategic Myopia</div>
+        <p class="fm-line">When the board is satisfied with short-term execution and nobody asks what&rsquo;s being deferred, governance has become backward-looking.</p>
+      </div>
     </section>
+
     <!-- Closing Statement -->
     <section class="card closing-statement" data-index="5">
       <p class="closing-line">Every lens sees the same system. Shared language is how the system starts to learn.</p>
@@ -536,6 +709,8 @@
     </section>
 
   </main>
+
+  <!-- Carousel Navigation -->
   <nav class="carousel-nav" aria-label="FM card navigation">
     <button class="carousel-arrow carousel-prev" aria-label="Previous card" disabled>&#8249;</button>
     <div class="carousel-dots">
@@ -548,19 +723,26 @@
     </div>
     <button class="carousel-arrow carousel-next" aria-label="Next card">&#8250;</button>
   </nav>
+
+  <!-- Footer -->
   <div class="footer-right" id="footerRight">
-    <a class="footer-mono" href="/lens/04">Explore the chief of staff lens &rarr;</a>
+    <a class="footer-mono" href="/lens/01">Explore the operator lens &rarr;</a>
   </div>
+
   <div class="footer-left">
     <a class="footer-mono" href="https://greenbaumlabs.com">greenbaumlabs</a>
   </div>
+
   <script>
     (function () {
       'use strict';
+
+      // ---- Image format detection ----
       var avifTest = new Image();
       avifTest.onload = function () { applyBackgrounds('avif'); };
       avifTest.onerror = function () { applyBackgrounds('webp'); };
       avifTest.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUEAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAABoAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLanAyaAAAAAAAAgABAACAAAABQAAAAAAAAAAAAAAAAAAAAAAeaXBtYQAAAAAAAAABAAEEAQKDBAAAARptZGF0EgAKBzgABhAQ0EkA';
+
       function applyBackgrounds(format) {
         var ext = format === 'avif' ? 'avif' : 'webp';
         var base = window.location.pathname.replace(/\/?$/, '/');
@@ -569,6 +751,8 @@
         root.setProperty('--structure-bg', 'url(' + base + 'images/structure.' + ext + ')');
         root.setProperty('--grain-bg', 'url(' + base + 'images/grain.png)');
       }
+
+      // ---- Carousel state ----
       var currentIndex = 0;
       var cardEls = document.querySelectorAll('.card');
       var totalCards = cardEls.length;
@@ -576,28 +760,39 @@
       var prevBtn = document.querySelector('.carousel-prev');
       var nextBtn = document.querySelector('.carousel-next');
       var footerR = document.getElementById('footerRight');
+
+      // ---- Per-card slider state ----
       var sliders = [];
       for (var i = 0; i < cardEls.length; i++) {
         (function (idx) {
           var card = cardEls[idx];
           var h = card.querySelector('.handle');
           sliders.push({
-            el: card, handle: h,
+            el: card,
+            handle: h,
             structure: card.querySelector('.layer-structure'),
             narrative: card.querySelector('.layer-narrative'),
             fmLabel: card.querySelector('.fm-label'),
             prompt: card.querySelector('.prompt'),
             promptBtn: card.querySelector('.prompt-button'),
-            pct: 15, dragging: false, startX: 0, startPct: 0, touched: false,
+            pct: 15,
+            dragging: false,
+            startX: 0,
+            startPct: 0,
+            touched: false,
             halfHandle: h.getBoundingClientRect().width / 2
           });
         })(i);
       }
+
+      // ---- Card positioning ----
       function positionCards(animate) {
         for (var i = 0; i < totalCards; i++) {
           var el = cardEls[i];
           var offset = (i - currentIndex) * 100;
-          el.style.transition = animate ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)' : 'none';
+          el.style.transition = animate
+            ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+            : 'none';
           el.style.transform = 'translateX(' + offset + '%)';
           el.style.pointerEvents = (i === currentIndex) ? 'auto' : 'none';
           sliders[i].handle.setAttribute('tabindex', i === currentIndex ? '0' : '-1');
@@ -610,61 +805,97 @@
         nextBtn.disabled = (currentIndex === totalCards - 1);
         updateFooterRight();
       }
+
       function goToCard(index) {
         if (index < 0 || index >= totalCards || index === currentIndex) return;
         currentIndex = index;
         positionCards(true);
       }
+
+      // ---- Slider position logic ----
       function setSliderPosition(s, p) {
         s.pct = Math.max(0, Math.min(100, p));
         var px = (s.pct / 100) * window.innerWidth;
+
         s.handle.style.left = (px - s.halfHandle) + 'px';
         s.structure.style.clipPath = 'inset(0 ' + (100 - s.pct) + '% 0 0)';
         s.narrative.style.clipPath = 'inset(0 0 0 ' + s.pct + '%)';
+
         var rounded = Math.round(s.pct);
         s.handle.setAttribute('aria-valuenow', rounded);
         s.handle.setAttribute('aria-valuetext', 'Structural view revealed: ' + rounded + '%');
+
+        // Narrative credibility fade at 65%
         if (s.pct > 65) {
           s.narrative.style.opacity = 1 - ((s.pct - 65) / 35) * 0.12;
-        } else { s.narrative.style.opacity = 1; }
+        } else {
+          s.narrative.style.opacity = 1;
+        }
+
+        // Structure opacity ramp
         s.structure.style.setProperty('--live-structure-opacity', 0.10 + (s.pct / 100) * 0.04);
+
+        // FM label at >62%
         if (s.pct > 62) s.fmLabel.classList.add('visible');
         else s.fmLabel.classList.remove('visible');
+
         updateFooterRight();
       }
+
       function updateFooterRight() {
         var active = sliders[currentIndex];
         if (active.pct > 80) footerR.classList.add('visible');
         else footerR.classList.remove('visible');
       }
+
       function firstTouch(s) {
-        if (!s.touched) { s.touched = true; s.prompt.classList.add('hidden'); }
+        if (!s.touched) {
+          s.touched = true;
+          s.prompt.classList.add('hidden');
+        }
       }
+
+      // ---- Per-card event binding ----
       for (var i = 0; i < sliders.length; i++) {
         (function (s) {
           s.handle.addEventListener('pointerdown', function (e) {
-            e.preventDefault(); e.stopPropagation();
+            e.preventDefault();
+            e.stopPropagation();
             s.handle.setPointerCapture(e.pointerId);
-            s.dragging = true; s.startX = e.clientX; s.startPct = s.pct;
-            s.handle.classList.add('active'); firstTouch(s);
+            s.dragging = true;
+            s.startX = e.clientX;
+            s.startPct = s.pct;
+            s.handle.classList.add('active');
+            firstTouch(s);
           });
+
           if (s.promptBtn) {
             s.promptBtn.addEventListener('click', function (e) {
-              e.stopPropagation(); firstTouch(s); setSliderPosition(s, 50);
+              e.stopPropagation();
+              firstTouch(s);
+              setSliderPosition(s, 50);
             });
           }
+
           s.handle.addEventListener('keydown', function (e) {
             var n = s.pct;
             switch (e.key) {
-              case 'ArrowRight': n += 5; break; case 'ArrowLeft': n -= 5; break;
-              case 'PageDown': n += 20; break; case 'PageUp': n -= 20; break;
-              case 'End': n = 100; break; case 'Home': n = 0; break;
+              case 'ArrowRight': n += 5; break;
+              case 'ArrowLeft':  n -= 5; break;
+              case 'PageDown':   n += 20; break;
+              case 'PageUp':     n -= 20; break;
+              case 'End':        n = 100; break;
+              case 'Home':       n = 0; break;
               default: return;
             }
-            e.preventDefault(); firstTouch(s); setSliderPosition(s, n);
+            e.preventDefault();
+            firstTouch(s);
+            setSliderPosition(s, n);
           });
         })(sliders[i]);
       }
+
+      // ---- Global pointer events for slider drag ----
       document.addEventListener('pointermove', function (e) {
         for (var i = 0; i < sliders.length; i++) {
           if (!sliders[i].dragging) continue;
@@ -674,30 +905,50 @@
           return;
         }
       });
+
       document.addEventListener('pointerup', function () {
         for (var i = 0; i < sliders.length; i++) {
-          if (sliders[i].dragging) { sliders[i].dragging = false; sliders[i].handle.classList.remove('active'); }
+          if (sliders[i].dragging) {
+            sliders[i].dragging = false;
+            sliders[i].handle.classList.remove('active');
+          }
         }
       });
-      var swipeStartX = 0, swipeStartY = 0, swiping = false;
+
+      // ---- Swipe detection for carousel ----
+      var swipeStartX = 0;
+      var swipeStartY = 0;
+      var swiping = false;
+
       document.addEventListener('pointerdown', function (e) {
         if (e.target.closest('.handle') || e.target.closest('.carousel-nav') || e.target.closest('.prompt-button')) return;
-        swipeStartX = e.clientX; swipeStartY = e.clientY; swiping = true;
+        swipeStartX = e.clientX;
+        swipeStartY = e.clientY;
+        swiping = true;
       });
+
       document.addEventListener('pointerup', function (e) {
-        if (!swiping) return; swiping = false;
-        var dx = e.clientX - swipeStartX, dy = e.clientY - swipeStartY;
+        if (!swiping) return;
+        swiping = false;
+        var dx = e.clientX - swipeStartX;
+        var dy = e.clientY - swipeStartY;
         if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
-          if (dx < 0) goToCard(currentIndex + 1); else goToCard(currentIndex - 1);
+          if (dx < 0) goToCard(currentIndex + 1);
+          else goToCard(currentIndex - 1);
         }
       });
+
+      // ---- Carousel controls ----
       prevBtn.addEventListener('click', function () { goToCard(currentIndex - 1); });
       nextBtn.addEventListener('click', function () { goToCard(currentIndex + 1); });
+
       for (var d = 0; d < dots.length; d++) {
         dots[d].addEventListener('click', function () {
           goToCard(parseInt(this.getAttribute('data-index')));
         });
       }
+
+      // ---- Resize ----
       window.addEventListener('resize', function () {
         for (var i = 0; i < sliders.length; i++) {
           sliders[i].halfHandle = sliders[i].handle.getBoundingClientRect().width / 2;
@@ -705,9 +956,14 @@
         }
         positionCards(false);
       });
+
+      // ---- Init ----
       positionCards(false);
-      for (var i = 0; i < sliders.length; i++) { setSliderPosition(sliders[i], 15); }
+      for (var i = 0; i < sliders.length; i++) {
+        setSliderPosition(sliders[i], 15);
+      }
     })();
   </script>
+
 </body>
 </html>
