@@ -257,7 +257,20 @@
     /* ---- SECTIONS ---- */
     section {
       padding: 8rem 3rem;
-      border-top: 1px solid var(--border);
+      border-top: none;
+      position: relative;
+    }
+
+    section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(200px, 30%);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.4;
     }
 
     .section-inner {
@@ -340,7 +353,20 @@
     /* ---- LENS GRID ---- */
     .lens-section {
       padding: 8rem 3rem;
-      border-top: 1px solid var(--border);
+      border-top: none;
+      position: relative;
+    }
+
+    .lens-section::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(200px, 30%);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      opacity: 0.4;
     }
 
     .lens-header {
@@ -715,8 +741,21 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: 1px solid var(--border);
+      border-top: none;
       background: var(--bg-primary);
+      position: relative;
+    }
+
+    footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(120px, 20%);
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--text-dim), transparent);
+      opacity: 0.5;
     }
 
     .footer-l, .footer-r {
