@@ -1,0 +1,1237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Decision & Responsibility Infrastructure™ — The Practice</title>
+  <meta name="description" content="The discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.">
+  <link rel="canonical" href="https://dripractice.com/">
+
+  <!-- Open Graph -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://dripractice.com/">
+  <meta property="og:title" content="Decision & Responsibility Infrastructure™">
+  <meta property="og:description" content="The discipline of designing the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.">
+  <meta property="og:site_name" content="DRI Practice">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Decision & Responsibility Infrastructure™">
+  <meta name="twitter:description" content="The discipline of designing the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.">
+
+  <!-- JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "Decision & Responsibility Infrastructure™",
+    "url": "https://dripractice.com",
+    "description": "The discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.",
+    "founder": {
+      "@type": "Person",
+      "name": "Justin R. Greenbaum",
+      "url": "https://justingreenbaum.com"
+    }
+  }
+  </script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --warm-dim: rgba(200, 85, 58, 0.1);
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      scrollbar-width: thin;
+      scrollbar-color: var(--text-dim) var(--bg-primary);
+    }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Film grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+      backdrop-filter: blur(8px);
+      transition: all 0.4s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(10, 10, 10, 0.97);
+      padding: 1rem 3rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.3rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-primary);
+    }
+
+    .nav-name .tm {
+      font-size: 0.6em;
+      vertical-align: super;
+      color: var(--text-dim);
+    }
+
+    .nav-role {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+      align-items: center;
+    }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a.active { color: var(--accent); }
+
+    .nav-toggle {
+      display: none;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.5rem;
+      z-index: 101;
+    }
+
+    .nav-toggle span {
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--text-primary);
+      margin: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+    .nav-toggle.active span:nth-child(2) { opacity: 0; }
+    .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+    /* ---- HERO ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: flex-end;
+      padding: 0 3rem 8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(201, 168, 76, 0.03), transparent),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200, 85, 58, 0.02), transparent);
+    }
+
+    .hero-content {
+      position: relative;
+      max-width: 800px;
+    }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 300;
+      letter-spacing: 0.35em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.3s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.8rem, 6vw, 4.5rem);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.5s forwards;
+    }
+
+    .hero h1 .tm {
+      font-size: 0.4em;
+      vertical-align: super;
+      color: var(--text-dim);
+    }
+
+    .hero-sub {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 620px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.7s forwards;
+    }
+
+    .hero-line {
+      width: 60px;
+      height: 1px;
+      background: var(--accent);
+      margin-top: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.9s forwards;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- SECTIONS ---- */
+    section {
+      padding: 6rem 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .section-inner {
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+    }
+
+    section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
+      line-height: 1.2;
+      letter-spacing: -0.01em;
+      margin-bottom: 2rem;
+      color: var(--text-primary);
+    }
+
+    section h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.4rem;
+      margin: 2.5rem 0 1rem;
+      color: var(--text-primary);
+    }
+
+    section p {
+      font-size: 0.95rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 1.2rem;
+    }
+
+    section strong {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+
+    /* Reveal animation */
+    .reveal {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.6s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ---- THESIS BLOCK ---- */
+    .thesis-block {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--accent);
+      padding: 2.5rem 2.5rem;
+      margin: 2.5rem 0;
+    }
+
+    .thesis-block p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.25rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    /* ---- LENS GRID ---- */
+    .lens-section {
+      padding: 6rem 3rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .lens-header {
+      max-width: 720px;
+      margin: 0 auto 4rem;
+    }
+
+    .lens-grid {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .lens-card {
+      background: var(--bg-primary);
+      padding: 2.5rem;
+      cursor: default;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+
+    .lens-card:hover {
+      background: var(--bg-card);
+    }
+
+    .lens-card:hover .lens-role {
+      color: var(--accent);
+    }
+
+    .lens-role {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.15rem;
+      color: var(--text-primary);
+      margin-bottom: 0.75rem;
+      transition: color 0.3s ease;
+    }
+
+    .lens-line {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    /* ---- TRIANGLE ---- */
+    .triangle-section {
+      background: var(--bg-secondary);
+    }
+
+    .triangle-visual {
+      display: flex;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+
+    .triangle-container {
+      position: relative;
+      width: 320px;
+      height: 260px;
+    }
+
+    .vertex-label {
+      position: absolute;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+    }
+
+    .vertex-truth {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%) translateY(-1.5rem);
+      color: var(--accent);
+    }
+
+    .vertex-authority {
+      bottom: 0;
+      left: 0;
+      transform: translateX(-1rem) translateY(1.5rem);
+      color: var(--text-dim);
+    }
+
+    .vertex-continuity {
+      bottom: 0;
+      right: 0;
+      transform: translateX(1rem) translateY(1.5rem);
+      color: var(--text-secondary);
+    }
+
+    .triangle-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .triangle-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      transition: all 0.3s ease;
+    }
+
+    .triangle-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .triangle-card h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .triangle-card p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    /* ---- FM TAXONOMY PREVIEW ---- */
+    .fm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    a.fm-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.8rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+
+    a.fm-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .fm-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .fm-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .fm-def {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+
+    .fm-tier {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ---- INSTRUMENTS ---- */
+    .instrument-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+      max-width: 1100px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .instrument-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.8rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      transition: all 0.3s ease;
+    }
+
+    .instrument-card:hover {
+      border-color: var(--border-hover);
+    }
+
+    .instrument-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+      min-width: 2rem;
+      padding-top: 0.2rem;
+    }
+
+    .instrument-info h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.05rem;
+      color: var(--text-primary);
+      margin-bottom: 0.4rem;
+    }
+
+    .instrument-info p {
+      font-size: 0.8rem;
+      line-height: 1.5;
+      color: var(--text-secondary);
+      margin-bottom: 0;
+    }
+
+    /* ---- ECOSYSTEM ---- */
+    .ecosystem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .eco-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 2rem;
+      text-decoration: none;
+      transition: all 0.3s ease;
+      display: block;
+    }
+
+    .eco-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+
+    .eco-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.6rem;
+    }
+
+    .eco-card h4 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .eco-card p {
+      font-size: 0.8rem;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin-bottom: 0.8rem;
+    }
+
+    .eco-url {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--accent);
+      letter-spacing: 0.05em;
+    }
+
+    /* ---- CTA ---- */
+    .cta-section {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 3rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    .cta-section h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+      margin: 0 0 1rem 0;
+      color: var(--text-primary);
+    }
+
+    .cta-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .cta-button {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg-primary);
+      background: var(--accent);
+      text-decoration: none;
+      padding: 0.9rem 1.8rem;
+      border: 1px solid var(--accent);
+      transition: all 0.3s ease;
+    }
+
+    .cta-button:hover {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .cta-button.secondary {
+      background: transparent;
+      color: var(--accent);
+    }
+
+    .cta-button.secondary:hover {
+      background: var(--accent-dim);
+    }
+
+    /* ---- PRINCIPLE ---- */
+    .principle-box {
+      border: 1px solid var(--border);
+      border-left: 2px solid var(--accent);
+      padding: 2rem 2.5rem;
+      margin: 2rem 0;
+      background: var(--bg-card);
+    }
+
+    .principle-box p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.15rem;
+      line-height: 1.6;
+      color: var(--text-primary);
+      font-style: italic;
+      margin-bottom: 0;
+    }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 2.5rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-top: 1px solid var(--border);
+      background: var(--bg-primary);
+    }
+
+    .footer-l, .footer-r {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .footer-r a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-r a:hover { color: var(--accent); }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none;
+        position: fixed;
+        top: 60px;
+        left: 0; right: 0; bottom: 0;
+        background: var(--bg-primary);
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        padding-top: 4rem;
+        gap: 1.5rem;
+        z-index: 99;
+      }
+      .nav-links.active { display: flex; }
+      section, .lens-section { padding: 4rem 1.5rem; }
+      .hero { padding: 0 1.5rem 4rem; }
+      .triangle-cards { grid-template-columns: 1fr; }
+      .lens-grid { grid-template-columns: 1fr; }
+      .fm-grid { grid-template-columns: 1fr; }
+      .instrument-list { grid-template-columns: 1fr; }
+      .ecosystem-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-brand">
+      <span class="nav-name">DRI<span class="tm">™</span></span>
+      <span class="nav-role">Decision · Responsibility · Infrastructure</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="#field" class="active">The Field</a></li>
+      <li><a href="#coherence">Coherence</a></li>
+      <li><a href="#lens">Lens</a></li>
+      <li><a href="#taxonomy">Taxonomy</a></li>
+      <li><a href="#instruments">Instruments</a></li>
+      <li><a href="#record">Record</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-content">
+      <p class="hero-eyebrow">A Field of Practice</p>
+      <h1>Decision &amp;<br>Responsibility<br>Infrastructure<span class="tm">™</span></h1>
+      <p class="hero-sub">The discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.</p>
+      <div class="hero-line"></div>
+    </div>
+  </div>
+
+  <!-- THE FIELD -->
+  <section id="field">
+    <div class="section-inner reveal">
+      <div class="section-label">The Field</div>
+      <h2>What DRI Is</h2>
+
+      <p>Decision &amp; Responsibility Infrastructure™ is the architecture of authority, accountability, and continuity that sits beneath organizational performance.</p>
+
+      <p>It's not about teaching people to make better decisions. It's about building the structural conditions that make good decisions possible — and sustainable — in the first place.</p>
+
+      <p>This includes: who has the authority to decide, who bears the consequences, how decisions are remembered over time, how responsibility is distributed without diffusion, and how truth can be spoken without political cost.</p>
+
+      <div class="thesis-block">
+        <p>Organizations rely on human beings to absorb the failures of broken systems. AI adoption will remove those buffers, exposing underlying dysfunction at scale. DRI™ makes that dysfunction visible before the buffer disappears.</p>
+      </div>
+
+      <h3>Why Organizations Fail at Scale</h3>
+
+      <p>Organizations fail predictably when the structure beneath decision-making and accountability is poorly designed, invisible, or contradictory.</p>
+
+      <p><strong>Authority separates from responsibility.</strong> People are held accountable for outcomes they cannot control. Decision rights are ambiguous. Ownership is diffuse. No one can act, and no one is truly responsible.</p>
+
+      <p><strong>Decisions are forgotten.</strong> The system loses memory of why choices were made. Rationale evaporates. Context disappears. The organization repeats the same failures because it cannot remember what it learned.</p>
+
+      <p><strong>Truth becomes politically expensive.</strong> Reality cannot be named without career risk. Signals are distorted. Feedback loops break. The gap between what is happening and what can be said grows until the organization operates on fiction.</p>
+
+      <p>These are not communication failures. They are structural failures. And they compound in AI governance contexts, where decision rights about model behavior, accountability for system outcomes, and continuity of safety commitments are often invisible, contradictory, or nonexistent.</p>
+    </div>
+  </section>
+
+  <!-- COHERENCE -->
+  <section id="coherence" class="triangle-section">
+    <div class="section-inner reveal">
+      <div class="section-label">The Method</div>
+      <h2>Coherence</h2>
+
+      <p>The diagnostic method for DRI™ is Coherence — a system for identifying, naming, and correcting structural failure in human systems.</p>
+
+      <p>Coherence diagnoses organizational breakdowns through three structural vertices:</p>
+
+      <div class="triangle-visual">
+        <div class="triangle-container">
+          <svg viewBox="0 0 320 260" style="width: 100%; height: 100%;">
+            <defs>
+              <linearGradient id="edge-gold" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#c9a84c"/>
+                <stop offset="100%" style="stop-color:#4a4744"/>
+              </linearGradient>
+              <linearGradient id="edge-gray" x1="0%" y1="0%" x2="100%" y2="0%">
+                <stop offset="0%" style="stop-color:#4a4744"/>
+                <stop offset="100%" style="stop-color:#8a8580"/>
+              </linearGradient>
+              <linearGradient id="edge-return" x1="100%" y1="100%" x2="0%" y2="0%">
+                <stop offset="0%" style="stop-color:#8a8580"/>
+                <stop offset="100%" style="stop-color:#c9a84c"/>
+              </linearGradient>
+            </defs>
+            <line x1="160" y1="30" x2="40" y2="220" stroke="url(#edge-gold)" stroke-width="2"/>
+            <line x1="40" y1="220" x2="280" y2="220" stroke="url(#edge-gray)" stroke-width="2"/>
+            <line x1="280" y1="220" x2="160" y2="30" stroke="url(#edge-return)" stroke-width="2"/>
+            <circle cx="160" cy="30" r="10" fill="#c9a84c"/>
+            <circle cx="40" cy="220" r="8" fill="none" stroke="#4a4744" stroke-width="2"/>
+            <circle cx="280" cy="220" r="8" fill="none" stroke="#8a8580" stroke-width="2"/>
+          </svg>
+          <span class="vertex-label vertex-truth">Truth</span>
+          <span class="vertex-label vertex-authority">Authority</span>
+          <span class="vertex-label vertex-continuity">Continuity</span>
+        </div>
+      </div>
+
+      <div class="triangle-cards">
+        <div class="triangle-card">
+          <h4>Truth</h4>
+          <p>Is reality being accurately perceived and spoken? Can the system see what is actually happening, and can participants name it without distortion, fear, or political cost?</p>
+        </div>
+        <div class="triangle-card">
+          <h4>Authority</h4>
+          <p>Does decision-making power match responsibility? Are the people with the power to decide the same people who bear the consequences?</p>
+        </div>
+        <div class="triangle-card">
+          <h4>Continuity</h4>
+          <p>Are commitments, decisions, and narratives stable over time? Does the system remember what it decided and why?</p>
+        </div>
+      </div>
+
+      <p style="margin-top: 2rem;">When these three vertices reinforce each other, the system operates with coherence. When they drift apart, humans absorb the cost.</p>
+    </div>
+  </section>
+
+  <!-- LENS -->
+  <section id="lens" class="lens-section">
+    <div class="lens-header reveal">
+      <div class="section-label">Entry Points</div>
+      <h2>Same system. Different lens.</h2>
+      <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary);">Structural conditions look different from every chair. Find yours.</p>
+    </div>
+
+    <div class="lens-grid reveal">
+      <div class="lens-card">
+        <div class="lens-role">The Operator</div>
+        <div class="lens-line">You own the problem. You don't own the decision.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">The Executive</div>
+        <div class="lens-line">You set direction. The system reinterprets.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">The Board</div>
+        <div class="lens-line">You govern what you can see. The system decides what you see.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">The Chief of Staff</div>
+        <div class="lens-line">You see it all. You can't say it all.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">The New Leader</div>
+        <div class="lens-line">You inherited decisions nobody can explain.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">The Investor</div>
+        <div class="lens-line">The structural risk no one's pricing.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">Product</div>
+        <div class="lens-line">You own the roadmap. You don't own the priorities.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">Engineering</div>
+        <div class="lens-line">You shipped what was asked. It wasn't what was needed.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">Sales</div>
+        <div class="lens-line">You closed the deal. The org can't deliver what you sold.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">Marketing</div>
+        <div class="lens-line">You told the story. The experience didn't match.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">The Customer</div>
+        <div class="lens-line">The experience your customer has is structural output.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">HR</div>
+        <div class="lens-line">You measure engagement. The structure produces disengagement.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">Finance</div>
+        <div class="lens-line">The budget was approved. The constraints weren't removed.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">Legal &amp; Compliance</div>
+        <div class="lens-line">You protect the org from risk. Nobody protects you from being the reason things are slow.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">IT &amp; Infrastructure</div>
+        <div class="lens-line">Everything runs until it doesn't. Then it's your fault.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">Procurement</div>
+        <div class="lens-line">You manage the contract. You can't manage what they deliver.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">Program Management</div>
+        <div class="lens-line">You own the timeline. You don't own the dependencies.</div>
+      </div>
+      <div class="lens-card">
+        <div class="lens-role">AI Integration</div>
+        <div class="lens-line">Automation doesn't create dysfunction. It reveals it.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TAXONOMY -->
+  <section id="taxonomy">
+    <div class="section-inner reveal">
+      <div class="section-label">Diagnostic Language</div>
+      <h2>The Taxonomy</h2>
+
+      <p>Coherence uses two diagnostic primitives to make structural failure visible. <strong>Failure Modes</strong> name structurally self-reinforcing conditions that require governance intervention. <strong>Functional Field Notes</strong> surface recurring conditions while interpretation is still forming.</p>
+
+      <p>17 Failure Modes. 21 Functional Field Notes. Organized into three tiers based on causal position.</p>
+    </div>
+
+    <div class="fm-grid reveal" style="max-width: 1100px; margin: 2rem auto 0;">
+      <a href="/fm/fm-01" class="fm-card">
+        <div class="fm-id">FM-01</div>
+        <div class="fm-name">Responsibility Compression</div>
+        <div class="fm-def">Responsibility accumulates faster than authority, clarity, or capacity, concentrating decision burden at the outermost points of a system.</div>
+        <div class="fm-tier">Tier 1 · Foundational</div>
+      </a>
+      <a href="/fm/fm-02" class="fm-card">
+        <div class="fm-id">FM-02</div>
+        <div class="fm-name">Escalation Inversion</div>
+        <div class="fm-def">Escalation paths formally exist but are functionally inverted — costly, discouraged, or reputationally risky. Problems get absorbed rather than surfaced.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-03" class="fm-card">
+        <div class="fm-id">FM-03</div>
+        <div class="fm-name">Responsibility Without Authority</div>
+        <div class="fm-def">Accountability assigned to individuals who lack the formal authority, resources, or decision rights required to change underlying conditions.</div>
+        <div class="fm-tier">Tier 1 · Foundational</div>
+      </a>
+      <a href="/fm/fm-04" class="fm-card">
+        <div class="fm-id">FM-04</div>
+        <div class="fm-name">Metric Shadowing</div>
+        <div class="fm-def">Metrics become proxies for reality rather than measurements of it. Teams optimize what is visible while unmeasured costs accumulate off-ledger.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-05" class="fm-card">
+        <div class="fm-id">FM-05</div>
+        <div class="fm-name">Normalized Workarounds</div>
+        <div class="fm-def">Temporary fixes and informal processes become permanent operating infrastructure. The system survives through accumulated human adaptations.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-07" class="fm-card">
+        <div class="fm-id">FM-07</div>
+        <div class="fm-name">Coordination Decay</div>
+        <div class="fm-def">Work spans multiple teams with no single role owning end-to-end outcomes. Handoffs multiply. Accountability fragments.</div>
+        <div class="fm-tier">Tier 1 · Foundational</div>
+      </a>
+      <a href="/fm/fm-10" class="fm-card">
+        <div class="fm-id">FM-10</div>
+        <div class="fm-name">Leadership Saturation</div>
+        <div class="fm-def">Senior leaders become the default resolution mechanism for problems that should be handled elsewhere. Decision backlogs accumulate at the top.</div>
+        <div class="fm-tier">Tier 3 · Terminal</div>
+      </a>
+      <a href="/fm/fm-17" class="fm-card">
+        <div class="fm-id">FM-17</div>
+        <div class="fm-name">Structural Amnesia</div>
+        <div class="fm-def">The organization loses memory of why decisions were made. Institutional knowledge degrades with each personnel change. The system cannot learn because it cannot remember.</div>
+        <div class="fm-tier">Tier 3 · Terminal</div>
+      </a>
+    </div>
+
+    <div class="section-inner reveal" style="margin-top: 2rem;">
+      <p style="font-size: 0.8rem; color: var(--text-dim); font-style: italic;">Showing 8 of 17 Failure Modes. Full taxonomy includes 21 Functional Field Notes. The taxonomy is evolving — 4 of 21 FFNs are confirmed.</p>
+    </div>
+  </section>
+
+  <!-- INSTRUMENTS -->
+  <section id="instruments">
+    <div class="section-inner reveal">
+      <div class="section-label">Diagnostic Tools</div>
+      <h2>Instruments</h2>
+
+      <p>Seven instruments that observe, summarize, and suggest. They do not decide.</p>
+
+      <p style="font-size: 0.8rem; color: var(--text-dim); font-style: italic;">AR-001: Automation may observe, summarize, and suggest. Automation may not decide.</p>
+    </div>
+
+    <div class="instrument-list reveal">
+      <div class="instrument-card">
+        <div class="instrument-num">001</div>
+        <div class="instrument-info">
+          <h4>FM Scanner</h4>
+          <p>Detect failure mode patterns in organizational signals.</p>
+        </div>
+      </div>
+      <div class="instrument-card">
+        <div class="instrument-num">002</div>
+        <div class="instrument-info">
+          <h4>FFN Surface</h4>
+          <p>Surface early warning signals before failure becomes entrenched.</p>
+        </div>
+      </div>
+      <div class="instrument-card">
+        <div class="instrument-num">003</div>
+        <div class="instrument-info">
+          <h4>System Nav Locator</h4>
+          <p>Orient on the diagnostic map. Identify where you are in the system.</p>
+        </div>
+      </div>
+      <div class="instrument-card">
+        <div class="instrument-num">004</div>
+        <div class="instrument-info">
+          <h4>Declaration Log</h4>
+          <p>Record when authority acted. Preserve decision rationale over time.</p>
+        </div>
+      </div>
+      <div class="instrument-card">
+        <div class="instrument-num">005</div>
+        <div class="instrument-info">
+          <h4>Verified Independence</h4>
+          <p>Prove fixes are real. Confirm structural change, not cosmetic adjustment.</p>
+        </div>
+      </div>
+      <div class="instrument-card">
+        <div class="instrument-num">006</div>
+        <div class="instrument-info">
+          <h4>Regression Watch</h4>
+          <p>Test if fixes hold over time. Monitor for structural decay.</p>
+        </div>
+      </div>
+      <div class="instrument-card">
+        <div class="instrument-num">007</div>
+        <div class="instrument-info">
+          <h4>Continuity Chain</h4>
+          <p>Custody of meaning across time. Track how decisions survive handoffs.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THE RECORD -->
+  <section id="record">
+    <div class="section-inner reveal">
+      <div class="section-label">Evidence Layer</div>
+      <h2>The Coherence Record</h2>
+
+      <p>The Coherence Record is the build record of DRI™ — published at the pace the work moves. Each edition documents what the diagnostic pipeline has found, what the methodology can and cannot see, and where the limitations are.</p>
+
+      <p>15 entities across 5 sectors. 47 diagnostic runs. FM-01 (Responsibility Compression) appearing in 12 of 14 entities. Methodology limitations disclosed. A diagnostic that measures gaps must disclose its own.</p>
+
+      <div class="principle-box">
+        <p>Building in the open means publishing failures alongside successes. The JSONL expansion bug that caused 14 of 15 entities to read only 2–5× fewer documents than intended — that gets published.</p>
+      </div>
+
+      <div class="cta-buttons" style="margin-top: 2rem;">
+        <a href="https://writing.justingreenbaum.com" class="cta-button secondary" target="_blank">Read the Record on Substack →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHO BUILDS THIS -->
+  <section id="about">
+    <div class="section-inner reveal">
+      <div class="section-label">Who Builds This</div>
+      <h2>The Ecosystem</h2>
+
+      <p>DRI™ is developed and advanced by Justin R. Greenbaum, powered by the infrastructure at Greenbaum Labs. The diagnostic method — Coherence — is published regularly on Substack, where Failure Modes and Field Notes are explored in depth.</p>
+
+      <div class="ecosystem-grid">
+        <a href="https://justingreenbaum.com" class="eco-card" target="_blank">
+          <div class="eco-label">The Founder</div>
+          <h4>Justin R. Greenbaum</h4>
+          <p>Decision &amp; responsibility infrastructure. Advisory work, AI governance, and the Coherence framework.</p>
+          <div class="eco-url">justingreenbaum.com</div>
+        </a>
+        <a href="https://greenbaumlabs.com" class="eco-card" target="_blank">
+          <div class="eco-label">The Engine</div>
+          <h4>Greenbaum Labs</h4>
+          <p>A personal AI workshop running on local compute. The infrastructure that powers the diagnostic pipeline.</p>
+          <div class="eco-url">greenbaumlabs.com</div>
+        </a>
+        <a href="https://writing.justingreenbaum.com" class="eco-card" target="_blank">
+          <div class="eco-label">The Writing</div>
+          <h4>Substack</h4>
+          <p>Essays on coherence, decisions, and building infrastructure for what matters. The Coherence Record lives here.</p>
+          <div class="eco-url">writing.justingreenbaum.com</div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ENGAGE -->
+  <section>
+    <div class="section-inner">
+      <div class="cta-section reveal">
+        <h3>Engage With the Practice</h3>
+        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0;">DRI™ is a field in formation. The work is public. The methodology is transparent. The canon is evolving.</p>
+        <div class="cta-buttons">
+          <a href="https://writing.justingreenbaum.com/subscribe" class="cta-button" target="_blank">Subscribe to Field Notes</a>
+          <a href="mailto:justin@greenbaumlabs.com" class="cta-button secondary">Contact</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- GOVERNING PRINCIPLE -->
+  <section>
+    <div class="section-inner reveal">
+      <div class="principle-box">
+        <p>Infrastructure is only visible when it fails. The work is to make failure visible before it becomes operational crisis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-l">© 2026 Decision & Responsibility Infrastructure™ — All Rights Reserved</div>
+    <div class="footer-r">
+      <a href="https://justingreenbaum.com" target="_blank">Founder</a> ·
+      <a href="https://greenbaumlabs.com" target="_blank">Labs</a> ·
+      <a href="https://writing.justingreenbaum.com" target="_blank">Writing</a> ·
+      <a href="https://linkedin.com/in/justingreenbaum" target="_blank">LinkedIn</a>
+    </div>
+  </footer>
+
+  <script>
+    // Nav scroll behavior
+    const nav = document.querySelector('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+    });
+
+    // Mobile nav toggle
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navToggle.classList.remove('active');
+        navLinks.classList.remove('active');
+      });
+    });
+
+    // Reveal on scroll
+    const reveals = document.querySelectorAll('.reveal');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach((entry, i) => {
+        if (entry.isIntersecting) {
+          setTimeout(() => entry.target.classList.add('visible'), i * 80);
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    reveals.forEach(el => obs.observe(el));
+
+    // Smooth scroll
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          e.preventDefault();
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // Active nav link on scroll
+    const sections = document.querySelectorAll('section[id]');
+    const navItems = document.querySelectorAll('.nav-links a');
+    window.addEventListener('scroll', () => {
+      let current = '';
+      sections.forEach(section => {
+        const top = section.offsetTop - 200;
+        if (window.scrollY >= top) {
+          current = section.getAttribute('id');
+        }
+      });
+      navItems.forEach(a => {
+        a.classList.remove('active');
+        if (a.getAttribute('href') === '#' + current) {
+          a.classList.add('active');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
