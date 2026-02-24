@@ -319,7 +319,9 @@
 
     /* ---- THESIS BLOCK ---- */
     .thesis-block {
-      background: var(--bg-card);
+      background:
+        linear-gradient(135deg, rgba(222, 187, 85, 0.04), transparent 60%),
+        var(--bg-card);
       border: 1px solid var(--border);
       border-left: 2px solid var(--accent);
       padding: 2.5rem 2.5rem;
@@ -366,7 +368,9 @@
     }
 
     .lens-card:hover {
-      background: var(--bg-card);
+      background:
+        linear-gradient(135deg, rgba(222, 187, 85, 0.05), transparent 50%),
+        var(--bg-card);
     }
 
     .lens-card:hover .lens-role {
@@ -391,7 +395,9 @@
 
     /* ---- TRIANGLE ---- */
     .triangle-section {
-      background: var(--bg-secondary);
+      background:
+        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(222, 187, 85, 0.04), transparent 60%),
+        var(--bg-secondary);
     }
 
     .triangle-visual {
@@ -489,6 +495,9 @@
     a.fm-card:hover {
       border-color: var(--accent);
       transform: translateY(-2px);
+      background:
+        linear-gradient(135deg, rgba(222, 187, 85, 0.06), transparent 50%),
+        var(--bg-card);
     }
 
     .fm-id {
@@ -686,7 +695,9 @@
       border-left: 2px solid var(--accent);
       padding: 2rem 2.5rem;
       margin: 2rem 0;
-      background: var(--bg-card);
+      background:
+        linear-gradient(135deg, rgba(222, 187, 85, 0.04), transparent 60%),
+        var(--bg-card);
     }
 
     .principle-box p {
@@ -875,7 +886,7 @@
   </section>
 
   <!-- LENS -->
-  <section id="lens" class="lens-section">
+  <section id="lens" class="lens-section" style="background: radial-gradient(ellipse 60% 40% at 30% 30%, rgba(222, 187, 85, 0.03), transparent 60%), var(--bg-primary);">
     <div class="lens-header reveal">
       <div class="section-label">Entry Points</div>
       <h2>Same system. Different lens.</h2>
@@ -1026,7 +1037,7 @@
   </section>
 
   <!-- INSTRUMENTS -->
-  <section id="instruments">
+  <section id="instruments" style="background: radial-gradient(ellipse 50% 50% at 70% 60%, rgba(222, 187, 85, 0.03), transparent 60%), var(--bg-primary);">
     <div class="section-inner reveal">
       <div class="section-label">Diagnostic Tools</div>
       <h2>Instruments</h2>
