@@ -1,0 +1,1483 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <title>Declaration Log | DRI Practice</title>
+  <meta name="description" content="Log and verify public declarations against observed outcomes.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Declaration Log | DRI Practice">
+  <meta property="og:description" content="Log and verify public declarations against observed outcomes.">
+  <meta property="og:image" content="https://dripractice.com/og-dripractice.png">
+  <meta property="og:url" content="https://dripractice.com/tools/declaration-log">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Declaration Log | DRI Practice">
+  <meta name="twitter:description" content="Log and verify public declarations against observed outcomes.">
+  <meta name="twitter:image" content="https://dripractice.com/og-dripractice.png">
+
+  <style>
+        @font-face {
+            font-family: 'GL Serif';
+            src: local('Cormorant Garamond'), local('Georgia'), local('Times New Roman');
+        }
+        @font-face {
+            font-family: 'GL Mono';
+            src: local('JetBrains Mono'), local('Fira Code'), local('Consolas'), local('Monaco');
+        }
+        @font-face {
+            font-family: 'GL Sans';
+            src: local('Instrument Sans'), local('Inter'), local('-apple-system'), local('BlinkMacSystemFont');
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --bg-card: #141414;
+            --border-subtle: #222222;
+            --border-active: #333333;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            
+            --governance-maroon: #8b2332;
+            --governance-maroon-dim: rgba(139, 35, 50, 0.2);
+            --signal-blue: #4a90d9;
+            --failure-orange: #d97b4a;
+            --recovery-olive: #6b7b4a;
+            
+            --status-declared: #a0a0a0;
+            --status-review: #4a90d9;
+            --status-contained: #d97b4a;
+            --status-repair: #fbbf24;
+            --status-verified: #6b7b4a;
+            --status-downgraded: #8b7355;
+            --status-closed: #4a5568;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'GL Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 2rem;
+        }
+
+        .header-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .g-line-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            padding: 0.4rem 0.8rem;
+            background: var(--governance-maroon-dim);
+            border: 1px solid var(--governance-maroon);
+            border-radius: 2px;
+            color: var(--governance-maroon);
+        }
+
+        .g-line-badge .g-icon {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--governance-maroon);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        /* Main Layout */
+        .main-layout {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .main-layout {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Panel Styles */
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .panel-body {
+            padding: 1rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.35rem;
+            font-family: 'GL Mono', monospace;
+            letter-spacing: 0.05em;
+        }
+
+        .form-label .optional {
+            color: var(--text-muted);
+            font-weight: normal;
+        }
+
+        .form-input,
+        .form-select,
+        .form-textarea {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            padding: 0.6rem 0.75rem;
+            font-family: 'GL Sans', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--governance-maroon);
+        }
+
+        .form-input::placeholder,
+        .form-textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-select {
+            cursor: pointer;
+        }
+
+        .form-textarea {
+            min-height: 60px;
+            resize: vertical;
+            line-height: 1.5;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        /* Multi-select */
+        .multi-select-container {
+            position: relative;
+        }
+
+        .multi-select-display {
+            width: 100%;
+            min-height: 38px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            padding: 0.4rem 0.6rem;
+            cursor: pointer;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            align-items: center;
+        }
+
+        .multi-select-display:focus {
+            outline: none;
+            border-color: var(--governance-maroon);
+        }
+
+        .multi-select-placeholder {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .multi-select-tag {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            padding: 0.15rem 0.4rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .multi-select-tag.fm { color: var(--failure-orange); }
+        .multi-select-tag.ffn { color: var(--signal-blue); }
+
+        .multi-select-tag-remove {
+            cursor: pointer;
+            opacity: 0.6;
+        }
+
+        .multi-select-tag-remove:hover {
+            opacity: 1;
+        }
+
+        .multi-select-dropdown {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            right: 0;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-top: none;
+            border-radius: 0 0 2px 2px;
+            max-height: 200px;
+            overflow-y: auto;
+            z-index: 100;
+        }
+
+        .multi-select-dropdown.visible {
+            display: block;
+        }
+
+        .multi-select-option {
+            padding: 0.5rem 0.75rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .multi-select-option:hover {
+            background: var(--bg-tertiary);
+        }
+
+        .multi-select-option.selected {
+            background: var(--governance-maroon-dim);
+        }
+
+        .multi-select-option input {
+            margin: 0;
+        }
+
+        /* Buttons */
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1.25rem;
+        }
+
+        .btn {
+            padding: 0.7rem 1rem;
+            border: none;
+            border-radius: 2px;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--governance-maroon);
+            color: white;
+            flex: 1;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.15);
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-text {
+            background: transparent;
+            color: var(--text-muted);
+            padding: 0.5rem;
+        }
+
+        .btn-text:hover {
+            color: var(--text-secondary);
+        }
+
+        /* Log Panel */
+        .log-panel {
+            display: flex;
+            flex-direction: column;
+            height: fit-content;
+        }
+
+        .log-controls {
+            display: flex;
+            gap: 0.75rem;
+            padding: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            flex-wrap: wrap;
+        }
+
+        .search-input {
+            flex: 1;
+            min-width: 150px;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            padding: 0.5rem 0.75rem;
+            font-family: 'GL Sans', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--governance-maroon);
+        }
+
+        .filter-select {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            padding: 0.5rem 0.75rem;
+            font-family: 'GL Sans', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-primary);
+            cursor: pointer;
+        }
+
+        /* Log Entries */
+        .log-entries {
+            padding: 1rem;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .log-empty {
+            text-align: center;
+            padding: 3rem 1rem;
+            color: var(--text-muted);
+        }
+
+        .log-empty-icon {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.3;
+        }
+
+        .log-entry {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1rem;
+            margin-bottom: 0.75rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .log-entry:hover {
+            border-color: var(--border-active);
+        }
+
+        .log-entry:last-child {
+            margin-bottom: 0;
+        }
+
+        .log-entry-header {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .log-entry-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .log-entry-timestamp {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        .log-entry-declarer {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .log-entry-status {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.2rem 0.5rem;
+            border-radius: 2px;
+            background: var(--bg-tertiary);
+        }
+
+        .status-declared { color: var(--status-declared); }
+        .status-under-review { color: var(--status-review); }
+        .status-contained { color: var(--status-contained); }
+        .status-repair-in-progress { color: var(--status-repair); }
+        .status-verified-independence { color: var(--status-verified); }
+        .status-downgraded-status { color: var(--status-downgraded); }
+        .status-closed { color: var(--status-closed); }
+        .status-custom { color: var(--text-secondary); font-style: italic; }
+
+        .log-entry-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+        }
+
+        .log-entry-tag {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            padding: 0.1rem 0.3rem;
+            border-radius: 2px;
+        }
+
+        .log-entry-tag.fm {
+            background: rgba(217, 123, 74, 0.2);
+            color: var(--failure-orange);
+        }
+
+        .log-entry-tag.ffn {
+            background: rgba(74, 144, 217, 0.2);
+            color: var(--signal-blue);
+        }
+
+        .log-entry-notes {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Export/Import */
+        .export-section {
+            padding: 1rem;
+            border-top: 1px solid var(--border-subtle);
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .export-btn {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            padding: 0.4rem 0.6rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .import-input {
+            display: none;
+        }
+
+        /* Modal */
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 500;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            width: 90%;
+            max-width: 500px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            padding: 1rem 1.25rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .modal-title {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.1rem;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 1.25rem;
+            cursor: pointer;
+            padding: 0.25rem;
+        }
+
+        .modal-close:hover {
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 1.25rem;
+        }
+
+        .detail-row {
+            margin-bottom: 1rem;
+        }
+
+        .detail-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-size: 0.9rem;
+            color: var(--text-primary);
+        }
+
+        .detail-value.excerpt {
+            font-style: italic;
+            color: var(--text-secondary);
+            padding: 0.5rem;
+            background: var(--bg-tertiary);
+            border-left: 2px solid var(--governance-maroon);
+        }
+
+        .continuity-marker {
+            font-size: 0.75rem;
+            font-style: italic;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 1rem;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 1rem;
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem 1.25rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .modal-actions .btn {
+            flex: 1;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 2rem;
+        }
+
+        .footer-quote {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .footer-version {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        /* Stats */
+        .log-stats {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-label">DRI Practice</div>
+            <h1>Declaration Log</h1>
+            <p class="header-subtitle">Governance is human. This records that it happened.</p>
+            <div class="g-line-badge">
+                <span class="g-icon">G</span>
+                <span>Governance Line</span>
+            </div>
+        </header>
+
+        <!-- Main Layout -->
+        <div class="main-layout">
+            <!-- New Declaration Panel -->
+            <div class="input-panel">
+                <div class="panel">
+                    <div class="panel-header">
+                        <span class="panel-title">New Declaration</span>
+                        <button class="btn-text" onclick="clearForm()">Clear</button>
+                    </div>
+                    <div class="panel-body">
+                        <form id="declarationForm" onsubmit="saveDeclaration(event)">
+                            <input type="hidden" id="editingId" value="">
+                            
+                            <div class="form-group">
+                                <label class="form-label">Declared By</label>
+                                <input type="text" class="form-input" id="declaredBy" placeholder="Name" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Role / Authority Context <span class="optional">(optional)</span></label>
+                                <input type="text" class="form-input" id="declaredRole" placeholder="e.g., VP Engineering, System Owner">
+                            </div>
+
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label class="form-label">Declaration Type</label>
+                                    <select class="form-select" id="declaredType">
+                                        <option value="FM">Failure Mode</option>
+                                        <option value="FFN">Field Note</option>
+                                        <option value="Both">Both</option>
+                                        <option value="Other">Other</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select" id="status" onchange="toggleCustomStatus()">
+                                        <option value="Declared">Declared</option>
+                                        <option value="Under Review">Under Review</option>
+                                        <option value="Contained">Contained</option>
+                                        <option value="Repair In Progress">Repair In Progress</option>
+                                        <option value="Verified Independence">Verified Independence</option>
+                                        <option value="Downgraded Status">Downgraded Status</option>
+                                        <option value="Closed">Closed</option>
+                                        <option value="Custom">Custom...</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group" id="customStatusGroup" style="display: none;">
+                                <label class="form-label">Custom Status</label>
+                                <input type="text" class="form-input" id="customStatus" placeholder="Enter custom status">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Failure Modes <span class="optional">(optional)</span></label>
+                                <div class="multi-select-container" id="fmSelectContainer">
+                                    <div class="multi-select-display" tabindex="0" onclick="toggleDropdown('fmDropdown')">
+                                        <span class="multi-select-placeholder" id="fmPlaceholder">Select FMs...</span>
+                                    </div>
+                                    <div class="multi-select-dropdown" id="fmDropdown"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Field Notes <span class="optional">(optional)</span></label>
+                                <div class="multi-select-container" id="ffnSelectContainer">
+                                    <div class="multi-select-display" tabindex="0" onclick="toggleDropdown('ffnDropdown')">
+                                        <span class="multi-select-placeholder" id="ffnPlaceholder">Select FFNs...</span>
+                                    </div>
+                                    <div class="multi-select-dropdown" id="ffnDropdown"></div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Timestamp</label>
+                                <input type="datetime-local" class="form-input" id="timestamp">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Trigger Link <span class="optional">(optional)</span></label>
+                                <input type="url" class="form-input" id="triggerUrl" placeholder="https://...">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Evidence Excerpt <span class="optional">(optional, max 280 chars)</span></label>
+                                <textarea class="form-textarea" id="evidenceExcerpt" maxlength="280" placeholder="Brief excerpt that triggered this declaration..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Notes <span class="optional">(optional)</span></label>
+                                <textarea class="form-textarea" id="notes" placeholder="Additional context..."></textarea>
+                            </div>
+
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-primary">Save Declaration</button>
+                                <button type="button" class="btn btn-secondary" onclick="saveAndNew()">Save + New</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Log Panel -->
+            <div class="log-panel panel">
+                <div class="panel-header">
+                    <span class="panel-title">Declaration Log</span>
+                </div>
+                
+                <div class="log-controls">
+                    <input type="text" class="search-input" id="searchInput" placeholder="Search..." oninput="filterEntries()">
+                    <select class="filter-select" id="statusFilter" onchange="filterEntries()">
+                        <option value="">All Statuses</option>
+                        <option value="Declared">Declared</option>
+                        <option value="Under Review">Under Review</option>
+                        <option value="Contained">Contained</option>
+                        <option value="Repair In Progress">Repair In Progress</option>
+                        <option value="Verified Independence">Verified Independence</option>
+                        <option value="Downgraded Status">Downgraded Status</option>
+                        <option value="Closed">Closed</option>
+                        <option value="Custom">Custom</option>
+                    </select>
+                    <select class="filter-select" id="typeFilter" onchange="filterEntries()">
+                        <option value="">All Types</option>
+                        <option value="FM">Failure Mode</option>
+                        <option value="FFN">Field Note</option>
+                        <option value="Both">Both</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+
+                <div class="log-stats" id="logStats">0 declarations</div>
+
+                <div class="log-entries" id="logEntries">
+                    <div class="log-empty">
+                        <div class="log-empty-icon">◎</div>
+                        <p>No declarations yet</p>
+                        <p style="font-size: 0.75rem; margin-top: 0.5rem;">
+                            Declarations record when governance action is taken.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="export-section">
+                    <button class="export-btn" onclick="exportJSON()">Export JSON</button>
+                    <button class="export-btn" onclick="exportMarkdown()">Export Markdown</button>
+                    <button class="export-btn" onclick="document.getElementById('importInput').click()">Import JSON</button>
+                    <input type="file" id="importInput" class="import-input" accept=".json" onchange="importJSON(event)">
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-quote">"Memory is the augmentation, not advice."</div>
+            <p class="footer-note">AR-001: Observes, summarizes, suggests. Does not decide.</p>
+            <div class="footer-version">
+                <span>Declaration Log v0.1</span>
+                <span>2026-02-03</span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Detail Modal -->
+    <div class="modal-overlay" id="detailModal">
+        <div class="modal">
+            <div class="modal-header">
+                <span class="modal-title">Declaration Details</span>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                <!-- Filled dynamically -->
+            </div>
+            <div class="continuity-marker">
+                This entry exists to prevent narrative rewriting later.
+            </div>
+            <div class="modal-actions">
+                <button class="btn btn-secondary" onclick="editEntry()">Edit</button>
+                <button class="btn btn-secondary" onclick="deleteEntry()" style="color: #e94560;">Delete</button>
+                <button class="btn btn-primary" onclick="closeModal()">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // FM and FFN reference data
+        const FM_LIST = [
+            "FM-01: Responsibility Compression",
+            "FM-02: Escalation Inversion",
+            "FM-03: Responsibility Without Authority",
+            "FM-04: Metric Shadowing",
+            "FM-05: Normalized Workarounds",
+            "FM-06: Exception Inflation",
+            "FM-07: Coordination Decay",
+            "FM-08: Decision Latency",
+            "FM-09: Over-Escalation",
+            "FM-10: Leadership Saturation",
+            "FM-11: Metric Authority Drift",
+            "FM-12: Strategic Myopia",
+            "FM-13: Capability Atrophy",
+            "FM-14: Narrative Collapse",
+            "FM-15: Trust Exhaustion",
+            "FM-16: Process Inflation",
+            "FM-17: Structural Amnesia"
+        ];
+
+        const FFN_LIST = [
+            "FFN-01: Responsibility Compression",
+            "FFN-02: Interpretive Drift",
+            "FFN-03: Authority Without Commitment",
+            "FFN-04: Escalation Inversion",
+            "FFN-05: Escalation Bounceback",
+            "FFN-06: Signal Misread",
+            "FFN-07: Orphaned Escalation",
+            "FFN-08: Authority Fog",
+            "FFN-09: Shadow Infrastructure",
+            "FFN-10: Metric Displacement",
+            "FFN-11: Context Gap",
+            "FFN-12: Authority Without Permission",
+            "FFN-13: Alignment Creep",
+            "FFN-14: Frozen Recognition",
+            "FFN-15: Permission Cascade",
+            "FFN-16: Defensive Escalation",
+            "FFN-17: Horizon Collapse",
+            "FFN-18: Now Over Later",
+            "FFN-19: Judgment Erosion",
+            "FFN-20: Memory Scatter",
+            "FFN-21: Opaque Logic Drift"
+        ];
+
+        let declarations = [];
+        let selectedFMs = [];
+        let selectedFFNs = [];
+        let currentViewingId = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromStorage();
+            initMultiSelects();
+            setDefaultTimestamp();
+            renderEntries();
+        });
+
+        function loadFromStorage() {
+            const stored = localStorage.getItem('declaration_log');
+            if (stored) {
+                declarations = JSON.parse(stored);
+            }
+        }
+
+        function saveToStorage() {
+            localStorage.setItem('declaration_log', JSON.stringify(declarations));
+        }
+
+        function setDefaultTimestamp() {
+            const now = new Date();
+            now.setMinutes(now.getMinutes() - now.getTimezoneOffset());
+            document.getElementById('timestamp').value = now.toISOString().slice(0, 16);
+        }
+
+        function initMultiSelects() {
+            const fmDropdown = document.getElementById('fmDropdown');
+            const ffnDropdown = document.getElementById('ffnDropdown');
+
+            FM_LIST.forEach(fm => {
+                const id = fm.split(':')[0];
+                fmDropdown.innerHTML += `
+                    <div class="multi-select-option" onclick="toggleFM('${id}')">
+                        <input type="checkbox" id="fm-${id}">
+                        <label>${fm}</label>
+                    </div>
+                `;
+            });
+
+            FFN_LIST.forEach(ffn => {
+                const id = ffn.split(':')[0];
+                ffnDropdown.innerHTML += `
+                    <div class="multi-select-option" onclick="toggleFFN('${id}')">
+                        <input type="checkbox" id="ffn-${id}">
+                        <label>${ffn}</label>
+                    </div>
+                `;
+            });
+
+            // Close dropdowns on outside click
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.multi-select-container')) {
+                    document.querySelectorAll('.multi-select-dropdown').forEach(d => d.classList.remove('visible'));
+                }
+            });
+        }
+
+        function toggleDropdown(id) {
+            event.stopPropagation();
+            const dropdown = document.getElementById(id);
+            const wasVisible = dropdown.classList.contains('visible');
+            document.querySelectorAll('.multi-select-dropdown').forEach(d => d.classList.remove('visible'));
+            if (!wasVisible) {
+                dropdown.classList.add('visible');
+            }
+        }
+
+        function toggleFM(id) {
+            event.stopPropagation();
+            const index = selectedFMs.indexOf(id);
+            if (index > -1) {
+                selectedFMs.splice(index, 1);
+            } else {
+                selectedFMs.push(id);
+            }
+            updateFMDisplay();
+        }
+
+        function toggleFFN(id) {
+            event.stopPropagation();
+            const index = selectedFFNs.indexOf(id);
+            if (index > -1) {
+                selectedFFNs.splice(index, 1);
+            } else {
+                selectedFFNs.push(id);
+            }
+            updateFFNDisplay();
+        }
+
+        function updateFMDisplay() {
+            const display = document.querySelector('#fmSelectContainer .multi-select-display');
+            const placeholder = document.getElementById('fmPlaceholder');
+            
+            // Update checkboxes
+            FM_LIST.forEach(fm => {
+                const id = fm.split(':')[0];
+                const checkbox = document.getElementById(`fm-${id}`);
+                const option = checkbox.closest('.multi-select-option');
+                checkbox.checked = selectedFMs.includes(id);
+                option.classList.toggle('selected', selectedFMs.includes(id));
+            });
+
+            // Update display
+            display.innerHTML = '';
+            if (selectedFMs.length === 0) {
+                display.innerHTML = '<span class="multi-select-placeholder">Select FMs...</span>';
+            } else {
+                selectedFMs.forEach(id => {
+                    display.innerHTML += `
+                        <span class="multi-select-tag fm">
+                            ${id}
+                            <span class="multi-select-tag-remove" onclick="event.stopPropagation(); toggleFM('${id}')">&times;</span>
+                        </span>
+                    `;
+                });
+            }
+        }
+
+        function updateFFNDisplay() {
+            const display = document.querySelector('#ffnSelectContainer .multi-select-display');
+            
+            // Update checkboxes
+            FFN_LIST.forEach(ffn => {
+                const id = ffn.split(':')[0];
+                const checkbox = document.getElementById(`ffn-${id}`);
+                const option = checkbox.closest('.multi-select-option');
+                checkbox.checked = selectedFFNs.includes(id);
+                option.classList.toggle('selected', selectedFFNs.includes(id));
+            });
+
+            // Update display
+            display.innerHTML = '';
+            if (selectedFFNs.length === 0) {
+                display.innerHTML = '<span class="multi-select-placeholder">Select FFNs...</span>';
+            } else {
+                selectedFFNs.forEach(id => {
+                    display.innerHTML += `
+                        <span class="multi-select-tag ffn">
+                            ${id}
+                            <span class="multi-select-tag-remove" onclick="event.stopPropagation(); toggleFFN('${id}')">&times;</span>
+                        </span>
+                    `;
+                });
+            }
+        }
+
+        function toggleCustomStatus() {
+            const status = document.getElementById('status').value;
+            const customGroup = document.getElementById('customStatusGroup');
+            customGroup.style.display = status === 'Custom' ? 'block' : 'none';
+        }
+
+        function generateId() {
+            return 'dec_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        }
+
+        function saveDeclaration(event) {
+            event.preventDefault();
+            
+            // Enforce timestamp for continuity
+            const timestampValue = document.getElementById('timestamp').value;
+            if (!timestampValue) {
+                alert('Timestamp is required to preserve continuity.');
+                document.getElementById('timestamp').focus();
+                return;
+            }
+            
+            const editingId = document.getElementById('editingId').value;
+            const status = document.getElementById('status').value;
+            
+            const entry = {
+                id: editingId || generateId(),
+                timestamp: document.getElementById('timestamp').value,
+                declared_by: document.getElementById('declaredBy').value,
+                declared_role: document.getElementById('declaredRole').value || null,
+                declared_type: document.getElementById('declaredType').value,
+                fm_refs: [...selectedFMs],
+                ffn_refs: [...selectedFFNs],
+                status: status === 'Custom' ? 'Custom' : status,
+                status_custom: status === 'Custom' ? document.getElementById('customStatus').value : null,
+                trigger_url: document.getElementById('triggerUrl').value || null,
+                evidence_excerpt: document.getElementById('evidenceExcerpt').value || null,
+                notes: document.getElementById('notes').value || null
+            };
+
+            if (editingId) {
+                const index = declarations.findIndex(d => d.id === editingId);
+                if (index > -1) {
+                    declarations[index] = entry;
+                }
+            } else {
+                declarations.unshift(entry);
+            }
+
+            saveToStorage();
+            renderEntries();
+            clearForm();
+        }
+
+        function saveAndNew() {
+            document.getElementById('declarationForm').dispatchEvent(new Event('submit'));
+        }
+
+        function clearForm() {
+            document.getElementById('declarationForm').reset();
+            document.getElementById('editingId').value = '';
+            selectedFMs = [];
+            selectedFFNs = [];
+            updateFMDisplay();
+            updateFFNDisplay();
+            setDefaultTimestamp();
+            document.getElementById('customStatusGroup').style.display = 'none';
+        }
+
+        function renderEntries() {
+            const container = document.getElementById('logEntries');
+            const stats = document.getElementById('logStats');
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const statusFilter = document.getElementById('statusFilter').value;
+            const typeFilter = document.getElementById('typeFilter').value;
+
+            let filtered = declarations.filter(d => {
+                // Search
+                if (searchTerm) {
+                    const searchable = `${d.declared_by} ${d.notes || ''} ${d.fm_refs.join(' ')} ${d.ffn_refs.join(' ')}`.toLowerCase();
+                    if (!searchable.includes(searchTerm)) return false;
+                }
+                // Status filter
+                if (statusFilter) {
+                    if (statusFilter === 'Custom') {
+                        if (d.status !== 'Custom') return false;
+                    } else {
+                        if (d.status !== statusFilter) return false;
+                    }
+                }
+                // Type filter
+                if (typeFilter && d.declared_type !== typeFilter) return false;
+                return true;
+            });
+
+            stats.textContent = `${filtered.length} declaration${filtered.length !== 1 ? 's' : ''}`;
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="log-empty">
+                        <div class="log-empty-icon">◎</div>
+                        <p>${declarations.length === 0 ? 'No declarations yet' : 'No matching declarations'}</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = filtered.map(d => {
+                const displayStatus = d.status === 'Custom' ? d.status_custom : d.status;
+                const statusClass = d.status === 'Custom' ? 'custom' : d.status.toLowerCase().replace(/\s+/g, '-');
+                const date = new Date(d.timestamp);
+                const dateStr = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+                return `
+                    <div class="log-entry" onclick="viewEntry('${d.id}')">
+                        <div class="log-entry-header">
+                            <div class="log-entry-meta">
+                                <span class="log-entry-timestamp">${dateStr} · ${timeStr}</span>
+                                <span class="log-entry-declarer">${d.declared_by}${d.declared_role ? ` · ${d.declared_role}` : ''}</span>
+                            </div>
+                            <span class="log-entry-status status-${statusClass}">${displayStatus}</span>
+                        </div>
+                        ${(d.fm_refs.length > 0 || d.ffn_refs.length > 0) ? `
+                            <div class="log-entry-tags">
+                                ${d.fm_refs.map(fm => `<span class="log-entry-tag fm">${fm}</span>`).join('')}
+                                ${d.ffn_refs.map(ffn => `<span class="log-entry-tag ffn">${ffn}</span>`).join('')}
+                            </div>
+                        ` : ''}
+                        ${d.notes ? `<div class="log-entry-notes">${d.notes}</div>` : ''}
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function filterEntries() {
+            renderEntries();
+        }
+
+        function viewEntry(id) {
+            const entry = declarations.find(d => d.id === id);
+            if (!entry) return;
+
+            currentViewingId = id;
+            const modal = document.getElementById('detailModal');
+            const body = document.getElementById('modalBody');
+
+            const displayStatus = entry.status === 'Custom' ? entry.status_custom : entry.status;
+            const date = new Date(entry.timestamp);
+            const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+            const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+            body.innerHTML = `
+                <div class="detail-row">
+                    <div class="detail-label">Timestamp</div>
+                    <div class="detail-value">${dateStr} at ${timeStr}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Declared By</div>
+                    <div class="detail-value">${entry.declared_by}${entry.declared_role ? ` · ${entry.declared_role}` : ''}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Status</div>
+                    <div class="detail-value">${displayStatus}</div>
+                </div>
+                <div class="detail-row">
+                    <div class="detail-label">Type</div>
+                    <div class="detail-value">${entry.declared_type}</div>
+                </div>
+                ${entry.fm_refs.length > 0 ? `
+                    <div class="detail-row">
+                        <div class="detail-label">Failure Modes</div>
+                        <div class="detail-value">${entry.fm_refs.join(', ')}</div>
+                    </div>
+                ` : ''}
+                ${entry.ffn_refs.length > 0 ? `
+                    <div class="detail-row">
+                        <div class="detail-label">Field Notes</div>
+                        <div class="detail-value">${entry.ffn_refs.join(', ')}</div>
+                    </div>
+                ` : ''}
+                ${entry.trigger_url ? `
+                    <div class="detail-row">
+                        <div class="detail-label">Trigger Link</div>
+                        <div class="detail-value"><a href="${entry.trigger_url}" target="_blank" style="color: var(--governance-maroon);">${entry.trigger_url}</a></div>
+                    </div>
+                ` : ''}
+                ${entry.evidence_excerpt ? `
+                    <div class="detail-row">
+                        <div class="detail-label">Evidence Excerpt</div>
+                        <div class="detail-value excerpt">"${entry.evidence_excerpt}"</div>
+                    </div>
+                ` : ''}
+                ${entry.notes ? `
+                    <div class="detail-row">
+                        <div class="detail-label">Notes</div>
+                        <div class="detail-value">${entry.notes}</div>
+                    </div>
+                ` : ''}
+            `;
+
+            modal.classList.add('visible');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.remove('visible');
+            currentViewingId = null;
+        }
+
+        function editEntry() {
+            const entry = declarations.find(d => d.id === currentViewingId);
+            if (!entry) return;
+
+            document.getElementById('editingId').value = entry.id;
+            document.getElementById('declaredBy').value = entry.declared_by;
+            document.getElementById('declaredRole').value = entry.declared_role || '';
+            document.getElementById('declaredType').value = entry.declared_type;
+            document.getElementById('status').value = entry.status;
+            document.getElementById('customStatus').value = entry.status_custom || '';
+            document.getElementById('timestamp').value = entry.timestamp;
+            document.getElementById('triggerUrl').value = entry.trigger_url || '';
+            document.getElementById('evidenceExcerpt').value = entry.evidence_excerpt || '';
+            document.getElementById('notes').value = entry.notes || '';
+
+            selectedFMs = [...entry.fm_refs];
+            selectedFFNs = [...entry.ffn_refs];
+            updateFMDisplay();
+            updateFFNDisplay();
+            toggleCustomStatus();
+
+            closeModal();
+            document.getElementById('declaredBy').focus();
+        }
+
+        function deleteEntry() {
+            if (!confirm('Delete this declaration? This removes a governance record.')) return;
+            
+            declarations = declarations.filter(d => d.id !== currentViewingId);
+            saveToStorage();
+            renderEntries();
+            closeModal();
+        }
+
+        function exportJSON() {
+            const data = JSON.stringify(declarations, null, 2);
+            const blob = new Blob([data], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `declaration-log-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportMarkdown() {
+            let md = `# Declaration Log\n\nExported: ${new Date().toLocaleString()}\n\n---\n\n`;
+
+            declarations.forEach(d => {
+                const displayStatus = d.status === 'Custom' ? d.status_custom : d.status;
+                const date = new Date(d.timestamp);
+                const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+                const timeStr = date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+
+                md += `## ${dateStr} at ${timeStr}\n\n`;
+                md += `**Declared by:** ${d.declared_by}${d.declared_role ? ` (${d.declared_role})` : ''}\n\n`;
+                md += `**Status:** ${displayStatus}\n\n`;
+                md += `**Type:** ${d.declared_type}\n\n`;
+
+                if (d.fm_refs.length > 0) {
+                    md += `**Failure Modes:** ${d.fm_refs.join(', ')}\n\n`;
+                }
+                if (d.ffn_refs.length > 0) {
+                    md += `**Field Notes:** ${d.ffn_refs.join(', ')}\n\n`;
+                }
+                if (d.trigger_url) {
+                    md += `**Trigger:** ${d.trigger_url}\n\n`;
+                }
+                if (d.evidence_excerpt) {
+                    md += `**Evidence:** "${d.evidence_excerpt}"\n\n`;
+                }
+                if (d.notes) {
+                    md += `**Notes:** ${d.notes}\n\n`;
+                }
+
+                md += `---\n\n`;
+            });
+
+            md += `\n*This entry exists to prevent narrative rewriting later.*\n`;
+
+            const blob = new Blob([md], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `declaration-log-${new Date().toISOString().split('T')[0]}.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function importJSON(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const imported = JSON.parse(e.target.result);
+                    if (!Array.isArray(imported)) {
+                        alert('Invalid format: expected an array of declarations');
+                        return;
+                    }
+
+                    // Validate structure
+                    const valid = imported.every(d => d.id && d.timestamp && d.declared_by);
+                    if (!valid) {
+                        alert('Invalid format: entries missing required fields');
+                        return;
+                    }
+
+                    // Append (not overwrite)
+                    const existingIds = new Set(declarations.map(d => d.id));
+                    const newEntries = imported.filter(d => !existingIds.has(d.id));
+                    
+                    if (newEntries.length === 0) {
+                        alert('No new entries to import (all already exist)');
+                        return;
+                    }
+
+                    declarations = [...newEntries, ...declarations];
+                    declarations.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+                    
+                    saveToStorage();
+                    renderEntries();
+                    alert(`Imported ${newEntries.length} new declaration(s)`);
+                } catch (err) {
+                    alert('Error parsing JSON: ' + err.message);
+                }
+            };
+            reader.readAsText(file);
+            event.target.value = ''; // Reset input
+        }
+
+        // Close modal on escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeModal();
+        });
+
+        // Close modal on backdrop click
+        document.getElementById('detailModal').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeModal();
+        });
+    </script>
+</body>
+</html>

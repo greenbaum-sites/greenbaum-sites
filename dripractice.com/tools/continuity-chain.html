@@ -1,0 +1,1094 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <title>Continuity Chain | DRI Practice</title>
+  <meta name="description" content="Track how organizational commitments hold or decay over time.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Continuity Chain | DRI Practice">
+  <meta property="og:description" content="Track how organizational commitments hold or decay over time.">
+  <meta property="og:image" content="https://dripractice.com/og-dripractice.png">
+  <meta property="og:url" content="https://dripractice.com/tools/continuity-chain">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Continuity Chain | DRI Practice">
+  <meta name="twitter:description" content="Track how organizational commitments hold or decay over time.">
+  <meta name="twitter:image" content="https://dripractice.com/og-dripractice.png">
+
+  <style>
+        @font-face {
+            font-family: 'GL Serif';
+            src: local('Cormorant Garamond'), local('Georgia'), local('Times New Roman');
+        }
+        @font-face {
+            font-family: 'GL Mono';
+            src: local('JetBrains Mono'), local('Fira Code'), local('Consolas'), local('Monaco');
+        }
+        @font-face {
+            font-family: 'GL Sans';
+            src: local('Instrument Sans'), local('Inter'), local('-apple-system'), local('BlinkMacSystemFont');
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --bg-card: #141414;
+            --border-subtle: #222222;
+            --border-active: #333333;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            
+            --continuity-slate: #5a6a7a;
+            --continuity-slate-dim: rgba(90, 106, 122, 0.15);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'GL Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 2rem;
+        }
+
+        .header-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .header-posture {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.15em;
+            color: var(--text-muted);
+        }
+
+        /* Load Section */
+        .load-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1.25rem;
+            margin-bottom: 2rem;
+        }
+
+        .load-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .file-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .file-input-row {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .file-input-label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            min-width: 180px;
+        }
+
+        .file-input-label .required {
+            color: var(--continuity-slate);
+        }
+
+        .file-input {
+            flex: 1;
+        }
+
+        .file-input input {
+            display: none;
+        }
+
+        .file-input-btn {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .file-input-btn:hover {
+            border-color: var(--continuity-slate);
+            color: var(--text-secondary);
+        }
+
+        .file-input-btn.loaded {
+            border-color: var(--continuity-slate);
+            color: var(--continuity-slate);
+        }
+
+        .file-input-name {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-left: 0.5rem;
+        }
+
+        .load-btn {
+            margin-top: 1rem;
+            padding: 0.7rem 1.5rem;
+            background: var(--continuity-slate);
+            border: none;
+            border-radius: 2px;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .load-btn:hover {
+            filter: brightness(1.15);
+        }
+
+        .load-btn:disabled {
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        /* Chain Header */
+        .chain-header {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            padding: 1.25rem;
+            margin-bottom: 1.5rem;
+            display: none;
+        }
+
+        .chain-header.visible {
+            display: block;
+        }
+
+        .chain-header-title {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .chain-meta {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem 2rem;
+        }
+
+        .chain-meta-item {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .chain-meta-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            min-width: 110px;
+        }
+
+        .chain-meta-value {
+            color: var(--text-primary);
+        }
+
+        /* Timeline */
+        .timeline {
+            display: none;
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline.visible {
+            display: block;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--border-subtle);
+        }
+
+        .timeline-node {
+            position: relative;
+            margin-bottom: 1.5rem;
+            padding-left: 1.5rem;
+        }
+
+        .timeline-node:last-child {
+            margin-bottom: 0;
+        }
+
+        .timeline-node::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 0.5rem;
+            width: 16px;
+            height: 16px;
+            background: var(--bg-primary);
+            border: 2px solid var(--continuity-slate);
+            border-radius: 50%;
+        }
+
+        .timeline-node.verification::before {
+            background: var(--continuity-slate);
+        }
+
+        .timeline-node-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+            margin-bottom: 0.35rem;
+            cursor: pointer;
+        }
+
+        .timeline-node-header:hover .timeline-node-title {
+            color: var(--text-primary);
+        }
+
+        .timeline-node-date {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            min-width: 90px;
+        }
+
+        .timeline-node-type {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--continuity-slate);
+            padding: 0.15rem 0.4rem;
+            background: var(--continuity-slate-dim);
+            border-radius: 2px;
+        }
+
+        .timeline-node-title {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            flex: 1;
+            transition: color 0.2s ease;
+        }
+
+        .timeline-node-expand {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            transition: transform 0.2s ease;
+        }
+
+        .timeline-node.expanded .timeline-node-expand {
+            transform: rotate(180deg);
+        }
+
+        .timeline-node-body {
+            display: none;
+            margin-top: 0.75rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            border-left: 2px solid var(--continuity-slate);
+        }
+
+        .timeline-node.expanded .timeline-node-body {
+            display: block;
+        }
+
+        .timeline-node-content {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            line-height: 1.6;
+        }
+
+        .timeline-node-source {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--border-subtle);
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        /* Integrity Markers */
+        .integrity-markers {
+            display: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .integrity-markers.visible {
+            display: block;
+        }
+
+        .integrity-marker {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-secondary);
+            border-left: 2px solid var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .integrity-marker:last-child {
+            margin-bottom: 0;
+        }
+
+        /* No Data */
+        .no-data {
+            text-align: center;
+            padding: 3rem;
+            color: var(--text-muted);
+        }
+
+        .no-data-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            opacity: 0.2;
+        }
+
+        .no-data-text {
+            font-size: 0.9rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .no-data-hint {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Export */
+        .export-section {
+            display: none;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        .export-section.visible {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .export-btn {
+            padding: 0.6rem 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 2rem;
+        }
+
+        .footer-quote {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .footer-version {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 600px) {
+            .chain-meta {
+                grid-template-columns: 1fr;
+            }
+            .file-input-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .file-input-label {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-label">DRI Practice</div>
+            <h1>Continuity Chain</h1>
+            <p class="header-subtitle">Custody of meaning across time</p>
+            <div class="header-posture">Observe · Recall · Hold</div>
+        </header>
+
+        <!-- Load Section -->
+        <div class="load-section">
+            <div class="load-title">Load Records</div>
+            <div class="file-inputs">
+                <div class="file-input-row">
+                    <span class="file-input-label">Verification Record <span class="required">*</span></span>
+                    <div class="file-input">
+                        <input type="file" id="verificationFile" accept=".json" onchange="handleFileSelect(event, 'verification')">
+                        <label class="file-input-btn" id="verificationBtn" for="verificationFile">Select JSON</label>
+                        <span class="file-input-name" id="verificationName"></span>
+                    </div>
+                </div>
+                <div class="file-input-row">
+                    <span class="file-input-label">Declaration Log <span style="color: var(--text-muted);">(optional)</span></span>
+                    <div class="file-input">
+                        <input type="file" id="declarationFile" accept=".json" onchange="handleFileSelect(event, 'declaration')">
+                        <label class="file-input-btn" id="declarationBtn" for="declarationFile">Select JSON</label>
+                        <span class="file-input-name" id="declarationName"></span>
+                    </div>
+                </div>
+                <div class="file-input-row">
+                    <span class="file-input-label">Regression Checks <span style="color: var(--text-muted);">(optional)</span></span>
+                    <div class="file-input">
+                        <input type="file" id="regressionFile" accept=".json" multiple onchange="handleFileSelect(event, 'regression')">
+                        <label class="file-input-btn" id="regressionBtn" for="regressionFile">Select JSON(s)</label>
+                        <span class="file-input-name" id="regressionName"></span>
+                    </div>
+                </div>
+            </div>
+            <button class="load-btn" id="loadBtn" onclick="assembleChain()" disabled>Assemble Chain</button>
+        </div>
+
+        <!-- Chain Header -->
+        <div class="chain-header" id="chainHeader">
+            <div class="chain-header-title" id="chainCaseName">—</div>
+            <div class="chain-meta">
+                <div class="chain-meta-item">
+                    <span class="chain-meta-label">Scope</span>
+                    <span class="chain-meta-value" id="chainScope">—</span>
+                </div>
+                <div class="chain-meta-item">
+                    <span class="chain-meta-label">First Activity</span>
+                    <span class="chain-meta-value" id="chainFirstDate">—</span>
+                </div>
+                <div class="chain-meta-item">
+                    <span class="chain-meta-label">Last Activity</span>
+                    <span class="chain-meta-value" id="chainLastDate">—</span>
+                </div>
+                <div class="chain-meta-item">
+                    <span class="chain-meta-label">Current Position</span>
+                    <span class="chain-meta-value" id="chainPosition">—</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Integrity Markers -->
+        <div class="integrity-markers" id="integrityMarkers"></div>
+
+        <!-- Timeline -->
+        <div class="timeline" id="timeline">
+            <div class="no-data">
+                <div class="no-data-icon">⟁</div>
+                <div class="no-data-text">No chain assembled</div>
+                <div class="no-data-hint">Load a Verification Record to begin</div>
+            </div>
+        </div>
+
+        <!-- Export -->
+        <div class="export-section" id="exportSection">
+            <button class="export-btn" onclick="exportChainJSON()">Export Chain JSON</button>
+            <button class="export-btn" onclick="exportChainMarkdown()">Export Chain Markdown</button>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-quote">"This tool assembles records. It does not interpret them."</div>
+            <p class="footer-note">AR-001: Observe · Recall · Hold</p>
+            <div class="footer-version">
+                <span>Continuity Chain v0.1</span>
+                <span>2026-02-03</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================
+        // STATE
+        // ============================================
+        let loadedFiles = {
+            verification: null,
+            declaration: null,
+            regression: []
+        };
+
+        let chainData = {
+            events: [],
+            meta: {}
+        };
+
+        // ============================================
+        // FILE HANDLING
+        // ============================================
+        function handleFileSelect(event, type) {
+            const files = event.target.files;
+            if (!files || files.length === 0) return;
+
+            const btn = document.getElementById(`${type}Btn`);
+            const nameEl = document.getElementById(`${type}Name`);
+
+            if (type === 'regression') {
+                // Multiple files allowed
+                loadedFiles.regression = [];
+                const promises = Array.from(files).map(file => {
+                    return new Promise((resolve, reject) => {
+                        const reader = new FileReader();
+                        reader.onload = e => {
+                            try {
+                                const data = JSON.parse(e.target.result);
+                                resolve({ filename: file.name, data });
+                            } catch (err) {
+                                reject(err);
+                            }
+                        };
+                        reader.onerror = reject;
+                        reader.readAsText(file);
+                    });
+                });
+
+                Promise.all(promises).then(results => {
+                    loadedFiles.regression = results;
+                    btn.classList.add('loaded');
+                    nameEl.textContent = `${results.length} file(s)`;
+                    updateLoadButton();
+                }).catch(err => {
+                    alert('Error reading file(s): ' + err.message);
+                });
+            } else {
+                // Single file
+                const file = files[0];
+                const reader = new FileReader();
+                reader.onload = e => {
+                    try {
+                        const data = JSON.parse(e.target.result);
+                        
+                        if (type === 'verification') {
+                            // Validate verification record
+                            if (!data.case || !data.after) {
+                                alert('Invalid Verification Record: missing required fields');
+                                return;
+                            }
+                        }
+
+                        loadedFiles[type] = { filename: file.name, data };
+                        btn.classList.add('loaded');
+                        nameEl.textContent = file.name;
+                        updateLoadButton();
+                    } catch (err) {
+                        alert('Error parsing JSON: ' + err.message);
+                    }
+                };
+                reader.readAsText(file);
+            }
+        }
+
+        function updateLoadButton() {
+            const btn = document.getElementById('loadBtn');
+            btn.disabled = !loadedFiles.verification;
+        }
+
+        // ============================================
+        // CHAIN ASSEMBLY
+        // ============================================
+        function assembleChain() {
+            if (!loadedFiles.verification) {
+                alert('Verification Record required');
+                return;
+            }
+
+            const events = [];
+            const vData = loadedFiles.verification.data;
+
+            // Extract events from verification record
+            
+            // Before scan (if present)
+            if (vData.before && vData.before.position) {
+                events.push({
+                    type: 'scan',
+                    subtype: 'before',
+                    date: vData.case?.dateWindow?.split(' - ')[0] || vData.exportedAt?.split('T')[0] || 'Unknown',
+                    sortDate: new Date(vData.exportedAt || 0).getTime() - 2,
+                    title: 'Before-state captured',
+                    position: vData.before.position,
+                    fmCount: vData.before.fmCount || Object.keys(vData.before.fms || {}).length,
+                    ffnCount: vData.before.ffnCount || Object.keys(vData.before.ffns || {}).length,
+                    source: 'Tool 005 (Verified Independence)',
+                    raw: vData.before
+                });
+            }
+
+            // After scan
+            if (vData.after && vData.after.position) {
+                events.push({
+                    type: 'scan',
+                    subtype: 'after',
+                    date: vData.case?.dateWindow?.split(' - ')[1] || vData.exportedAt?.split('T')[0] || 'Unknown',
+                    sortDate: new Date(vData.exportedAt || 0).getTime() - 1,
+                    title: 'After-state captured',
+                    position: vData.after.position,
+                    fmCount: vData.after.fmCount || Object.keys(vData.after.fms || {}).length,
+                    ffnCount: vData.after.ffnCount || Object.keys(vData.after.ffns || {}).length,
+                    source: 'Tool 005 (Verified Independence)',
+                    raw: vData.after
+                });
+            }
+
+            // Verification event
+            if (vData.verification && vData.verification.verifiedBy) {
+                events.push({
+                    type: 'verification',
+                    date: vData.verification.date || vData.exportedAt?.split('T')[0] || 'Unknown',
+                    sortDate: new Date(vData.verification.date || vData.exportedAt || 0).getTime(),
+                    title: `Verified by ${vData.verification.verifiedBy}`,
+                    verifiedBy: vData.verification.verifiedBy,
+                    role: vData.verification.role,
+                    source: 'Tool 005 (Verified Independence)',
+                    raw: vData.verification
+                });
+            }
+
+            // Check history (from Tool 006 appended)
+            if (vData.checkHistory && Array.isArray(vData.checkHistory)) {
+                vData.checkHistory.forEach((check, idx) => {
+                    const reappearedCount = (check.reappeared?.fm?.length || 0) + (check.reappeared?.ffn?.length || 0);
+                    const increasedCount = (check.increased?.fm?.length || 0) + (check.increased?.ffn?.length || 0);
+                    
+                    events.push({
+                        type: 'regression-check',
+                        date: check.artifactDate || check.checkTimestamp?.split('T')[0] || 'Unknown',
+                        sortDate: new Date(check.checkTimestamp || 0).getTime(),
+                        title: `Regression check${check.contextTag ? ': ' + check.contextTag : ''}`,
+                        drift: check.drift,
+                        reappearedCount,
+                        increasedCount,
+                        source: 'Tool 006 (Regression Watch)',
+                        raw: check
+                    });
+                });
+            }
+
+            // Standalone regression checks
+            loadedFiles.regression.forEach(({ filename, data }) => {
+                if (data.checkTimestamp) {
+                    const reappearedCount = 
+                        (data.regression?.fm?.reappeared?.length || 0) + 
+                        (data.regression?.ffn?.reappeared?.length || 0);
+                    const increasedCount = 
+                        (data.regression?.fm?.increased?.length || 0) + 
+                        (data.regression?.ffn?.increased?.length || 0);
+
+                    events.push({
+                        type: 'regression-check',
+                        date: data.artifactDate || data.checkTimestamp?.split('T')[0] || 'Unknown',
+                        sortDate: new Date(data.checkTimestamp || 0).getTime(),
+                        title: `Regression check${data.contextTag ? ': ' + data.contextTag : ''}`,
+                        drift: data.drift,
+                        reappearedCount,
+                        increasedCount,
+                        source: 'Tool 006 (Regression Watch)',
+                        filename,
+                        raw: data
+                    });
+                }
+            });
+
+            // Declaration log entries
+            if (loadedFiles.declaration?.data) {
+                const declData = loadedFiles.declaration.data;
+                const entries = Array.isArray(declData) ? declData : (declData.entries || []);
+                
+                entries.forEach(entry => {
+                    events.push({
+                        type: 'declaration',
+                        date: entry.timestamp?.split('T')[0] || 'Unknown',
+                        sortDate: new Date(entry.timestamp || 0).getTime(),
+                        title: `Declaration: ${entry.declared_type || 'Unknown type'}`,
+                        declaredBy: entry.declared_by,
+                        declaredRole: entry.declared_role,
+                        status: entry.status,
+                        source: 'Tool 004 (Declaration Log)',
+                        raw: entry
+                    });
+                });
+            }
+
+            // Sort chronologically (oldest first)
+            // Events with invalid/missing sortDate sink to bottom
+            events.sort((a, b) => {
+                const aValid = a.sortDate > 0;
+                const bValid = b.sortDate > 0;
+                if (aValid && !bValid) return -1;
+                if (!aValid && bValid) return 1;
+                if (!aValid && !bValid) return 0;
+                return a.sortDate - b.sortDate;
+            });
+
+            // Build chain meta
+            const dates = events.map(e => e.sortDate).filter(d => d > 0);
+            const latestPosition = [...events].reverse().find(e => e.position)?.position || 
+                                   [...events].reverse().find(e => e.drift)?.drift?.replace('Drifted to ', '') || 
+                                   'Unknown';
+
+            chainData = {
+                events,
+                meta: {
+                    caseName: vData.case?.name || 'Unnamed Case',
+                    scope: vData.case?.scope || '—',
+                    firstDate: dates.length > 0 ? new Date(Math.min(...dates)).toLocaleDateString() : '—',
+                    lastDate: dates.length > 0 ? new Date(Math.max(...dates)).toLocaleDateString() : '—',
+                    currentPosition: latestPosition
+                }
+            };
+
+            renderChain();
+        }
+
+        // ============================================
+        // RENDERING
+        // ============================================
+        function renderChain() {
+            // Chain header
+            const header = document.getElementById('chainHeader');
+            header.classList.add('visible');
+            document.getElementById('chainCaseName').textContent = chainData.meta.caseName;
+            document.getElementById('chainScope').textContent = chainData.meta.scope;
+            document.getElementById('chainFirstDate').textContent = chainData.meta.firstDate;
+            document.getElementById('chainLastDate').textContent = chainData.meta.lastDate;
+            document.getElementById('chainPosition').textContent = chainData.meta.currentPosition;
+
+            // Integrity markers
+            renderIntegrityMarkers();
+
+            // Timeline
+            const timeline = document.getElementById('timeline');
+            timeline.classList.add('visible');
+
+            if (chainData.events.length === 0) {
+                timeline.innerHTML = `
+                    <div class="no-data">
+                        <div class="no-data-icon">⟁</div>
+                        <div class="no-data-text">No events in chain</div>
+                    </div>
+                `;
+                return;
+            }
+
+            timeline.innerHTML = chainData.events.map((event, idx) => renderTimelineNode(event, idx)).join('');
+
+            // Export section
+            document.getElementById('exportSection').classList.add('visible');
+        }
+
+        function renderTimelineNode(event, idx) {
+            const typeLabels = {
+                'scan': 'State Capture',
+                'verification': 'Verification',
+                'declaration': 'Declaration',
+                'regression-check': 'Check'
+            };
+
+            const isVerification = event.type === 'verification';
+            const verifiedLabel = isVerification ? '<span style="font-family: \'GL Mono\', monospace; font-size: 0.6rem; letter-spacing: 0.1em; color: var(--continuity-slate); margin-left: 0.5rem;">VERIFIED</span>' : '';
+            
+            let summary = '';
+            switch (event.type) {
+                case 'scan':
+                    summary = `Position: ${event.position} | FMs: ${event.fmCount} | FFNs: ${event.ffnCount}`;
+                    break;
+                case 'verification':
+                    summary = event.role ? `${event.verifiedBy}, ${event.role}` : event.verifiedBy;
+                    break;
+                case 'declaration':
+                    summary = `${event.declaredBy || 'Unknown'} | Status: ${event.status || 'Unknown'}`;
+                    break;
+                case 'regression-check':
+                    summary = `${event.drift} | Reappeared: ${event.reappearedCount} | Increased: ${event.increasedCount}`;
+                    break;
+            }
+
+            const content = formatEventContent(event);
+
+            return `
+                <div class="timeline-node ${isVerification ? 'verification' : ''}" id="node-${idx}">
+                    <div class="timeline-node-header" onclick="toggleNode(${idx})">
+                        <span class="timeline-node-date">${event.date}</span>
+                        <span class="timeline-node-type">${typeLabels[event.type] || event.type}</span>
+                        <span class="timeline-node-title">${event.title}${verifiedLabel}</span>
+                        <span class="timeline-node-expand">▼</span>
+                    </div>
+                    <div class="timeline-node-body">
+                        <div class="timeline-node-content">${content}</div>
+                        <div class="timeline-node-source">Source: ${event.source}${event.filename ? ' (' + event.filename + ')' : ''}</div>
+                    </div>
+                </div>
+            `;
+        }
+
+        function formatEventContent(event) {
+            let lines = [];
+
+            switch (event.type) {
+                case 'scan':
+                    lines.push(`Position: ${event.position}`);
+                    lines.push(`Failure Modes detected: ${event.fmCount}`);
+                    lines.push(`Field Notes detected: ${event.ffnCount}`);
+                    if (event.raw?.fms) {
+                        const fmIds = Object.keys(event.raw.fms);
+                        if (fmIds.length > 0) lines.push(`FMs: ${fmIds.join(', ')}`);
+                    }
+                    if (event.raw?.ffns) {
+                        const ffnIds = Object.keys(event.raw.ffns);
+                        if (ffnIds.length > 0) lines.push(`FFNs: ${ffnIds.join(', ')}`);
+                    }
+                    break;
+
+                case 'verification':
+                    lines.push(`Verified by: ${event.verifiedBy}`);
+                    if (event.role) lines.push(`Role: ${event.role}`);
+                    lines.push(`Date: ${event.date}`);
+                    break;
+
+                case 'declaration':
+                    lines.push(`Declared by: ${event.declaredBy || 'Unknown'}`);
+                    if (event.declaredRole) lines.push(`Role: ${event.declaredRole}`);
+                    lines.push(`Status: ${event.status || 'Unknown'}`);
+                    if (event.raw?.fm_refs?.length) lines.push(`FM refs: ${event.raw.fm_refs.join(', ')}`);
+                    if (event.raw?.ffn_refs?.length) lines.push(`FFN refs: ${event.raw.ffn_refs.join(', ')}`);
+                    if (event.raw?.notes) lines.push(`Notes: ${event.raw.notes}`);
+                    break;
+
+                case 'regression-check':
+                    lines.push(`Drift: ${event.drift}`);
+                    lines.push(`Reappeared: ${event.reappearedCount}`);
+                    lines.push(`Increased: ${event.increasedCount}`);
+                    if (event.raw?.contextTag) lines.push(`Context: ${event.raw.contextTag}`);
+                    if (event.raw?.reappeared) {
+                        const fmReappeared = event.raw.reappeared.fm || [];
+                        const ffnReappeared = event.raw.reappeared.ffn || [];
+                        if (fmReappeared.length > 0) lines.push(`FM reappeared: ${fmReappeared.join(', ')}`);
+                        if (ffnReappeared.length > 0) lines.push(`FFN reappeared: ${ffnReappeared.join(', ')}`);
+                    }
+                    break;
+            }
+
+            return lines.join('\n');
+        }
+
+        function renderIntegrityMarkers() {
+            const markers = [];
+            const events = chainData.events;
+
+            // Check for gap between declaration and verification
+            const hasDeclaration = events.some(e => e.type === 'declaration');
+            const hasVerification = events.some(e => e.type === 'verification');
+            
+            if (hasDeclaration && !hasVerification) {
+                markers.push('Declaration recorded without subsequent verification');
+            }
+
+            // Check for multiple regressions
+            const regressionChecks = events.filter(e => e.type === 'regression-check');
+            const regressionsWithIssues = regressionChecks.filter(e => e.reappearedCount > 0 || e.increasedCount > 0);
+            if (regressionsWithIssues.length > 1) {
+                markers.push('Multiple regression checks with reappeared or increased patterns');
+            }
+
+            // Check for no regression checks since verification
+            if (hasVerification && regressionChecks.length === 0) {
+                markers.push('No regression checks since verification');
+            }
+
+            const container = document.getElementById('integrityMarkers');
+            if (markers.length === 0) {
+                container.classList.remove('visible');
+                return;
+            }
+
+            container.classList.add('visible');
+            container.innerHTML = markers.map(m => `
+                <div class="integrity-marker">
+                    <span>○</span>
+                    <span>${m}</span>
+                </div>
+            `).join('');
+        }
+
+        function toggleNode(idx) {
+            const node = document.getElementById(`node-${idx}`);
+            node.classList.toggle('expanded');
+        }
+
+        // ============================================
+        // EXPORT
+        // ============================================
+        function exportChainJSON() {
+            const exportData = {
+                exportedAt: new Date().toISOString(),
+                meta: chainData.meta,
+                events: chainData.events.map(e => ({
+                    type: e.type,
+                    subtype: e.subtype,
+                    date: e.date,
+                    title: e.title,
+                    source: e.source,
+                    raw: e.raw
+                }))
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `continuity-chain-${chainData.meta.caseName?.replace(/\s+/g, '-') || 'export'}-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportChainMarkdown() {
+            let md = `# Continuity Chain\n\n`;
+            md += `**Case:** ${chainData.meta.caseName}\n\n`;
+            md += `**Scope:** ${chainData.meta.scope}\n\n`;
+            md += `**First Activity:** ${chainData.meta.firstDate}\n\n`;
+            md += `**Last Activity:** ${chainData.meta.lastDate}\n\n`;
+            md += `**Current Position:** ${chainData.meta.currentPosition}\n\n`;
+            md += `---\n\n`;
+            md += `## Timeline\n\n`;
+
+            chainData.events.forEach(event => {
+                md += `### ${event.date} — ${event.title}\n\n`;
+                md += `**Type:** ${event.type}\n\n`;
+                md += `**Source:** ${event.source}\n\n`;
+                
+                const content = formatEventContent(event);
+                md += `\`\`\`\n${content}\n\`\`\`\n\n`;
+            });
+
+            md += `---\n\n`;
+            md += `*This tool assembles records. It does not interpret them.*\n`;
+
+            const blob = new Blob([md], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `continuity-chain-${chainData.meta.caseName?.replace(/\s+/g, '-') || 'export'}-${new Date().toISOString().split('T')[0]}.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

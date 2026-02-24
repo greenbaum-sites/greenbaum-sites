@@ -1,0 +1,1367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DRI&trade; | Coherence &middot; Lens</title>
+  <meta name="description" content="Same system. Different lens. Eighteen seats. Ninety reveals.">
+
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DRI&trade; | Coherence &middot; Lens">
+  <meta property="og:description" content="Same system. Different lens. Pick your seat. See the structure.">
+  <meta property="og:image" content="/lens/01/images/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0d0d0d;
+      --bg-card: #141414;
+      --bg-card-hover: #181818;
+      --gold: #c9a84c;
+      --gold-dim: rgba(201, 168, 76, 0.25);
+      --gold-glow: rgba(201, 168, 76, 0.12);
+      --text-primary: #e8e4dc;
+      --text-cold: #b8b4ad;
+      --text-dim: #4a4744;
+      --text-muted: #5a5652;
+      --img-narrative-opacity: 0.08;
+      --img-structure-opacity: 0.10;
+      --grain-opacity: 0.025;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Cormorant Garamond', serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    body.locked { overflow: hidden; }
+
+    /* ========== GRAIN ========== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      pointer-events: none;
+      background-image: var(--grain-bg, url(/lens/01/images/grain.png));
+      background-repeat: repeat;
+      background-size: 512px 512px;
+      mix-blend-mode: overlay;
+      opacity: var(--grain-opacity);
+    }
+
+    /* ========== ACT 1: OPENING ========== */
+    .act1 {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+    }
+
+    .act1::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: var(--corridor-bg);
+      background-size: cover;
+      background-position: center;
+      opacity: 0.04;
+    }
+
+    .act1-label {
+      position: absolute;
+      top: 2.2rem;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.25em;
+      padding-left: 0.25em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0;
+      animation: softIn 1s ease 1.2s forwards;
+    }
+
+    .act1-center {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 0 2rem;
+    }
+
+    .act1-headline {
+      font-weight: 400;
+      font-size: clamp(1.8rem, 3vw, 2.4rem);
+      color: var(--text-primary);
+      line-height: 1.3;
+      opacity: 0;
+      animation: softIn 1.2s ease 2.5s forwards;
+    }
+
+    .act1-subline {
+      margin-top: 2.5rem;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(0.95rem, 1.3vw, 1.1rem);
+      color: var(--text-muted);
+      opacity: 0;
+      animation: softIn 0.8s ease 4.5s forwards;
+    }
+
+    .act1-chevron {
+      margin-top: 2.5rem;
+      display: inline-block;
+      color: var(--gold);
+      opacity: 0;
+      animation: softIn 0.8s ease 5.5s forwards;
+      cursor: pointer;
+      background: none;
+      border: none;
+      padding: 0.5rem;
+    }
+
+    .act1-chevron svg {
+      opacity: 0.3;
+      display: block;
+    }
+
+    .act1-spacer { height: 100vh; }
+
+    /* ========== ACT 2: GRID ========== */
+    .act2 {
+      position: relative;
+      z-index: 10;
+      background: var(--bg);
+      min-height: 100vh;
+      padding: 6rem 2rem 4rem;
+    }
+
+    .grid-label {
+      display: block;
+      text-align: center;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      font-weight: 300;
+      letter-spacing: 0.2em;
+      padding-left: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      max-width: 1100px;
+      margin: 3rem auto 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .grid.faded .grid-card:not(.selected) {
+      opacity: 0.3;
+      pointer-events: none;
+    }
+
+    .grid-card {
+      background: var(--bg-card);
+      border: 1px solid rgba(240, 236, 228, 0.04);
+      padding: 1.8rem 2rem;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: border-color 0.4s ease, background 0.3s ease, transform 0.4s ease, opacity 0.4s ease;
+    }
+
+    .grid-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--gold-dim);
+    }
+
+    .grid-card.selected {
+      transform: scale(1.02);
+      border-color: var(--gold);
+      background: var(--bg-card-hover);
+    }
+
+    .grid-card-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-size: 1.1rem;
+      color: var(--text-primary);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      line-height: 1.3;
+    }
+
+    .grid-card-tagline {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.8rem;
+      line-height: 1.5;
+    }
+
+    /* ========== ACT 3: CAROUSEL OVERLAY ========== */
+    .act3 {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      background: var(--bg);
+      display: none;
+      flex-direction: column;
+      opacity: 0;
+      transition: opacity 0.6s ease;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    .act3.active { opacity: 1; }
+
+    /* ---- Topbar ---- */
+    .topbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 2rem;
+      background: rgba(13, 13, 13, 0.9);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      pointer-events: auto;
+    }
+
+    .back-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 0.4em 0;
+      transition: color 0.3s ease;
+    }
+
+    .back-btn:hover { color: var(--gold); }
+
+    .topbar-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.18em;
+      padding-left: 0.18em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .topbar-counter {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      font-weight: 300;
+      letter-spacing: 0.12em;
+      color: var(--text-dim);
+      transition: opacity 0.3s ease;
+    }
+
+    /* ---- Carousel ---- */
+    .carousel {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    /* ---- Prompt ---- */
+    .prompt {
+      margin-top: 2rem;
+      text-align: center;
+      z-index: 90;
+      transition: opacity 1.2s ease;
+    }
+
+    .act3 .card:first-child .prompt {
+      opacity: 0;
+      animation: softIn 1s ease 1.1s forwards;
+    }
+
+    .card:not(:first-child) .prompt { opacity: 1; }
+
+    .prompt.hidden {
+      opacity: 0 !important;
+      animation: none;
+    }
+
+    .prompt-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      border-radius: 100px;
+      padding: 0.7em 1.8em;
+      background: rgba(13, 13, 13, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: ew-resize;
+      transition: border-color 0.4s ease, color 0.4s ease;
+    }
+
+    .prompt-button:hover {
+      border-color: var(--gold);
+      color: #dfc06a;
+    }
+
+    .prompt-arrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      opacity: 0.7;
+      animation: nudge 2s ease-in-out infinite;
+    }
+
+    @keyframes nudge {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
+    }
+
+    /* ---- Layers ---- */
+    .layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 4rem;
+    }
+
+    .layer-content {
+      max-width: 560px;
+      text-align: center;
+      position: absolute;
+      top: 34%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .layer-headline {
+      font-weight: 400;
+      font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+      line-height: 1.35;
+      margin-bottom: 1.5rem;
+    }
+
+    .layer-body {
+      font-weight: 300;
+      font-size: clamp(1rem, 1.3vw, 1.08rem);
+      line-height: 1.85;
+    }
+
+    .layer-narrative {
+      z-index: 1;
+      transition: opacity 0.8s ease;
+    }
+
+    .layer-narrative::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: var(--narrative-bg);
+      background-size: cover;
+      background-position: center;
+      opacity: var(--img-narrative-opacity);
+      transition: opacity 0.8s ease;
+    }
+
+    .layer-narrative::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(13, 13, 13, 0.4) 0%,
+        rgba(13, 13, 13, 0.65) 50%,
+        rgba(13, 13, 13, 0.9) 100%
+      );
+    }
+
+    .layer-narrative .layer-headline { color: var(--text-primary); }
+    .layer-narrative .layer-body { color: var(--text-cold); }
+
+    .act3 .card:first-child .layer-narrative .layer-headline {
+      opacity: 0;
+      animation: softIn 0.8s ease 0.4s forwards;
+    }
+
+    .act3 .card:first-child .layer-narrative .layer-body {
+      opacity: 0;
+      animation: softIn 0.8s ease 0.7s forwards;
+    }
+
+    .layer-structure {
+      z-index: 2;
+      clip-path: inset(0 85% 0 0);
+      background: var(--bg);
+    }
+
+    .layer-structure::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: var(--structure-bg);
+      background-size: cover;
+      background-position: center;
+      opacity: var(--live-structure-opacity, 0.22);
+      transition: opacity 0.6s ease;
+    }
+
+    .layer-structure::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 1px;
+      height: 100%;
+      z-index: 1;
+      background: rgba(201, 168, 76, 0.1);
+    }
+
+    .layer-structure .layer-headline { color: var(--text-primary); }
+    .layer-structure .layer-body { color: var(--text-cold); }
+
+    /* ---- Handle ---- */
+    .handle {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 44px;
+      left: calc(15% - 22px);
+      z-index: 50;
+      cursor: ew-resize;
+      touch-action: none;
+    }
+
+    .act3 .card:first-child .handle {
+      opacity: 0;
+      animation: handleIn 0.6s ease 1.3s forwards;
+    }
+
+    .handle-line {
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 100%;
+      background: var(--gold);
+      opacity: 0.25;
+      transition: opacity 0.4s ease;
+    }
+
+    .handle:hover .handle-line,
+    .handle.active .handle-line { opacity: 0.55; }
+
+    .handle-grip {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      background: var(--bg);
+      opacity: 0.6;
+      transition: all 0.35s ease;
+    }
+
+    .handle:hover .handle-grip,
+    .handle.active .handle-grip {
+      width: 15px; height: 15px;
+      opacity: 1;
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    /* ---- FM Label ---- */
+    .fm-label {
+      position: absolute;
+      bottom: 2.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .fm-label.visible { opacity: 1; }
+
+    .fm-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .fm-line {
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(0.85rem, 1.15vw, 0.95rem);
+      color: var(--text-muted);
+      line-height: 1.65;
+      white-space: normal;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ---- Carousel Nav ---- */
+    .carousel-nav {
+      position: fixed;
+      bottom: 0.6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1080;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .carousel-arrow {
+      background: none;
+      border: 1px solid var(--gold-dim);
+      border-radius: 50%;
+      width: 24px; height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.3s, border-color 0.3s;
+      padding: 0;
+    }
+
+    .carousel-arrow:hover {
+      opacity: 1;
+      border-color: var(--gold);
+    }
+
+    .carousel-arrow:disabled {
+      opacity: 0.1;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .carousel-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .carousel-dot.active {
+      background: var(--gold);
+      transform: scale(1.4);
+    }
+
+    /* ---- Closing Card ---- */
+    .carousel-closing {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg);
+    }
+
+    .closing-content {
+      text-align: center;
+      padding: 2rem;
+      max-width: 600px;
+    }
+
+    .closing-primary {
+      font-weight: 400;
+      font-size: clamp(1.1rem, 1.6vw, 1.4rem);
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    .closing-secondary {
+      margin-top: 1.8rem;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(0.85rem, 1.1vw, 1rem);
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    .closing-link {
+      display: inline-block;
+      margin-top: 5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      opacity: 0.5;
+      text-decoration: none;
+      cursor: pointer;
+      transition: opacity 0.3s ease;
+    }
+
+    .closing-link:hover { opacity: 1; }
+
+    .closing-footer {
+      margin-top: 4rem;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .closing-footer .footer-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .closing-footer .footer-mono:hover { color: var(--gold); }
+
+    /* ========== FOCUS STYLES ========== */
+    .grid-card:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .carousel-arrow:focus-visible,
+    .carousel-dot:focus-visible,
+    .back-btn:focus-visible,
+    .act1-chevron:focus-visible,
+    .closing-link:focus-visible {
+      outline: 2px solid var(--gold);
+      outline-offset: 2px;
+    }
+
+    .handle:focus-visible .handle-grip {
+      width: 15px; height: 15px;
+      opacity: 1;
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    .handle:focus-visible .handle-line { opacity: 0.55; }
+
+    /* ========== KEYFRAMES ========== */
+    @keyframes softIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes handleIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ========== REDUCED MOTION ========== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      html { scroll-behavior: auto; }
+      .layer-structure { clip-path: none !important; }
+      .layer-narrative { clip-path: none !important; }
+      .handle { display: none; }
+      .fm-label { opacity: 1 !important; }
+    }
+
+    /* ========== SMALL DESKTOP ========== */
+    @media (max-height: 700px) {
+      .layer-content { top: 30%; }
+      .fm-label { bottom: 1.5rem; }
+      .fm-line { font-size: 0.75rem; }
+      .carousel-nav { bottom: 0.2rem; }
+    }
+
+    /* ========== TABLET ========== */
+    @media (max-width: 1200px) {
+      .grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ========== MOBILE ========== */
+    @media (max-width: 768px) {
+      .act1-headline { font-size: 2rem; }
+      .act1-label { font-size: 0.45rem; top: 1.5rem; }
+      .act2 { padding: 4rem 1.2rem 3rem; }
+      .grid { grid-template-columns: 1fr; gap: 0.75rem; }
+      .grid-card { padding: 1.4rem 1.5rem; }
+      .grid-card-title { font-size: 1rem; }
+      .grid-card-tagline { font-size: 0.8rem; }
+      .grid-label { font-size: 0.4rem; padding: 0 1rem; }
+
+      .topbar { padding: 0.8rem 1rem; }
+      .topbar-label { font-size: 0.4rem; }
+      .back-btn {
+        position: fixed;
+        top: auto;
+        bottom: 3.5rem;
+        left: 1rem;
+        z-index: 1200;
+        background: rgba(13, 13, 13, 0.85);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border: 1px solid var(--gold-dim);
+        border-radius: 100px;
+        padding: 0.6em 1.2em;
+        font-size: 0.45rem;
+      }
+
+      .layer { padding: 0; }
+      .layer-content {
+        max-width: 85%;
+        top: 14%;
+        bottom: 6rem;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .layer-headline { font-size: 1.25rem; margin-bottom: 0.6rem; }
+      .layer-body { font-size: 0.88rem; line-height: 1.55; }
+      .prompt-button { font-size: 0.5rem; padding: 0.6em 1.4em; }
+      .prompt { margin-top: 1rem; }
+      .handle { width: 54px; }
+      .handle-grip { width: 16px; height: 16px; }
+      .fm-label {
+        bottom: 4rem;
+        padding: 0 1.5rem;
+        white-space: normal;
+      }
+      .fm-code { font-size: 0.45rem; }
+      .fm-line { font-size: 0.72rem; line-height: 1.4; }
+      .carousel-nav { bottom: 0.3rem; }
+      .carousel-arrow { width: 28px; height: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ==================== ACT 1: THE OPENING ==================== -->
+  <div class="act1" id="act1">
+    <span class="act1-label">DRI&trade; | Coherence</span>
+    <div class="act1-center">
+      <h1 class="act1-headline">Same system. Different lens.</h1>
+      <p class="act1-subline">Find your seat.</p>
+      <button class="act1-chevron" id="chevron" aria-label="Scroll to grid">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 10 12 16 18 10"></polyline>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="act1-spacer"></div>
+
+  <!-- ==================== ACT 2: THE GRID ==================== -->
+  <section class="act2" id="act2">
+    <span class="grid-label">Structural conditions look different from every chair.</span>
+
+    <div class="grid" id="grid">
+      <!-- Row 1: The vertical power stack -->
+      <article class="grid-card" tabindex="0" role="button" data-lens="01">
+        <h2 class="grid-card-title">The Operator</h2>
+        <p class="grid-card-tagline">You own the problem. You don&rsquo;t own the decision.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="03">
+        <h2 class="grid-card-title">The Executive</h2>
+        <p class="grid-card-tagline">You set direction. The system reinterprets.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="18">
+        <h2 class="grid-card-title">The Board</h2>
+        <p class="grid-card-tagline">You govern what you can see. The system decides what you see.</p>
+      </article>
+
+      <!-- Row 2: The observers -->
+      <article class="grid-card" tabindex="0" role="button" data-lens="04">
+        <h2 class="grid-card-title">The Chief of Staff</h2>
+        <p class="grid-card-tagline">You see it all. You can&rsquo;t say it all.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="05">
+        <h2 class="grid-card-title">The New Leader</h2>
+        <p class="grid-card-tagline">You inherited decisions nobody can explain.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="06">
+        <h2 class="grid-card-title">The Investor</h2>
+        <p class="grid-card-tagline">The structural risk no one&rsquo;s pricing.</p>
+      </article>
+
+      <!-- Row 3: The builders -->
+      <article class="grid-card" tabindex="0" role="button" data-lens="11">
+        <h2 class="grid-card-title">Product</h2>
+        <p class="grid-card-tagline">You own the roadmap. You don&rsquo;t own the priorities.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="12">
+        <h2 class="grid-card-title">Engineering</h2>
+        <p class="grid-card-tagline">You shipped what was asked. It wasn&rsquo;t what was needed.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="13">
+        <h2 class="grid-card-title">Sales</h2>
+        <p class="grid-card-tagline">You closed the deal. The org can&rsquo;t deliver what you sold.</p>
+      </article>
+
+      <!-- Row 4: The connectors -->
+      <article class="grid-card" tabindex="0" role="button" data-lens="14">
+        <h2 class="grid-card-title">Marketing</h2>
+        <p class="grid-card-tagline">You told the story. The experience didn&rsquo;t match.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="02">
+        <h2 class="grid-card-title">The Customer</h2>
+        <p class="grid-card-tagline">The experience your customer has is structural output.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="07">
+        <h2 class="grid-card-title">HR</h2>
+        <p class="grid-card-tagline">You measure engagement. The structure produces disengagement.</p>
+      </article>
+
+      <!-- Row 5: The foundations -->
+      <article class="grid-card" tabindex="0" role="button" data-lens="09">
+        <h2 class="grid-card-title">Finance</h2>
+        <p class="grid-card-tagline">The budget was approved. The constraints weren&rsquo;t removed.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="10">
+        <h2 class="grid-card-title">Legal &amp; Compliance</h2>
+        <p class="grid-card-tagline">You protect the org from risk. Nobody protects you from being the reason things are slow.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="15">
+        <h2 class="grid-card-title">IT &amp; Infrastructure</h2>
+        <p class="grid-card-tagline">Everything runs until it doesn&rsquo;t. Then it&rsquo;s your fault.</p>
+      </article>
+
+      <!-- Row 6: The integrators -->
+      <article class="grid-card" tabindex="0" role="button" data-lens="16">
+        <h2 class="grid-card-title">Procurement</h2>
+        <p class="grid-card-tagline">You manage the contract. You can&rsquo;t manage what they deliver.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="17">
+        <h2 class="grid-card-title">Program Management</h2>
+        <p class="grid-card-tagline">You own the timeline. You don&rsquo;t own the dependencies.</p>
+      </article>
+      <article class="grid-card" tabindex="0" role="button" data-lens="08">
+        <h2 class="grid-card-title">AI Integration</h2>
+        <p class="grid-card-tagline">Automation doesn&rsquo;t create dysfunction. It reveals it.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ==================== ACT 3: THE CAROUSEL ==================== -->
+  <div class="act3" id="act3" aria-hidden="true">
+    <div class="topbar" id="topbar">
+      <button class="back-btn" id="backBtn">&larr; Back to grid</button>
+      <span class="topbar-label" id="topbarLabel"></span>
+      <span class="topbar-counter" id="topbarCounter"></span>
+    </div>
+
+    <main class="carousel" id="carousel"></main>
+
+    <nav class="carousel-nav" id="carouselNav" aria-label="Card navigation">
+      <button class="carousel-arrow carousel-prev" id="carouselPrev" aria-label="Previous card" disabled>&#8249;</button>
+      <div class="carousel-dots" id="carouselDots"></div>
+      <button class="carousel-arrow carousel-next" id="carouselNext" aria-label="Next card">&#8250;</button>
+    </nav>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // ================================================================
+      // IMAGE FORMAT DETECTION
+      // ================================================================
+      var imgFormat = 'webp';
+      var avifTest = new Image();
+      avifTest.onload = function () { imgFormat = 'avif'; applyBackgrounds(); };
+      avifTest.onerror = function () { applyBackgrounds(); };
+      avifTest.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUEAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAABoAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLanAyaAAAAAAAAgABAACAAAABQAAAAAAAAAAAAAAAAAAAAAAeaXBtYQAAAAAAAAABAAEEAQKDBAAAARptZGF0EgAKBzgABhAQ0EkA';
+
+      function applyBackgrounds() {
+        var ext = imgFormat;
+        var root = document.documentElement.style;
+        root.setProperty('--grain-bg', 'url(/lens/01/images/grain.png)');
+        root.setProperty('--corridor-bg', 'url(/lens/01/images/narrative.' + ext + ')');
+      }
+
+      function applyLensImages(num) {
+        var ext = imgFormat;
+        var root = document.documentElement.style;
+        root.setProperty('--narrative-bg', 'url(/lens/' + num + '/images/narrative.' + ext + ')');
+        root.setProperty('--structure-bg', 'url(/lens/' + num + '/images/structure.' + ext + ')');
+      }
+
+      // ================================================================
+      // ACT 1: SCROLL FADE
+      // ================================================================
+      var act1 = document.getElementById('act1');
+
+      window.addEventListener('scroll', function () {
+        var progress = Math.min(window.scrollY / (window.innerHeight * 0.5), 1);
+        act1.style.opacity = 1 - progress;
+      });
+
+      document.getElementById('chevron').addEventListener('click', function () {
+        document.getElementById('act2').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // ================================================================
+      // ACT 2: GRID INTERACTION
+      // ================================================================
+      var grid = document.getElementById('grid');
+      var act3 = document.getElementById('act3');
+      var loading = false;
+
+      grid.addEventListener('click', function (e) {
+        var card = e.target.closest('.grid-card');
+        if (!card || loading) return;
+        openLens(card.dataset.lens, card);
+      });
+
+      grid.addEventListener('keydown', function (e) {
+        if (e.key !== 'Enter' && e.key !== ' ') return;
+        var card = e.target.closest('.grid-card');
+        if (!card || loading) return;
+        e.preventDefault();
+        openLens(card.dataset.lens, card);
+      });
+
+      // ================================================================
+      // ACT 3: OPEN / CLOSE LENS
+      // ================================================================
+      var carousel = document.getElementById('carousel');
+      var dotsContainer = document.getElementById('carouselDots');
+      var prevBtn = document.getElementById('carouselPrev');
+      var nextBtn = document.getElementById('carouselNext');
+      var topbarLabel = document.getElementById('topbarLabel');
+      var topbarCounter = document.getElementById('topbarCounter');
+      var backBtn = document.getElementById('backBtn');
+
+      var carouselActive = false;
+      var currentIndex = 0;
+      var totalCards = 0;
+      var sliders = [];
+
+      function openLens(num, gridCard) {
+        loading = true;
+
+        // Highlight grid
+        grid.classList.add('faded');
+        gridCard.classList.add('selected');
+
+        // Fetch lens and transition simultaneously
+        var fetchDone = fetchLens(num);
+        var transitionDone = new Promise(function (r) { setTimeout(r, 600); });
+
+        Promise.all([fetchDone, transitionDone]).then(function (results) {
+          var data = results[0];
+          populateCarousel(data, num);
+
+          // Show Act 3
+          document.body.classList.add('locked');
+          act3.style.display = 'flex';
+          act3.setAttribute('aria-hidden', 'false');
+
+          requestAnimationFrame(function () {
+            requestAnimationFrame(function () {
+              act3.classList.add('active');
+              loading = false;
+            });
+          });
+        });
+      }
+
+      function closeLens() {
+        carouselActive = false;
+        act3.classList.remove('active');
+
+        setTimeout(function () {
+          act3.style.display = 'none';
+          act3.setAttribute('aria-hidden', 'true');
+          carousel.innerHTML = '';
+          dotsContainer.innerHTML = '';
+          sliders = [];
+          totalCards = 0;
+          currentIndex = 0;
+        }, 600);
+
+        document.body.classList.remove('locked');
+        grid.classList.remove('faded');
+        var sel = grid.querySelector('.selected');
+        if (sel) sel.classList.remove('selected');
+      }
+
+      backBtn.addEventListener('click', closeLens);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && carouselActive) closeLens();
+      });
+
+      // ================================================================
+      // FETCH LENS PAGE
+      // ================================================================
+      var lensCache = {};
+
+      function fetchLens(num) {
+        if (lensCache[num]) return Promise.resolve(lensCache[num]);
+
+        return fetch('/lens/' + num + '/').then(function (r) {
+          return r.text();
+        }).then(function (html) {
+          var doc = new DOMParser().parseFromString(html, 'text/html');
+          var label = doc.querySelector('.header-label');
+          var cards = doc.querySelectorAll('section.card:not(.closing-statement)');
+          var data = {
+            headerLabel: label ? label.textContent : 'DRI\u2122 | Coherence \u00b7 Lens ' + num,
+            cardNodes: []
+          };
+          for (var i = 0; i < cards.length; i++) {
+            data.cardNodes.push(cards[i].cloneNode(true));
+          }
+          lensCache[num] = data;
+          return data;
+        });
+      }
+
+      // ================================================================
+      // POPULATE CAROUSEL
+      // ================================================================
+      function populateCarousel(data, num) {
+        carousel.innerHTML = '';
+        dotsContainer.innerHTML = '';
+        sliders = [];
+        currentIndex = 0;
+
+        topbarLabel.textContent = data.headerLabel;
+        applyLensImages(num);
+
+        // Inject FM cards
+        for (var i = 0; i < data.cardNodes.length; i++) {
+          var card = data.cardNodes[i].cloneNode(true);
+          card.setAttribute('data-index', i);
+          carousel.appendChild(card);
+        }
+
+        // Add closing card
+        var closing = document.createElement('section');
+        closing.className = 'card carousel-closing';
+        closing.setAttribute('data-index', data.cardNodes.length);
+        closing.innerHTML =
+          '<div class="closing-content">' +
+            '<p class="closing-primary">Every lens sees the same system.<br>Shared language is how the system starts to learn.</p>' +
+            '<p class="closing-secondary">These aren\u2019t failures of people.<br>They\u2019re the physics of organizations operating at scale and speed.</p>' +
+            '<a class="closing-link" id="tryAnother">Try another lens \u2192</a>' +
+            '<div class="closing-footer">' +
+              '<a class="footer-mono" href="https://greenbaumlabs.com">greenbaumlabs.com</a>' +
+              '<span class="footer-mono">DRI\u2122 | Coherence</span>' +
+            '</div>' +
+          '</div>';
+        carousel.appendChild(closing);
+
+        document.getElementById('tryAnother').addEventListener('click', function (e) {
+          e.preventDefault();
+          closeLens();
+        });
+
+        // Build dots
+        var cardEls = carousel.querySelectorAll('.card');
+        totalCards = cardEls.length;
+
+        for (var d = 0; d < totalCards; d++) {
+          var dot = document.createElement('button');
+          dot.className = 'carousel-dot' + (d === 0 ? ' active' : '');
+          dot.setAttribute('data-index', d);
+          dot.setAttribute('aria-label', d < data.cardNodes.length ? 'Card ' + (d + 1) : 'Closing');
+          dot.addEventListener('click', (function (idx) {
+            return function () { goToCard(idx); };
+          })(d));
+          dotsContainer.appendChild(dot);
+        }
+
+        // Initialize per-card slider state
+        for (var s = 0; s < data.cardNodes.length; s++) {
+          (function (idx) {
+            var card = cardEls[idx];
+            var h = card.querySelector('.handle');
+            if (!h) return;
+
+            var state = {
+              el: card,
+              handle: h,
+              structure: card.querySelector('.layer-structure'),
+              narrative: card.querySelector('.layer-narrative'),
+              fmLabel: card.querySelector('.fm-label'),
+              prompt: card.querySelector('.prompt'),
+              promptBtn: card.querySelector('.prompt-button'),
+              pct: 15,
+              dragging: false,
+              startX: 0,
+              startPct: 0,
+              touched: false,
+              halfHandle: h.getBoundingClientRect().width / 2
+            };
+            sliders.push(state);
+
+            h.addEventListener('pointerdown', function (e) {
+              e.preventDefault();
+              e.stopPropagation();
+              h.setPointerCapture(e.pointerId);
+              state.dragging = true;
+              state.startX = e.clientX;
+              state.startPct = state.pct;
+              h.classList.add('active');
+              firstTouch(state);
+            });
+
+            if (state.promptBtn) {
+              state.promptBtn.addEventListener('click', function (e) {
+                e.stopPropagation();
+                firstTouch(state);
+                setSliderPosition(state, 50);
+              });
+            }
+
+            h.addEventListener('keydown', function (e) {
+              var n = state.pct;
+              switch (e.key) {
+                case 'ArrowRight': n += 5; break;
+                case 'ArrowLeft': n -= 5; break;
+                case 'PageDown': n += 20; break;
+                case 'PageUp': n -= 20; break;
+                case 'End': n = 100; break;
+                case 'Home': n = 0; break;
+                default: return;
+              }
+              e.preventDefault();
+              firstTouch(state);
+              setSliderPosition(state, n);
+            });
+          })(s);
+        }
+
+        // Position and init
+        positionCards(false);
+        for (var j = 0; j < sliders.length; j++) {
+          setSliderPosition(sliders[j], 15);
+        }
+
+        carouselActive = true;
+        updateCounter();
+      }
+
+      // ================================================================
+      // SLIDER MECHANICS
+      // ================================================================
+      function setSliderPosition(s, p) {
+        s.pct = Math.max(0, Math.min(100, p));
+        var px = (s.pct / 100) * window.innerWidth;
+
+        s.handle.style.left = (px - s.halfHandle) + 'px';
+        s.structure.style.clipPath = 'inset(0 ' + (100 - s.pct) + '% 0 0)';
+        s.narrative.style.clipPath = 'inset(0 0 0 ' + s.pct + '%)';
+
+        var rounded = Math.round(s.pct);
+        s.handle.setAttribute('aria-valuenow', rounded);
+        s.handle.setAttribute('aria-valuetext', 'Structural view revealed: ' + rounded + '%');
+
+        if (s.pct > 65) {
+          s.narrative.style.opacity = 1 - ((s.pct - 65) / 35) * 0.12;
+        } else {
+          s.narrative.style.opacity = 1;
+        }
+
+        s.structure.style.setProperty('--live-structure-opacity', 0.10 + (s.pct / 100) * 0.04);
+
+        if (s.pct > 62) s.fmLabel.classList.add('visible');
+        else s.fmLabel.classList.remove('visible');
+      }
+
+      function firstTouch(s) {
+        if (!s.touched) {
+          s.touched = true;
+          if (s.prompt) s.prompt.classList.add('hidden');
+        }
+      }
+
+      // Global pointer events for slider drag
+      document.addEventListener('pointermove', function (e) {
+        if (!carouselActive) return;
+        for (var i = 0; i < sliders.length; i++) {
+          if (!sliders[i].dragging) continue;
+          e.preventDefault();
+          var dx = e.clientX - sliders[i].startX;
+          setSliderPosition(sliders[i], sliders[i].startPct + (dx / window.innerWidth) * 100);
+          return;
+        }
+      });
+
+      document.addEventListener('pointerup', function () {
+        if (!carouselActive) return;
+        for (var i = 0; i < sliders.length; i++) {
+          if (sliders[i].dragging) {
+            sliders[i].dragging = false;
+            sliders[i].handle.classList.remove('active');
+          }
+        }
+      });
+
+      // ================================================================
+      // CAROUSEL NAVIGATION
+      // ================================================================
+      function positionCards(animate) {
+        var cardEls = carousel.querySelectorAll('.card');
+        for (var i = 0; i < cardEls.length; i++) {
+          var offset = (i - currentIndex) * 100;
+          cardEls[i].style.transition = animate
+            ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+            : 'none';
+          cardEls[i].style.transform = 'translateX(' + offset + '%)';
+          cardEls[i].style.pointerEvents = (i === currentIndex) ? 'auto' : 'none';
+
+          // Manage tabindex for handles
+          var handle = cardEls[i].querySelector('.handle');
+          if (handle) handle.setAttribute('tabindex', i === currentIndex ? '0' : '-1');
+        }
+
+        var dots = dotsContainer.querySelectorAll('.carousel-dot');
+        for (var j = 0; j < dots.length; j++) {
+          if (j === currentIndex) dots[j].classList.add('active');
+          else dots[j].classList.remove('active');
+        }
+
+        prevBtn.disabled = (currentIndex === 0);
+        nextBtn.disabled = (currentIndex === totalCards - 1);
+        updateCounter();
+      }
+
+      function goToCard(index) {
+        if (index < 0 || index >= totalCards || index === currentIndex) return;
+        currentIndex = index;
+        positionCards(true);
+      }
+
+      function updateCounter() {
+        if (currentIndex < sliders.length) {
+          topbarCounter.textContent = (currentIndex + 1) + ' of ' + sliders.length;
+          topbarCounter.style.opacity = '1';
+        } else {
+          topbarCounter.style.opacity = '0';
+        }
+      }
+
+      prevBtn.addEventListener('click', function () { goToCard(currentIndex - 1); });
+      nextBtn.addEventListener('click', function () { goToCard(currentIndex + 1); });
+
+      // Swipe detection for carousel
+      var swipeStartX = 0;
+      var swipeStartY = 0;
+      var swiping = false;
+
+      document.addEventListener('pointerdown', function (e) {
+        if (!carouselActive) return;
+        if (e.target.closest('.handle') || e.target.closest('.carousel-nav') ||
+            e.target.closest('.prompt-button') || e.target.closest('.back-btn') ||
+            e.target.closest('.closing-link') || e.target.closest('.closing-footer')) return;
+        swipeStartX = e.clientX;
+        swipeStartY = e.clientY;
+        swiping = true;
+      });
+
+      document.addEventListener('pointerup', function (e) {
+        if (!swiping || !carouselActive) return;
+        swiping = false;
+        var dx = e.clientX - swipeStartX;
+        var dy = e.clientY - swipeStartY;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          if (dx < 0) goToCard(currentIndex + 1);
+          else goToCard(currentIndex - 1);
+        }
+      });
+
+      // Keyboard navigation for carousel
+      document.addEventListener('keydown', function (e) {
+        if (!carouselActive) return;
+        if (e.target.closest('.handle')) return; // handle has its own keyboard nav
+        if (e.key === 'ArrowRight') goToCard(currentIndex + 1);
+        else if (e.key === 'ArrowLeft') goToCard(currentIndex - 1);
+      });
+
+      // ================================================================
+      // RESIZE
+      // ================================================================
+      window.addEventListener('resize', function () {
+        if (!carouselActive) return;
+        for (var i = 0; i < sliders.length; i++) {
+          sliders[i].halfHandle = sliders[i].handle.getBoundingClientRect().width / 2;
+          setSliderPosition(sliders[i], sliders[i].pct);
+        }
+        positionCards(false);
+      });
+
+    })();
+  </script>
+
+</body>
+</html>
