@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FFN-11: Context Gap | DRI Practice</title>
+  <meta name="description" content="">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --warm-dim: rgba(200, 85, 58, 0.1);
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025; pointer-events: none; z-index: 9999;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 10, 10, 0.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+    .nav-brand { text-decoration: none; display: flex; flex-direction: column; }
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: 1.3rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-primary);
+    }
+    .nav-name .tm { font-size: 0.6em; vertical-align: super; color: var(--text-dim); }
+    .nav-role {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 300;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary);
+      text-decoration: none; transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a.active { color: var(--accent); }
+
+    .page-content {
+      max-width: 720px; margin: 0 auto;
+      padding: 8rem 3rem 4rem;
+    }
+    .back-link {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim);
+      text-decoration: none; transition: color 0.3s ease;
+      display: inline-block; margin-bottom: 2rem;
+    }
+    .back-link:hover { color: var(--accent); }
+    .fm-id-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.15;
+      letter-spacing: -0.02em; margin-bottom: 1.5rem;
+    }
+    .fm-meta {
+      display: flex; gap: 2rem; flex-wrap: wrap;
+      padding: 1.2rem 0; margin-bottom: 2rem;
+      border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    }
+    .fm-meta-item {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
+    }
+    .fm-meta-item span { color: var(--text-secondary); }
+    .fm-section { margin-bottom: 2.5rem; }
+    .fm-section h3 {
+      font-family: 'Cormorant Garamond', serif; font-weight: 400;
+      font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-primary);
+    }
+    .fm-body p {
+      font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary);
+      margin-bottom: 1rem;
+    }
+    .fm-body strong { color: var(--text-primary); font-weight: 600; }
+    .signal-list { list-style: none; padding: 0; margin: 0.5rem 0; }
+    .signal-list li {
+      font-size: 0.9rem; line-height: 1.7; color: var(--text-secondary);
+      padding: 0.4rem 0 0.4rem 1.2rem; position: relative;
+    }
+    .signal-list li::before {
+      content: '—'; position: absolute; left: 0; color: var(--text-dim);
+    }
+    .signal-list li strong { color: var(--text-primary); }
+    .closing-line {
+      margin-top: 3rem; padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+    .closing-line em {
+      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+      line-height: 1.6; color: var(--text-secondary); font-style: italic;
+    }
+    .diagnostic-note {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
+      margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
+    }
+    footer {
+      padding: 2.5rem 3rem; display: flex; justify-content: space-between;
+      align-items: center; border-top: 1px solid var(--border);
+    }
+    .footer-l, .footer-r {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase;
+    }
+    .footer-r a {
+      color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease;
+    }
+    .footer-r a:hover { color: var(--accent); }
+
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 101; }
+    .nav-toggle span { display: block; width: 20px; height: 1px; background: var(--text-primary); margin: 5px 0; transition: all 0.3s ease; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none; position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+        background: var(--bg-primary); flex-direction: column;
+        justify-content: flex-start; align-items: center;
+        padding-top: 4rem; gap: 1.5rem; z-index: 99;
+      }
+      .nav-links.active { display: flex; }
+      .page-content { padding: 6rem 1.5rem 3rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">
+      <span class="nav-name">DRI<span class="tm">™</span></span>
+      <span class="nav-role">Decision · Responsibility · Infrastructure</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#field">The Field</a></li>
+      <li><a href="/#coherence">Coherence</a></li>
+      <li><a href="/#lens">Lens</a></li>
+      <li><a href="/#taxonomy" class="active">Taxonomy</a></li>
+      <li><a href="/#instruments">Instruments</a></li>
+      <li><a href="/#record">Record</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="page-content">
+    <a href="/#taxonomy" class="back-link">← Back to Taxonomy</a>
+    <div class="fm-id-label">FFN-11 · Functional Field Note</div>
+    <h1>Context Gap</h1>
+
+    <div class="fm-meta">
+      <div class="fm-meta-item">Domain: <span></span></div>
+      <div class="fm-meta-item">Confidence: <span>Observed</span></div>
+      <div class="fm-meta-item">Status: <span>Draft</span></div>
+    </div>
+
+    
+    <div class="fm-section">
+      <h3>What It Looks Like in the Wild</h3>
+      <div class="fm-body">
+          <p>Results presented without supporting contextâ€”rate, volume, baseline comparisonsâ€”appear more significant than warranted. The absence of required metrics allows exceptions to be treated as standard performance.</p>
+          <p>## Trigger Signals</p>
+          <ul class="signal-list">
+            <li>Results presented without baseline comparisons</li>
+            <li>Rate and volume absent from reporting</li>
+            <li>Exceptions framed as standard performance</li>
+            <li>"Impressive" results lack supporting context</li>
+          </ul>
+          <p>## Why It Persists</p>
+          <p>Context requires work to gather and courage to present. Headlines are easier to celebrate. The incentive is to present clean, not complete.</p>
+          <p>## Common Misdiagnosis</p>
+          <ul class="signal-list">
+            <li>"The results speak for themselves"</li>
+            <li>"We don't need to over-explain"</li>
+            <li>"Leadership wants the headline"</li>
+            <li>"Adding context makes it look like excuses"</li>
+          </ul>
+          <p>## Cost of Ignoring</p>
+          <p>Decisions get made on incomplete information. Outliers get treated as representative. Resources flow to noise. Actual signal gets buried.</p>
+      </div>
+    </div>
+    <div class="fm-section">
+      <h3>Trigger Signals</h3>
+      <div class="fm-body">
+          <ul class="signal-list">
+            <li>Results presented without baseline comparisons</li>
+            <li>Rate and volume absent from reporting</li>
+            <li>Exceptions framed as standard performance</li>
+            <li>"Impressive" results lack supporting context</li>
+          </ul>
+          <p>## Why It Persists</p>
+          <p>Context requires work to gather and courage to present. Headlines are easier to celebrate. The incentive is to present clean, not complete.</p>
+          <p>## Common Misdiagnosis</p>
+          <ul class="signal-list">
+            <li>"The results speak for themselves"</li>
+            <li>"We don't need to over-explain"</li>
+            <li>"Leadership wants the headline"</li>
+            <li>"Adding context makes it look like excuses"</li>
+          </ul>
+          <p>## Cost of Ignoring</p>
+          <p>Decisions get made on incomplete information. Outliers get treated as representative. Resources flow to noise. Actual signal gets buried.</p>
+      </div>
+    </div>
+    <div class="fm-section">
+      <h3>Why It Persists</h3>
+      <div class="fm-body">
+          <p>Context requires work to gather and courage to present. Headlines are easier to celebrate. The incentive is to present clean, not complete.</p>
+          <p>## Common Misdiagnosis</p>
+          <ul class="signal-list">
+            <li>"The results speak for themselves"</li>
+            <li>"We don't need to over-explain"</li>
+            <li>"Leadership wants the headline"</li>
+            <li>"Adding context makes it look like excuses"</li>
+          </ul>
+          <p>## Cost of Ignoring</p>
+          <p>Decisions get made on incomplete information. Outliers get treated as representative. Resources flow to noise. Actual signal gets buried.</p>
+      </div>
+    </div>
+    <div class="fm-section">
+      <h3>Reality</h3>
+      <div class="fm-body">
+          <p>Results are presented without the context needed to interpret them. Rate, volume, and baseline comparisons are absent. Exceptions look like standard performance because the frame is missing.</p>
+          <p>## What It Looks Like In the Wild</p>
+          <p>Results presented without supporting contextâ€”rate, volume, baseline comparisonsâ€”appear more significant than warranted. The absence of required metrics allows exceptions to be treated as standard performance.</p>
+          <p>## Trigger Signals</p>
+          <ul class="signal-list">
+            <li>Results presented without baseline comparisons</li>
+            <li>Rate and volume absent from reporting</li>
+            <li>Exceptions framed as standard performance</li>
+            <li>"Impressive" results lack supporting context</li>
+          </ul>
+          <p>## Why It Persists</p>
+          <p>Context requires work to gather and courage to present. Headlines are easier to celebrate. The incentive is to present clean, not complete.</p>
+          <p>## Common Misdiagnosis</p>
+          <ul class="signal-list">
+            <li>"The results speak for themselves"</li>
+            <li>"We don't need to over-explain"</li>
+            <li>"Leadership wants the headline"</li>
+            <li>"Adding context makes it look like excuses"</li>
+          </ul>
+          <p>## Cost of Ignoring</p>
+          <p>Decisions get made on incomplete information. Outliers get treated as representative. Resources flow to noise. Actual signal gets buried.</p>
+      </div>
+    </div>
+    <div class="fm-section">
+      <h3>Common Misdiagnosis</h3>
+      <div class="fm-body">
+          <ul class="signal-list">
+            <li>"The results speak for themselves"</li>
+            <li>"We don't need to over-explain"</li>
+            <li>"Leadership wants the headline"</li>
+            <li>"Adding context makes it look like excuses"</li>
+          </ul>
+          <p>## Cost of Ignoring</p>
+          <p>Decisions get made on incomplete information. Outliers get treated as representative. Resources flow to noise. Actual signal gets buried.</p>
+      </div>
+    </div>
+    <div class="fm-section">
+      <h3>Cost of Ignoring</h3>
+      <div class="fm-body">
+          <p>Decisions get made on incomplete information. Outliers get treated as representative. Resources flow to noise. Actual signal gets buried.</p>
+      </div>
+    </div>
+
+    
+
+    <div class="diagnostic-note">
+      A functional field note. Observational, not prescriptive. · DRI™ Coherence Taxonomy
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-l">© 2026 Decision & Responsibility Infrastructure™</div>
+    <div class="footer-r">
+      <a href="/">DRI Practice</a> ·
+      <a href="https://justingreenbaum.com" target="_blank">Founder</a> ·
+      <a href="https://greenbaumlabs.com" target="_blank">Labs</a>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
