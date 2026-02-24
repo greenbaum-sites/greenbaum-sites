@@ -1,0 +1,983 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Coherence · Lens 02</title>
+  <meta name="description" content="Drag to examine what your customer actually experiences.">
+
+  <!-- OG -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="DRI™ | Coherence · Lens 02 · The Customer">
+  <meta property="og:description" content="Drag to examine what your customer actually experiences.">
+  <meta property="og:image" content="/lens/02/images/og-image.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- Preload critical images -->
+  <link rel="preload" href="/lens/02/images/narrative.avif" as="image" type="image/avif">
+  <link rel="preload" href="/lens/02/images/structure.avif" as="image" type="image/avif">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg: #0d0d0d;
+      --gold: #c9a84c;
+      --gold-dim: rgba(201, 168, 76, 0.25);
+      --gold-glow: rgba(201, 168, 76, 0.12);
+      --text-primary: #e8e4dc;
+      --text-warm: #d4cfc6;
+      --text-cold: #b8b4ad;
+      --text-dim: #4a4744;
+      --text-muted: #5a5652;
+      --img-narrative-opacity: 0.08;
+      --img-structure-opacity: 0.10;
+      --img-structure-opacity-full: 0.14;
+      --grain-opacity: 0.04;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: 'Cormorant Garamond', serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    /* ========== GRAIN ========== */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      pointer-events: none;
+      background-image: var(--grain-bg, url('images/grain.png'));
+      background-repeat: repeat;
+      background-size: 512px 512px;
+      mix-blend-mode: overlay;
+      opacity: var(--grain-opacity);
+    }
+
+    /* ========== HEADER ========== */
+    .header {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 2.2rem 2rem 0;
+      pointer-events: none;
+    }
+
+    .header-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 300;
+      letter-spacing: 0.22em;
+      padding-left: 0.22em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0;
+      animation: softIn 1.4s ease 0.5s forwards;
+    }
+
+    /* ========== CAROUSEL ========== */
+    .carousel {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    .card {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+      will-change: transform;
+    }
+
+    /* ========== PROMPT ========== */
+    .prompt {
+      margin-top: 2rem;
+      text-align: center;
+      z-index: 90;
+      transition: opacity 1.2s ease;
+    }
+
+    .card:first-child .prompt {
+      opacity: 0;
+      animation: softIn 1.4s ease 2.8s forwards;
+    }
+
+    .card:not(:first-child) .prompt {
+      opacity: 1;
+    }
+
+    .prompt.hidden {
+      opacity: 0 !important;
+      animation: none;
+    }
+
+    .prompt-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--gold);
+      border: 1px solid var(--gold-dim);
+      border-radius: 100px;
+      padding: 0.7em 1.8em;
+      background: rgba(13, 13, 13, 0.6);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      cursor: ew-resize;
+      transition: border-color 0.4s ease, color 0.4s ease;
+    }
+
+    .prompt-button:hover {
+      border-color: var(--gold);
+      color: #dfc06a;
+    }
+
+    .prompt-arrow {
+      display: inline-block;
+      font-size: 0.75rem;
+      opacity: 0.7;
+      animation: nudge 2s ease-in-out infinite;
+    }
+
+    @keyframes nudge {
+      0%, 100% { transform: translateX(0); }
+      50% { transform: translateX(4px); }
+    }
+
+    /* ========== LAYERS ========== */
+    .layer {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 5rem 4rem;
+    }
+
+    .layer-content {
+      max-width: 560px;
+      text-align: center;
+      position: absolute;
+      top: 34%;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+    }
+
+    .layer-headline {
+      font-weight: 400;
+      font-size: clamp(1.5rem, 3.2vw, 2.6rem);
+      line-height: 1.35;
+      margin-bottom: 1.5rem;
+    }
+
+    .layer-body {
+      font-weight: 300;
+      font-size: clamp(1rem, 1.3vw, 1.08rem);
+      line-height: 1.85;
+    }
+
+    /* ---- Narrative ---- */
+    .layer-narrative {
+      z-index: 1;
+      transition: opacity 0.8s ease;
+    }
+
+    .layer-narrative::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: var(--narrative-bg);
+      background-size: cover;
+      background-position: center;
+      opacity: var(--img-narrative-opacity);
+      transition: opacity 0.8s ease;
+    }
+
+    .layer-narrative::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      background: radial-gradient(
+        ellipse at center,
+        rgba(13, 13, 13, 0.4) 0%,
+        rgba(13, 13, 13, 0.65) 50%,
+        rgba(13, 13, 13, 0.9) 100%
+      );
+    }
+
+    .layer-narrative .layer-headline { color: var(--text-primary); }
+    .layer-narrative .layer-body { color: var(--text-cold); }
+
+    .card:first-child .layer-narrative .layer-headline {
+      opacity: 0;
+      animation: softIn 1s ease 2s forwards;
+    }
+    .card:first-child .layer-narrative .layer-body {
+      opacity: 0;
+      animation: softIn 1s ease 2.4s forwards;
+    }
+
+    /* ---- Structure ---- */
+    .layer-structure {
+      z-index: 2;
+      clip-path: inset(0 85% 0 0);
+      background: var(--bg);
+    }
+
+    .layer-structure::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      background-image: var(--structure-bg);
+      background-size: cover;
+      background-position: center;
+      opacity: var(--live-structure-opacity, 0.22);
+      transition: opacity 0.6s ease;
+    }
+
+    .layer-structure::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 1px;
+      height: 100%;
+      z-index: 1;
+      background: rgba(201, 168, 76, 0.1);
+    }
+
+    .layer-structure .layer-headline { color: var(--text-primary); }
+    .layer-structure .layer-body { color: var(--text-cold); }
+
+    /* ========== HANDLE ========== */
+    .handle {
+      position: absolute;
+      top: 0; bottom: 0;
+      width: 44px;
+      left: calc(15% - 22px);
+      z-index: 50;
+      cursor: ew-resize;
+      touch-action: none;
+    }
+
+    .card:first-child .handle {
+      opacity: 0;
+      animation: handleIn 0.8s ease 3s forwards;
+    }
+
+    .handle-line {
+      position: absolute;
+      top: 0; left: 50%;
+      transform: translateX(-50%);
+      width: 1px;
+      height: 100%;
+      background: var(--gold);
+      opacity: 0.25;
+      transition: opacity 0.4s ease;
+    }
+
+    .handle:hover .handle-line,
+    .handle.active .handle-line { opacity: 0.55; }
+
+    .handle-grip {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      width: 11px; height: 11px;
+      border-radius: 50%;
+      border: 1px solid var(--gold);
+      background: var(--bg);
+      opacity: 0.6;
+      transition: all 0.35s ease;
+    }
+
+    .handle:hover .handle-grip,
+    .handle.active .handle-grip {
+      width: 15px; height: 15px;
+      opacity: 1;
+      box-shadow: 0 0 20px var(--gold-glow);
+    }
+
+    /* ========== FM LABEL ========== */
+    .fm-label {
+      position: absolute;
+      bottom: 2.8rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 60;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 1s ease;
+      pointer-events: none;
+      white-space: nowrap;
+    }
+
+    .fm-label.visible { opacity: 1; }
+
+    .fm-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 400;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 0.75rem;
+    }
+
+    .fm-line {
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(0.85rem, 1.15vw, 0.95rem);
+      color: var(--text-muted);
+      line-height: 1.65;
+      white-space: normal;
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    /* ========== CAROUSEL NAV ========== */
+    .carousel-nav {
+      position: fixed;
+      bottom: 0.6rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 80;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    .carousel-arrow {
+      background: none;
+      border: 1px solid var(--gold-dim);
+      border-radius: 50%;
+      width: 24px; height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: opacity 0.3s, border-color 0.3s;
+      padding: 0;
+    }
+
+    .carousel-arrow:hover {
+      opacity: 1;
+      border-color: var(--gold);
+    }
+
+    .carousel-arrow:disabled {
+      opacity: 0.1;
+      cursor: default;
+      pointer-events: none;
+    }
+
+    .carousel-dots {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .carousel-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+      background: var(--text-dim);
+      border: none;
+      padding: 0;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.3s;
+    }
+
+    .carousel-dot.active {
+      background: var(--gold);
+      transform: scale(1.4);
+    }
+
+    /* ========== FOOTER ========== */
+    .footer-right {
+      position: fixed;
+      bottom: 1.5rem; right: 2rem;
+      z-index: 60;
+      opacity: 0;
+      transition: opacity 0.8s ease;
+      pointer-events: none;
+    }
+
+    .footer-right.visible {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .footer-left {
+      position: fixed;
+      bottom: 1.5rem; left: 2rem;
+      z-index: 60;
+      opacity: 0;
+      animation: softIn 1s ease 4s forwards;
+    }
+
+    .footer-mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.45rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-mono:hover { color: var(--gold); }
+
+    /* ========== CLOSING STATEMENT ========== */
+    .closing-statement {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      text-align: center;
+      background: var(--bg);
+      will-change: transform;
+    }
+
+    .closing-line {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: clamp(0.8rem, 1.1vw, 0.95rem);
+      line-height: 1.8;
+      color: var(--gold);
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .closing-line + .closing-line {
+      margin-top: 1.2rem;
+    }
+
+    /* ========== KEYFRAMES ========== */
+    @keyframes softIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes handleIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+
+    /* ========== REDUCED MOTION ========== */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+      .layer-structure { clip-path: none !important; }
+      .layer-narrative { clip-path: none !important; }
+      .handle { display: none; }
+      .layer-narrative { width: 50%; position: absolute; right: 50%; }
+      .layer-structure { width: 50%; position: absolute; left: 50%; }
+      .fm-label { opacity: 1 !important; }
+    }
+
+    /* ========== SMALL DESKTOP ========== */
+    @media (max-height: 700px) {
+      .layer-content { top: 30%; }
+      .fm-label { bottom: 1.5rem; }
+      .fm-line { font-size: 0.75rem; }
+      .footer-left, .footer-right { bottom: 0.5rem; }
+      .carousel-nav { bottom: 0.2rem; }
+    }
+
+    /* ========== MOBILE ========== */
+    @media (max-width: 768px) {
+      .layer { padding: 0; }
+      .layer-content {
+        max-width: 85%;
+        top: 14%;
+        bottom: 6rem;
+        overflow-y: auto;
+        overscroll-behavior: contain;
+        -webkit-overflow-scrolling: touch;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+      .layer-headline { font-size: 1.25rem; margin-bottom: 0.6rem; }
+      .layer-body { font-size: 0.88rem; line-height: 1.55; }
+      .prompt-button { font-size: 0.5rem; padding: 0.6em 1.4em; }
+      .prompt { margin-top: 1rem; }
+      .handle { width: 54px; }
+      .handle-grip { width: 16px; height: 16px; }
+      .fm-label {
+        bottom: 4rem;
+        padding: 0 1.5rem;
+        white-space: normal;
+      }
+      .fm-code { font-size: 0.45rem; }
+      .fm-line { font-size: 0.72rem; line-height: 1.4; }
+      .footer-left, .footer-right { bottom: 0.6rem; }
+      .header { padding: 1.5rem 1.5rem 0; }
+      .header-label { font-size: 0.45rem; }
+      .carousel-nav { bottom: 0.3rem; }
+      .carousel-arrow { width: 28px; height: 28px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="header">
+    <span class="header-label">DRI&trade; | Coherence &middot; Lens 02 &middot; The Customer</span>
+  </header>
+
+  <main class="carousel" id="carousel">
+
+    <!-- Card 1: FM-01 — Responsibility Compression -->
+    <section class="card" data-index="0">
+      <div class="layer layer-narrative">
+        <div class="layer-content">
+          <h1 class="layer-headline">&ldquo;We put the customer first.&rdquo;</h1>
+          <p class="layer-body">Every support agent is trained to resolve issues. We measure satisfaction. We invest in the customer experience. Our people care.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-structure">
+        <div class="layer-content">
+          <h1 class="layer-headline">The person your customer reaches knows the fix. They can&rsquo;t authorize it.</h1>
+          <p class="layer-body">The agent takes the call. They know what&rsquo;s wrong. They know what would fix it. But the refund needs a manager. The exception needs a policy review. The real fix needs a product change that&rsquo;s not on the roadmap. Your customer hears &ldquo;let me check on that&rdquo; and feels forgotten.</p>
+        </div>
+      </div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-01 &middot; Responsibility Compression at the Edge</div>
+        <p class="fm-line">The customer experiences a structural gap as a service failure. They&rsquo;re not wrong.</p>
+      </div>
+    </section>
+
+    <!-- Card 2: FM-07 — Coordination Decay -->
+    <section class="card" data-index="1">
+      <div class="layer layer-narrative">
+        <div class="layer-content">
+          <h1 class="layer-headline">&ldquo;We deliver a seamless customer experience.&rdquo;</h1>
+          <p class="layer-body">Our teams are aligned around the customer journey. Marketing, product, support, and success all work together. We meet weekly to stay coordinated.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-structure">
+        <div class="layer-content">
+          <h1 class="layer-headline">Every team did their part. Your customer still fell through the cracks.</h1>
+          <p class="layer-body">They bought through marketing&rsquo;s promise. Onboarded through product&rsquo;s design. Hit a wall in support&rsquo;s queue. Churned before success could reach them. Each team hit their own numbers. Nobody owned what happened between teams. Your customer didn&rsquo;t experience six teams. They experienced one company that felt like six.</p>
+        </div>
+      </div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-07 &middot; Coordination Decay</div>
+        <p class="fm-line">If no one owns the handoff, the customer lives in the gap.</p>
+      </div>
+    </section>
+
+    <!-- Card 3: FM-04 — Metric Shadowing -->
+    <section class="card" data-index="2">
+      <div class="layer layer-narrative">
+        <div class="layer-content">
+          <h1 class="layer-headline">&ldquo;Our customer metrics are strong.&rdquo;</h1>
+          <p class="layer-body">CSAT is trending up. First response time is down. NPS is above industry benchmark. The team is delivering on every KPI we track.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-structure">
+        <div class="layer-content">
+          <h1 class="layer-headline">The scores improved. The experience didn&rsquo;t.</h1>
+          <p class="layer-body">CSAT went up because you changed when the survey fires &mdash; right after resolution, before the customer lives with the answer. First response time dropped because the first response is a template, not a solution. Detractors stopped filling out surveys. The metrics are real. What they measure is not what your customer feels.</p>
+        </div>
+      </div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-04 &middot; Metric Shadowing</div>
+        <p class="fm-line">When you optimize the score instead of the outcome, the gap migrates to the customer.</p>
+      </div>
+    </section>
+
+    <!-- Card 4: FM-05 — Normalized Workarounds -->
+    <section class="card" data-index="3">
+      <div class="layer layer-narrative">
+        <div class="layer-content">
+          <h1 class="layer-headline">&ldquo;Our support team is incredibly resourceful.&rdquo;</h1>
+          <p class="layer-body">When the system doesn&rsquo;t cover an edge case, our people find a way. We&rsquo;re proud of agents who go above and beyond to solve problems creatively.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-structure">
+        <div class="layer-content">
+          <h1 class="layer-headline">Your best agent has a system nobody else can see.</h1>
+          <p class="layer-body">She built a way to handle the cases the tool can&rsquo;t. A personal spreadsheet. A sequence of steps she figured out herself. When she&rsquo;s out sick, the queue backs up and nobody knows why. Her workaround keeps things running. It lives in her head, not in your system. When she leaves, it leaves too.</p>
+        </div>
+      </div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-05 &middot; Normalized Workarounds</div>
+        <p class="fm-line">If the customer experience depends on one person&rsquo;s memory, it&rsquo;s not a process. It&rsquo;s a single point of failure.</p>
+      </div>
+    </section>
+
+    <!-- Card 5: FM-17 — Structural Amnesia -->
+    <section class="card" data-index="4">
+      <div class="layer layer-narrative">
+        <div class="layer-content">
+          <h1 class="layer-headline">&ldquo;We learn from every customer interaction.&rdquo;</h1>
+          <p class="layer-body">Feedback loops are in place. We do post-mortems after escalations. Voice of customer reports go to leadership monthly. We listen and we improve.</p>
+          <div class="prompt">
+            <div class="prompt-button">
+              <span>Drag to examine</span>
+              <span class="prompt-arrow">&#8594;</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="layer layer-structure">
+        <div class="layer-content">
+          <h1 class="layer-headline">Your customer reported this eighteen months ago. The system forgot.</h1>
+          <p class="layer-body">The complaint was filed. The ticket was closed. The root cause was never fixed because the system records what happened without recording why. Now the same problem is back. The organization treats it as new. Your customer doesn&rsquo;t. They remember. They just stopped believing you would.</p>
+        </div>
+      </div>
+      <div class="handle" role="slider" aria-label="Reveal structural reality" aria-valuenow="15" aria-valuemin="0" aria-valuemax="100" tabindex="0">
+        <div class="handle-line"></div>
+        <div class="handle-grip"></div>
+      </div>
+      <div class="fm-label">
+        <div class="fm-code">FM-17 &middot; Structural Amnesia</div>
+        <p class="fm-line">The system forgets what the customer cannot.</p>
+      </div>
+    </section>
+
+    <!-- Closing Statement -->
+    <section class="card closing-statement" data-index="5">
+      <p class="closing-line">Every lens sees the same system. Shared language is how the system starts to learn.</p>
+      <p class="closing-line">These aren&rsquo;t failures of people. They&rsquo;re the physics of organizations operating at scale and speed.</p>
+    </section>
+
+  </main>
+
+  <!-- Carousel Navigation -->
+  <nav class="carousel-nav" aria-label="FM card navigation">
+    <button class="carousel-arrow carousel-prev" aria-label="Previous card" disabled>&#8249;</button>
+    <div class="carousel-dots">
+      <button class="carousel-dot active" data-index="0" aria-label="Card 1"></button>
+      <button class="carousel-dot" data-index="1" aria-label="Card 2"></button>
+      <button class="carousel-dot" data-index="2" aria-label="Card 3"></button>
+      <button class="carousel-dot" data-index="3" aria-label="Card 4"></button>
+      <button class="carousel-dot" data-index="4" aria-label="Card 5"></button>
+      <button class="carousel-dot" data-index="5" aria-label="Closing"></button>
+    </div>
+    <button class="carousel-arrow carousel-next" aria-label="Next card">&#8250;</button>
+  </nav>
+
+  <!-- Footer -->
+  <div class="footer-right" id="footerRight">
+    <a class="footer-mono" href="/lens/03">Explore the executive lens &rarr;</a>
+  </div>
+
+  <div class="footer-left">
+    <a class="footer-mono" href="https://greenbaumlabs.com">greenbaumlabs</a>
+  </div>
+
+  <script>
+    (function () {
+      'use strict';
+
+      // ---- Image format detection ----
+      var avifTest = new Image();
+      avifTest.onload = function () { applyBackgrounds('avif'); };
+      avifTest.onerror = function () { applyBackgrounds('webp'); };
+      avifTest.src = 'data:image/avif;base64,AAAAIGZ0eXBhdmlmAAAAAGF2aWZtaWYxbWlhZk1BMUEAAADybWV0YQAAAAAAAAAoaGRscgAAAAAAAAAAcGljdAAAAAAAAAAAAAAAAGxpYmF2aWYAAAAADnBpdG0AAAAAAAEAAAAeaWxvYwAAAABEAAABAAEAAAABAAABGgAAABoAAAAoaWluZgAAAAAAAQAAABppbmZlAgAAAAABAABhdjAxQ29sb3IAAAAAamlwcnAAAABLanAyaAAAAAAAAgABAACAAAABQAAAAAAAAAAAAAAAAAAAAAAeaXBtYQAAAAAAAAABAAEEAQKDBAAAARptZGF0EgAKBzgABhAQ0EkA';
+
+      function applyBackgrounds(format) {
+        var ext = format === 'avif' ? 'avif' : 'webp';
+        var base = window.location.pathname.replace(/\/?$/, '/');
+        var root = document.documentElement.style;
+        root.setProperty('--narrative-bg', 'url(' + base + 'images/narrative.' + ext + ')');
+        root.setProperty('--structure-bg', 'url(' + base + 'images/structure.' + ext + ')');
+        root.setProperty('--grain-bg', 'url(' + base + 'images/grain.png)');
+      }
+
+      // ---- Carousel state ----
+      var currentIndex = 0;
+      var cardEls = document.querySelectorAll('.card');
+      var totalCards = cardEls.length;
+      var dots = document.querySelectorAll('.carousel-dot');
+      var prevBtn = document.querySelector('.carousel-prev');
+      var nextBtn = document.querySelector('.carousel-next');
+      var footerR = document.getElementById('footerRight');
+
+      // ---- Per-card slider state ----
+      var sliders = [];
+      for (var i = 0; i < cardEls.length; i++) {
+        (function (idx) {
+          var card = cardEls[idx];
+          var h = card.querySelector('.handle');
+          if (!h) return;
+          sliders.push({
+            el: card,
+            handle: h,
+            structure: card.querySelector('.layer-structure'),
+            narrative: card.querySelector('.layer-narrative'),
+            fmLabel: card.querySelector('.fm-label'),
+            prompt: card.querySelector('.prompt'),
+            promptBtn: card.querySelector('.prompt-button'),
+            pct: 15,
+            dragging: false,
+            startX: 0,
+            startPct: 0,
+            touched: false,
+            halfHandle: h.getBoundingClientRect().width / 2
+          });
+        })(i);
+      }
+
+      // ---- Card positioning ----
+      function positionCards(animate) {
+        for (var i = 0; i < totalCards; i++) {
+          var el = cardEls[i];
+          var offset = (i - currentIndex) * 100;
+          el.style.transition = animate
+            ? 'transform 0.5s cubic-bezier(0.4, 0, 0.2, 1)'
+            : 'none';
+          el.style.transform = 'translateX(' + offset + '%)';
+          el.style.pointerEvents = (i === currentIndex) ? 'auto' : 'none';
+          if (sliders[i]) sliders[i].handle.setAttribute('tabindex', i === currentIndex ? '0' : '-1');
+        }
+        for (var j = 0; j < dots.length; j++) {
+          if (j === currentIndex) dots[j].classList.add('active');
+          else dots[j].classList.remove('active');
+        }
+        prevBtn.disabled = (currentIndex === 0);
+        nextBtn.disabled = (currentIndex === totalCards - 1);
+        updateFooterRight();
+      }
+
+      function goToCard(index) {
+        if (index < 0 || index >= totalCards || index === currentIndex) return;
+        currentIndex = index;
+        positionCards(true);
+      }
+
+      // ---- Slider position logic ----
+      function setSliderPosition(s, p) {
+        s.pct = Math.max(0, Math.min(100, p));
+        var px = (s.pct / 100) * window.innerWidth;
+
+        s.handle.style.left = (px - s.halfHandle) + 'px';
+        s.structure.style.clipPath = 'inset(0 ' + (100 - s.pct) + '% 0 0)';
+        s.narrative.style.clipPath = 'inset(0 0 0 ' + s.pct + '%)';
+
+        var rounded = Math.round(s.pct);
+        s.handle.setAttribute('aria-valuenow', rounded);
+        s.handle.setAttribute('aria-valuetext', 'Structural view revealed: ' + rounded + '%');
+
+        // Narrative credibility fade at 65%
+        if (s.pct > 65) {
+          s.narrative.style.opacity = 1 - ((s.pct - 65) / 35) * 0.12;
+        } else {
+          s.narrative.style.opacity = 1;
+        }
+
+        // Structure opacity ramp
+        s.structure.style.setProperty('--live-structure-opacity', 0.10 + (s.pct / 100) * 0.04);
+
+        // FM label at >62%
+        if (s.pct > 62) s.fmLabel.classList.add('visible');
+        else s.fmLabel.classList.remove('visible');
+
+        updateFooterRight();
+      }
+
+      function updateFooterRight() {
+        if (currentIndex >= sliders.length) { footerR.classList.add('visible'); return; }
+        var active = sliders[currentIndex];
+        if (active.pct > 80) footerR.classList.add('visible');
+        else footerR.classList.remove('visible');
+      }
+
+      function firstTouch(s) {
+        if (!s.touched) {
+          s.touched = true;
+          s.prompt.classList.add('hidden');
+        }
+      }
+
+      // ---- Per-card event binding ----
+      for (var i = 0; i < sliders.length; i++) {
+        (function (s) {
+          s.handle.addEventListener('pointerdown', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+            s.handle.setPointerCapture(e.pointerId);
+            s.dragging = true;
+            s.startX = e.clientX;
+            s.startPct = s.pct;
+            s.handle.classList.add('active');
+            firstTouch(s);
+          });
+
+          if (s.promptBtn) {
+            s.promptBtn.addEventListener('click', function (e) {
+              e.stopPropagation();
+              firstTouch(s);
+              setSliderPosition(s, 50);
+            });
+          }
+
+          s.handle.addEventListener('keydown', function (e) {
+            var n = s.pct;
+            switch (e.key) {
+              case 'ArrowRight': n += 5; break;
+              case 'ArrowLeft':  n -= 5; break;
+              case 'PageDown':   n += 20; break;
+              case 'PageUp':     n -= 20; break;
+              case 'End':        n = 100; break;
+              case 'Home':       n = 0; break;
+              default: return;
+            }
+            e.preventDefault();
+            firstTouch(s);
+            setSliderPosition(s, n);
+          });
+        })(sliders[i]);
+      }
+
+      // ---- Global pointer events for slider drag ----
+      document.addEventListener('pointermove', function (e) {
+        for (var i = 0; i < sliders.length; i++) {
+          if (!sliders[i].dragging) continue;
+          e.preventDefault();
+          var dx = e.clientX - sliders[i].startX;
+          setSliderPosition(sliders[i], sliders[i].startPct + (dx / window.innerWidth) * 100);
+          return;
+        }
+      });
+
+      document.addEventListener('pointerup', function () {
+        for (var i = 0; i < sliders.length; i++) {
+          if (sliders[i].dragging) {
+            sliders[i].dragging = false;
+            sliders[i].handle.classList.remove('active');
+          }
+        }
+      });
+
+      // ---- Swipe detection for carousel ----
+      var swipeStartX = 0;
+      var swipeStartY = 0;
+      var swiping = false;
+
+      document.addEventListener('pointerdown', function (e) {
+        if (e.target.closest('.handle') || e.target.closest('.carousel-nav') || e.target.closest('.prompt-button')) return;
+        swipeStartX = e.clientX;
+        swipeStartY = e.clientY;
+        swiping = true;
+      });
+
+      document.addEventListener('pointerup', function (e) {
+        if (!swiping) return;
+        swiping = false;
+        var dx = e.clientX - swipeStartX;
+        var dy = e.clientY - swipeStartY;
+        if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+          if (dx < 0) goToCard(currentIndex + 1);
+          else goToCard(currentIndex - 1);
+        }
+      });
+
+      // ---- Carousel controls ----
+      prevBtn.addEventListener('click', function () { goToCard(currentIndex - 1); });
+      nextBtn.addEventListener('click', function () { goToCard(currentIndex + 1); });
+
+      for (var d = 0; d < dots.length; d++) {
+        dots[d].addEventListener('click', function () {
+          goToCard(parseInt(this.getAttribute('data-index')));
+        });
+      }
+
+      // ---- Resize ----
+      window.addEventListener('resize', function () {
+        for (var i = 0; i < sliders.length; i++) {
+          sliders[i].halfHandle = sliders[i].handle.getBoundingClientRect().width / 2;
+          setSliderPosition(sliders[i], sliders[i].pct);
+        }
+        positionCards(false);
+      });
+
+      // ---- Init ----
+      positionCards(false);
+      for (var i = 0; i < sliders.length; i++) {
+        setSliderPosition(sliders[i], 15);
+      }
+    })();
+  </script>
+
+</body>
+</html>

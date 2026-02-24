@@ -1,0 +1,1312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Favicons -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+    <title>Regression Watch | DRI Practice</title>
+  <meta name="description" content="Monitor diagnostic scores for regression patterns.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Regression Watch | DRI Practice">
+  <meta property="og:description" content="Monitor diagnostic scores for regression patterns.">
+  <meta property="og:image" content="https://dripractice.com/og-dripractice.png">
+  <meta property="og:url" content="https://dripractice.com/tools/regression-watch">
+  <meta property="og:type" content="website">
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Regression Watch | DRI Practice">
+  <meta name="twitter:description" content="Monitor diagnostic scores for regression patterns.">
+  <meta name="twitter:image" content="https://dripractice.com/og-dripractice.png">
+
+  <style>
+        @font-face {
+            font-family: 'GL Serif';
+            src: local('Cormorant Garamond'), local('Georgia'), local('Times New Roman');
+        }
+        @font-face {
+            font-family: 'GL Mono';
+            src: local('JetBrains Mono'), local('Fira Code'), local('Consolas'), local('Monaco');
+        }
+        @font-face {
+            font-family: 'GL Sans';
+            src: local('Instrument Sans'), local('Inter'), local('-apple-system'), local('BlinkMacSystemFont');
+        }
+
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-tertiary: #1a1a1a;
+            --bg-card: #141414;
+            --border-subtle: #222222;
+            --border-active: #333333;
+            --text-primary: #f5f5f5;
+            --text-secondary: #a0a0a0;
+            --text-muted: #666666;
+            
+            --continuity-slate: #5a6a7a;
+            --continuity-slate-dim: rgba(90, 106, 122, 0.2);
+            --signal-blue: #4a90d9;
+            --failure-orange: #d97b4a;
+            --recovery-olive: #6b7b4a;
+            
+            --drift-amber: #d4a04a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'GL Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%' height='100%' filter='url(%23noise)'/%3E%3C/svg%3E");
+            opacity: 0.03;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 2rem 0 3rem;
+            border-bottom: 1px solid var(--border-subtle);
+            margin-bottom: 2rem;
+        }
+
+        .header-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .header h1 {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 2.5rem;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .continuity-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            padding: 0.4rem 0.8rem;
+            background: var(--continuity-slate-dim);
+            border: 1px solid var(--continuity-slate);
+            border-radius: 2px;
+            color: var(--continuity-slate);
+        }
+
+        /* Panels */
+        .panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .panel-header {
+            padding: 0.75rem 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .panel-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-secondary);
+        }
+
+        .panel-body {
+            padding: 1.25rem;
+        }
+
+        /* Form Styles */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.35rem;
+            font-family: 'GL Mono', monospace;
+            letter-spacing: 0.05em;
+        }
+
+        .form-label .optional {
+            color: var(--text-muted);
+        }
+
+        .form-input,
+        .form-textarea {
+            width: 100%;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 2px;
+            padding: 0.6rem 0.75rem;
+            font-family: 'GL Sans', sans-serif;
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--continuity-slate);
+        }
+
+        .form-textarea {
+            min-height: 180px;
+            resize: vertical;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.7rem 1.25rem;
+            border: none;
+            border-radius: 2px;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background: var(--continuity-slate);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            filter: brightness(1.15);
+        }
+
+        .btn-primary:disabled {
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .btn-secondary:hover {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        /* File Upload */
+        .file-upload {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+        }
+
+        .file-upload-input {
+            position: absolute;
+            left: 0;
+            top: 0;
+            opacity: 0;
+            width: 100%;
+            height: 100%;
+            cursor: pointer;
+        }
+
+        .file-upload-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 1.5rem;
+            background: var(--bg-secondary);
+            border: 2px dashed var(--border-subtle);
+            border-radius: 4px;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+            transition: all 0.2s ease;
+            cursor: pointer;
+        }
+
+        .file-upload-label:hover {
+            border-color: var(--continuity-slate);
+            color: var(--text-secondary);
+        }
+
+        .file-upload.loaded .file-upload-label {
+            border-color: var(--recovery-olive);
+            border-style: solid;
+            color: var(--recovery-olive);
+        }
+
+        /* Baseline Info */
+        .baseline-info {
+            display: none;
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            border-left: 3px solid var(--recovery-olive);
+        }
+
+        .baseline-info.visible {
+            display: block;
+        }
+
+        .baseline-info-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.35rem;
+            font-size: 0.8rem;
+        }
+
+        .baseline-info-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .baseline-info-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            min-width: 100px;
+        }
+
+        .baseline-info-value {
+            color: var(--text-primary);
+        }
+
+        /* Drift Indicator */
+        .drift-block {
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+
+        .drift-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .drift-position {
+            flex: 1;
+            text-align: center;
+            padding: 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+        }
+
+        .drift-position-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .drift-position-value {
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .drift-arrow {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+        }
+
+        .drift-status {
+            margin-top: 0.75rem;
+            text-align: center;
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            padding: 0.4rem 0.75rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            display: inline-block;
+        }
+
+        .drift-status.stable {
+            color: var(--recovery-olive);
+            border: 1px solid var(--recovery-olive);
+        }
+
+        .drift-status.drifted {
+            color: var(--drift-amber);
+            border: 1px solid var(--drift-amber);
+        }
+
+        /* Regression Grid */
+        .regression-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .regression-section-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .regression-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+        }
+
+        .regression-column {
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .regression-column-header {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            padding: 0.5rem 0.75rem;
+            background: var(--bg-tertiary);
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        .regression-column-header.reappeared {
+            color: var(--drift-amber);
+        }
+
+        .regression-column-body {
+            padding: 0.5rem;
+            min-height: 60px;
+        }
+
+        .regression-item {
+            padding: 0.4rem 0.5rem;
+            margin-bottom: 0.35rem;
+            background: var(--bg-tertiary);
+            border-radius: 2px;
+            font-size: 0.75rem;
+        }
+
+        .regression-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .regression-item.reappeared {
+            border-left: 2px solid var(--drift-amber);
+        }
+
+        .regression-item-id {
+            font-family: 'GL Mono', monospace;
+            font-weight: 600;
+            font-size: 0.7rem;
+        }
+
+        .regression-item-id.fm { color: var(--failure-orange); }
+        .regression-item-id.ffn { color: var(--signal-blue); }
+
+        .regression-item-detail {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+
+        .regression-empty {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding: 1rem;
+            font-style: italic;
+        }
+
+        /* Summary Stats */
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .summary-stat {
+            text-align: center;
+            padding: 0.5rem;
+        }
+
+        .summary-stat-value {
+            font-family: 'GL Mono', monospace;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        .summary-stat-value.warning {
+            color: var(--drift-amber);
+        }
+
+        .summary-stat-label {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.55rem;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* Hold the Line Record */
+        .hold-line-record {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-subtle);
+            border-radius: 4px;
+        }
+
+        .hold-line-title {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.7rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 0.75rem;
+        }
+
+        .hold-line-content {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            white-space: pre-wrap;
+            background: var(--bg-tertiary);
+            padding: 0.75rem;
+            border-radius: 2px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        /* Export Section */
+        .export-section {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-subtle);
+        }
+
+        /* No Data State */
+        .no-data {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+
+        .no-data-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            opacity: 0.3;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 2rem 0;
+            border-top: 1px solid var(--border-subtle);
+            margin-top: 2rem;
+        }
+
+        .footer-quote {
+            font-family: 'GL Serif', Georgia, serif;
+            font-size: 1.1rem;
+            font-style: italic;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-note {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .footer-version {
+            font-family: 'GL Mono', monospace;
+            font-size: 0.6rem;
+            letter-spacing: 0.1em;
+            color: var(--text-muted);
+            margin-top: 1rem;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 700px) {
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .regression-grid {
+                grid-template-columns: 1fr;
+            }
+            .summary-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-label">DRI Practice</div>
+            <h1>Regression Watch</h1>
+            <p class="header-subtitle">Verification is a moment. Drift is time.</p>
+            <div class="continuity-badge">
+                <span>Continuity Guard</span>
+            </div>
+        </header>
+
+        <!-- Step 1: Load Baseline -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">1. Load Baseline</span>
+            </div>
+            <div class="panel-body">
+                <div class="file-upload" id="fileUpload">
+                    <input type="file" class="file-upload-input" id="baselineFile" accept=".json" onchange="loadBaseline(event)">
+                    <label class="file-upload-label" id="fileUploadLabel">
+                        <span>Drop Verification Record JSON here or click to browse</span>
+                    </label>
+                </div>
+                <div class="baseline-info" id="baselineInfo">
+                    <div class="baseline-info-row">
+                        <span class="baseline-info-label">Case:</span>
+                        <span class="baseline-info-value" id="baselineCaseName">—</span>
+                    </div>
+                    <div class="baseline-info-row">
+                        <span class="baseline-info-label">Scope:</span>
+                        <span class="baseline-info-value" id="baselineScope">—</span>
+                    </div>
+                    <div class="baseline-info-row">
+                        <span class="baseline-info-label">Verified By:</span>
+                        <span class="baseline-info-value" id="baselineVerifiedBy">—</span>
+                    </div>
+                    <div class="baseline-info-row">
+                        <span class="baseline-info-label">Verified Date:</span>
+                        <span class="baseline-info-value" id="baselineVerifiedDate">—</span>
+                    </div>
+                    <div class="baseline-info-row">
+                        <span class="baseline-info-label">After Position:</span>
+                        <span class="baseline-info-value" id="baselinePosition">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2: Current Artifact -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">2. Current Artifact</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label class="form-label">Artifact Date</label>
+                        <input type="date" class="form-input" id="artifactDate">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Context Tag <span class="optional">(optional)</span></label>
+                        <input type="text" class="form-input" id="contextTag" placeholder="e.g., Q1 Check, Team Alpha">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Current State Artifact</label>
+                    <textarea class="form-textarea" id="currentArtifact" placeholder="Paste transcript, email thread, meeting notes, or other text representing the CURRENT system state..."></textarea>
+                </div>
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="analyzeBtn" onclick="runAnalysis()" disabled>Analyze Current State</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3: Regression View -->
+        <div class="panel">
+            <div class="panel-header">
+                <span class="panel-title">3. Regression View</span>
+            </div>
+            <div class="panel-body" id="regressionView">
+                <div class="no-data">
+                    <div class="no-data-icon">◎</div>
+                    <p>Load a baseline and analyze a current artifact to check for regression</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-quote">"Did it stay fixed after the hype died?"</div>
+            <p class="footer-note">This tool surfaces recurrence. It does not assign blame.</p>
+            <p class="footer-note">AR-001: Observes, summarizes, suggests. Does not decide.</p>
+            <div class="footer-version">
+                <span>Regression Watch v0.1</span>
+                <span>2026-02-03</span>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // ============================================
+        // FM DATA (17 Failure Modes)
+        // ============================================
+        const FM_DATA = {
+            "FM-01": { name: "Responsibility Compression", keywords: ["responsibility", "compression", "edge", "burden", "frontline", "absorb", "pushed down", "accountability"], patterns: [/responsibility.{0,20}(compress|accumulate|concentrate)/i, /(edge|frontline).{0,20}(absorb|carry|bear)/i] },
+            "FM-02": { name: "Escalation Inversion", keywords: ["escalation", "inversion", "inverted", "surface", "risk", "discouraged", "costly"], patterns: [/escalat.{0,20}(invert|inverted|costly|discouraged)/i, /(don't|doesn't) escalate.{0,15}(because|due)/i] },
+            "FM-03": { name: "Responsibility Without Authority", keywords: ["responsibility", "authority", "accountability", "decision rights", "resources", "formal"], patterns: [/responsibility.{0,15}without.{0,15}authority/i, /accountable.{0,15}(but|without).{0,15}(authority|decision)/i] },
+            "FM-04": { name: "Metric Shadowing", keywords: ["metric", "shadow", "proxy", "reality", "optimize", "visible", "unmeasured"], patterns: [/metric.{0,15}(shadow|proxy|replace)/i, /(visible|measured).{0,20}(unmeasured|invisible) (cost|risk)/i] },
+            "FM-05": { name: "Normalized Workarounds", keywords: ["workaround", "normalized", "temporary", "permanent", "fix", "exception", "informal"], patterns: [/workaround.{0,15}(normal|permanent|standard)/i, /temporary.{0,15}(became|become|permanent)/i] },
+            "FM-06": { name: "Exception Inflation", keywords: ["exception", "inflation", "expand", "dominant", "edge case", "rule"], patterns: [/exception.{0,15}(inflat|expand|dominant)/i, /edge case.{0,15}(became|become|now) (the )?(norm|standard)/i] },
+            "FM-07": { name: "Coordination Decay", keywords: ["coordination", "decay", "handoff", "fragmented", "ownership", "end-to-end"], patterns: [/coordination.{0,15}(decay|fragment|break)/i, /(no one|nobody) owns.{0,15}end.?to.?end/i] },
+            "FM-08": { name: "Decision Latency", keywords: ["decision", "latency", "delay", "alignment", "permission", "slow"], patterns: [/decision.{0,15}(latency|delay|stall)/i, /alignment.{0,15}(requirement|expand|delay)/i] },
+            "FM-09": { name: "Over-Escalation", keywords: ["over-escalation", "pushed up", "transfer", "accountability", "defensive"], patterns: [/(over.?escalat|pushed up).{0,15}(transfer|avoid|defensive)/i] },
+            "FM-10": { name: "Leadership Saturation", keywords: ["leadership", "saturation", "bottleneck", "senior", "overload", "default"], patterns: [/(leadership|leader).{0,15}(saturat|bottleneck|overload)/i, /senior.{0,15}(default|everything|all)/i] },
+            "FM-11": { name: "Metric Authority Drift", keywords: ["metric", "authority", "drift", "judgment", "indicator", "decision"], patterns: [/metric.{0,15}(replac|drift|authority)/i, /(number|metric).{0,15}(decide|judgment)/i] },
+            "FM-12": { name: "Strategic Myopia", keywords: ["strategic", "myopia", "short-term", "near-term", "visibility", "horizon"], patterns: [/strategic.{0,15}myopia/i, /(short|near).?term.{0,20}(visibility|horizon|blind)/i] },
+            "FM-13": { name: "Capability Atrophy", keywords: ["capability", "atrophy", "decay", "skill", "execute", "knowledge"], patterns: [/capability.{0,15}(atrophy|decay|erode)/i, /(skill|knowledge).{0,15}(lost|decay|erode)/i] },
+            "FM-14": { name: "Narrative Collapse", keywords: ["narrative", "collapse", "story", "meaning", "fragment", "why"], patterns: [/narrative.{0,15}(collapse|fragment|lost)/i, /(shared|common).{0,15}(story|meaning).{0,15}(lost|fragment)/i] },
+            "FM-15": { name: "Trust Exhaustion", keywords: ["trust", "exhaustion", "deplete", "erosion", "belief", "compliance"], patterns: [/trust.{0,15}(exhaust|deplete|erode)/i, /(belief|faith).{0,15}(collapse|gone|lost)/i] },
+            "FM-16": { name: "Process Inflation", keywords: ["process", "inflation", "complexity", "bureaucracy", "overhead"], patterns: [/process.{0,15}(inflat|complexity|overhead)/i, /bureaucra.{0,15}(expand|grow|accumulat)/i] },
+            "FM-17": { name: "Structural Amnesia", keywords: ["structural", "amnesia", "forget", "why", "context", "memory"], patterns: [/structural.{0,15}amnesia/i, /(forgot|forget|lost).{0,15}why.{0,15}(decision|policy)/i] }
+        };
+
+        // ============================================
+        // FFN DATA (21 Field Notes)
+        // ============================================
+        const FFN_DATA = {
+            "FFN-01": { name: "Responsibility Compression", keywords: ["responsibility", "burden", "absorb", "frontline", "edge", "pushed down", "accountability", "ownership", "carrying", "load", "backstop"], patterns: [/falls? (on|to) (me|us)/i, /(I|we) (end up|always) (handling|dealing|absorbing)/i] },
+            "FFN-02": { name: "Interpretive Drift", keywords: ["means", "interpret", "disagree", "meaning", "understand", "clarity", "consensus", "divergent", "defensiveness", "argue"], patterns: [/the data says.{0,20}but/i, /(disagree|different) (on |about )?(what|how) (it|this|that) means/i] },
+            "FFN-03": { name: "Authority Without Commitment", keywords: ["authority", "decision", "defer", "wait", "commitment", "consensus", "scope", "ownership", "stall", "indecision"], patterns: [/let's wait (for|until) (more )?(data|clarity|alignment)/i, /we should.{0,30}but (let's|we need to)/i] },
+            "FFN-04": { name: "Escalation Inversion", keywords: ["escalate", "escalation", "surface", "risk", "upward", "senior", "circulate", "urgent", "weigh in", "hierarchy"], patterns: [/escalate.{0,20}even (when|though)/i, /weigh in.{0,15}without (clear|specific)/i] },
+            "FFN-05": { name: "Escalation Bounceback", keywords: ["return", "bounce", "back", "circulate", "loop", "pass", "redirect", "handling"], patterns: [/thought you were handling/i, /(came|sent|went) back (to|without)/i] },
+            "FFN-06": { name: "Signal Misread", keywords: ["tracking", "code", "category", "mismatch", "capture", "reality", "actual", "log", "record"], patterns: [/(tracking|code|category) (doesn't|don't) (match|reflect|capture)/i] },
+            "FFN-07": { name: "Orphaned Escalation", keywords: ["owner", "ownership", "responsible", "handoff", "queue", "age", "movement", "closure"], patterns: [/who('s| is) responsible for (this|that|closing)/i, /(no one|nobody) owns (the |this )?resolution/i] },
+            "FFN-08": { name: "Authority Fog", keywords: ["unclear", "authority", "approve", "approval", "who can", "permission", "process", "procedure"], patterns: [/(who|unclear who) can approve/i, /(don't|doesn't) know who (can|has) (authority|approval)/i] },
+            "FFN-09": { name: "Shadow Infrastructure", keywords: ["workaround", "bypass", "homegrown", "informal", "shadow", "actual", "really", "unofficial"], patterns: [/(here's |this is )how (we|it) (actually|really)/i, /(ignore|don't follow) (the |that )?(doc|documentation|process)/i] },
+            "FFN-10": { name: "Metric Displacement", keywords: ["metric", "score", "scorecard", "measured", "optimize", "dashboard", "KPI", "unmeasured"], patterns: [/(numbers|metrics|dashboard) (look|looks) (good|fine).{0,15}but/i] },
+            "FFN-11": { name: "Context Gap", keywords: ["context", "baseline", "comparison", "rate", "volume", "without", "missing", "absent"], patterns: [/(results|numbers|data) (without|missing|lacking) (context|baseline|comparison)/i] },
+            "FFN-12": { name: "Authority Without Permission", keywords: ["authority", "permission", "check", "approval", "formal", "paper", "practice", "seek"], patterns: [/(have|has) (the )?authority (but|yet).{0,15}(check|approval|permission)/i] },
+            "FFN-13": { name: "Alignment Creep", keywords: ["alignment", "stakeholder", "loop in", "buy-in", "consensus", "consultation", "include"], patterns: [/loop in (one more|another)/i, /stakeholder (list|requirements).{0,15}(expand|grew|growing)/i] },
+            "FFN-14": { name: "Frozen Recognition", keywords: ["acknowledge", "recognize", "know", "should", "standardize", "problem", "fix", "address"], patterns: [/we (should|need to) (standardize|fix|address) this/i] },
+            "FFN-15": { name: "Permission Cascade", keywords: ["permission", "approval", "boundary", "team", "cross-functional", "handoff", "sign-off"], patterns: [/(need|require) sign.?off from (their|that|another) (side|team)/i] },
+            "FFN-16": { name: "Defensive Escalation", keywords: ["escalate", "defensive", "cover", "blame", "protect", "document", "CYA", "visibility"], patterns: [/(escalat|push).{0,15}(avoid|transfer|shift).{0,15}(blame|accountability)/i] },
+            "FFN-17": { name: "Horizon Collapse", keywords: ["short-term", "long-term", "quarter", "immediate", "future", "later", "strategy", "horizon"], patterns: [/(deal with|address|worry about) (that|it) later/i] },
+            "FFN-18": { name: "Now Over Later", keywords: ["quarter", "quarterly", "immediate", "now", "later", "future", "trade-off", "short-term"], patterns: [/(know|acknowledge).{0,15}but.{0,15}(need|have to).{0,15}(this|the) quarter/i] },
+            "FFN-19": { name: "Judgment Erosion", keywords: ["overwork", "burnout", "judgment", "prioritize", "delegate", "capacity", "exhausted", "tired"], patterns: [/(struggle|struggling) to (prioritize|delegate|focus)/i] },
+            "FFN-20": { name: "Memory Scatter", keywords: ["recall", "remember", "decided", "agreed", "thought", "version", "narrative", "alignment"], patterns: [/thought we (agreed|decided)/i, /(different|conflicting) (version|memory|recollection)/i] },
+            "FFN-21": { name: "Opaque Logic Drift", keywords: ["AI", "logic", "explain", "reasoning", "opaque", "trust", "why", "understand"], patterns: [/why did (it|the (AI|system|model)) (do|decide|recommend)/i] }
+        };
+
+        // ============================================
+        // STATE
+        // ============================================
+        let baseline = null;
+        let currentResults = null;
+
+        // ============================================
+        // SCANNING LOGIC
+        // ============================================
+        function chunkText(text, chunkSize = 400) {
+            const sentences = text.split(/(?<=[.!?])\s+/);
+            const chunks = [];
+            let current = "";
+            for (const sentence of sentences) {
+                if ((current + sentence).length <= chunkSize) {
+                    current += sentence + " ";
+                } else {
+                    if (current.trim()) chunks.push(current.trim());
+                    current = sentence + " ";
+                }
+            }
+            if (current.trim()) chunks.push(current.trim());
+            return chunks.length > 0 ? chunks : [text];
+        }
+
+        function scanText(text) {
+            const chunks = chunkText(text);
+            const fmMatches = {};
+            const ffnMatches = {};
+
+            for (const chunk of chunks) {
+                const chunkLower = chunk.toLowerCase();
+
+                for (const [fmId, fmData] of Object.entries(FM_DATA)) {
+                    const keywordHits = fmData.keywords.filter(kw => chunkLower.includes(kw.toLowerCase())).length;
+                    const keywordDensity = keywordHits / fmData.keywords.length;
+                    const patternHits = fmData.patterns.filter(p => p.test(chunk));
+
+                    if (keywordDensity > 0.25 || patternHits.length > 0) {
+                        if (!fmMatches[fmId]) {
+                            fmMatches[fmId] = { id: fmId, name: fmData.name, count: 0, strength: 'low' };
+                        }
+                        fmMatches[fmId].count++;
+                        if (patternHits.length > 0) {
+                            fmMatches[fmId].strength = keywordDensity > 0.3 ? 'high' : 'medium';
+                        } else if (fmMatches[fmId].strength === 'low' && keywordDensity > 0.3) {
+                            fmMatches[fmId].strength = 'medium';
+                        }
+                    }
+                }
+
+                for (const [ffnId, ffnData] of Object.entries(FFN_DATA)) {
+                    const keywordHits = ffnData.keywords.filter(kw => chunkLower.includes(kw.toLowerCase())).length;
+                    const keywordDensity = keywordHits / ffnData.keywords.length;
+                    const patternHits = ffnData.patterns.filter(p => p.test(chunk));
+
+                    if (keywordDensity > 0.2 || patternHits.length > 0) {
+                        if (!ffnMatches[ffnId]) {
+                            ffnMatches[ffnId] = { id: ffnId, name: ffnData.name, count: 0, strength: 'low' };
+                        }
+                        ffnMatches[ffnId].count++;
+                        if (patternHits.length > 0) {
+                            ffnMatches[ffnId].strength = keywordDensity > 0.25 ? 'high' : 'medium';
+                        } else if (ffnMatches[ffnId].strength === 'low' && keywordDensity > 0.25) {
+                            ffnMatches[ffnId].strength = 'medium';
+                        }
+                    }
+                }
+            }
+
+            const fmCount = Object.keys(fmMatches).length;
+            const ffnCount = Object.keys(ffnMatches).length;
+            let position = 'No Position';
+            if (fmCount > 0 && ffnCount > 0) position = 'S→F Transition';
+            else if (fmCount > 0) position = 'Failure Modes Line';
+            else if (ffnCount > 0) position = 'Signal Line';
+
+            return { fms: fmMatches, ffns: ffnMatches, position, fmCount, ffnCount };
+        }
+
+        // ============================================
+        // BASELINE LOADING
+        // ============================================
+        function loadBaseline(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                try {
+                    const data = JSON.parse(e.target.result);
+                    
+                    // Validate it's a verification record with proper shape
+                    if (!data.after || !data.case) {
+                        alert('Invalid file: This does not appear to be a Verification Record from Tool 005.');
+                        return;
+                    }
+                    
+                    // Deeper validation: ensure after-state has required structure
+                    if (typeof data.after.fms !== 'object' || typeof data.after.ffns !== 'object') {
+                        alert('Invalid file: Verification Record is missing FM/FFN scan data in after-state.');
+                        return;
+                    }
+                    
+                    if (!data.after.position) {
+                        alert('Invalid file: Verification Record is missing position data in after-state.');
+                        return;
+                    }
+
+                    baseline = data;
+
+                    // Update UI
+                    document.getElementById('fileUpload').classList.add('loaded');
+                    document.getElementById('fileUploadLabel').innerHTML = `<span>✓ ${file.name}</span>`;
+                    
+                    const info = document.getElementById('baselineInfo');
+                    info.classList.add('visible');
+                    
+                    document.getElementById('baselineCaseName').textContent = data.case.name || '—';
+                    document.getElementById('baselineScope').textContent = data.case.scope || '—';
+                    document.getElementById('baselineVerifiedBy').textContent = 
+                        data.verification?.verifiedBy ? `${data.verification.verifiedBy}${data.verification.role ? ', ' + data.verification.role : ''}` : 'Not verified';
+                    document.getElementById('baselineVerifiedDate').textContent = data.verification?.date || '—';
+                    document.getElementById('baselinePosition').textContent = data.after?.position || '—';
+
+                    // Enable analyze button
+                    document.getElementById('analyzeBtn').disabled = false;
+
+                } catch (err) {
+                    alert('Error parsing JSON: ' + err.message);
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        // ============================================
+        // ANALYSIS
+        // ============================================
+        function runAnalysis() {
+            const text = document.getElementById('currentArtifact').value.trim();
+            const artifactDate = document.getElementById('artifactDate').value;
+            
+            if (!baseline) {
+                alert('Please load a baseline first');
+                return;
+            }
+            if (!artifactDate) {
+                alert('Artifact date required for continuity.');
+                return;
+            }
+            if (!text) {
+                alert('Please paste a current artifact first');
+                return;
+            }
+
+            currentResults = scanText(text);
+            renderRegressionView();
+        }
+
+        // ============================================
+        // REGRESSION COMPUTATION
+        // ============================================
+        function computeRegression(baselineItems, currentItems, type) {
+            const baselineIds = new Set(Object.keys(baselineItems || {}));
+            const currentIds = new Set(Object.keys(currentItems || {}));
+
+            const reappeared = [];
+            const increased = [];
+            const persisted = [];
+
+            // Reappeared: was absent in baseline (count 0), now present
+            for (const id of currentIds) {
+                if (!baselineIds.has(id)) {
+                    reappeared.push({
+                        id,
+                        name: currentItems[id].name,
+                        type,
+                        baselineCount: 0,
+                        currentCount: currentItems[id].count,
+                        baselineStrength: null,
+                        currentStrength: currentItems[id].strength
+                    });
+                }
+            }
+
+            // Persisted or Increased
+            for (const id of currentIds) {
+                if (baselineIds.has(id)) {
+                    const bCount = baselineItems[id].count;
+                    const cCount = currentItems[id].count;
+                    const item = {
+                        id,
+                        name: currentItems[id].name,
+                        type,
+                        baselineCount: bCount,
+                        currentCount: cCount,
+                        baselineStrength: baselineItems[id].strength,
+                        currentStrength: currentItems[id].strength
+                    };
+                    
+                    if (cCount > bCount) {
+                        increased.push(item);
+                    } else {
+                        persisted.push(item);
+                    }
+                }
+            }
+
+            // Sort by currentCount descending for readability
+            reappeared.sort((a, b) => b.currentCount - a.currentCount);
+            increased.sort((a, b) => b.currentCount - a.currentCount);
+            persisted.sort((a, b) => b.currentCount - a.currentCount);
+
+            return { reappeared, increased, persisted };
+        }
+
+        function computeDriftLabel(baselinePosition, currentPosition) {
+            if (baselinePosition === currentPosition) return 'Stable';
+            return `Drifted to ${currentPosition}`;
+        }
+
+        // ============================================
+        // RENDERING
+        // ============================================
+        function renderRegressionView() {
+            const view = document.getElementById('regressionView');
+            
+            const baselineAfter = baseline.after || { fms: {}, ffns: {}, position: 'No Position' };
+            const fmRegression = computeRegression(baselineAfter.fms, currentResults.fms, 'fm');
+            const ffnRegression = computeRegression(baselineAfter.ffns, currentResults.ffns, 'ffn');
+            
+            const driftLabel = computeDriftLabel(baselineAfter.position, currentResults.position);
+            const isDrifted = driftLabel !== 'Stable';
+
+            const totalReappeared = fmRegression.reappeared.length + ffnRegression.reappeared.length;
+            const totalIncreased = fmRegression.increased.length + ffnRegression.increased.length;
+
+            view.innerHTML = `
+                <!-- Position Drift -->
+                <div class="drift-block">
+                    <div class="drift-row">
+                        <div class="drift-position">
+                            <div class="drift-position-label">Baseline (After Fix)</div>
+                            <div class="drift-position-value">${baselineAfter.position}</div>
+                        </div>
+                        <div class="drift-arrow">→</div>
+                        <div class="drift-position">
+                            <div class="drift-position-label">Current</div>
+                            <div class="drift-position-value">${currentResults.position}</div>
+                        </div>
+                    </div>
+                    <div style="text-align: center; margin-top: 0.75rem;">
+                        <span class="drift-status ${isDrifted ? 'drifted' : 'stable'}">${driftLabel}</span>
+                    </div>
+                </div>
+
+                <!-- FM Regression -->
+                <div class="regression-section">
+                    <div class="regression-section-title">Failure Modes Regression</div>
+                    <div class="regression-grid">
+                        <div class="regression-column">
+                            <div class="regression-column-header reappeared">Reappeared</div>
+                            <div class="regression-column-body">
+                                ${fmRegression.reappeared.length === 0 ? '<div class="regression-empty">None</div>' :
+                                    fmRegression.reappeared.map(i => renderRegressionItem(i, true)).join('')}
+                            </div>
+                        </div>
+                        <div class="regression-column">
+                            <div class="regression-column-header">Increased</div>
+                            <div class="regression-column-body">
+                                ${fmRegression.increased.length === 0 ? '<div class="regression-empty">None</div>' :
+                                    fmRegression.increased.map(i => renderRegressionItem(i, false)).join('')}
+                            </div>
+                        </div>
+                        <div class="regression-column">
+                            <div class="regression-column-header">Persisted</div>
+                            <div class="regression-column-body">
+                                ${fmRegression.persisted.length === 0 ? '<div class="regression-empty">None</div>' :
+                                    fmRegression.persisted.map(i => renderRegressionItem(i, false)).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- FFN Regression -->
+                <div class="regression-section">
+                    <div class="regression-section-title">Field Notes Regression</div>
+                    <div class="regression-grid">
+                        <div class="regression-column">
+                            <div class="regression-column-header reappeared">Reappeared</div>
+                            <div class="regression-column-body">
+                                ${ffnRegression.reappeared.length === 0 ? '<div class="regression-empty">None</div>' :
+                                    ffnRegression.reappeared.map(i => renderRegressionItem(i, true)).join('')}
+                            </div>
+                        </div>
+                        <div class="regression-column">
+                            <div class="regression-column-header">Increased</div>
+                            <div class="regression-column-body">
+                                ${ffnRegression.increased.length === 0 ? '<div class="regression-empty">None</div>' :
+                                    ffnRegression.increased.map(i => renderRegressionItem(i, false)).join('')}
+                            </div>
+                        </div>
+                        <div class="regression-column">
+                            <div class="regression-column-header">Persisted</div>
+                            <div class="regression-column-body">
+                                ${ffnRegression.persisted.length === 0 ? '<div class="regression-empty">None</div>' :
+                                    ffnRegression.persisted.map(i => renderRegressionItem(i, false)).join('')}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary Stats -->
+                <div class="summary-stats">
+                    <div class="summary-stat">
+                        <div class="summary-stat-value ${totalReappeared > 0 ? 'warning' : ''}">${totalReappeared}</div>
+                        <div class="summary-stat-label">Reappeared</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="summary-stat-value ${totalIncreased > 0 ? 'warning' : ''}">${totalIncreased}</div>
+                        <div class="summary-stat-label">Increased</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="summary-stat-value">${fmRegression.persisted.length + ffnRegression.persisted.length}</div>
+                        <div class="summary-stat-label">Persisted</div>
+                    </div>
+                    <div class="summary-stat">
+                        <div class="summary-stat-value">${isDrifted ? '⚠' : '✓'}</div>
+                        <div class="summary-stat-label">Position</div>
+                    </div>
+                </div>
+
+                <!-- Hold the Line Record -->
+                <div class="hold-line-record">
+                    <div class="hold-line-title">Hold the Line Record</div>
+                    <div class="hold-line-content" id="holdLineContent">${generateHoldLineRecord(fmRegression, ffnRegression, driftLabel)}</div>
+                </div>
+
+                <!-- Export -->
+                <div class="export-section">
+                    <button class="btn btn-secondary" onclick="exportCheckJSON()">Export Check JSON</button>
+                    <button class="btn btn-secondary" onclick="exportCheckMarkdown()">Export Check Markdown</button>
+                    <button class="btn btn-secondary" onclick="appendToBaseline()">Append to Baseline Record</button>
+                </div>
+            `;
+        }
+
+        function renderRegressionItem(item, isReappeared) {
+            const strengthStr = item.baselineStrength 
+                ? `${item.baselineStrength} → ${item.currentStrength}`
+                : `— → ${item.currentStrength}`;
+            
+            return `
+                <div class="regression-item ${isReappeared ? 'reappeared' : ''}">
+                    <div class="regression-item-id ${item.type}">${item.id}</div>
+                    <div class="regression-item-detail">
+                        ${item.baselineCount} → ${item.currentCount}<br>
+                        ${strengthStr}
+                    </div>
+                </div>
+            `;
+        }
+
+        function generateHoldLineRecord(fmReg, ffnReg, driftLabel) {
+            const artifactDate = document.getElementById('artifactDate').value || new Date().toISOString().split('T')[0];
+            const contextTag = document.getElementById('contextTag').value || '';
+            
+            let record = `Check: ${new Date().toISOString()}\n`;
+            record += `Artifact Date: ${artifactDate}\n`;
+            if (contextTag) record += `Context: ${contextTag}\n`;
+            record += `Position: ${driftLabel}\n`;
+            record += `\n`;
+            
+            const reappeared = [...fmReg.reappeared, ...ffnReg.reappeared];
+            if (reappeared.length > 0) {
+                record += `Reappeared:\n`;
+                reappeared.forEach(i => {
+                    record += `  ${i.id}: 0 → ${i.currentCount}\n`;
+                });
+            }
+            
+            const increased = [...fmReg.increased, ...ffnReg.increased];
+            if (increased.length > 0) {
+                record += `Increased:\n`;
+                increased.forEach(i => {
+                    record += `  ${i.id}: ${i.baselineCount} → ${i.currentCount}\n`;
+                });
+            }
+            
+            if (reappeared.length === 0 && increased.length === 0) {
+                record += `No regression detected.\n`;
+            }
+            
+            return record;
+        }
+
+        // ============================================
+        // EXPORT
+        // ============================================
+        function gatherCheckData() {
+            const baselineAfter = baseline.after || { fms: {}, ffns: {}, position: 'No Position' };
+            const fmRegression = computeRegression(baselineAfter.fms, currentResults.fms, 'fm');
+            const ffnRegression = computeRegression(baselineAfter.ffns, currentResults.ffns, 'ffn');
+            const driftLabel = computeDriftLabel(baselineAfter.position, currentResults.position);
+
+            return {
+                checkTimestamp: new Date().toISOString(),
+                artifactDate: document.getElementById('artifactDate').value || null,
+                contextTag: document.getElementById('contextTag').value || null,
+                baseline: {
+                    caseName: baseline.case?.name,
+                    scope: baseline.case?.scope,
+                    verifiedBy: baseline.verification?.verifiedBy,
+                    verifiedDate: baseline.verification?.date,
+                    position: baselineAfter.position
+                },
+                current: {
+                    position: currentResults.position,
+                    fmCount: currentResults.fmCount,
+                    ffnCount: currentResults.ffnCount
+                },
+                drift: driftLabel,
+                regression: {
+                    fm: fmRegression,
+                    ffn: ffnRegression
+                }
+            };
+        }
+
+        function exportCheckJSON() {
+            const data = gatherCheckData();
+            const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `regression-check-${data.artifactDate || new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function exportCheckMarkdown() {
+            const data = gatherCheckData();
+            
+            let md = `# Regression Check\n\n`;
+            md += `**Check Date:** ${new Date().toLocaleString()}\n\n`;
+            md += `**Artifact Date:** ${data.artifactDate || '—'}\n\n`;
+            if (data.contextTag) md += `**Context:** ${data.contextTag}\n\n`;
+            md += `---\n\n`;
+            
+            md += `## Baseline\n\n`;
+            md += `- **Case:** ${data.baseline.caseName || '—'}\n`;
+            md += `- **Scope:** ${data.baseline.scope || '—'}\n`;
+            md += `- **Verified By:** ${data.baseline.verifiedBy || 'Not verified'}\n`;
+            md += `- **Verified Date:** ${data.baseline.verifiedDate || '—'}\n`;
+            md += `- **Position (After Fix):** ${data.baseline.position}\n\n`;
+            
+            md += `## Current State\n\n`;
+            md += `- **Position:** ${data.current.position}\n`;
+            md += `- **Drift:** ${data.drift}\n\n`;
+            
+            md += `---\n\n`;
+            md += `## Failure Modes Regression\n\n`;
+            md += `### Reappeared\n`;
+            md += data.regression.fm.reappeared.length === 0 ? 'None\n\n' : 
+                data.regression.fm.reappeared.map(i => `- ${i.id}: 0 → ${i.currentCount}\n`).join('') + '\n';
+            md += `### Increased\n`;
+            md += data.regression.fm.increased.length === 0 ? 'None\n\n' :
+                data.regression.fm.increased.map(i => `- ${i.id}: ${i.baselineCount} → ${i.currentCount}\n`).join('') + '\n';
+            md += `### Persisted\n`;
+            md += data.regression.fm.persisted.length === 0 ? 'None\n\n' :
+                data.regression.fm.persisted.map(i => `- ${i.id}: ${i.baselineCount} → ${i.currentCount}\n`).join('') + '\n';
+            
+            md += `## Field Notes Regression\n\n`;
+            md += `### Reappeared\n`;
+            md += data.regression.ffn.reappeared.length === 0 ? 'None\n\n' :
+                data.regression.ffn.reappeared.map(i => `- ${i.id}: 0 → ${i.currentCount}\n`).join('') + '\n';
+            md += `### Increased\n`;
+            md += data.regression.ffn.increased.length === 0 ? 'None\n\n' :
+                data.regression.ffn.increased.map(i => `- ${i.id}: ${i.baselineCount} → ${i.currentCount}\n`).join('') + '\n';
+            md += `### Persisted\n`;
+            md += data.regression.ffn.persisted.length === 0 ? 'None\n\n' :
+                data.regression.ffn.persisted.map(i => `- ${i.id}: ${i.baselineCount} → ${i.currentCount}\n`).join('') + '\n';
+            
+            md += `---\n\n`;
+            md += `*This tool surfaces recurrence. It does not assign blame.*\n`;
+
+            const blob = new Blob([md], { type: 'text/markdown' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `regression-check-${data.artifactDate || new Date().toISOString().split('T')[0]}.md`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+
+        function appendToBaseline() {
+            if (!baseline) {
+                alert('No baseline loaded');
+                return;
+            }
+
+            const checkData = gatherCheckData();
+            
+            // Create updated baseline with check history
+            const updated = { ...baseline };
+            if (!updated.checkHistory) {
+                updated.checkHistory = [];
+            }
+            
+            updated.checkHistory.push({
+                checkTimestamp: checkData.checkTimestamp,
+                artifactDate: checkData.artifactDate,
+                contextTag: checkData.contextTag,
+                drift: checkData.drift,
+                reappeared: {
+                    fm: checkData.regression.fm.reappeared.map(i => i.id),
+                    ffn: checkData.regression.ffn.reappeared.map(i => i.id)
+                },
+                increased: {
+                    fm: checkData.regression.fm.increased.map(i => i.id),
+                    ffn: checkData.regression.ffn.increased.map(i => i.id)
+                }
+            });
+
+            const blob = new Blob([JSON.stringify(updated, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `verification-${baseline.case?.name?.replace(/\s+/g, '-') || 'case'}-with-checks.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>
