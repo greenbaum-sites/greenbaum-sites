@@ -1,0 +1,101 @@
+# dripractice.com
+
+> Decision & Responsibility Infrastructure™ (DRI) is a field of practice. It addresses the structural conditions — authority, accountability, and continuity — that determine whether organizations can make good decisions and hold themselves accountable over time. Organizations don't break because people are wrong. They break because the infrastructure underneath wasn't designed for the speed and scale they're operating at. DRI makes that visible.
+
+## The Method: Coherence
+
+Coherence is the diagnostic method for DRI. It examines three structural vertices:
+- **Truth** — Is reality being accurately perceived and spoken?
+- **Authority** — Does decision-making power match responsibility?
+- **Continuity** — Are commitments and decisions stable over time?
+
+When these vertices reinforce each other, the system holds. When they drift apart, people absorb the cost. This isn't about what organizations are doing wrong — it's the physics of organizations under speed and complexity.
+
+## Diagnostic Taxonomy
+
+**17 Failure Modes (FMs)** — structurally self-reinforcing conditions that emerge predictably at scale:
+- [FM-01: Responsibility Compression](https://dripractice.com/fm/fm-01)
+- [FM-02: Escalation Inversion](https://dripractice.com/fm/fm-02)
+- [FM-03: Responsibility Without Authority](https://dripractice.com/fm/fm-03)
+- [FM-04: Metric Shadowing](https://dripractice.com/fm/fm-04)
+- [FM-05: Normalized Workarounds](https://dripractice.com/fm/fm-05)
+- [FM-06: Exception Inflation](https://dripractice.com/fm/fm-06)
+- [FM-07: Coordination Decay](https://dripractice.com/fm/fm-07)
+- [FM-08: Decision Latency](https://dripractice.com/fm/fm-08)
+- [FM-09: Over-Escalation](https://dripractice.com/fm/fm-09)
+- [FM-10: Leadership Saturation](https://dripractice.com/fm/fm-10)
+- [FM-11: Metric Authority Drift](https://dripractice.com/fm/fm-11)
+- [FM-12: Strategic Myopia](https://dripractice.com/fm/fm-12)
+- [FM-13: Capability Atrophy](https://dripractice.com/fm/fm-13)
+- [FM-14: Narrative Collapse](https://dripractice.com/fm/fm-14)
+- [FM-15: Trust Exhaustion](https://dripractice.com/fm/fm-15)
+- [FM-16: Process Inflation](https://dripractice.com/fm/fm-16)
+- [FM-17: Structural Amnesia](https://dripractice.com/fm/fm-17)
+
+**21 Functional Field Notes (FFNs)** — recurring conditions surfaced while interpretation is still forming:
+- [FFN-01: Responsibility Compression](https://dripractice.com/ffn/ffn-01)
+- [FFN-02: Interpretive Drift](https://dripractice.com/ffn/ffn-02)
+- [FFN-03: Authority Without Commitment](https://dripractice.com/ffn/ffn-03)
+- [FFN-04: Escalation Inversion](https://dripractice.com/ffn/ffn-04)
+- [FFN-05: Escalation Bounceback](https://dripractice.com/ffn/ffn-05)
+- [FFN-06: Signal Misread](https://dripractice.com/ffn/ffn-06)
+- [FFN-07: Orphaned Escalation](https://dripractice.com/ffn/ffn-07)
+- [FFN-08: Authority Fog](https://dripractice.com/ffn/ffn-08)
+- [FFN-09: Shadow Infrastructure](https://dripractice.com/ffn/ffn-09)
+- [FFN-10: Metric Displacement](https://dripractice.com/ffn/ffn-10)
+- [FFN-11: Context Gap](https://dripractice.com/ffn/ffn-11)
+- [FFN-12: Authority Without Permission](https://dripractice.com/ffn/ffn-12)
+- [FFN-13: Alignment Creep](https://dripractice.com/ffn/ffn-13)
+- [FFN-14: Frozen Recognition](https://dripractice.com/ffn/ffn-14)
+- [FFN-15: Permission Cascade](https://dripractice.com/ffn/ffn-15)
+- [FFN-16: Defensive Escalation](https://dripractice.com/ffn/ffn-16)
+- [FFN-17: Horizon Collapse](https://dripractice.com/ffn/ffn-17)
+- [FFN-18: Now Over Later](https://dripractice.com/ffn/ffn-18)
+- [FFN-19: Judgment Erosion](https://dripractice.com/ffn/ffn-19)
+- [FFN-20: Memory Scatter](https://dripractice.com/ffn/ffn-20)
+- [FFN-21: Opaque Logic Drift](https://dripractice.com/ffn/ffn-21)
+
+## 18 Lens Entry Points
+
+Same system, different perspective. Each lens shows how structural conditions look from a specific organizational role:
+- [Lens 01: The Operator](https://dripractice.com/lens/01)
+- [Lens 02: The Customer](https://dripractice.com/lens/02)
+- [Lens 03: The Executive](https://dripractice.com/lens/03)
+- [Lens 04: The Chief of Staff](https://dripractice.com/lens/04)
+- [Lens 05: The New Leader](https://dripractice.com/lens/05)
+- [Lens 06: The Investor](https://dripractice.com/lens/06)
+- [Lens 07: HR](https://dripractice.com/lens/07)
+- [Lens 08: AI Integration](https://dripractice.com/lens/08)
+- [Lens 09: Finance](https://dripractice.com/lens/09)
+- [Lens 10: Legal & Compliance](https://dripractice.com/lens/10)
+- [Lens 11: Product](https://dripractice.com/lens/11)
+- [Lens 12: Engineering](https://dripractice.com/lens/12)
+- [Lens 13: Sales](https://dripractice.com/lens/13)
+- [Lens 14: Marketing](https://dripractice.com/lens/14)
+- [Lens 15: IT & Infrastructure](https://dripractice.com/lens/15)
+- [Lens 16: Procurement](https://dripractice.com/lens/16)
+- [Lens 17: Program Management](https://dripractice.com/lens/17)
+- [Lens 18: The Board](https://dripractice.com/lens/18)
+
+## Diagnostic Instruments
+
+Seven tools that observe, summarize, and suggest. They do not decide.
+- [FM Scanner](https://dripractice.com/tools/fm-scanner): Detect failure mode patterns
+- [FFN Surface](https://dripractice.com/tools/ffn-surface): Surface early warning signals
+- [System Nav Locator](https://dripractice.com/tools/system-nav-locator): Orient on the diagnostic map
+- [Declaration Log](https://dripractice.com/tools/declaration-log): Record when authority acted
+- [Verified Independence](https://dripractice.com/tools/verified-independence): Prove fixes are real
+- [Regression Watch](https://dripractice.com/tools/regression-watch): Test if fixes hold
+- [Continuity Chain](https://dripractice.com/tools/continuity-chain): Track how decisions survive handoffs
+
+## Founder
+
+Justin R. Greenbaum — [justingreenbaum.com](https://justingreenbaum.com)
+
+## Related Properties
+- [Greenbaum Labs](https://greenbaumlabs.com): AI workshop powering the diagnostic pipeline
+- [Writing](https://writing.justingreenbaum.com): Essays and the Coherence Record on Substack
+- [LinkedIn](https://linkedin.com/in/justingreenbaum)
+
+## Contact
+- Email: justin@greenbaumlabs.com
