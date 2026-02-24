@@ -41,19 +41,19 @@
 
   <style>
     :root {
-      --bg-primary: #0a0a0a;
-      --bg-secondary: #111111;
-      --bg-card: #161616;
-      --bg-elevated: #1a1a1a;
-      --text-primary: #f0ece4;
-      --text-secondary: #8a8580;
-      --text-dim: #4a4744;
-      --accent: #c9a84c;
-      --accent-dim: rgba(201, 168, 76, 0.12);
+      --bg-primary: #100f0c;
+      --bg-secondary: #171510;
+      --bg-card: #1c1a14;
+      --bg-elevated: #231f18;
+      --text-primary: #f2efe7;
+      --text-secondary: #a09a90;
+      --text-dim: #605b52;
+      --accent: #d4b456;
+      --accent-dim: rgba(212, 180, 86, 0.14);
       --warm: #c8553a;
       --warm-dim: rgba(200, 85, 58, 0.1);
-      --border: rgba(240, 236, 228, 0.06);
-      --border-hover: rgba(240, 236, 228, 0.12);
+      --border: rgba(240, 236, 228, 0.09);
+      --border-hover: rgba(240, 236, 228, 0.16);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -78,7 +78,7 @@
       position: fixed;
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.025;
+      opacity: 0.015;
       pointer-events: none;
       z-index: 9999;
     }
@@ -190,8 +190,9 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(201, 168, 76, 0.03), transparent),
-        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200, 85, 58, 0.02), transparent);
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212, 180, 86, 0.06), transparent 70%),
+        radial-gradient(ellipse 50% 70% at 20% 80%, rgba(200, 85, 58, 0.03), transparent),
+        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(240, 236, 228, 0.02), transparent);
     }
 
     .hero-content {
@@ -255,7 +256,7 @@
 
     /* ---- SECTIONS ---- */
     section {
-      padding: 6rem 3rem;
+      padding: 8rem 3rem;
       border-top: 1px solid var(--border);
     }
 
@@ -336,7 +337,7 @@
 
     /* ---- LENS GRID ---- */
     .lens-section {
-      padding: 6rem 3rem;
+      padding: 8rem 3rem;
       border-top: 1px solid var(--border);
     }
 
@@ -357,9 +358,11 @@
     .lens-card {
       background: var(--bg-primary);
       padding: 2.5rem;
-      cursor: default;
+      cursor: pointer;
       transition: all 0.4s ease;
       position: relative;
+      text-decoration: none;
+      display: block;
     }
 
     .lens-card:hover {
@@ -540,10 +543,12 @@
       align-items: flex-start;
       gap: 1.2rem;
       transition: all 0.3s ease;
+      text-decoration: none;
     }
 
     .instrument-card:hover {
-      border-color: var(--border-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
     }
 
     .instrument-num {
@@ -878,78 +883,78 @@
     </div>
 
     <div class="lens-grid reveal">
-      <div class="lens-card">
+      <a href="https://greenbaumlabs.com/lens/01" class="lens-card" target="_blank">
         <div class="lens-role">The Operator</div>
         <div class="lens-line">You own the problem. You don't own the decision.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/03" class="lens-card" target="_blank">
         <div class="lens-role">The Executive</div>
         <div class="lens-line">You set direction. The system reinterprets.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/18" class="lens-card" target="_blank">
         <div class="lens-role">The Board</div>
         <div class="lens-line">You govern what you can see. The system decides what you see.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/04" class="lens-card" target="_blank">
         <div class="lens-role">The Chief of Staff</div>
         <div class="lens-line">You see it all. You can't say it all.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/05" class="lens-card" target="_blank">
         <div class="lens-role">The New Leader</div>
         <div class="lens-line">You inherited decisions nobody can explain.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/06" class="lens-card" target="_blank">
         <div class="lens-role">The Investor</div>
         <div class="lens-line">The structural risk no one's pricing.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/11" class="lens-card" target="_blank">
         <div class="lens-role">Product</div>
         <div class="lens-line">You own the roadmap. You don't own the priorities.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/12" class="lens-card" target="_blank">
         <div class="lens-role">Engineering</div>
         <div class="lens-line">You shipped what was asked. It wasn't what was needed.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/13" class="lens-card" target="_blank">
         <div class="lens-role">Sales</div>
         <div class="lens-line">You closed the deal. The org can't deliver what you sold.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/14" class="lens-card" target="_blank">
         <div class="lens-role">Marketing</div>
         <div class="lens-line">You told the story. The experience didn't match.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/02" class="lens-card" target="_blank">
         <div class="lens-role">The Customer</div>
         <div class="lens-line">The experience your customer has is structural output.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/07" class="lens-card" target="_blank">
         <div class="lens-role">HR</div>
         <div class="lens-line">You measure engagement. The structure produces disengagement.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/09" class="lens-card" target="_blank">
         <div class="lens-role">Finance</div>
         <div class="lens-line">The budget was approved. The constraints weren't removed.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/10" class="lens-card" target="_blank">
         <div class="lens-role">Legal &amp; Compliance</div>
         <div class="lens-line">You protect the org from risk. Nobody protects you from being the reason things are slow.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/15" class="lens-card" target="_blank">
         <div class="lens-role">IT &amp; Infrastructure</div>
         <div class="lens-line">Everything runs until it doesn't. Then it's your fault.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/16" class="lens-card" target="_blank">
         <div class="lens-role">Procurement</div>
         <div class="lens-line">You manage the contract. You can't manage what they deliver.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/17" class="lens-card" target="_blank">
         <div class="lens-role">Program Management</div>
         <div class="lens-line">You own the timeline. You don't own the dependencies.</div>
-      </div>
-      <div class="lens-card">
+      </a>
+      <a href="https://greenbaumlabs.com/lens/08" class="lens-card" target="_blank">
         <div class="lens-role">AI Integration</div>
         <div class="lens-line">Automation doesn't create dysfunction. It reveals it.</div>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -1032,55 +1037,55 @@
     </div>
 
     <div class="instrument-list reveal">
-      <div class="instrument-card">
+      <a href="https://greenbaumlabs.com/tools/fm-scanner" class="instrument-card" target="_blank">
         <div class="instrument-num">001</div>
         <div class="instrument-info">
           <h4>FM Scanner</h4>
           <p>Detect failure mode patterns in organizational signals.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="https://greenbaumlabs.com/tools/ffn-surface" class="instrument-card" target="_blank">
         <div class="instrument-num">002</div>
         <div class="instrument-info">
           <h4>FFN Surface</h4>
           <p>Surface early warning signals before failure becomes entrenched.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="https://greenbaumlabs.com/tools/system-nav-locator" class="instrument-card" target="_blank">
         <div class="instrument-num">003</div>
         <div class="instrument-info">
           <h4>System Nav Locator</h4>
           <p>Orient on the diagnostic map. Identify where you are in the system.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="https://greenbaumlabs.com/tools/declaration-log" class="instrument-card" target="_blank">
         <div class="instrument-num">004</div>
         <div class="instrument-info">
           <h4>Declaration Log</h4>
           <p>Record when authority acted. Preserve decision rationale over time.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="https://greenbaumlabs.com/tools/verified-independence" class="instrument-card" target="_blank">
         <div class="instrument-num">005</div>
         <div class="instrument-info">
           <h4>Verified Independence</h4>
           <p>Prove fixes are real. Confirm structural change, not cosmetic adjustment.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="https://greenbaumlabs.com/tools/regression-watch" class="instrument-card" target="_blank">
         <div class="instrument-num">006</div>
         <div class="instrument-info">
           <h4>Regression Watch</h4>
           <p>Test if fixes hold over time. Monitor for structural decay.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="https://greenbaumlabs.com/tools/continuity-chain" class="instrument-card" target="_blank">
         <div class="instrument-num">007</div>
         <div class="instrument-info">
           <h4>Continuity Chain</h4>
           <p>Custody of meaning across time. Track how decisions survive handoffs.</p>
         </div>
-      </div>
+      </a>
     </div>
   </section>
 
