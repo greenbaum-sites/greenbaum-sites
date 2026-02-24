@@ -41,19 +41,19 @@
 
   <style>
     :root {
-      --bg-primary: #100f0c;
-      --bg-secondary: #171510;
-      --bg-card: #1c1a14;
-      --bg-elevated: #231f18;
-      --text-primary: #f2efe7;
-      --text-secondary: #a09a90;
-      --text-dim: #605b52;
-      --accent: #d4b456;
-      --accent-dim: rgba(212, 180, 86, 0.14);
+      --bg-primary: #14120d;
+      --bg-secondary: #1c1912;
+      --bg-card: #221f17;
+      --bg-elevated: #2a261c;
+      --text-primary: #f4f1e9;
+      --text-secondary: #b0a99a;
+      --text-dim: #6e675c;
+      --accent: #dabb58;
+      --accent-dim: rgba(218, 187, 88, 0.16);
       --warm: #c8553a;
-      --warm-dim: rgba(200, 85, 58, 0.1);
-      --border: rgba(240, 236, 228, 0.09);
-      --border-hover: rgba(240, 236, 228, 0.16);
+      --warm-dim: rgba(200, 85, 58, 0.12);
+      --border: rgba(240, 236, 228, 0.10);
+      --border-hover: rgba(240, 236, 228, 0.20);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -78,7 +78,7 @@
       position: fixed;
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.015;
+      opacity: 0.01;
       pointer-events: none;
       z-index: 9999;
     }
@@ -190,9 +190,9 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212, 180, 86, 0.06), transparent 70%),
-        radial-gradient(ellipse 50% 70% at 20% 80%, rgba(200, 85, 58, 0.03), transparent),
-        radial-gradient(ellipse 60% 40% at 80% 20%, rgba(240, 236, 228, 0.02), transparent);
+        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(218, 187, 88, 0.09), transparent 70%),
+        radial-gradient(ellipse 50% 70% at 20% 80%, rgba(200, 85, 58, 0.04), transparent),
+        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(244, 241, 233, 0.03), transparent);
     }
 
     .hero-content {
