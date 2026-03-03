@@ -4,28 +4,20 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Decision & Responsibility Infrastructure™ — The Practice</title>
-  <meta name="description" content="Organizations don't break because people are wrong. They break because the structural conditions underneath weren't designed for the speed and scale they're operating at. DRI™ makes that visible.">
+  <meta name="description" content="The discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.">
   <link rel="canonical" href="https://dripractice.com/">
 
   <!-- Open Graph -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://dripractice.com/">
   <meta property="og:title" content="Decision & Responsibility Infrastructure™">
-  <meta property="og:description" content="Organizations don't break because people are wrong. They break because the structural conditions underneath weren't designed for the speed and scale they're operating at.">
-  <meta property="og:image" content="https://dripractice.com/og-dripractice.png">
+  <meta property="og:description" content="The discipline of designing the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.">
   <meta property="og:site_name" content="DRI Practice">
 
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Decision & Responsibility Infrastructure™">
-  <meta name="twitter:description" content="Organizations don't break because people are wrong. They break because the structural conditions underneath weren't designed for the speed and scale they're operating at.">
-  <meta name="twitter:image" content="https://dripractice.com/og-dripractice.png">
-
-  <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <meta name="twitter:description" content="The discipline of designing the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.">
 
   <!-- JSON-LD -->
   <script type="application/ld+json">
@@ -49,19 +41,19 @@
 
   <style>
     :root {
-      --bg-primary: #121214;
-      --bg-secondary: #191a1c;
-      --bg-card: #1e1f22;
-      --bg-elevated: #262729;
-      --text-primary: #f4f1e8;
-      --text-secondary: #b0a99c;
-      --text-dim: #6b665e;
-      --accent: #debb55;
-      --accent-dim: rgba(222, 187, 85, 0.16);
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
       --warm: #c8553a;
-      --warm-dim: rgba(200, 85, 58, 0.12);
-      --border: rgba(244, 241, 232, 0.08);
-      --border-hover: rgba(244, 241, 232, 0.18);
+      --warm-dim: rgba(200, 85, 58, 0.1);
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -86,7 +78,7 @@
       position: fixed;
       inset: 0;
       background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.01;
+      opacity: 0.025;
       pointer-events: none;
       z-index: 9999;
     }
@@ -198,9 +190,8 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 80% 60% at 50% 40%, rgba(218, 187, 88, 0.09), transparent 70%),
-        radial-gradient(ellipse 50% 70% at 20% 80%, rgba(200, 85, 58, 0.04), transparent),
-        radial-gradient(ellipse 60% 50% at 80% 20%, rgba(244, 241, 233, 0.03), transparent);
+        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(201, 168, 76, 0.03), transparent),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200, 85, 58, 0.02), transparent);
     }
 
     .hero-content {
@@ -264,21 +255,8 @@
 
     /* ---- SECTIONS ---- */
     section {
-      padding: 8rem 3rem;
-      border-top: none;
-      position: relative;
-    }
-
-    section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(200px, 30%);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      opacity: 0.4;
+      padding: 6rem 3rem;
+      border-top: 1px solid var(--border);
     }
 
     .section-inner {
@@ -340,9 +318,7 @@
 
     /* ---- THESIS BLOCK ---- */
     .thesis-block {
-      background:
-        linear-gradient(135deg, rgba(222, 187, 85, 0.04), transparent 60%),
-        var(--bg-card);
+      background: var(--bg-card);
       border: 1px solid var(--border);
       border-left: 2px solid var(--accent);
       padding: 2.5rem 2.5rem;
@@ -360,21 +336,8 @@
 
     /* ---- LENS GRID ---- */
     .lens-section {
-      padding: 8rem 3rem;
-      border-top: none;
-      position: relative;
-    }
-
-    .lens-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(200px, 30%);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--accent), transparent);
-      opacity: 0.4;
+      padding: 6rem 3rem;
+      border-top: 1px solid var(--border);
     }
 
     .lens-header {
@@ -394,17 +357,13 @@
     .lens-card {
       background: var(--bg-primary);
       padding: 2.5rem;
-      cursor: pointer;
+      cursor: default;
       transition: all 0.4s ease;
       position: relative;
-      text-decoration: none;
-      display: block;
     }
 
     .lens-card:hover {
-      background:
-        linear-gradient(135deg, rgba(222, 187, 85, 0.05), transparent 50%),
-        var(--bg-card);
+      background: var(--bg-card);
     }
 
     .lens-card:hover .lens-role {
@@ -429,9 +388,7 @@
 
     /* ---- TRIANGLE ---- */
     .triangle-section {
-      background:
-        radial-gradient(ellipse 70% 50% at 50% 50%, rgba(222, 187, 85, 0.04), transparent 60%),
-        var(--bg-secondary);
+      background: var(--bg-secondary);
     }
 
     .triangle-visual {
@@ -529,9 +486,6 @@
     a.fm-card:hover {
       border-color: var(--accent);
       transform: translateY(-2px);
-      background:
-        linear-gradient(135deg, rgba(222, 187, 85, 0.06), transparent 50%),
-        var(--bg-card);
     }
 
     .fm-id {
@@ -586,12 +540,10 @@
       align-items: flex-start;
       gap: 1.2rem;
       transition: all 0.3s ease;
-      text-decoration: none;
     }
 
     .instrument-card:hover {
-      border-color: var(--accent);
-      transform: translateY(-2px);
+      border-color: var(--border-hover);
     }
 
     .instrument-num {
@@ -729,9 +681,7 @@
       border-left: 2px solid var(--accent);
       padding: 2rem 2.5rem;
       margin: 2rem 0;
-      background:
-        linear-gradient(135deg, rgba(222, 187, 85, 0.04), transparent 60%),
-        var(--bg-card);
+      background: var(--bg-card);
     }
 
     .principle-box p {
@@ -749,21 +699,8 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-top: none;
+      border-top: 1px solid var(--border);
       background: var(--bg-primary);
-      position: relative;
-    }
-
-    footer::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: min(120px, 20%);
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--text-dim), transparent);
-      opacity: 0.5;
     }
 
     .footer-l, .footer-r {
@@ -838,7 +775,7 @@
     <div class="hero-content">
       <p class="hero-eyebrow">A Field of Practice</p>
       <h1>Decision &amp;<br>Responsibility<br>Infrastructure<span class="tm">™</span></h1>
-      <p class="hero-sub">Organizations don't break because people are wrong. They break because the structural conditions underneath — authority, accountability, continuity — weren't designed for the speed and scale they're operating at. This is the discipline of making that visible.</p>
+      <p class="hero-sub">The discipline of designing, diagnosing, and maintaining the structural conditions that determine whether organizations can make good decisions and hold themselves accountable for outcomes over time.</p>
       <div class="hero-line"></div>
     </div>
   </div>
@@ -849,13 +786,27 @@
       <div class="section-label">The Field</div>
       <h2>What DRI Is</h2>
 
-      <p>Decision &amp; Responsibility Infrastructure™ is the architecture of authority, accountability, and continuity beneath organizational performance. Not the decisions themselves — the structural conditions that make good decisions possible.</p>
+      <p>Decision &amp; Responsibility Infrastructure™ is the architecture of authority, accountability, and continuity that sits beneath organizational performance.</p>
+
+      <p>It's not about teaching people to make better decisions. It's about building the structural conditions that make good decisions possible — and sustainable — in the first place.</p>
+
+      <p>This includes: who has the authority to decide, who bears the consequences, how decisions are remembered over time, how responsibility is distributed without diffusion, and how truth can be spoken without political cost.</p>
 
       <div class="thesis-block">
-        <p>At scale, authority separates from responsibility. Decisions lose their rationale. Truth becomes expensive to speak. No one designed it this way — it's the physics of organizations under speed and complexity. DRI™ makes that physics visible.</p>
+        <p>Organizations rely on human beings to absorb the failures of broken systems. AI adoption will remove those buffers, exposing underlying dysfunction at scale. DRI™ makes that dysfunction visible before the buffer disappears.</p>
       </div>
 
-      <p>As AI adoption accelerates, organizations rely less on the human beings who've been absorbing these structural gaps. The buffers are disappearing. The infrastructure underneath has to hold — or the dysfunction surfaces at scale.</p>
+      <h3>Why Organizations Fail at Scale</h3>
+
+      <p>Organizations fail predictably when the structure beneath decision-making and accountability is poorly designed, invisible, or contradictory.</p>
+
+      <p><strong>Authority separates from responsibility.</strong> People are held accountable for outcomes they cannot control. Decision rights are ambiguous. Ownership is diffuse. No one can act, and no one is truly responsible.</p>
+
+      <p><strong>Decisions are forgotten.</strong> The system loses memory of why choices were made. Rationale evaporates. Context disappears. The organization repeats the same failures because it cannot remember what it learned.</p>
+
+      <p><strong>Truth becomes politically expensive.</strong> Reality cannot be named without career risk. Signals are distorted. Feedback loops break. The gap between what is happening and what can be said grows until the organization operates on fiction.</p>
+
+      <p>These are not communication failures. They are structural failures. And they compound in AI governance contexts, where decision rights about model behavior, accountability for system outcomes, and continuity of safety commitments are often invisible, contradictory, or nonexistent.</p>
     </div>
   </section>
 
@@ -865,7 +816,9 @@
       <div class="section-label">The Method</div>
       <h2>Coherence</h2>
 
-      <p>The diagnostic method for DRI™. Three structural vertices — when they reinforce each other, the system holds. When they drift apart, people absorb the cost.</p>
+      <p>The diagnostic method for DRI™ is Coherence — a system for identifying, naming, and correcting structural failure in human systems.</p>
+
+      <p>Coherence diagnoses organizational breakdowns through three structural vertices:</p>
 
       <div class="triangle-visual">
         <div class="triangle-container">
@@ -912,12 +865,12 @@
         </div>
       </div>
 
-      <p style="margin-top: 2rem;">This isn't about what organizations are doing wrong. It's about what happens structurally when scale and speed outpace the infrastructure underneath.</p>
+      <p style="margin-top: 2rem;">When these three vertices reinforce each other, the system operates with coherence. When they drift apart, humans absorb the cost.</p>
     </div>
   </section>
 
   <!-- LENS -->
-  <section id="lens" class="lens-section" style="background: radial-gradient(ellipse 60% 40% at 30% 30%, rgba(222, 187, 85, 0.03), transparent 60%), var(--bg-primary);">
+  <section id="lens" class="lens-section">
     <div class="lens-header reveal">
       <div class="section-label">Entry Points</div>
       <h2>Same system. Different lens.</h2>
@@ -925,78 +878,78 @@
     </div>
 
     <div class="lens-grid reveal">
-      <a href="/lens/01" class="lens-card">
+      <div class="lens-card">
         <div class="lens-role">The Operator</div>
         <div class="lens-line">You own the problem. You don't own the decision.</div>
-      </a>
-      <a href="/lens/03" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">The Executive</div>
         <div class="lens-line">You set direction. The system reinterprets.</div>
-      </a>
-      <a href="/lens/18" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">The Board</div>
         <div class="lens-line">You govern what you can see. The system decides what you see.</div>
-      </a>
-      <a href="/lens/04" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">The Chief of Staff</div>
         <div class="lens-line">You see it all. You can't say it all.</div>
-      </a>
-      <a href="/lens/05" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">The New Leader</div>
         <div class="lens-line">You inherited decisions nobody can explain.</div>
-      </a>
-      <a href="/lens/06" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">The Investor</div>
         <div class="lens-line">The structural risk no one's pricing.</div>
-      </a>
-      <a href="/lens/11" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">Product</div>
         <div class="lens-line">You own the roadmap. You don't own the priorities.</div>
-      </a>
-      <a href="/lens/12" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">Engineering</div>
         <div class="lens-line">You shipped what was asked. It wasn't what was needed.</div>
-      </a>
-      <a href="/lens/13" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">Sales</div>
         <div class="lens-line">You closed the deal. The org can't deliver what you sold.</div>
-      </a>
-      <a href="/lens/14" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">Marketing</div>
         <div class="lens-line">You told the story. The experience didn't match.</div>
-      </a>
-      <a href="/lens/02" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">The Customer</div>
         <div class="lens-line">The experience your customer has is structural output.</div>
-      </a>
-      <a href="/lens/07" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">HR</div>
         <div class="lens-line">You measure engagement. The structure produces disengagement.</div>
-      </a>
-      <a href="/lens/09" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">Finance</div>
         <div class="lens-line">The budget was approved. The constraints weren't removed.</div>
-      </a>
-      <a href="/lens/10" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">Legal &amp; Compliance</div>
         <div class="lens-line">You protect the org from risk. Nobody protects you from being the reason things are slow.</div>
-      </a>
-      <a href="/lens/15" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">IT &amp; Infrastructure</div>
         <div class="lens-line">Everything runs until it doesn't. Then it's your fault.</div>
-      </a>
-      <a href="/lens/16" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">Procurement</div>
         <div class="lens-line">You manage the contract. You can't manage what they deliver.</div>
-      </a>
-      <a href="/lens/17" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">Program Management</div>
         <div class="lens-line">You own the timeline. You don't own the dependencies.</div>
-      </a>
-      <a href="/lens/08" class="lens-card">
+      </div>
+      <div class="lens-card">
         <div class="lens-role">AI Integration</div>
         <div class="lens-line">Automation doesn't create dysfunction. It reveals it.</div>
-      </a>
+      </div>
     </div>
   </section>
 
@@ -1006,53 +959,55 @@
       <div class="section-label">Diagnostic Language</div>
       <h2>The Taxonomy</h2>
 
-      <p><strong>Failure Modes</strong> name structural conditions that emerge predictably at scale — not mistakes, but physics. <strong>Functional Field Notes</strong> surface patterns while interpretation is still forming. 17 FMs. 21 FFNs. Three tiers.</p>
+      <p>Coherence uses two diagnostic primitives to make structural failure visible. <strong>Failure Modes</strong> name structurally self-reinforcing conditions that require governance intervention. <strong>Functional Field Notes</strong> surface recurring conditions while interpretation is still forming.</p>
+
+      <p>17 Failure Modes. 21 Functional Field Notes. Organized into three tiers based on causal position.</p>
     </div>
 
     <div class="fm-grid reveal" style="max-width: 1100px; margin: 2rem auto 0;">
-      <a href="/fm/fm-01" class="fm-card">
+      <a href="/fm/fm-01.html" class="fm-card">
         <div class="fm-id">FM-01</div>
         <div class="fm-name">Responsibility Compression</div>
         <div class="fm-def">Responsibility accumulates faster than authority, clarity, or capacity, concentrating decision burden at the outermost points of a system.</div>
         <div class="fm-tier">Tier 1 · Foundational</div>
       </a>
-      <a href="/fm/fm-02" class="fm-card">
+      <a href="/fm/fm-02.html" class="fm-card">
         <div class="fm-id">FM-02</div>
         <div class="fm-name">Escalation Inversion</div>
         <div class="fm-def">Escalation paths formally exist but are functionally inverted — costly, discouraged, or reputationally risky. Problems get absorbed rather than surfaced.</div>
         <div class="fm-tier">Tier 2 · Mechanism</div>
       </a>
-      <a href="/fm/fm-03" class="fm-card">
+      <a href="/fm/fm-03.html" class="fm-card">
         <div class="fm-id">FM-03</div>
         <div class="fm-name">Responsibility Without Authority</div>
         <div class="fm-def">Accountability assigned to individuals who lack the formal authority, resources, or decision rights required to change underlying conditions.</div>
         <div class="fm-tier">Tier 1 · Foundational</div>
       </a>
-      <a href="/fm/fm-04" class="fm-card">
+      <a href="/fm/fm-04.html" class="fm-card">
         <div class="fm-id">FM-04</div>
         <div class="fm-name">Metric Shadowing</div>
         <div class="fm-def">Metrics become proxies for reality rather than measurements of it. Teams optimize what is visible while unmeasured costs accumulate off-ledger.</div>
         <div class="fm-tier">Tier 2 · Mechanism</div>
       </a>
-      <a href="/fm/fm-05" class="fm-card">
+      <a href="/fm/fm-05.html" class="fm-card">
         <div class="fm-id">FM-05</div>
         <div class="fm-name">Normalized Workarounds</div>
         <div class="fm-def">Temporary fixes and informal processes become permanent operating infrastructure. The system survives through accumulated human adaptations.</div>
         <div class="fm-tier">Tier 2 · Mechanism</div>
       </a>
-      <a href="/fm/fm-07" class="fm-card">
+      <a href="/fm/fm-07.html" class="fm-card">
         <div class="fm-id">FM-07</div>
         <div class="fm-name">Coordination Decay</div>
         <div class="fm-def">Work spans multiple teams with no single role owning end-to-end outcomes. Handoffs multiply. Accountability fragments.</div>
         <div class="fm-tier">Tier 1 · Foundational</div>
       </a>
-      <a href="/fm/fm-10" class="fm-card">
+      <a href="/fm/fm-10.html" class="fm-card">
         <div class="fm-id">FM-10</div>
         <div class="fm-name">Leadership Saturation</div>
         <div class="fm-def">Senior leaders become the default resolution mechanism for problems that should be handled elsewhere. Decision backlogs accumulate at the top.</div>
         <div class="fm-tier">Tier 3 · Terminal</div>
       </a>
-      <a href="/fm/fm-17" class="fm-card">
+      <a href="/fm/fm-17.html" class="fm-card">
         <div class="fm-id">FM-17</div>
         <div class="fm-name">Structural Amnesia</div>
         <div class="fm-def">The organization loses memory of why decisions were made. Institutional knowledge degrades with each personnel change. The system cannot learn because it cannot remember.</div>
@@ -1066,64 +1021,66 @@
   </section>
 
   <!-- INSTRUMENTS -->
-  <section id="instruments" style="background: radial-gradient(ellipse 50% 50% at 70% 60%, rgba(222, 187, 85, 0.03), transparent 60%), var(--bg-primary);">
+  <section id="instruments">
     <div class="section-inner reveal">
       <div class="section-label">Diagnostic Tools</div>
       <h2>Instruments</h2>
 
-      <p>Seven instruments that observe, summarize, and suggest. They do not decide. The human stays in the loop — that's the point.</p>
+      <p>Seven instruments that observe, summarize, and suggest. They do not decide.</p>
+
+      <p style="font-size: 0.8rem; color: var(--text-dim); font-style: italic;">AR-001: Automation may observe, summarize, and suggest. Automation may not decide.</p>
     </div>
 
     <div class="instrument-list reveal">
-      <a href="/tools/fm-scanner" class="instrument-card">
+      <div class="instrument-card">
         <div class="instrument-num">001</div>
         <div class="instrument-info">
           <h4>FM Scanner</h4>
           <p>Detect failure mode patterns in organizational signals.</p>
         </div>
-      </a>
-      <a href="/tools/ffn-surface" class="instrument-card">
+      </div>
+      <div class="instrument-card">
         <div class="instrument-num">002</div>
         <div class="instrument-info">
           <h4>FFN Surface</h4>
           <p>Surface early warning signals before failure becomes entrenched.</p>
         </div>
-      </a>
-      <a href="/tools/system-nav-locator" class="instrument-card">
+      </div>
+      <div class="instrument-card">
         <div class="instrument-num">003</div>
         <div class="instrument-info">
           <h4>System Nav Locator</h4>
           <p>Orient on the diagnostic map. Identify where you are in the system.</p>
         </div>
-      </a>
-      <a href="/tools/declaration-log" class="instrument-card">
+      </div>
+      <div class="instrument-card">
         <div class="instrument-num">004</div>
         <div class="instrument-info">
           <h4>Declaration Log</h4>
           <p>Record when authority acted. Preserve decision rationale over time.</p>
         </div>
-      </a>
-      <a href="/tools/verified-independence" class="instrument-card">
+      </div>
+      <div class="instrument-card">
         <div class="instrument-num">005</div>
         <div class="instrument-info">
           <h4>Verified Independence</h4>
           <p>Prove fixes are real. Confirm structural change, not cosmetic adjustment.</p>
         </div>
-      </a>
-      <a href="/tools/regression-watch" class="instrument-card">
+      </div>
+      <div class="instrument-card">
         <div class="instrument-num">006</div>
         <div class="instrument-info">
           <h4>Regression Watch</h4>
           <p>Test if fixes hold over time. Monitor for structural decay.</p>
         </div>
-      </a>
-      <a href="/tools/continuity-chain" class="instrument-card">
+      </div>
+      <div class="instrument-card">
         <div class="instrument-num">007</div>
         <div class="instrument-info">
           <h4>Continuity Chain</h4>
           <p>Custody of meaning across time. Track how decisions survive handoffs.</p>
         </div>
-      </a>
+      </div>
     </div>
   </section>
 
@@ -1133,10 +1090,12 @@
       <div class="section-label">Evidence Layer</div>
       <h2>The Coherence Record</h2>
 
-      <p>The build record of DRI™ — published at the pace the work moves. What the diagnostic pipeline has found, where the methodology falls short, and what it cannot yet see. 15 entities. 5 sectors. Limitations disclosed.</p>
+      <p>The Coherence Record is the build record of DRI™ — published at the pace the work moves. Each edition documents what the diagnostic pipeline has found, what the methodology can and cannot see, and where the limitations are.</p>
+
+      <p>15 entities across 5 sectors. 103 diagnostic runs. FM-01 (Responsibility Compression) appearing in 14 of 15 entities. Methodology limitations disclosed. A diagnostic that measures gaps must disclose its own.</p>
 
       <div class="principle-box">
-        <p>A diagnostic that measures gaps must disclose its own.</p>
+        <p>Building in the open means publishing failures alongside successes. The JSONL expansion bug that caused 14 of 15 entities to read only 2–5× fewer documents than intended — that gets published.</p>
       </div>
 
       <div class="cta-buttons" style="margin-top: 2rem;">
@@ -1151,7 +1110,7 @@
       <div class="section-label">Who Builds This</div>
       <h2>The Ecosystem</h2>
 
-      <p>DRI™ is developed by Justin R. Greenbaum, powered by Greenbaum Labs. The work is published in the open.</p>
+      <p>DRI™ is developed and advanced by Justin R. Greenbaum, powered by the infrastructure at Greenbaum Labs. The diagnostic method — Coherence — is published regularly on Substack, where Failure Modes and Field Notes are explored in depth.</p>
 
       <div class="ecosystem-grid">
         <a href="https://justingreenbaum.com" class="eco-card" target="_blank">
