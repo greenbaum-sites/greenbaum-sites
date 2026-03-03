@@ -1,1254 +1,613 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Greenbaum Labs — Personal AI Workshop</title>
-  <meta name="description" content="A personal AI workshop running on local compute. Side projects, diagnostic tools, and experiments in applied AI by Justin R. Greenbaum.">
-
-  <!-- Open Graph -->
-  <meta property="og:title" content="Greenbaum Labs">
-  <meta property="og:description" content="Personal AI Workshop — Where diagnostic systems, analytical frameworks, and AI experiments come to life.">
-  <meta property="og:image" content="https://greenbaumlabs.com/og-greenbaumlabs.png">
-  <meta property="og:url" content="https://greenbaumlabs.com">
-  <meta property="og:type" content="website">
-
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Greenbaum Labs">
-  <meta name="twitter:description" content="Personal AI Workshop">
-  <meta name="twitter:image" content="https://greenbaumlabs.com/og-greenbaumlabs.png">
-
-  <!-- Favicons -->
-  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
-  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
-
-  <!-- JSON-LD Structured Data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Greenbaum Labs",
-    "description": "Personal AI workshop running on local compute. Diagnostic tools, governance frameworks, and experiments in applied AI built on owned infrastructure.",
-    "url": "https://greenbaumlabs.com",
-    "founder": {
-      "@type": "Person",
-      "name": "Justin R. Greenbaum",
-      "url": "https://justingreenbaum.com"
-    },
-    "sameAs": [
-      "https://justingreenbaum.com",
-      "https://linkedin.com/in/justingreenbaum"
-    ],
-    "knowsAbout": [
-      "AI Governance",
-      "Diagnostic Infrastructure",
-      "Local AI Inference",
-      "NVIDIA DGX Spark",
-      "Organizational Coherence"
-    ]
-  }
-  </script>
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --bg-primary: #0a0a0a;
-      --bg-secondary: #161616;
-      --bg-card: #1c1c1c;
-      --bg-elevated: #242424;
-      --bg-terminal: #0c0c0c;
-      --text-primary: #e8e4dc;
-      --text-secondary: #8a857f;
-      --text-dim: #4d4945;
-      --text-code: #b8d4b0;
-      --accent: #c9a84c;
-      --accent-dim: rgba(201, 168, 76, 0.1);
-      --green: #5dba5d;
-      --green-dim: rgba(93, 186, 93, 0.08);
-      --green-glow: rgba(93, 186, 93, 0.15);
-      --warm: #c8553a;
-      --warm-dim: rgba(200, 85, 58, 0.08);
-      --cyan: #5eb8c4;
-      --cyan-dim: rgba(94, 184, 196, 0.08);
-      --border: rgba(240, 236, 228, 0.07);
-      --border-hover: rgba(240, 236, 228, 0.14);
-      --border-green: rgba(93, 186, 93, 0.15);
-    }
-
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-      scrollbar-width: thin;
-      scrollbar-color: var(--text-dim) var(--bg-primary);
-    }
-
-    body {
-      font-family: 'Instrument Sans', sans-serif;
-      background: var(--bg-primary);
-      color: var(--text-primary);
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Scanline + grain overlay */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent,
-          transparent 2px,
-          rgba(93, 186, 93, 0.008) 2px,
-          rgba(93, 186, 93, 0.008) 4px
-        ),
-        url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
-      opacity: 0.035;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    /* ---- NAV ---- */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 1.5rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: linear-gradient(to bottom, rgba(10,10,10,0.96), transparent);
-      backdrop-filter: blur(10px);
-      transition: all 0.4s ease;
-    }
-
-    nav.scrolled {
-      background: rgba(10, 10, 10, 0.98);
-      padding: 1rem 3rem;
-      border-bottom: 1px solid var(--border-green);
-    }
-
-    .nav-brand {
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 0.75rem;
-    }
-
-    .nav-mark {
-      width: 24px;
-      height: 24px;
-    }
-
-    .nav-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 400;
-      font-size: 0.8rem;
-      letter-spacing: 0.08em;
-      color: var(--text-primary);
-    }
-
-    .nav-name span {
-      color: var(--green);
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 2.5rem;
-      list-style: none;
-      align-items: center;
-    }
-
-    .nav-links a {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a:hover { color: var(--green); }
-
-    .nav-toggle {
-      display: none;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 0.5rem;
-    }
-
-    .nav-toggle span {
-      display: block;
-      width: 20px;
-      height: 1px;
-      background: var(--text-primary);
-      margin: 5px 0;
-      transition: transform 0.3s ease, opacity 0.3s ease;
-    }
-
-    /* ---- HERO ---- */
-    .hero {
-      min-height: 100vh;
-      display: flex;
-      align-items: flex-end;
-      padding: 0 3rem 6rem;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .hero-bg {
-      position: absolute;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 40% 40% at 80% 25%, var(--green-dim), transparent),
-        radial-gradient(ellipse 30% 50% at 15% 70%, var(--warm-dim), transparent),
-        radial-gradient(ellipse 50% 30% at 50% 90%, var(--cyan-dim), transparent),
-        var(--bg-primary);
-    }
-
-    .hero-grid {
-      position: absolute;
-      inset: 0;
-      background-image:
-        linear-gradient(var(--border) 1px, transparent 1px),
-        linear-gradient(90deg, var(--border) 1px, transparent 1px);
-      background-size: 80px 80px;
-      opacity: 0.5;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 760px;
-    }
-
-    .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(3rem, 7vw, 5.5rem);
-      line-height: 1.05;
-      letter-spacing: -0.02em;
-      margin-bottom: 2rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.3s;
-    }
-
-    .hero h1 .lab { color: var(--green); }
-
-    .hero h1 em {
-      font-style: italic;
-      display: block;
-      color: var(--text-secondary);
-      font-size: 0.5em;
-      margin-top: 0.3em;
-      font-family: 'Instrument Sans', sans-serif;
-      font-weight: 400;
-      letter-spacing: 0;
-    }
-
-    .hero-sub {
-      font-size: 1rem;
-      line-height: 1.85;
-      color: var(--text-secondary);
-      max-width: 560px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.5s;
-    }
-
-    .hero-diagram {
-      max-width: 560px;
-      margin-top: 2.5rem;
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.6s;
-    }
-
-    .hero-diagram-row {
-      display: flex;
-      align-items: center;
-      gap: 0;
-    }
-
-    .hero-diagram-box {
-      flex: 1;
-      background: var(--bg-terminal);
-      border: 1px solid var(--border-green);
-      padding: 0.75rem 1rem;
-      text-align: center;
-    }
-
-    .hero-diagram-box.gold { border-color: rgba(201, 168, 76, 0.3); }
-    .hero-diagram-box.cyan { border-color: rgba(94, 184, 196, 0.3); }
-
-    .hero-diagram-box-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.45rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 0.3rem;
-    }
-
-    .hero-diagram-box-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      color: var(--text-primary);
-    }
-
-    .hero-diagram-box .hero-diagram-box-name { color: var(--green); }
-    .hero-diagram-box.gold .hero-diagram-box-name { color: var(--accent); }
-    .hero-diagram-box.cyan .hero-diagram-box-name { color: var(--cyan); }
-
-    .hero-diagram-line {
-      width: 20px;
-      height: 1px;
-      background: var(--border-green);
-      flex-shrink: 0;
-    }
-
-    .hero-diagram-caption {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.08em;
-      color: var(--text-dim);
-      margin-top: 0.75rem;
-    }
-
-    .hero-cta {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: var(--text-secondary);
-      opacity: 0;
-      animation: fadeUp 0.8s ease forwards 0.7s;
-    }
-
-    .hero-cta a {
-      color: var(--green);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border-green);
-      transition: border-color 0.3s ease;
-    }
-
-    .hero-cta a:hover { border-color: var(--green); }
-
-    .hero-scroll {
-      position: absolute;
-      bottom: 2rem;
-      right: 3rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-      opacity: 0;
-      animation: fadeIn 1s ease forwards 1.5s;
-    }
-
-    .hero-scroll span {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      writing-mode: vertical-rl;
-    }
-
-    .scroll-line {
-      width: 1px;
-      height: 60px;
-      background: linear-gradient(to bottom, var(--green), transparent);
-      animation: pulse 2s ease infinite;
-    }
-
-    /* ---- SECTION UTILITIES ---- */
-    .section-label {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      font-weight: 300;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 3rem;
-      display: flex;
-      align-items: center;
-      gap: 1.5rem;
-    }
-
-    .section-label::before {
-      content: '';
-      width: 40px;
-      height: 1px;
-      background: var(--green);
-      opacity: 0.4;
-    }
-
-    /* ---- FAMILIAR ---- */
-    .familiar {
-      padding: 8rem 3rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border);
-    }
-
-    .familiar-inner {
-      max-width: 700px;
-      margin: 0 auto;
-    }
-
-    .familiar h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 2rem;
-    }
-
-    .familiar p {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.85;
-      margin-bottom: 1.5rem;
-    }
-
-    .familiar p strong {
-      color: var(--text-primary);
-      font-weight: 500;
-    }
-
-    /* ---- FLAGSHIP ---- */
-    .flagship {
-      padding: 8rem 3rem;
-      background:
-        radial-gradient(ellipse 60% 40% at 50% 30%, rgba(93,186,93,0.03), transparent),
-        var(--bg-primary);
-      border-top: 1px solid var(--border-green);
-    }
-
-    .flagship-inner {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .flagship h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2.5rem, 4vw, 3.5rem);
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-    }
-
-    .flagship-problem {
-      font-size: 1.05rem;
-      line-height: 1.85;
-      color: var(--text-primary);
-      margin-bottom: 2rem;
-    }
-
-    .flagship-does {
-      font-size: 0.95rem;
-      line-height: 1.85;
-      color: var(--text-secondary);
-      margin-bottom: 2rem;
-    }
-
-    .flagship-proof {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-      padding: 1.25rem 0;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-    }
-
-    .flagship-status {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--green);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .flagship-status .dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--green);
-      box-shadow: 0 0 6px var(--green-glow);
-      animation: blink 3s ease infinite;
-    }
-
-    .flagship-stat {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.05em;
-      color: var(--text-dim);
-    }
-
-    .flagship-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-bottom: 2rem;
-    }
-
-    .flagship-link {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-      color: var(--green);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border-green);
-      padding-bottom: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .flagship-link:hover {
-      border-color: var(--green);
-    }
-
-    /* ---- PROJECTS ---- */
-    .projects {
-      padding: 8rem 3rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border);
-    }
-
-    .projects-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .projects h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-
-    .projects-sub {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      max-width: 600px;
-      margin-bottom: 4rem;
-    }
-
-    .project-list {
-      display: flex;
-      flex-direction: column;
-      gap: 0;
-    }
-
-    .project {
-      display: grid;
-      grid-template-columns: 80px 1fr auto;
-      gap: 2.5rem;
-      align-items: start;
-      padding: 3rem 0;
-      border-top: 1px solid var(--border);
-      transition: all 0.3s ease;
-    }
-
-    .project:hover { padding-left: 1rem; }
-
-    .project-id {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      color: var(--text-dim);
-      padding-top: 0.3rem;
-    }
-
-    .project-main {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-    }
-
-    .project-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.5rem;
-      font-weight: 400;
-    }
-
-    .project-problem {
-      font-size: 0.9rem;
-      color: var(--text-primary);
-      line-height: 1.6;
-    }
-
-    .project-does {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-    }
-
-    .project-stack {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.5rem;
-      margin-top: 0.75rem;
-    }
-
-    .tag {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      padding: 0.3rem 0.6rem;
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      color: var(--text-secondary);
-    }
-
-    .tag.green { border-color: var(--border-green); color: var(--green); }
-    .tag.warm { border-color: rgba(200, 85, 58, 0.2); color: var(--warm); }
-    .tag.cyan { border-color: rgba(94, 184, 196, 0.2); color: var(--cyan); }
-    .tag.gold { border-color: rgba(201, 168, 76, 0.2); color: var(--accent); }
-
-    .project-meta {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 1rem;
-    }
-
-    .project-status {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .project-status .dot {
-      width: 5px;
-      height: 5px;
-      border-radius: 50%;
-      background: var(--text-dim);
-    }
-
-    .project-status.live .dot {
-      background: var(--green);
-      box-shadow: 0 0 6px var(--green-glow);
-      animation: blink 3s ease infinite;
-    }
-
-    .project-status.live { color: var(--green); }
-    .project-status.planned .dot { background: var(--accent); }
-    .project-status.planned { color: var(--accent); }
-
-    .project-link {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.05em;
-      color: var(--text-dim);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border);
-      padding-bottom: 2px;
-      transition: all 0.3s ease;
-    }
-
-    .project-link:hover {
-      color: var(--green);
-      border-color: var(--green);
-    }
-
-    /* ---- INSTRUMENTS ---- */
-    .instruments {
-      padding: 8rem 3rem;
-      background: var(--bg-primary);
-      border-top: 1px solid var(--border);
-    }
-
-    .instruments-inner {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    .instruments h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-
-    .instruments-explainer {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.9;
-      max-width: 680px;
-      margin-bottom: 3rem;
-    }
-
-    .instruments-catalog {
-      margin-bottom: 0;
-    }
-
-    .catalog-item {
-      display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 1.5rem;
-      padding: 0.6rem 0;
-      border-bottom: 1px solid var(--border);
-      align-items: baseline;
-    }
-
-    .catalog-item:first-child {
-      border-top: 1px solid var(--border);
-    }
-
-    .catalog-name {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.05em;
-      color: var(--green);
-    }
-
-    .catalog-desc {
-      font-size: 0.8rem;
-      color: var(--text-secondary);
-      line-height: 1.5;
-    }
-
-    /* ---- ECOSYSTEM ---- */
-    .ecosystem {
-      padding: 8rem 3rem;
-      background: var(--bg-secondary);
-      border-top: 1px solid var(--border-green);
-    }
-
-    .eco-inner {
-      max-width: 1200px;
-      margin: 0 auto;
-    }
-
-    .ecosystem h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 1rem;
-    }
-
-    .eco-sub {
-      font-size: 0.95rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      max-width: 520px;
-      margin-bottom: 4rem;
-    }
-
-    .eco-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--border);
-    }
-
-    .eco-card {
-      background: var(--bg-secondary);
-      padding: 2rem;
-      text-decoration: none;
-      transition: all 0.3s ease;
-    }
-
-    .eco-card:hover { background: var(--bg-card); }
-
-    .eco-eyebrow {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      margin-bottom: 1rem;
-    }
-
-    .eco-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
-      color: var(--text-primary);
-      margin-bottom: 0.75rem;
-    }
-
-    .eco-desc {
-      font-size: 0.85rem;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 1.5rem;
-    }
-
-    .eco-url {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      color: var(--text-dim);
-    }
-
-    /* ---- CONNECT ---- */
-    .connect {
-      padding: 8rem 3rem;
-      background: var(--bg-primary);
-      border-top: 1px solid var(--border);
-      text-align: center;
-    }
-
-    .connect h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
-      line-height: 1.2;
-      margin-bottom: 1.5rem;
-    }
-
-    .connect p {
-      font-size: 1rem;
-      color: var(--text-secondary);
-      line-height: 1.8;
-      max-width: 520px;
-      margin: 0 auto 2rem;
-    }
-
-    .connect-email {
-      display: inline-block;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 1rem;
-      color: var(--green);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border-green);
-      padding-bottom: 4px;
-      margin-bottom: 2.5rem;
-      transition: all 0.3s ease;
-    }
-
-    .connect-email:hover { border-color: var(--green); }
-
-    .connect-links {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-    }
-
-    .connect-btn {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--text-dim);
-      text-decoration: none;
-      padding: 0.6rem 1.2rem;
-      border: 1px solid var(--border);
-      transition: all 0.3s ease;
-    }
-
-    .connect-btn:hover {
-      border-color: var(--border-green);
-      color: var(--green);
-    }
-
-    /* ---- FOOTER ---- */
-    footer {
-      padding: 2rem 3rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      border-top: 1px solid var(--border);
-    }
-
-    .footer-l {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.1em;
-      color: var(--text-dim);
-    }
-
-    .footer-r {
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.55rem;
-      letter-spacing: 0.05em;
-      color: var(--text-dim);
-    }
-
-    .footer-r a {
-      color: var(--text-dim);
-      text-decoration: none;
-      transition: color 0.3s ease;
-    }
-
-    .footer-r a:hover { color: var(--green); }
-
-    /* ---- ANIMATIONS ---- */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    @keyframes blink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.3; }
-    }
-
-    @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
-    }
-
-    .reveal {
-      opacity: 0;
-      transform: translateY(40px);
-      transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .reveal.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-
-    /* ---- RESPONSIVE ---- */
-    @media (max-width: 1024px) {
-      .eco-grid { grid-template-columns: 1fr 1fr; }
-    }
-
-    @media (max-width: 768px) {
-      nav { padding: 1rem 1.5rem; }
-      nav.open { background: rgba(10, 10, 10, 0.98); }
-      .nav-links {
-        display: none;
-        position: absolute;
-        top: 100%;
-        left: 0;
-        right: 0;
-        flex-direction: column;
-        gap: 0;
-        background: rgba(10, 10, 10, 0.98);
-        border-bottom: 1px solid var(--border-green);
-        padding: 1rem 0;
-      }
-      nav.open .nav-links { display: flex; }
-      .nav-links li { padding: 0; }
-      .nav-links a {
-        display: block;
-        padding: 0.75rem 1.5rem;
-        font-size: 0.7rem;
-      }
-      .nav-toggle { display: block; }
-      .nav-toggle.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
-      .nav-toggle.active span:nth-child(2) { opacity: 0; }
-      .nav-toggle.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
-      .hero { padding: 0 1.5rem 4rem; }
-      .hero-scroll { display: none; }
-      .hero-diagram-row { flex-direction: column; gap: 0; }
-      .hero-diagram-line { width: 1px; height: 12px; }
-      .hero-diagram-box { width: 100%; }
-      .familiar, .flagship, .projects, .instruments, .ecosystem, .connect {
-        padding: 5rem 1.5rem;
-      }
-      .flagship-proof { gap: 1rem; }
-      .project { grid-template-columns: 1fr; gap: 1rem; }
-      .project-meta { align-items: flex-start; flex-direction: row; gap: 1.5rem; }
-      .project-id { display: none; }
-      .catalog-item { grid-template-columns: 1fr; gap: 0.3rem; }
-      .eco-grid { grid-template-columns: 1fr; }
-      footer { flex-direction: column; gap: 1rem; text-align: center; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Greenbaum Labs</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   GREENBAUM LABS v11 — Elevated Visual Design
+   Strong dark/light alternation, atmospheric sections
+   ═══════════════════════════════════════════════ */
+
+:root{
+/* DARK palette — Deep Emerald */
+--bg:#07110C;--bg2:#0A1812;--bg3:#0D1E17;
+--bg-light:#F6F5F2;--bg-light2:#EEEDEA;--bg-light3:#E5E4E0;
+--card:#0A1812;--card-h:#0D1E17;
+--card-light:#FFFFFF;--card-light-h:#FAFAF8;
+--bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.12);
+--bdr-light:rgba(0,0,0,.08);
+--g:#34D399;--g2:#5EEAD4;--g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);--g-hi:rgba(52,211,153,.2);--g-glow:rgba(52,211,153,.3);
+--g-dark:#059669;
+--t1:#F0F0F0;--t2:#A8B0A8;--t3:#6B7A6E;--t4:#3A4A3D;
+--t1-light:#111;--t2-light:#555;--t3-light:#888;--t4-light:#CCC;
+}
+html[data-theme="light"]{
+--bg:#FAFAF8;--bg2:#F2F1EE;--bg3:#E8E7E3;
+--bg-light:#07110C;--bg-light2:#0A1812;--bg-light3:#0D1E17;
+--card:#FFFFFF;--card-h:#F7F7F5;
+--card-light:#0A1812;--card-light-h:#0D1E17;
+--bdr:rgba(0,0,0,.07);--bdr2:rgba(0,0,0,.12);
+--bdr-light:rgba(255,255,255,.08);
+--g:#059669;--g2:#10B981;--g-lo:rgba(5,150,105,.04);--g-md:rgba(5,150,105,.08);--g-hi:rgba(5,150,105,.14);--g-glow:rgba(5,150,105,.2);
+--g-dark:#34D399;
+--t1:#111;--t2:#555;--t3:#888;--t4:#CCC;
+--t1-light:#F0F0F0;--t2-light:#A8B0A8;--t3-light:#6B7A6E;--t4-light:#3A4A3D;
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{background:var(--bg);color:var(--t2);font-family:'Instrument Sans',sans-serif;overflow-x:hidden;transition:background .5s,color .5s}
+::selection{background:var(--g-hi);color:var(--t1)}
+
+.prog{position:fixed;top:0;left:0;height:2px;background:var(--g);z-index:200;width:0;pointer-events:none;box-shadow:0 0 12px var(--g-glow)}
+
+/* ═══ NAV ═══ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(7,17,12,.92);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bdr);transition:all .5s}
+html[data-theme="light"] nav{background:rgba(250,250,248,.85)}
+.nm{display:flex;align-items:center;gap:.7rem;text-decoration:none}
+.nm svg{width:28px;height:28px}
+.nw{font-size:.75rem;font-weight:700;color:var(--t1);letter-spacing:.15em;text-transform:uppercase;transition:color .5s}
+.nr{display:flex;align-items:center;gap:1.5rem}
+.nl{display:flex;gap:1.5rem;list-style:none}
+.nl a{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);text-decoration:none;transition:color .3s}
+.nl a:hover{color:var(--g)}
+.nt{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:4px}
+.nt span{width:18px;height:1.5px;background:var(--t3);display:block}
+.tt{width:32px;height:18px;border-radius:9px;background:var(--bg3);border:1px solid var(--bdr);cursor:pointer;position:relative;transition:all .3s;flex-shrink:0}
+.tt::after{content:'';position:absolute;top:2px;left:2px;width:12px;height:12px;border-radius:50%;background:var(--g);transition:transform .3s cubic-bezier(.68,-.55,.27,1.55)}
+html[data-theme="light"] .tt::after{transform:translateX(14px)}
+
+/* ═══ HERO — Full atmosphere ═══ */
+.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 2rem 3rem;position:relative;overflow:hidden;background:#060E0A}
+
+/* Dot grid texture */
+.hero::before{content:'';position:absolute;inset:0;
+background-image:radial-gradient(circle,rgba(52,211,153,.12) 1px,transparent 1px);
+background-size:40px 40px;pointer-events:none;
+mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,black 20%,transparent 70%);
+-webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,black 20%,transparent 70%);
+animation:dot-drift 20s linear infinite}
+html[data-theme="light"] .hero::before{background-image:radial-gradient(circle,rgba(5,150,105,.05) 1px,transparent 1px)}
+@keyframes dot-drift{0%{background-position:0 0}100%{background-position:40px 40px}}
+
+/* Glow layers hidden — clean evergreen */
+.hero-glow{display:none}
+
+.hero-mark-wrap{position:relative;z-index:1;margin-bottom:2.5rem}
+.hero-mark-glow{display:none}
+.hero-mark{width:220px;height:220px;opacity:0;
+filter:drop-shadow(0 0 6px rgba(52,211,153,.5)) drop-shadow(0 0 20px rgba(52,211,153,.22)) drop-shadow(0 0 50px rgba(52,211,153,.07));
+animation:mark-in 1.6s cubic-bezier(.16,1,.3,1) .3s forwards}
+html[data-theme="light"] .hero-mark{filter:drop-shadow(0 0 6px rgba(5,150,105,.6)) drop-shadow(0 0 20px rgba(5,150,105,.3)) drop-shadow(0 0 60px rgba(5,150,105,.12))}
+@keyframes mark-in{0%{opacity:0;transform:scale(.92)}100%{opacity:1;transform:scale(1)}}
+
+.hero-name{position:relative;z-index:1;font-size:clamp(2.6rem,6.5vw,5.5rem);font-weight:700;letter-spacing:-.04em;color:var(--t1);line-height:1;margin-bottom:1.5rem;transition:color .5s;animation:text-up .9s cubic-bezier(.16,1,.3,1) 1.4s both}
+.hero-name .g{color:var(--g)}
+.hero-desc{position:relative;z-index:1;font-size:1.15rem;color:var(--t2);line-height:1.7;max-width:580px;transition:color .5s;animation:text-up .9s cubic-bezier(.16,1,.3,1) 1.7s both}
+@keyframes text-up{0%{opacity:0;transform:translateY(24px)}100%{opacity:1;transform:translateY(0)}}
+
+.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:1;animation:text-up .9s cubic-bezier(.16,1,.3,1) 2.2s both}
+.hero-scroll span{display:block;width:1px;height:48px;background:linear-gradient(to bottom,var(--g),transparent);animation:scroll-line 2s ease-in-out infinite}
+@keyframes scroll-line{0%{opacity:0;transform:scaleY(0);transform-origin:top}30%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1);transform-origin:bottom}}
+
+/* ═══ SECTION SYSTEM — Alternating dark/light ═══ */
+.wrap{max-width:1100px;margin:0 auto;padding:0 2.5rem}
+.sec{padding:8rem 0;position:relative}
+
+/* DARK sections */
+.sec-dark{background:var(--bg);color:var(--t2);transition:background .5s}
+.sec-dark .sec-label{color:var(--g)}
+.sec-dark .sec-h{color:var(--t1)}
+.sec-dark .sec-p{color:var(--t3)}
+
+/* LIGHT sections — real contrast */
+.sec-light{background:var(--bg-light);color:var(--t2-light);transition:background .5s;position:relative}
+.sec-light .sec-label{color:var(--g-dark)}
+.sec-light .sec-h{color:var(--t1-light)}
+.sec-light .sec-p{color:var(--t3-light)}
+
+/* Section typography */
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem}
+.sec-label::before{content:'';width:24px;height:1px;background:currentColor;opacity:.5}
+.sec-h{font-weight:700;font-size:clamp(2rem,3.5vw,3.2rem);line-height:1.08;letter-spacing:-.035em;margin-bottom:1.2rem;transition:color .5s}
+.sec-p{font-size:.98rem;line-height:1.8;max-width:540px;transition:color .5s}
+
+/* ═══ DIAMOND DIVIDER — Neon line emitting from diamond ═══ */
+.gem-div{position:relative;height:0;display:flex;align-items:center;justify-content:center;z-index:2}
+/* The neon line */
+.gem-div::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;
+background:linear-gradient(90deg,transparent 2%,rgba(52,211,153,.06) 15%,rgba(52,211,153,.25) 40%,rgba(52,211,153,.5) 48%,rgba(52,211,153,.5) 52%,rgba(52,211,153,.25) 60%,rgba(52,211,153,.06) 85%,transparent 98%)}
+/* Soft glow behind the line */
+.gem-div::after{content:'';position:absolute;left:15%;right:15%;top:50%;height:2px;transform:translateY(-50%);
+background:linear-gradient(90deg,transparent,rgba(52,211,153,.1) 35%,rgba(52,211,153,.2) 50%,rgba(52,211,153,.1) 65%,transparent);
+filter:blur(3px)}
+/* The diamond itself */
+.gem-div svg{position:relative;z-index:1;width:14px;height:14px;color:var(--g);
+filter:drop-shadow(0 0 3px rgba(52,211,153,.6)) drop-shadow(0 0 8px rgba(52,211,153,.2))}
+/* Light theme overrides */
+html[data-theme="light"] .gem-div::before{
+background:linear-gradient(90deg,transparent 2%,rgba(5,150,105,.04) 15%,rgba(5,150,105,.18) 40%,rgba(5,150,105,.35) 48%,rgba(5,150,105,.35) 52%,rgba(5,150,105,.18) 60%,rgba(5,150,105,.04) 85%,transparent 98%)}
+html[data-theme="light"] .gem-div::after{
+background:linear-gradient(90deg,transparent,rgba(5,150,105,.1) 35%,rgba(5,150,105,.2) 50%,rgba(5,150,105,.1) 65%,transparent)}
+html[data-theme="light"] .gem-div svg{
+filter:drop-shadow(0 0 4px rgba(5,150,105,.4)) drop-shadow(0 0 12px rgba(5,150,105,.15))}
+
+/* ═══ DRI SECTION (dark) ═══ */
+.dri-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;align-items:center}
+.tri-area{display:flex;justify-content:center;position:relative}
+.tri-area::before{content:'';position:absolute;inset:-40px;background:radial-gradient(circle at center,rgba(52,211,153,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none}
+html[data-theme="light"] .tri-area::before{background:radial-gradient(circle at center,rgba(5,150,105,.04) 0%,transparent 70%)}
+.tsvg{width:100%;max-width:320px;position:relative;z-index:1}
+.tri-line{stroke-dasharray:700;stroke-dashoffset:700;transition:stroke-dashoffset 2s cubic-bezier(.16,1,.3,1)}
+.tri-line.drawn{stroke-dashoffset:0}
+.tri-dot{opacity:0;transform-origin:center;transition:opacity .4s,transform .4s}
+.tri-dot.drawn{opacity:1;transform:scale(1)}
+.tri-lbl{opacity:0;transition:opacity .5s}
+.tri-lbl.drawn{opacity:1}
+.tax-list{display:flex;flex-direction:column}
+.tx{display:flex;gap:1.25rem;align-items:center;padding:1.5rem 0;border-bottom:1px solid var(--bdr);transition:border .5s}
+.tx:first-child{padding-top:0}
+.tx:last-child{border-bottom:none;padding-bottom:0}
+.tx-n{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:600;color:var(--g);min-width:52px;transition:color .5s}
+.tx-t{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t1);transition:color .5s}
+.tx-d{font-size:.86rem;color:var(--t3);line-height:1.6;margin-top:.2rem;transition:color .5s}
+.fw-link{display:inline-flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:500;color:var(--g);text-decoration:none;margin-top:2rem;padding:.6rem 1.2rem;background:var(--g-lo);border:1px solid var(--g-md);border-radius:4px;transition:all .3s}
+.fw-link:hover{background:var(--g-md);border-color:var(--g)}
+/* Light-section overrides for taxonomy */
+.sec-light .tx-t{color:var(--t1-light)}
+.sec-light .tx-d{color:var(--t3-light)}
+.sec-light .tx-n{color:var(--g-dark)}
+.sec-light .tx{border-color:var(--bdr-light)}
+.sec-light .fw-link{color:var(--g-dark);background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.15)}
+.sec-light .fw-link:hover{background:rgba(5,150,105,.12);border-color:var(--g-dark)}
+
+/* ═══ RECORD SECTION (light) ═══ */
+.editions{margin-top:3rem;display:flex;flex-direction:column;gap:1px;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04)}
+html[data-theme="dark"] .editions{box-shadow:0 0 0 1px rgba(255,255,255,.04),0 8px 32px rgba(0,0,0,.4)}
+.ed-card{display:grid;grid-template-columns:80px 1fr;gap:2rem;padding:2rem 2rem;background:var(--card-light);text-decoration:none;transition:all .3s;border-left:3px solid transparent}
+html[data-theme="dark"] .ed-card{background:var(--card)}
+.ed-card:hover{border-left-color:var(--g)}
+.ed-card:hover .ed-title{color:var(--g)}
+.ed-num{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:600;color:var(--g);line-height:1;transition:all .3s}
+html[data-theme="light"] .ed-num{color:var(--g)}
+.ed-date{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--t4-light);margin-top:.3rem;transition:color .5s}
+html[data-theme="dark"] .ed-date{color:var(--t4)}
+.ed-title{font-size:1.15rem;font-weight:700;color:var(--t1-light);margin-bottom:.4rem;transition:color .3s}
+html[data-theme="dark"] .ed-title{color:var(--t1)}
+.ed-desc{font-size:.87rem;color:var(--t3-light);line-height:1.65;transition:color .5s}
+html[data-theme="dark"] .ed-desc{color:var(--t3)}
+
+/* ═══ FLEET SECTION (dark) — Bold data display ═══ */
+.fleet-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;align-items:start}
+.fleet-big{font-family:'JetBrains Mono',monospace;font-size:clamp(7rem,16vw,12rem);font-weight:600;color:var(--g);line-height:.78;letter-spacing:-.06em;transition:color .5s;text-shadow:0 0 80px var(--g-glow),0 0 160px rgba(52,211,153,.15)}
+html[data-theme="light"] .fleet-big{text-shadow:none}
+.fleet-sub{font-size:1.15rem;font-weight:700;color:var(--t1);margin-top:1.5rem;line-height:1.3;transition:color .5s}
+.fleet-note{font-size:.9rem;color:var(--t3);margin-top:.75rem;line-height:1.6;transition:color .5s}
+.fl-sec{padding:1.1rem 0;border-bottom:1px solid var(--bdr);transition:all .3s}
+.fl-sec:last-child{border-bottom:none}
+.fl-sec:hover{padding-left:.75rem}
+.fl-sec:hover .fl-name{color:var(--g2)}
+.fl-name{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);transition:all .3s}
+.fl-desc{font-size:.84rem;color:var(--t3);line-height:1.55;margin-top:.15rem;transition:color .5s}
+/* Light-section overrides for fleet */
+.sec-light .fleet-sub{color:var(--t1-light)}
+.sec-light .fleet-note{color:var(--t2-light)}
+.sec-light .fl-name{color:var(--g-dark)}
+.sec-light .fl-desc{color:var(--t3-light)}
+.sec-light .fl-sec{border-color:var(--bdr-light)}
+.sec-light .fl-sec:hover .fl-name{color:var(--g-dark)}
+
+/* Fleet stats bar */
+.fleet-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:4rem;border-radius:8px;overflow:hidden;border:1px solid var(--bdr2);background:var(--bdr)}
+.fm-cell{background:var(--card);padding:1.5rem 1.25rem;text-align:center;transition:background .3s}
+.fm-cell:hover{background:var(--card-h)}
+.fm-v{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--t1);transition:color .5s}
+.fm-l{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-top:.4rem;transition:color .5s}
+/* Force fleet meta dark — terminal style like infra */
+.sec-light .fleet-meta{border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.04);box-shadow:0 0 0 1px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.15)}
+.sec-light .fm-cell{background:#0A1812}
+.sec-light .fm-cell:hover{background:#0D1E17}
+.sec-light .fm-v{color:#F0F0F0}
+.sec-light .fm-l{color:#6B7A6E}
+
+/* ═══ PIPELINE SECTION (light) — Numbered cards à la Inovarion ═══ */
+.pipeline-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2.5rem;background:var(--bdr-light);border-radius:12px;overflow:hidden;border:1px solid var(--bdr-light)}
+html[data-theme="dark"] .pipeline-grid{background:var(--bdr);border-color:var(--bdr)}
+.pipe-card{background:var(--card-light);padding:2.5rem 1.5rem;text-align:center;transition:all .3s;position:relative}
+html[data-theme="dark"] .pipe-card{background:var(--card)}
+.pipe-card:hover{transform:translateY(-2px)}
+.pipe-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--g);color:#000;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;margin-bottom:1.25rem}
+.pipe-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t1-light);margin-bottom:.5rem;transition:color .5s}
+html[data-theme="dark"] .pipe-title{color:var(--t1)}
+.pipe-desc{font-size:.82rem;color:var(--t3-light);line-height:1.6;transition:color .5s}
+html[data-theme="dark"] .pipe-desc{color:var(--t3)}
+
+/* ═══ INFRA SECTION (dark) — Terminal style, more drama ═══ */
+.infra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3.5rem;background:var(--bdr);border-radius:8px;overflow:hidden;border:1px solid var(--bdr2);box-shadow:0 0 0 1px rgba(52,211,153,.03),0 12px 40px rgba(0,0,0,.4)}
+html[data-theme="light"] .infra-grid{box-shadow:0 0 0 1px rgba(0,0,0,.04),0 8px 32px rgba(0,0,0,.06)}
+.inf{background:var(--bg2);padding:2.25rem;transition:all .3s;position:relative;overflow:hidden}
+.inf::before{content:'_';position:absolute;top:.75rem;right:1rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--g);opacity:.3;animation:blink 1.2s step-end infinite}
+.inf::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g-md),transparent);opacity:0;transition:opacity .3s}
+.inf:hover::after{opacity:1}
+html[data-theme="dark"] .inf:hover{background:var(--bg3)}
+/* Force infra cards to always be dark terminal style */
+.sec-light .infra-grid{background:rgba(255,255,255,.06);border-color:rgba(0,0,0,.1);box-shadow:0 0 0 1px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.15)}
+.sec-light .inf{background:#0A1812}
+.sec-light .inf:hover{background:#0D1E17}
+.sec-light .inf-label{color:#34D399}
+.sec-light .inf-val{color:#F0F0F0}
+.sec-light .inf-note{color:#666}
+.sec-light .inf::before{color:#34D399}
+.sec-light .inf::after{background:linear-gradient(90deg,transparent,rgba(52,211,153,.1),transparent)}
+.sec-light .ar-rule{background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.15)}
+.sec-light .ar-tag{color:var(--g-dark);background:rgba(5,150,105,.12)}
+.sec-light .ar-txt{color:var(--t2-light)}
+@keyframes blink{50%{opacity:0}}
+.inf-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--g);opacity:.7;transition:color .5s}
+.inf-val{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--t1);margin-top:.5rem;transition:color .5s}
+.inf-note{font-size:.8rem;color:var(--t3);margin-top:.25rem;line-height:1.5;transition:color .5s}
+.ar-rule{margin-top:3.5rem;display:flex;gap:1rem;align-items:center;padding:1.25rem 1.5rem;background:var(--g-lo);border:1px solid var(--g-md);border-radius:6px;transition:all .5s}
+.ar-tag{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;color:var(--g);white-space:nowrap;padding:.25rem .6rem;background:var(--g-md);border-radius:3px;transition:all .5s}
+.ar-txt{font-size:.94rem;color:var(--t2);font-style:italic;transition:color .5s}
+
+/* ═══ ABOUT SECTION (light) ═══ */
+.about-layout{display:grid;grid-template-columns:3fr 2fr;gap:5rem;margin-top:3rem}
+.about-text{font-size:1rem;line-height:1.85;color:var(--t2-light);transition:color .5s}
+html[data-theme="dark"] .about-text{color:var(--t2)}
+.about-text p+p{margin-top:1.2rem}
+.about-meta{display:flex;flex-direction:column}
+.am{padding:1rem 0;border-bottom:1px solid var(--bdr-light);transition:border .5s}
+html[data-theme="dark"] .am{border-color:var(--bdr)}
+.am:last-child{border-bottom:none}
+.am-l{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--t4-light);transition:color .5s}
+html[data-theme="dark"] .am-l{color:var(--t4)}
+.am-v{font-size:.88rem;color:var(--t1-light);margin-top:.15rem;transition:color .5s}
+html[data-theme="dark"] .am-v{color:var(--t1)}
+.am-v a{color:var(--g);text-decoration:none}
+html[data-theme="light"] .am-v a{color:var(--g)}
+.am-v a:hover{text-decoration:underline}
+
+/* ═══ CTA SECTION (dark — bold, full-bleed) ═══ */
+.cta{padding:8rem 0;text-align:center;position:relative;overflow:hidden;background:var(--bg)}
+/* CTA dot grid — matches hero */
+.cta::before{content:'';position:absolute;inset:0;
+background-image:radial-gradient(circle,rgba(52,211,153,.035) 1px,transparent 1px);
+background-size:32px 32px;pointer-events:none;
+mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent);
+-webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent)}
+html[data-theme="light"] .cta::before{background-image:radial-gradient(circle,rgba(5,150,105,.04) 1px,transparent 1px)}
+.cta::after{display:none}
+.cta-h{position:relative;z-index:1;font-weight:700;font-size:clamp(1.8rem,3.2vw,2.8rem);color:var(--t1);letter-spacing:-.03em;line-height:1.15;margin-bottom:1.2rem;transition:color .5s}
+.cta-p{position:relative;z-index:1;font-size:1.02rem;color:var(--t3);line-height:1.7;max-width:460px;margin:0 auto 2.5rem;transition:color .5s}
+.cta-email{position:relative;z-index:1;display:inline-flex;align-items:center;gap:.6rem;font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:500;color:#000;text-decoration:none;padding:.85rem 2.5rem;border:none;border-radius:6px;background:var(--g);transition:all .3s;box-shadow:0 0 30px var(--g-glow)}
+.cta-email:hover{background:var(--g2);box-shadow:0 0 50px var(--g-glow);transform:translateY(-1px)}
+.cta-types{position:relative;z-index:1;display:flex;justify-content:center;gap:.6rem;margin-top:2rem;flex-wrap:wrap}
+.cta-type{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t4);padding:.3rem .7rem;border:1px solid var(--bdr);border-radius:3px;transition:all .3s}
+.cta-type:hover{border-color:var(--g-md);color:var(--g)}
+
+/* ═══ FOOTER (dark, substantial) ═══ */
+footer{background:var(--bg2);border-top:1px solid var(--bdr);transition:all .5s}
+.footer-inner{max-width:1100px;margin:0 auto;padding:2.5rem 2.5rem 1.5rem;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem}
+.footer-brand{display:flex;flex-direction:column;gap:.75rem}
+.footer-brand .nw{font-size:.8rem}
+.footer-brand-desc{font-size:.8rem;color:var(--t3);line-height:1.6;max-width:280px}
+.footer-col-title{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem}
+.footer-col a{display:block;font-size:.82rem;color:var(--t2);text-decoration:none;padding:.3rem 0;transition:color .3s}
+.footer-col a:hover{color:var(--g)}
+.footer-bottom{max-width:1100px;margin:0 auto;padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--bdr);font-size:.65rem;color:var(--t4)}
+/* Kill any trailing body space */
+footer{margin-bottom:0;padding-bottom:0}
+body{margin:0;padding:0}
+html{height:auto}
+
+/* ═══ REVEAL ANIMATIONS ═══ */
+.rv{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+.rv.v{opacity:1;transform:translateY(0)}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:960px){
+nav{padding:0 1.5rem}.wrap{padding:0 1.5rem}.hero{padding:56px 1.5rem 3rem}
+.sec{padding:5rem 0}
+.hero-mark{width:160px;height:160px}
+.nl{display:none}.nl.a{display:flex;flex-direction:column;position:absolute;top:56px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--bdr);padding:1.5rem;gap:1rem;z-index:99}.nt{display:flex}
+.dri-layout{grid-template-columns:1fr}
+.fleet-layout{grid-template-columns:1fr;gap:3rem}
+.fleet-meta{grid-template-columns:repeat(2,1fr)}
+.pipeline-grid{grid-template-columns:repeat(2,1fr)}
+.infra-grid{grid-template-columns:1fr}
+.about-layout{grid-template-columns:1fr}
+.footer-inner{grid-template-columns:1fr;gap:2rem;text-align:center}
+.footer-brand{align-items:center}
+.footer-brand-desc{max-width:100%}
+.footer-bottom{flex-direction:column;gap:.75rem;text-align:center}
+}
+@media(max-width:480px){
+.hero-mark{width:120px;height:120px}
+.hero-name{font-size:2.4rem}
+.fleet-big{font-size:5.5rem}
+.fleet-meta{grid-template-columns:1fr}
+.pipeline-grid{grid-template-columns:1fr}
+}
+</style>
 </head>
 <body>
+<div class="prog" id="sp"></div>
 
-  <!-- Nav -->
-  <nav id="nav">
-    <a href="#" class="nav-brand">
-      <img src="/mark.png" alt="" class="nav-mark">
-      <span class="nav-name">greenbaum<span>labs</span></span>
-    </a>
-    <ul class="nav-links">
-      <li><a href="#coherence">Coherence</a></li>
-      <li><a href="#projects">Projects</a></li>
-      <li><a href="#instruments">Instruments</a></li>
-      <li><a href="#ecosystem">Ecosystem</a></li>
-      <li><a href="#connect">Contact</a></li>
-    </ul>
-    <button class="nav-toggle" aria-label="Menu">
-      <span></span><span></span><span></span>
-    </button>
-  </nav>
+<nav>
+<a href="#" class="nm">
+<svg viewBox="0 0 400 400" width="28" height="28"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" style="color:var(--g)"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="12" stroke-linejoin="round" fill="none" style="color:var(--g)"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="12" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="12" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="12" stroke-linecap="round" style="color:var(--g)"/></svg>
+<span class="nw">Greenbaum Labs</span>
+</a>
+<div class="nr">
+<ul class="nl" id="nl">
+<li><a href="#research">Research</a></li>
+<li><a href="#record">Record</a></li>
+<li><a href="#fleet">Fleet</a></li>
+<li><a href="#infra">Infrastructure</a></li>
+<li><a href="#about">About</a></li>
+</ul>
+<button class="tt" id="tt" aria-label="Theme"></button>
+<button class="nt" id="nt" aria-label="Menu"><span></span><span></span><span></span></button>
+</div>
+</nav>
 
-  <!-- Hero -->
-  <section class="hero">
-    <div class="hero-bg"></div>
-    <div class="hero-grid"></div>
-    <div class="hero-content">
-      <h1>Greenbaum<br><span class="lab">Labs</span><em>A personal AI workshop running on local compute.</em></h1>
-      <p class="hero-sub">A working diagnostic lab. Three machines, local inference, structured outputs. One governing constraint: automation observes, summarizes, and suggests — it does not decide.</p>
-      <div class="hero-diagram">
-        <div class="hero-diagram-row">
-          <div class="hero-diagram-box">
-            <div class="hero-diagram-box-label">Compute</div>
-            <div class="hero-diagram-box-name">DGX Spark</div>
-          </div>
-          <div class="hero-diagram-line"></div>
-          <div class="hero-diagram-box gold">
-            <div class="hero-diagram-box-label">Storage</div>
-            <div class="hero-diagram-box-name">Synology NAS</div>
-          </div>
-          <div class="hero-diagram-line"></div>
-          <div class="hero-diagram-box cyan">
-            <div class="hero-diagram-box-label">Interface</div>
-            <div class="hero-diagram-box-name">Mac Studio</div>
-          </div>
-        </div>
-        <p class="hero-diagram-caption">Compute handles inference. Storage holds truth. Humans hold authority.</p>
-      </div>
-      <p class="hero-cta">If something here feels adjacent to a problem you're navigating: <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a></p>
-    </div>
-    <div class="hero-scroll">
-      <span>Scroll</span>
-      <div class="scroll-line"></div>
-    </div>
-  </section>
+<!-- ═══════════ HERO ═══════════ -->
+<section class="hero">
+<div class="hero-glow"><b></b><b></b><b></b></div>
+<div class="hero-mark-wrap">
+<div class="hero-mark-glow"></div>
+<svg class="hero-mark" viewBox="0 0 400 400"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none" style="color:var(--g)"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none" style="color:var(--g)"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="10" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="10" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="10" stroke-linecap="round" style="color:var(--g)"/></svg>
+</div>
+<div class="hero-name"><span class="g">Greenbaum</span> Labs</div>
+<p class="hero-desc">Diagnostic instruments for organizational coherence.<br>Competitive benchmarks built on owned infrastructure.</p>
+<div class="hero-scroll"><span></span></div>
+</section>
+<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-  <!-- If This Feels Familiar -->
-  <section class="familiar" id="familiar">
-    <div class="familiar-inner">
-      <div class="reveal">
-        <div class="section-label">Recognition</div>
-        <h2>If this feels familiar.</h2>
-      </div>
-      <div class="reveal">
-        <p><strong>When truth drifts from authority,</strong> you see it in the same places every time. The executive team says one thing in the earnings call; the frontline team lives something else entirely. Customer reviews tell a different story than press releases. People absorb the gap — and that absorption is invisible until it isn't.</p>
-        <p><strong>When you wire a diagnostic lab into your workflows</strong> — local compute, adversarial validation, structured outputs — you stop guessing where the misalignment lives. You start measuring it. Not with surveys or sentiment dashboards, but with scored findings that survive challenge. The infrastructure is small. The implications aren't.</p>
-      </div>
-    </div>
-  </section>
+<!-- ═══════════ DRI RESEARCH (LIGHT) ═══════════ -->
+<section id="research" class="sec sec-light">
+<div class="wrap">
+<div class="sec-label rv">Primary Research Program</div>
+<h2 class="sec-h rv">Decision &amp; Responsibility Infrastructure&#8482;</h2>
+<p class="sec-p rv">The structural conditions that make good decisions possible. Not the decisions themselves.</p>
+<div class="dri-layout rv">
+<div class="tri-area">
+<svg class="tsvg" id="triSvg" viewBox="-20 -10 340 310" fill="none">
+<polygon class="tri-line" points="150,30 35,255 265,255" stroke="currentColor" stroke-width="1.5" fill="none" style="color:var(--g)"/>
+<circle class="tri-dot" cx="150" cy="30" r="6" fill="currentColor" style="color:var(--g)"/>
+<circle class="tri-dot" cx="35" cy="255" r="6" fill="currentColor" style="color:var(--g)"/>
+<circle class="tri-dot" cx="265" cy="255" r="6" fill="currentColor" style="color:var(--g)"/>
+<!-- Connection lines between vertices and center -->
+<line class="tri-line" x1="150" y1="30" x2="150" y2="180" stroke="currentColor" stroke-width=".5" stroke-dasharray="4 4" style="color:var(--g);opacity:.3"/>
+<line class="tri-line" x1="35" y1="255" x2="150" y2="180" stroke="currentColor" stroke-width=".5" stroke-dasharray="4 4" style="color:var(--g);opacity:.3"/>
+<line class="tri-line" x1="265" y1="255" x2="150" y2="180" stroke="currentColor" stroke-width=".5" stroke-dasharray="4 4" style="color:var(--g);opacity:.3"/>
+<circle class="tri-dot" cx="150" cy="180" r="3" fill="currentColor" style="color:var(--g);opacity:.5"/>
+<text class="tri-lbl" x="150" y="12" text-anchor="middle" fill="currentColor" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="0.2em" style="color:var(--g-dark)">TRUTH</text>
+<text class="tri-lbl" x="35" y="282" text-anchor="middle" fill="currentColor" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="0.2em" style="color:var(--g-dark)">AUTHORITY</text>
+<text class="tri-lbl" x="265" y="282" text-anchor="middle" fill="currentColor" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="0.2em" style="color:var(--g-dark)">CONTINUITY</text>
+</svg>
+</div>
+<div>
+<div class="tax-list">
+<div class="tx"><div class="tx-n">17</div><div class="tx-body"><div class="tx-t">Failure Modes</div><div class="tx-d">Named structural breakdowns that recur across organizations at scale.</div></div></div>
+<div class="tx"><div class="tx-n">21</div><div class="tx-body"><div class="tx-t">Functional Field Notes</div><div class="tx-d">Patterns observed while interpretation is still forming.</div></div></div>
+<div class="tx"><div class="tx-n">7</div><div class="tx-body"><div class="tx-t">Instruments</div><div class="tx-d">FM Scanner, FFN Surface, System Nav, Continuity Chain, Regression Watch, Declaration Log, Verified Independence.</div></div></div>
+<div class="tx"><div class="tx-n">4</div><div class="tx-body"><div class="tx-t">Pipeline Stages</div><div class="tx-d">Collect. Extract. Score. Synthesize.</div></div></div>
+</div>
+<a href="https://dripractice.com" class="fw-link" target="_blank">dripractice.com &#8594;</a>
+</div>
+</div>
+</div>
+</section>
+<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-  <!-- Coherence -->
-  <section class="flagship" id="coherence">
-    <div class="flagship-inner">
-      <div class="reveal">
-        <div class="section-label">The Diagnostic Engine</div>
-        <h2>Coherence</h2>
-        <p class="flagship-problem">Organizations can't measure the gap between what they say and what the world sees. The disconnect compounds silently until it surfaces as a crisis.</p>
-      </div>
-      <div class="reveal">
-        <p class="flagship-does">A four-stage diagnostic pipeline — Collect, Extract, Score, Synthesize — that compares center narrative against edge reality. Every finding is challenged by an adversarial Skeptic before it enters the record. All local compute. No data leaves the network.</p>
-        <div class="flagship-proof">
-          <div class="flagship-status"><div class="dot"></div>Live</div>
-          <span class="flagship-stat">13 pipeline runs</span>
-          <span class="flagship-stat">1,377 claims scored</span>
-        </div>
-        <div class="flagship-stack">
-          <span class="tag green">DGX Spark</span>
-          <span class="tag cyan">ChromaDB</span>
-          <span class="tag">qwen3:32b</span>
-          <span class="tag gold">DRI&trade;</span>
-        </div>
-        <a href="/case-study-diagnostic-engine" class="flagship-link">Read the technical case study &rarr;</a>
-      </div>
-    </div>
-  </section>
+<!-- ═══════════ COHERENCE RECORD (DARK) ═══════════ -->
+<section id="record" class="sec sec-dark">
+<div class="wrap">
+<div class="sec-label rv">The Coherence Record</div>
+<h2 class="sec-h rv">Published at the pace the work moves.</h2>
+<p class="sec-p rv">Each edition documents what the pipeline found, what broke, and what changed.</p>
+<div class="editions rv">
+<a href="https://writing.justingreenbaum.com" class="ed-card" target="_blank">
+<div><div class="ed-num">03</div><div class="ed-date">Feb 2026</div></div>
+<div><div class="ed-title">Does it hold at scale?</div><div class="ed-desc">Fifteen entities. Five sectors. A JSONL bug that corrupted fourteen diagnostics. The fleet was discarded and re-run.</div></div>
+</a>
+<a href="https://writing.justingreenbaum.com" class="ed-card" target="_blank">
+<div><div class="ed-num">02</div><div class="ed-date">Jan 2026</div></div>
+<div><div class="ed-title">Can it measure one company?</div><div class="ed-desc">Thirteen runs on a single entity. Agent-powered extraction, adversarial debate, score evolution.</div></div>
+</a>
+<a href="https://writing.justingreenbaum.com" class="ed-card" target="_blank">
+<div><div class="ed-num">01</div><div class="ed-date">Dec 2025</div></div>
+<div><div class="ed-title">Can the infrastructure exist?</div><div class="ed-desc">Forty hours. One entity. One GPU. Public data. Owned hardware.</div></div>
+</a>
+</div>
+</div>
+</section>
+<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-  <!-- Projects -->
-  <section class="projects" id="projects">
-    <div class="projects-inner">
-      <div class="reveal">
-        <div class="section-label">Projects</div>
-        <h2>What else is on the bench.</h2>
-        <p class="projects-sub">Not everything here is meant to ship. Some projects test an idea or solve a problem for one person. The ones that matter tend to stay.</p>
-      </div>
+<!-- ═══════════ FLEET DATA (LIGHT) ═══════════ -->
+<section id="fleet" class="sec sec-light">
+<div class="wrap">
+<div class="sec-label rv">Diagnostic Fleet</div>
+<h2 class="sec-h rv">Fifteen entities. Five sectors. Three per sector. One finding.</h2>
+<p class="sec-p rv">Each sector scored three entities on identical instruments &#8212; producing the first competitive coherence dataset of its kind.</p>
+<div class="fleet-layout rv">
+<div>
+<div class="fleet-big" id="fleetNum">14/15</div>
+<div class="fleet-sub">FM-01: Responsibility Compression</div>
+<div class="fleet-note">Responsibility accumulates at the edge faster than infrastructure can contain it.</div>
+</div>
+<div>
+<div class="fl-sec"><div class="fl-name">Aerospace</div><div class="fl-desc">Truth most stressed. Narrative fractures under regulatory scrutiny.</div></div>
+<div class="fl-sec"><div class="fl-name">Fintech</div><div class="fl-desc">Highest evidence density. Complaints reveal invisible gaps.</div></div>
+<div class="fl-sec"><div class="fl-name">Consumer</div><div class="fl-desc">Highest Truth, weakest Authority. Brand holds where structure does not.</div></div>
+<div class="fl-sec"><div class="fl-name">Auto / EV</div><div class="fl-desc">Authority fracture. Decision distribution gap.</div></div>
+<div class="fl-sec"><div class="fl-name">Big Tech</div><div class="fl-desc">Highest coherence. Truth still floors. Scale manages, cannot close.</div></div>
+</div>
+</div>
+<div class="fleet-meta rv">
+<div class="fm-cell"><div class="fm-v">0.448</div><div class="fm-l">Fleet Avg</div></div>
+<div class="fm-cell"><div class="fm-v">0.37&#8211;0.52</div><div class="fm-l">Range</div></div>
+<div class="fm-cell"><div class="fm-v">103</div><div class="fm-l">Runs</div></div>
+<div class="fm-cell"><div class="fm-v">~1,900h</div><div class="fm-l">Inference</div></div>
+</div>
+</div>
+</section>
+<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-      <div class="project-list reveal">
+<!-- ═══════════ PIPELINE (DARK) — Numbered cards ═══════════ -->
+<section class="sec sec-dark">
+<div class="wrap">
+<div class="sec-label rv">Diagnostic Pipeline</div>
+<h2 class="sec-h rv">Four stages. Full provenance at every step.</h2>
+<p class="sec-p rv">Every score traces back to a source document, an extraction event, and a reasoning chain.</p>
+<div class="pipeline-grid rv">
+<div class="pipe-card">
+<div class="pipe-num">01</div>
+<div class="pipe-title">Collect</div>
+<div class="pipe-desc">Public filings, disclosures, complaints, and regulatory records. No privileged access required.</div>
+</div>
+<div class="pipe-card">
+<div class="pipe-num">02</div>
+<div class="pipe-title">Extract</div>
+<div class="pipe-desc">Agent-powered extraction surfaces structural signals across document types and timeframes.</div>
+</div>
+<div class="pipe-card">
+<div class="pipe-num">03</div>
+<div class="pipe-title">Score</div>
+<div class="pipe-desc">Instruments score each entity on identical dimensions. Adversarial debate refines every assessment.</div>
+</div>
+<div class="pipe-card">
+<div class="pipe-num">04</div>
+<div class="pipe-title">Synthesize</div>
+<div class="pipe-desc">Cross-entity patterns emerge. Sector benchmarks form. The Coherence Record publishes findings.</div>
+</div>
+</div>
+</div>
+</section>
+<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-        <div class="project">
-          <div class="project-id">GL-002</div>
-          <div class="project-main">
-            <div class="project-name">RC Pit Boss</div>
-            <div class="project-problem">RC race directors lose track of timing, heats, and standings during chaotic race days.</div>
-            <div class="project-does">Voice-controlled race management that handles marshals, timing, and announcements. Built for one person, shipped as a gift.</div>
-            <div class="project-stack">
-              <span class="tag green">Python</span>
-              <span class="tag cyan">Whisper</span>
-              <span class="tag">Voice UI</span>
-            </div>
-          </div>
-          <div class="project-meta">
-            <div class="project-status live"><div class="dot"></div>Live</div>
-            <a href="https://rcpitboss.com" class="project-link" target="_blank">rcpitboss.com</a>
-          </div>
-        </div>
+<!-- ═══════════ INFRASTRUCTURE (LIGHT) ═══════════ -->
+<section id="infra" class="sec sec-light">
+<div class="wrap">
+<div class="sec-label rv">Infrastructure</div>
+<h2 class="sec-h rv">Owned hardware. Local inference. Full provenance.</h2>
+<div class="infra-grid rv">
+<div class="inf"><div class="inf-label">compute</div><div class="inf-val">2&#215; DGX Spark</div><div class="inf-note">128GB unified / node</div></div>
+<div class="inf"><div class="inf-label">storage</div><div class="inf-val">Synology NAS</div><div class="inf-note">10GbE &#183; full audit</div></div>
+<div class="inf"><div class="inf-label">models</div><div class="inf-val">Qwen3 32B</div><div class="inf-note">local &#183; all stages</div></div>
+</div>
+<div class="ar-rule rv">
+<div class="ar-tag">AR-001</div>
+<div class="ar-txt">Automation may observe, summarize, and suggest, but may not decide.</div>
+</div>
+</div>
+</section>
+<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-        <div class="project">
-          <div class="project-id">GL-003</div>
-          <div class="project-main">
-            <div class="project-name">Brand Ecosystem Builder</div>
-            <div class="project-problem">Four websites, four identities, no shared language. Brand presence fragmented across platforms with no design system connecting them.</div>
-            <div class="project-does">A monorepo of four live sites sharing a dark design system — typography, color palette, and component patterns unified across justingreenbaum.com, greenbaumlabs.com, greenbaumphotography.com, and megabrixels.com. Vanilla HTML/CSS, deployed via GitHub Pages.</div>
-            <div class="project-stack">
-              <span class="tag">Monorepo</span>
-              <span class="tag green">GitHub Pages</span>
-              <span class="tag gold">Design System</span>
-            </div>
-          </div>
-          <div class="project-meta">
-            <div class="project-status live"><div class="dot"></div>Live</div>
-            <a href="https://justingreenbaum.com" class="project-link" target="_blank">justingreenbaum.com</a>
-          </div>
-        </div>
+<!-- ═══════════ ABOUT (DARK) ═══════════ -->
+<section id="about" class="sec sec-dark">
+<div class="wrap">
+<div class="sec-label rv">About</div>
+<h2 class="sec-h rv">Founded to build what was missing.</h2>
+<div class="about-layout rv">
+<div class="about-text">
+<p>Greenbaum Labs is a research and engineering lab founded by Justin R. Greenbaum. The lab builds diagnostic instruments for organizational coherence &#8212; scoring organizations against their sector competitors on identical instruments and publishing the findings as applied research.</p>
+<p>Justin spent twenty years in Fortune 30 operations at Comcast, managing teams and budgets across regulatory response, cybersecurity, privacy, and executive escalations. The Coherence framework emerged from observing the same structural breakdowns recur across every organizational context.</p>
+</div>
+<div class="about-meta">
+<div class="am"><div class="am-l">entity</div><div class="am-v">Greenbaum Labs, LLC</div></div>
+<div class="am"><div class="am-l">founded</div><div class="am-v">2026 &#183; New Jersey</div></div>
+<div class="am"><div class="am-l">founder</div><div class="am-v">Justin R. Greenbaum</div></div>
+<div class="am"><div class="am-l">current</div><div class="am-v">MIT Sloan AI Executive Academy &#183; March 2026</div></div>
+</div>
+</div>
+</div>
+</section>
+<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-        <div class="project">
-          <div class="project-id">GL-004</div>
-          <div class="project-main">
-            <div class="project-name">50K Image Index</div>
-            <div class="project-problem">A decade of photography sitting invisible on drives. No way to find what I shot or when.</div>
-            <div class="project-does">AI-assisted cataloging with metadata extraction, location tagging, and semantic search across the full archive.</div>
-            <div class="project-stack">
-              <span class="tag green">DGX Spark</span>
-              <span class="tag cyan">CLIP</span>
-              <span class="tag gold">Metadata</span>
-            </div>
-          </div>
-          <div class="project-meta">
-            <div class="project-status planned"><div class="dot"></div>Planned</div>
-          </div>
-        </div>
+<!-- ═══════════ CTA (DARK — bold) ═══════════ -->
+<section class="cta">
+<div class="wrap">
+<h2 class="cta-h rv">If this work is relevant to yours, let&#8217;s talk.</h2>
+<p class="cta-p rv">The lab runs competitive coherence diagnostics, advisory engagements, and research partnerships. Start with an email.</p>
+<div class="rv">
+<a id="eml" class="cta-email" href="#">&#8203;</a>
+</div>
+<div class="cta-types rv">
+<span class="cta-type">Competitive Diagnostic</span>
+<span class="cta-type">Advisory</span>
+<span class="cta-type">Research</span>
+</div>
+</div>
+</section>
 
-      </div>
-    </div>
-  </section>
+<!-- ═══════════ FOOTER (DARK, SUBSTANTIAL) ═══════════ -->
+<footer>
+<div class="footer-inner">
+<div class="footer-brand">
+<div style="display:flex;align-items:center;gap:.6rem">
+<svg viewBox="0 0 400 400" width="22" height="22"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" style="color:var(--g)"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="14" stroke-linejoin="round" fill="none" style="color:var(--g)"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round" style="color:var(--g)"/></svg>
+<span class="nw">Greenbaum Labs</span>
+</div>
+<p class="footer-brand-desc">Diagnostic instruments for organizational coherence. Competitive benchmarks built on owned infrastructure.</p>
+</div>
+<div class="footer-col">
+<div class="footer-col-title">Research</div>
+<a href="https://dripractice.com" target="_blank">DRI Practice</a>
+<a href="https://writing.justingreenbaum.com" target="_blank">Coherence Record</a>
+<a href="https://writing.justingreenbaum.com" target="_blank">Substack</a>
+</div>
+<div class="footer-col">
+<div class="footer-col-title">Connect</div>
+<a href="https://justingreenbaum.com" target="_blank">justingreenbaum.com</a>
+<a href="#" class="footer-email">Email the lab</a>
+</div>
+</div>
+<div class="footer-bottom">
+<div>&#169; 2026 Greenbaum Labs, LLC</div>
+<div style="font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--t4)">New Jersey</div>
+</div>
+</footer>
 
-  <!-- Instruments -->
-  <section class="instruments" id="instruments">
-    <div class="instruments-inner">
-      <div class="reveal">
-        <div class="section-label">~/instruments</div>
-        <h2>Seven instruments.</h2>
-        <p class="instruments-explainer">Tools that surface where organizational meaning breaks down, name the structural conditions causing it, and record what changes when someone acts.</p>
-      </div>
-      <div class="instruments-catalog reveal">
-        <div class="catalog-item"><span class="catalog-name">FM Scanner</span><span class="catalog-desc">Watches structural breakdowns. Records failure mode matches.</span></div>
-        <div class="catalog-item"><span class="catalog-name">FFN Surface</span><span class="catalog-desc">Watches early drift signals. Records field notes before failure.</span></div>
-        <div class="catalog-item"><span class="catalog-name">System Nav Locator</span><span class="catalog-desc">Watches diagnostic position. Records where you stand.</span></div>
-        <div class="catalog-item"><span class="catalog-name">Declaration Log</span><span class="catalog-desc">Watches authority events. Records who decided and when.</span></div>
-        <div class="catalog-item"><span class="catalog-name">Verified Independence</span><span class="catalog-desc">Watches recovery claims. Records evidence that a fix is real.</span></div>
-        <div class="catalog-item"><span class="catalog-name">Regression Watch</span><span class="catalog-desc">Watches fix durability. Records whether corrections hold or decay.</span></div>
-        <div class="catalog-item"><span class="catalog-name">Continuity Chain</span><span class="catalog-desc">Watches meaning persistence. Records the through-line across time.</span></div>
-      </div>
-    </div>
-  </section>
+<script>
+(function(){
+/* Email obfuscation */
+var u='justin',d='greenbaumlabs.com',e=document.getElementById('eml');
+if(e){e.href='mai'+'lto:'+u+'@'+d;e.textContent=u+'@'+d}
+var fe=document.querySelector('.footer-email');
+if(fe){fe.href='mai'+'lto:'+u+'@'+d}
 
-  <!-- Ecosystem -->
-  <section class="ecosystem" id="ecosystem">
-    <div class="eco-inner">
-      <div class="reveal">
-        <div class="section-label">The Ecosystem</div>
-        <h2>Where this fits.</h2>
-        <p class="eco-sub">Greenbaum Labs is the workshop. These are the other rooms.</p>
-      </div>
-      <div class="eco-grid reveal">
-        <a href="https://justingreenbaum.com" class="eco-card" target="_blank">
-          <div class="eco-eyebrow">The Thesis</div>
-          <div class="eco-name">Justin Greenbaum</div>
-          <div class="eco-desc">Decision and responsibility infrastructure. Advisory work, AI governance, and the Coherence framework.</div>
-          <span class="eco-url">justingreenbaum.com</span>
-        </a>
-        <a href="https://writing.justingreenbaum.com" class="eco-card" target="_blank">
-          <div class="eco-eyebrow">The Writing</div>
-          <div class="eco-name">Substack</div>
-          <div class="eco-desc">Essays on coherence, decisions, and building infrastructure for what matters.</div>
-          <span class="eco-url">writing.justingreenbaum.com</span>
-        </a>
-        <a href="https://greenbaumphotography.com" class="eco-card" target="_blank">
-          <div class="eco-eyebrow">The Eye</div>
-          <div class="eco-name">Greenbaum Photography</div>
-          <div class="eco-desc">Documentary and fine art photography on Leica. Five continents, 50K+ images.</div>
-          <span class="eco-url">greenbaumphotography.com</span>
-        </a>
-        <a href="https://megabrixels.com" class="eco-card" target="_blank">
-          <div class="eco-eyebrow">The Studio</div>
-          <div class="eco-name">Megabrixels</div>
-          <div class="eco-desc">Fine art photography meets miniature worlds built from Lego. Craft as antidote to content.</div>
-          <span class="eco-url">megabrixels.com</span>
-        </a>
-      </div>
-    </div>
-  </section>
+/* Theme toggle */
+var tog=document.getElementById('tt'),html=document.documentElement;
+try{var s=localStorage.getItem('gl-theme');if(s)html.setAttribute('data-theme',s)}catch(x){}
+if(tog)tog.addEventListener('click',function(){var c=html.getAttribute('data-theme'),n=c==='light'?'dark':'light';html.setAttribute('data-theme',n);try{localStorage.setItem('gl-theme',n)}catch(x){}});
 
-  <!-- Connect -->
-  <section class="connect" id="connect">
-    <div class="reveal">
-      <div class="section-label" style="justify-content: center;">~/connect</div>
-      <h2>Open garage door.</h2>
-      <p>I've spent most of my career close to operations, risk, and workflows. Greenbaum Labs is where I test what happens when you give that kind of work a small, stubborn AI workshop instead of another slide deck.</p>
-      <p>If you're exploring an internal AI lab, advisor role, or just want to compare notes on how to wire these systems together on real infrastructure, send a note my way.</p>
-      <a href="mailto:justin@greenbaumlabs.com" class="connect-email">justin@greenbaumlabs.com</a>
-      <div class="connect-links">
-        <a href="https://linkedin.com/in/justingreenbaum" class="connect-btn" target="_blank">LinkedIn</a>
-        <a href="https://writing.justingreenbaum.com" class="connect-btn" target="_blank">Substack</a>
-        <a href="https://github.com/RCPITBOSS" class="connect-btn" target="_blank">GitHub</a>
-      </div>
-    </div>
-  </section>
+/* Mobile nav */
+var t=document.getElementById('nt'),l=document.getElementById('nl');
+if(t&&l){t.addEventListener('click',function(){t.classList.toggle('a');l.classList.toggle('a')});var aa=l.querySelectorAll('a');for(var i=0;i<aa.length;i++)aa[i].addEventListener('click',function(){t.classList.remove('a');l.classList.remove('a')})}
 
-  <!-- Footer -->
-  <footer>
-    <div class="footer-l">&copy; 2026 Greenbaum Labs &mdash; Built on owned infrastructure</div>
-    <div class="footer-r">
-      <a href="https://justingreenbaum.com">Person</a> &middot;
-      <a href="https://greenbaumphotography.com">Photography</a> &middot;
-      <a href="https://megabrixels.com">Studio</a>
-    </div>
-  </footer>
+/* Progress bar */
+var sp=document.getElementById('sp');
+window.addEventListener('scroll',function(){var h=document.documentElement.scrollHeight-window.innerHeight;if(h>0)sp.style.width=(window.scrollY/h*100)+'%'},{passive:true});
 
-  <script>
-    const nav = document.getElementById('nav');
-    window.addEventListener('scroll', () => {
-      nav.classList.toggle('scrolled', window.scrollY > 80);
-    });
+/* Reveal on scroll */
+var rv=document.querySelectorAll('.rv');
+var obs=new IntersectionObserver(function(en){for(var j=0;j<en.length;j++){if(en[j].isIntersecting){en[j].target.classList.add('v');obs.unobserve(en[j].target)}}},{threshold:0.06,rootMargin:'0px 0px -60px 0px'});
+for(var k=0;k<rv.length;k++)obs.observe(rv[k]);
 
-    // Mobile menu toggle
-    const toggle = document.querySelector('.nav-toggle');
-    toggle.addEventListener('click', () => {
-      nav.classList.toggle('open');
-      toggle.classList.toggle('active');
-    });
-    document.querySelectorAll('.nav-links a').forEach(link => {
-      link.addEventListener('click', () => {
-        nav.classList.remove('open');
-        toggle.classList.remove('active');
-      });
-    });
+/* Triangle animation */
+var tri=document.getElementById('triSvg');
+if(tri){var tO=new IntersectionObserver(function(en){if(en[0].isIntersecting){var li=tri.querySelectorAll('.tri-line'),dt=tri.querySelectorAll('.tri-dot'),lb=tri.querySelectorAll('.tri-lbl');for(var a=0;a<li.length;a++)li[a].classList.add('drawn');setTimeout(function(){for(var b=0;b<dt.length;b++)dt[b].classList.add('drawn')},800);setTimeout(function(){for(var c=0;c<lb.length;c++)lb[c].classList.add('drawn')},1300);tO.unobserve(tri)}},{threshold:0.3});tO.observe(tri)}
 
-    const reveals = document.querySelectorAll('.reveal');
-    const obs = new IntersectionObserver((entries) => {
-      entries.forEach((entry, i) => {
-        if (entry.isIntersecting) {
-          setTimeout(() => entry.target.classList.add('visible'), i * 80);
-          obs.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-    reveals.forEach(el => obs.observe(el));
-  </script>
+/* Smooth scroll for anchor links */
+var anc=document.querySelectorAll('a[href^="#"]');
+for(var m=0;m<anc.length;m++)anc[m].addEventListener('click',function(ev){var tgt=document.querySelector(this.getAttribute('href'));if(tgt){ev.preventDefault();tgt.scrollIntoView({behavior:'smooth',block:'start'})}});
+})();
+</script>
 </body>
 </html>
