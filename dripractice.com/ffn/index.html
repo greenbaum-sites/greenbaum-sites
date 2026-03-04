@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 21 Functional Field Notes | DRI Practice</title>
+  <meta name="description" content="Recurring conditions observed across organizations where interpretation is still forming. 21 functional field notes that surface early-warning signals of structural failure.">
+  <link rel="canonical" href="https://dripractice.com/ffn/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --warm-dim: rgba(200, 85, 58, 0.1);
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 10, 10, 0.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+    .nav-brand { text-decoration: none; display: flex; flex-direction: column; }
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: 1.3rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-primary);
+    }
+    .nav-name .tm { font-size: 0.6em; vertical-align: super; color: var(--text-dim); }
+    .nav-role {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 300;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary);
+      text-decoration: none; transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a.active { color: var(--accent); }
+
+    .page-content {
+      max-width: 1100px; margin: 0 auto;
+      padding: 8rem 3rem 4rem;
+    }
+    .back-link {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim);
+      text-decoration: none; transition: color 0.3s ease;
+      display: inline-block; margin-bottom: 2rem;
+    }
+    .back-link:hover { color: var(--accent); }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; font-weight: 300;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.15;
+      letter-spacing: -0.02em; margin-bottom: 1rem;
+    }
+    .intro {
+      font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary);
+      margin-bottom: 3rem; max-width: 720px;
+    }
+    .fm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+    a.fm-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.8rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+    a.fm-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .fm-id {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+    .fm-name {
+      font-family: 'Cormorant Garamond', serif; font-weight: 400;
+      font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.6rem;
+    }
+    .fm-def {
+      font-size: 0.8rem; line-height: 1.6; color: var(--text-secondary);
+      margin-bottom: 0.8rem;
+    }
+    .fm-tier {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
+      padding-top: 0.6rem; border-top: 1px solid var(--border);
+    }
+
+    footer {
+      padding: 2.5rem 3rem; display: flex; justify-content: space-between;
+      align-items: center; border-top: 1px solid var(--border);
+    }
+    .footer-l, .footer-r {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase;
+    }
+    .footer-r a {
+      color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease;
+    }
+    .footer-r a:hover { color: var(--accent); }
+
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 101; }
+    .nav-toggle span { display: block; width: 20px; height: 1px; background: var(--text-primary); margin: 5px 0; transition: all 0.3s ease; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none; position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+        background: var(--bg-primary); flex-direction: column;
+        justify-content: flex-start; align-items: center;
+        padding-top: 4rem; gap: 1.5rem; z-index: 99;
+      }
+      .nav-links.active { display: flex; }
+      .page-content { padding: 6rem 1.5rem 3rem; }
+      .fm-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">
+      <span class="nav-name">DRI<span class="tm">™</span></span>
+      <span class="nav-role">Decision · Responsibility · Infrastructure</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#field">The Field</a></li>
+      <li><a href="/#coherence">Coherence</a></li>
+      <li><a href="/#lens">Lens</a></li>
+      <li><a href="/#taxonomy" class="active">Taxonomy</a></li>
+      <li><a href="/#instruments">Instruments</a></li>
+      <li><a href="/#record">Record</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="page-content">
+    <a href="/#taxonomy" class="back-link">← Back to DRI</a>
+    <div class="section-label">Functional Field Notes</div>
+    <h1>The 21 Functional Field Notes</h1>
+    <p class="intro">Recurring conditions observed across organizations that surface early-warning signals of structural failure. Each names a pattern worth watching before it hardens into a failure mode.</p>
+
+    <div class="fm-grid">
+      <a href="/ffn/ffn-01" class="fm-card">
+        <div class="fm-id">FFN-01</div>
+        <div class="fm-name">Responsibility Compression at the Edge</div>
+        <div class="fm-def">The people closest to the work carry the most responsibility but have the least authority to change outcomes.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-02" class="fm-card">
+        <div class="fm-id">FFN-02</div>
+        <div class="fm-name">Interpretive Drift</div>
+        <div class="fm-def">The system has lost a shared way to interpret what it is seeing. Signals continue to flow, but shared meaning does not.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-03" class="fm-card">
+        <div class="fm-id">FFN-03</div>
+        <div class="fm-name">Authority Without Commitment</div>
+        <div class="fm-def">The system has authority on paper, but no mechanism that requires it to be exercised. Indecision is not neutral.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-04" class="fm-card">
+        <div class="fm-id">FFN-04</div>
+        <div class="fm-name">Escalation Inversion</div>
+        <div class="fm-def">Escalation paths formally exist but are functionally inverted — costly, discouraged, or reputationally dangerous. Problems get absorbed rather than surfaced.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-05" class="fm-card">
+        <div class="fm-id">FFN-05</div>
+        <div class="fm-name">Escalation Bounceback</div>
+        <div class="fm-def">Senior leaders frequently pass accountability down the chain rather than absorbing it at their level. Escalations circulate back to their origin.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-06" class="fm-card">
+        <div class="fm-id">FFN-06</div>
+        <div class="fm-name">Signal Misread</div>
+        <div class="fm-def">Incorrect tracking codes and linguistic gaps between customer language and system categories lead to misinterpreted escalation trends.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-07" class="fm-card">
+        <div class="fm-id">FFN-07</div>
+        <div class="fm-name">Orphaned Escalation</div>
+        <div class="fm-def">Escalation processes lack designated ownership for resolution. Handoffs multiply and resolution delays compound.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-08" class="fm-card">
+        <div class="fm-id">FFN-08</div>
+        <div class="fm-name">Authority Fog</div>
+        <div class="fm-def">Unclear processes for leave management, document submission, and policy updates create confusion about who holds decision authority.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-09" class="fm-card">
+        <div class="fm-id">FFN-09</div>
+        <div class="fm-name">Shadow Infrastructure</div>
+        <div class="fm-def">Teams navigate complex issues through informal mechanisms — creating tickets to bypass difficult problems, using homegrown tools for administrative functions.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-10" class="fm-card">
+        <div class="fm-id">FFN-10</div>
+        <div class="fm-name">Metric Displacement</div>
+        <div class="fm-def">Teams optimize against visible metrics while contextual factors remain unmeasured. The gap between what is scored and what matters widens without detection.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-11" class="fm-card">
+        <div class="fm-id">FFN-11</div>
+        <div class="fm-name">Context Gap</div>
+        <div class="fm-def">Results presented without supporting context — rate, volume, baseline comparisons — appear more significant than warranted.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-12" class="fm-card">
+        <div class="fm-id">FFN-12</div>
+        <div class="fm-name">Authority Without Permission</div>
+        <div class="fm-def">Decision-making stalls when teams conflate formal authority with required permission. Individuals with authority on paper still seek approval in practice.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-13" class="fm-card">
+        <div class="fm-id">FFN-13</div>
+        <div class="fm-name">Alignment Creep</div>
+        <div class="fm-def">Decisions accumulate alignment requirements that exceed what the decision actually needs. Each stakeholder consultation adds latency.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-14" class="fm-card">
+        <div class="fm-id">FFN-14</div>
+        <div class="fm-name">Frozen Recognition</div>
+        <div class="fm-def">Teams acknowledge the need for standardized decision-making protocols. Recognition of the problem persists without structural change to address it.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-15" class="fm-card">
+        <div class="fm-id">FFN-15</div>
+        <div class="fm-name">Permission Cascade</div>
+        <div class="fm-def">When decisions span teams, permission requirements multiply. Each boundary crossing introduces a new approval layer.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-16" class="fm-card">
+        <div class="fm-id">FFN-16</div>
+        <div class="fm-name">Defensive Escalation</div>
+        <div class="fm-def">When teams lack clarity on decision-making processes, decisions get pushed upward as a defensive measure. Escalation substitutes for communication.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-17" class="fm-card">
+        <div class="fm-id">FFN-17</div>
+        <div class="fm-name">Horizon Collapse</div>
+        <div class="fm-def">Aggressive focus on immediate results prevents visibility into second-order consequences. Strategy discussions collapse into reaction management.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-18" class="fm-card">
+        <div class="fm-id">FFN-18</div>
+        <div class="fm-name">Now Over Later</div>
+        <div class="fm-def">Long-term consequences are acknowledged but not weighted in decisions. Consistent prioritization of immediate results over strategic positioning.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-19" class="fm-card">
+        <div class="fm-id">FFN-19</div>
+        <div class="fm-name">Judgment Erosion</div>
+        <div class="fm-def">Sustained overwork leads to skill decay and weakened judgment. Leaders struggle to prioritize and delegate effectively.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-20" class="fm-card">
+        <div class="fm-id">FFN-20</div>
+        <div class="fm-name">Memory Scatter</div>
+        <div class="fm-def">Team members struggle to recall previous discussions and decisions. The shared narrative for why decisions were made becomes inconsistent.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+      <a href="/ffn/ffn-21" class="fm-card">
+        <div class="fm-id">FFN-21</div>
+        <div class="fm-name">Opaque Logic Drift</div>
+        <div class="fm-def">Users question AI logic and decisions when the reasoning is opaque. Initial trust depletes through repeated encounters with unexplained outputs.</div>
+        <div class="fm-tier">Functional Field Note</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-l">&copy; 2026 Decision &amp; Responsibility Infrastructure&trade;</div>
+    <div class="footer-r">
+      <a href="/">DRI Practice</a> &middot;
+      <a href="https://justingreenbaum.com" target="_blank">Founder</a> &middot;
+      <a href="https://greenbaumlabs.com" target="_blank">Labs</a>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>

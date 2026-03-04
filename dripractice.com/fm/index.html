@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The 17 Failure Modes | DRI Practice</title>
+  <meta name="description" content="Structurally self-reinforcing conditions that require governance intervention. 17 enumerated failure modes organized into three tiers: Foundational, Mechanism, and Terminal.">
+  <link rel="canonical" href="https://dripractice.com/fm/">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon-32x32.png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #161616;
+      --bg-elevated: #1a1a1a;
+      --text-primary: #f0ece4;
+      --text-secondary: #8a8580;
+      --text-dim: #4a4744;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --warm-dim: rgba(200, 85, 58, 0.1);
+      --border: rgba(240, 236, 228, 0.06);
+      --border-hover: rgba(240, 236, 228, 0.12);
+    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.5rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(10, 10, 10, 0.97);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(8px);
+    }
+    .nav-brand { text-decoration: none; display: flex; flex-direction: column; }
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: 1.3rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-primary);
+    }
+    .nav-name .tm { font-size: 0.6em; vertical-align: super; color: var(--text-dim); }
+    .nav-role {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
+    }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 300;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary);
+      text-decoration: none; transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--text-primary); }
+    .nav-links a.active { color: var(--accent); }
+
+    .page-content {
+      max-width: 1100px; margin: 0 auto;
+      padding: 8rem 3rem 4rem;
+    }
+    .back-link {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim);
+      text-decoration: none; transition: color 0.3s ease;
+      display: inline-block; margin-bottom: 2rem;
+    }
+    .back-link:hover { color: var(--accent); }
+    .section-label {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; font-weight: 300;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--accent);
+      margin-bottom: 1rem;
+    }
+    h1 {
+      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.15;
+      letter-spacing: -0.02em; margin-bottom: 1rem;
+    }
+    .intro {
+      font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary);
+      margin-bottom: 3rem; max-width: 720px;
+    }
+    .tier-heading {
+      font-family: 'Cormorant Garamond', serif; font-weight: 400;
+      font-size: 1.4rem; color: var(--text-primary);
+      margin: 3rem 0 1.5rem; padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .tier-heading:first-of-type { margin-top: 0; }
+    .fm-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+    a.fm-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      padding: 1.5rem 1.8rem;
+      transition: all 0.3s ease;
+      text-decoration: none;
+      display: block;
+    }
+    a.fm-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .fm-id {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+    .fm-name {
+      font-family: 'Cormorant Garamond', serif; font-weight: 400;
+      font-size: 1.05rem; color: var(--text-primary); margin-bottom: 0.6rem;
+    }
+    .fm-def {
+      font-size: 0.8rem; line-height: 1.6; color: var(--text-secondary);
+      margin-bottom: 0.8rem;
+    }
+    .fm-tier {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
+      padding-top: 0.6rem; border-top: 1px solid var(--border);
+    }
+
+    footer {
+      padding: 2.5rem 3rem; display: flex; justify-content: space-between;
+      align-items: center; border-top: 1px solid var(--border);
+    }
+    .footer-l, .footer-r {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase;
+    }
+    .footer-r a {
+      color: var(--text-secondary); text-decoration: none; transition: color 0.3s ease;
+    }
+    .footer-r a:hover { color: var(--accent); }
+
+    .nav-toggle { display: none; background: none; border: none; cursor: pointer; padding: 0.5rem; z-index: 101; }
+    .nav-toggle span { display: block; width: 20px; height: 1px; background: var(--text-primary); margin: 5px 0; transition: all 0.3s ease; }
+
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-toggle { display: block; }
+      .nav-links {
+        display: none; position: fixed; top: 60px; left: 0; right: 0; bottom: 0;
+        background: var(--bg-primary); flex-direction: column;
+        justify-content: flex-start; align-items: center;
+        padding-top: 4rem; gap: 1.5rem; z-index: 99;
+      }
+      .nav-links.active { display: flex; }
+      .page-content { padding: 6rem 1.5rem 3rem; }
+      .fm-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <a href="/" class="nav-brand">
+      <span class="nav-name">DRI<span class="tm">™</span></span>
+      <span class="nav-role">Decision · Responsibility · Infrastructure</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/#field">The Field</a></li>
+      <li><a href="/#coherence">Coherence</a></li>
+      <li><a href="/#lens">Lens</a></li>
+      <li><a href="/#taxonomy" class="active">Taxonomy</a></li>
+      <li><a href="/#instruments">Instruments</a></li>
+      <li><a href="/#record">Record</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="page-content">
+    <a href="/#taxonomy" class="back-link">← Back to DRI</a>
+    <div class="section-label">Failure Modes</div>
+    <h1>The 17 Failure Modes</h1>
+    <p class="intro">Structurally self-reinforcing conditions that require governance intervention. Each names a pattern that persists not because people fail, but because the system's structure makes failure the default path.</p>
+
+    <!-- Tier 1 · Foundational -->
+    <h2 class="tier-heading">Tier 1 · Foundational</h2>
+    <div class="fm-grid">
+      <a href="/fm/fm-01" class="fm-card">
+        <div class="fm-id">FM-01</div>
+        <div class="fm-name">Responsibility Compression</div>
+        <div class="fm-def">Responsibility is progressively pushed downward to the point of execution while authority, context, and decision rights remain upstream.</div>
+        <div class="fm-tier">Tier 1 · Foundational</div>
+      </a>
+      <a href="/fm/fm-03" class="fm-card">
+        <div class="fm-id">FM-03</div>
+        <div class="fm-name">Responsibility Without Authority</div>
+        <div class="fm-def">Accountability for outcomes is assigned to individuals or teams who lack the formal authority, resources, or decision rights required to change the underlying conditions.</div>
+        <div class="fm-tier">Tier 1 · Foundational</div>
+      </a>
+      <a href="/fm/fm-07" class="fm-card">
+        <div class="fm-id">FM-07</div>
+        <div class="fm-name">Coordination Decay</div>
+        <div class="fm-def">Work spans multiple teams, systems, or functions, but no single role owns end-to-end outcomes. Handoffs multiply. Accountability fragments.</div>
+        <div class="fm-tier">Tier 1 · Foundational</div>
+      </a>
+    </div>
+
+    <!-- Tier 2 · Mechanism -->
+    <h2 class="tier-heading">Tier 2 · Mechanism</h2>
+    <div class="fm-grid">
+      <a href="/fm/fm-02" class="fm-card">
+        <div class="fm-id">FM-02</div>
+        <div class="fm-name">Escalation Inversion</div>
+        <div class="fm-def">Escalation paths formally exist but are functionally inverted. Instead of surfacing risk and correcting upstream conditions, escalation becomes costly, discouraged, or reputationally dangerous.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-04" class="fm-card">
+        <div class="fm-id">FM-04</div>
+        <div class="fm-name">Metric Shadowing</div>
+        <div class="fm-def">Metrics become proxies for reality rather than measurements of it. Teams optimize what is visible and scored, while unmeasured costs accumulate off-ledger.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-05" class="fm-card">
+        <div class="fm-id">FM-05</div>
+        <div class="fm-name">Normalized Workarounds</div>
+        <div class="fm-def">Temporary fixes, exceptions, and informal processes become permanent operating infrastructure. The system survives through accumulated human adaptations.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-06" class="fm-card">
+        <div class="fm-id">FM-06</div>
+        <div class="fm-name">Exception Inflation</div>
+        <div class="fm-def">Temporary exceptions created to handle edge cases gradually expand until they become the dominant operating mode.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-08" class="fm-card">
+        <div class="fm-id">FM-08</div>
+        <div class="fm-name">Decision Latency</div>
+        <div class="fm-def">Decisions technically have owners, but action is delayed by expanding alignment requirements. Authority exists on paper, but permission is socially negotiated.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-09" class="fm-card">
+        <div class="fm-id">FM-09</div>
+        <div class="fm-name">Over-Escalation</div>
+        <div class="fm-def">Decisions and problems are pushed upward not because they require senior judgment, but to transfer accountability.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-11" class="fm-card">
+        <div class="fm-id">FM-11</div>
+        <div class="fm-name">Metric Authority Drift</div>
+        <div class="fm-def">Metrics quietly replace judgment. What began as indicators become decision-makers. The system optimizes for what it can count, not what it should pursue.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+      <a href="/fm/fm-16" class="fm-card">
+        <div class="fm-id">FM-16</div>
+        <div class="fm-name">Process Inflation</div>
+        <div class="fm-def">Processes accumulate complexity beyond their original purpose. Bureaucratic overhead expands independent of value delivered. Workflow becomes work.</div>
+        <div class="fm-tier">Tier 2 · Mechanism</div>
+      </a>
+    </div>
+
+    <!-- Tier 3 · Terminal -->
+    <h2 class="tier-heading">Tier 3 · Terminal</h2>
+    <div class="fm-grid">
+      <a href="/fm/fm-10" class="fm-card">
+        <div class="fm-id">FM-10</div>
+        <div class="fm-name">Leadership Saturation</div>
+        <div class="fm-def">Senior leaders become the default resolution mechanism for problems that should be handled elsewhere. Decision backlogs accumulate at the top.</div>
+        <div class="fm-tier">Tier 3 · Terminal</div>
+      </a>
+      <a href="/fm/fm-12" class="fm-card">
+        <div class="fm-id">FM-12</div>
+        <div class="fm-name">Strategic Myopia</div>
+        <div class="fm-def">The organization optimizes near-term execution so aggressively that it loses the ability to see second- and third-order effects.</div>
+        <div class="fm-tier">Tier 3 · Terminal</div>
+      </a>
+      <a href="/fm/fm-13" class="fm-card">
+        <div class="fm-id">FM-13</div>
+        <div class="fm-name">Capability Atrophy</div>
+        <div class="fm-def">The organization retains its structure but loses its ability to execute meaningfully. Skills decay and work becomes procedural.</div>
+        <div class="fm-tier">Tier 3 · Terminal</div>
+      </a>
+      <a href="/fm/fm-14" class="fm-card">
+        <div class="fm-id">FM-14</div>
+        <div class="fm-name">Narrative Collapse</div>
+        <div class="fm-def">The system loses a shared explanatory story for why decisions are made and how actions connect to outcomes. Alignment becomes performative.</div>
+        <div class="fm-tier">Tier 3 · Terminal</div>
+      </a>
+      <a href="/fm/fm-15" class="fm-card">
+        <div class="fm-id">FM-15</div>
+        <div class="fm-name">Trust Exhaustion</div>
+        <div class="fm-def">Repeated misalignment and unresolved structural failures deplete trust faster than it can be rebuilt. Engagement becomes mechanical.</div>
+        <div class="fm-tier">Tier 3 · Terminal</div>
+      </a>
+      <a href="/fm/fm-17" class="fm-card">
+        <div class="fm-id">FM-17</div>
+        <div class="fm-name">Structural Amnesia</div>
+        <div class="fm-def">The organization forgets why decisions were made while retaining the decisions themselves. The system operates on inherited rules it can no longer explain.</div>
+        <div class="fm-tier">Tier 3 · Terminal</div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-l">&copy; 2026 Decision &amp; Responsibility Infrastructure&trade;</div>
+    <div class="footer-r">
+      <a href="/">DRI Practice</a> &middot;
+      <a href="https://justingreenbaum.com" target="_blank">Founder</a> &middot;
+      <a href="https://greenbaumlabs.com" target="_blank">Labs</a>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const navLinks = document.getElementById('nav-links');
+    navToggle.addEventListener('click', () => {
+      navToggle.classList.toggle('active');
+      navLinks.classList.toggle('active');
+    });
+  </script>
+</body>
+</html>
