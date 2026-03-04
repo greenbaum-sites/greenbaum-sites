@@ -553,8 +553,13 @@
       transition: all 0.3s ease;
     }
 
+    a.instrument-card {
+      text-decoration: none;
+      color: inherit;
+    }
     .instrument-card:hover {
-      border-color: var(--border-hover);
+      border-color: var(--accent);
+      transform: translateY(-2px);
     }
 
     .instrument-num {
@@ -1003,55 +1008,55 @@
     </div>
 
     <div class="instrument-list reveal">
-      <div class="instrument-card">
+      <a href="/tools/fm-scanner" class="instrument-card">
         <div class="instrument-num">001</div>
         <div class="instrument-info">
           <h4>FM Scanner</h4>
           <p>Detect failure mode patterns in organizational signals.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="/tools/ffn-surface" class="instrument-card">
         <div class="instrument-num">002</div>
         <div class="instrument-info">
           <h4>FFN Surface</h4>
           <p>Surface early warning signals before failure becomes entrenched.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="/tools/system-nav-locator" class="instrument-card">
         <div class="instrument-num">003</div>
         <div class="instrument-info">
           <h4>System Nav Locator</h4>
           <p>Orient on the diagnostic map. Identify where you are in the system.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="/tools/declaration-log" class="instrument-card">
         <div class="instrument-num">004</div>
         <div class="instrument-info">
           <h4>Declaration Log</h4>
           <p>Record when authority acted. Preserve decision rationale over time.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="/tools/verified-independence" class="instrument-card">
         <div class="instrument-num">005</div>
         <div class="instrument-info">
           <h4>Verified Independence</h4>
           <p>Prove fixes are real. Confirm structural change, not cosmetic adjustment.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="/tools/regression-watch" class="instrument-card">
         <div class="instrument-num">006</div>
         <div class="instrument-info">
           <h4>Regression Watch</h4>
           <p>Test if fixes hold over time. Monitor for structural decay.</p>
         </div>
-      </div>
-      <div class="instrument-card">
+      </a>
+      <a href="/tools/continuity-chain" class="instrument-card">
         <div class="instrument-num">007</div>
         <div class="instrument-info">
           <h4>Continuity Chain</h4>
           <p>Custody of meaning across time. Track how decisions survive handoffs.</p>
         </div>
-      </div>
+      </a>
     </div>
   </section>
 
