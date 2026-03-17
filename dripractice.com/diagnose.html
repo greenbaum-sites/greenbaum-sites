@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Coherence Diagnostic | DRI™ Practice</title>
+<meta name="description" content="A five-minute structural diagnostic. 16 scenario-based questions. All computation runs on your device. Nothing leaves your browser.">
+<meta property="og:title" content="Coherence Diagnostic — How structurally sound is your organization?">
+<meta property="og:description" content="A free self-diagnostic from Greenbaum Labs. 16 questions. 5 minutes. Nothing leaves your device.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://dripractice.com/diagnose">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--bg-primary:#0a0a0a;--bg-secondary:#111111;--bg-card:#161616;--bg-elevated:#1a1a1a;
+--text-primary:#f0ece4;--text-secondary:#8a8580;--text-dim:#4a4744;
+--accent:#c9a84c;--accent-dim:rgba(201,168,76,0.12);
+--warm:#c8553a;--warm-dim:rgba(200,85,58,0.1);
+--border:rgba(240,236,228,0.06);--border-hover:rgba(240,236,228,0.12);
+--serif:'Cormorant Garamond',Georgia,serif;
+--sans:'Instrument Sans',sans-serif;
+--mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth;scrollbar-width:thin;scrollbar-color:var(--text-dim) var(--bg-primary)}
+body{font-family:var(--sans);background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;-webkit-font-smoothing:antialiased;line-height:1.6}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:0.025;pointer-events:none;z-index:9999}
+
+/* NAV — matches dripractice.com exactly */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.97);border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
+.nav-brand{text-decoration:none;display:flex;flex-direction:column}
+.nav-name{font-family:var(--serif);font-weight:300;font-size:1.3rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-primary)}
+.nav-name .tm{font-size:0.6em;vertical-align:super;color:var(--text-dim)}
+.nav-role{font-family:var(--mono);font-size:0.5rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+.nav-links a{font-family:var(--mono);font-size:0.6rem;font-weight:300;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-secondary);text-decoration:none;transition:color 0.3s ease}
+.nav-links a:hover{color:var(--text-primary)}
+.nav-links a.active{color:var(--accent)}
+.nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:0.5rem;z-index:101}
+.nav-toggle span{display:block;width:20px;height:1px;background:var(--text-primary);margin:5px 0;transition:all 0.3s ease}
+.nav-toggle.active span:nth-child(1){transform:rotate(45deg) translate(4px,4px)}
+.nav-toggle.active span:nth-child(2){opacity:0}
+.nav-toggle.active span:nth-child(3){transform:rotate(-45deg) translate(4px,-4px)}
+
+/* PAGE CONTAINER */
+.page-content{max-width:720px;margin:0 auto;padding:8rem 3rem 4rem}
+
+/* SCREENS */
+.screen{display:none}.screen.active{display:block}
+
+/* ANIMATIONS */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{opacity:0;animation:fadeUp 0.8s ease forwards}
+.fade-in-d1{animation-delay:0.2s}.fade-in-d2{animation-delay:0.4s}.fade-in-d3{animation-delay:0.6s}.fade-in-d4{animation-delay:0.8s}
+
+/* TYPOGRAPHY */
+h1{font-family:var(--serif);font-weight:300;font-size:clamp(2rem,4vw,2.8rem);line-height:1.15;letter-spacing:-0.02em;color:var(--text-primary)}
+h2{font-family:var(--serif);font-weight:300;font-size:clamp(1.4rem,3vw,1.8rem);line-height:1.3;color:var(--text-primary);margin-bottom:1.5rem}
+h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;color:var(--text-primary)}
+.section-label{font-family:var(--mono);font-size:0.55rem;font-weight:300;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:2rem}
+.eyebrow{font-family:var(--mono);font-size:0.6rem;font-weight:300;letter-spacing:0.35em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem}
+p{font-size:0.95rem;line-height:1.8;color:var(--text-secondary);margin-bottom:1.2rem}
+p strong{color:var(--text-primary);font-weight:600}
+
+/* THESIS BLOCK */
+.thesis-block{background:var(--bg-card);border:1px solid var(--border);border-left:2px solid var(--accent);padding:2rem 2.5rem;margin:2rem 0}
+.thesis-block p{font-family:var(--serif);font-size:1.15rem;line-height:1.6;color:var(--text-primary);font-style:italic;margin-bottom:0}
+
+/* PRIVACY BOX */
+.privacy-box{background:var(--bg-card);border:1px solid var(--border);padding:1.5rem 2rem;margin:2rem 0}
+.privacy-box h3{margin-bottom:0.5rem;font-size:0.95rem}
+.privacy-box p{font-size:0.85rem;margin-bottom:0;line-height:1.6}
+
+/* BUTTONS */
+.cta-button{display:inline-flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.9rem 1.8rem;border:1px solid var(--accent);background:var(--accent);color:var(--bg-primary);cursor:pointer;transition:all 0.3s ease;text-decoration:none;min-height:48px}
+.cta-button:hover{background:transparent;color:var(--accent)}
+.cta-button.secondary{background:transparent;color:var(--accent)}
+.cta-button.secondary:hover{background:var(--accent-dim)}
+.cta-button:disabled{background:var(--bg-card);border-color:var(--border);color:var(--text-dim);cursor:not-allowed}
+.cta-button:disabled:hover{background:var(--bg-card);color:var(--text-dim)}
+.btn-block{display:flex;width:100%;justify-content:center}
+
+/* PROGRESS BAR */
+.progress-bar{height:2px;background:var(--bg-card);margin-bottom:2rem}
+.progress-fill{height:100%;background:var(--accent);transition:width 0.4s ease}
+
+/* PHASE LABEL */
+.phase-label{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1.5rem}
+
+/* QUESTION TEXT */
+.question-text{font-family:var(--serif);font-weight:300;font-size:clamp(1.2rem,2.5vw,1.5rem);line-height:1.4;color:var(--text-primary);margin-bottom:2rem}
+
+/* OPTIONS */
+.option{display:flex;align-items:flex-start;gap:1rem;background:var(--bg-card);border:1px solid var(--border);padding:1.2rem 1.5rem;margin-bottom:0.5rem;cursor:pointer;transition:all 0.3s ease;min-height:48px}
+.option:hover{border-color:var(--border-hover);background:var(--bg-elevated)}
+.option.selected{border-color:var(--accent);background:var(--bg-elevated)}
+.radio{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--text-dim);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:3px;transition:border-color 0.3s ease}
+.option.selected .radio{border-color:var(--accent)}
+.radio-dot{width:10px;height:10px;border-radius:50%;background:var(--accent);display:none}
+.option.selected .radio-dot{display:block}
+.option-text{font-size:0.9rem;line-height:1.6;color:var(--text-secondary);transition:color 0.3s ease}
+.option.selected .option-text{color:var(--text-primary)}
+
+/* QUESTION NAV */
+.q-nav{display:flex;justify-content:space-between;align-items:center;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+.back-link{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim);text-decoration:none;cursor:pointer;padding:0.5rem 0;background:none;border:none;transition:color 0.3s ease}
+.back-link:hover{color:var(--accent)}
+
+/* RESULTS */
+.results-title{text-align:center;margin-bottom:0.5rem}
+.results-subtitle{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);text-align:center;margin-bottom:2rem}
+.triangle-container{display:flex;justify-content:center;margin:2rem 0 3rem}
+.triangle-svg{max-width:340px;width:100%}
+.interpretation-box{background:var(--bg-card);border:1px solid var(--border);border-left:2px solid var(--accent);padding:2rem 2.5rem;margin-bottom:3rem}
+.interpretation-box p{font-family:var(--serif);font-size:1.1rem;line-height:1.6;color:var(--text-primary);font-style:italic;margin-bottom:0}
+.section-title{font-family:var(--serif);font-weight:300;font-size:1.4rem;color:var(--text-primary);margin:3rem 0 1.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+
+/* ACTIVE FM CARD */
+.fm-card{background:var(--bg-card);border:1px solid var(--border);margin-bottom:1.5rem;overflow:hidden;transition:border-color 0.3s ease}
+.fm-card.active-card{border-left:2px solid var(--warm)}
+.fm-card.emerging-card{border-left:2px solid var(--accent)}
+.fm-card-inner{padding:2rem 2.5rem}
+.fm-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:0.3rem}
+.fm-code{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-dim)}
+.badge{font-family:var(--mono);font-size:0.5rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.2rem 0.6rem;border:1px solid}
+.badge-active{border-color:var(--warm);color:var(--warm)}
+.badge-emerging{border-color:var(--accent);color:var(--accent)}
+.fm-name{font-family:var(--serif);font-weight:400;font-size:1.15rem;color:var(--text-primary);margin-bottom:1.2rem}
+.fm-label{font-family:var(--mono);font-size:0.5rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem}
+.fm-body{font-size:0.88rem;line-height:1.7;color:var(--text-secondary);margin-bottom:1.2rem}
+.question-box{background:var(--bg-primary);border:1px solid var(--border);border-left:2px solid var(--accent);padding:1.2rem 1.5rem;margin-bottom:1.2rem}
+.question-box .fm-label{margin-bottom:0.4rem}
+.question-box p{font-family:var(--serif);font-size:1rem;line-height:1.5;color:var(--text-primary);font-style:italic;margin-bottom:0}
+.cascade-note{font-size:0.8rem;color:var(--text-dim);font-style:italic;margin-bottom:0.8rem}
+.deeper-link{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);text-decoration:none;transition:color 0.3s ease;display:inline-block;padding:0.5rem 0}
+.deeper-link:hover{color:var(--text-primary)}
+
+/* CASCADE ALERT */
+.cascade-alert{background:var(--warm-dim);border:1px solid rgba(200,85,58,0.2);border-left:2px solid var(--warm);padding:1.2rem 1.5rem;margin-bottom:0.8rem;font-size:0.88rem;color:var(--text-secondary)}
+.cascade-alert strong{color:var(--warm)}
+
+/* DORMANT */
+.dormant-section{margin-top:2rem;padding:1.5rem 0}
+.dormant-title{font-family:var(--mono);font-size:0.55rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--text-dim);margin-bottom:0.5rem}
+.dormant-list{font-size:0.88rem;color:var(--text-dim)}
+
+/* UPSELL */
+.upsell-box{background:var(--bg-card);border:1px solid var(--border);border-left:2px solid var(--accent);padding:2rem 2.5rem;margin-top:2rem}
+.upsell-box h3{color:var(--accent);margin-bottom:0.5rem;font-size:1.1rem}
+.upsell-box p{font-size:0.88rem;margin-bottom:0}
+
+/* ACTIONS ROW */
+.actions{display:flex;flex-direction:column;gap:1rem;align-items:center;margin-top:3rem;padding-top:2rem;border-top:1px solid var(--border)}
+
+/* FOOTER */
+footer{padding:2.5rem 3rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--border);background:var(--bg-primary)}
+.footer-l,.footer-r{font-family:var(--mono);font-size:0.5rem;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase}
+.footer-r a{color:var(--text-secondary);text-decoration:none;transition:color 0.3s ease}
+.footer-r a:hover{color:var(--accent)}
+
+/* CLOSING LINE */
+.closing-line{font-family:var(--mono);font-size:0.5rem;letter-spacing:0.15em;color:var(--text-dim);text-transform:uppercase;text-align:center;margin-top:3rem;padding-top:1.5rem;border-top:1px solid var(--border)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+nav{padding:1rem 1.5rem}
+.nav-toggle{display:block}
+.nav-links{display:none;position:fixed;top:60px;left:0;right:0;bottom:0;background:var(--bg-primary);flex-direction:column;justify-content:flex-start;align-items:center;padding-top:4rem;gap:1.5rem;z-index:99}
+.nav-links.active{display:flex}
+.page-content{padding:6rem 1.5rem 3rem}
+footer{flex-direction:column;gap:1rem;text-align:center}
+.fm-card-inner{padding:1.5rem}
+.thesis-block,.interpretation-box,.question-box,.upsell-box{padding:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="/" class="nav-brand">
+    <span class="nav-name">DRI<span class="tm">&trade;</span></span>
+    <span class="nav-role">Decision &middot; Responsibility &middot; Infrastructure</span>
+  </a>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="/#field">The Field</a></li>
+    <li><a href="/#coherence">Coherence</a></li>
+    <li><a href="/#lens">Lens</a></li>
+    <li><a href="/#taxonomy">Taxonomy</a></li>
+    <li><a href="/#instruments">Instruments</a></li>
+    <li><a href="/#record">Record</a></li>
+  </ul>
+</nav>
+
+<div class="page-content">
+
+<!-- WELCOME -->
+<div id="welcome" class="screen active">
+  <div class="eyebrow fade-in">AR-001 Compliant &middot; Diagnostic Instrument</div>
+  <h1 class="fade-in fade-in-d1" style="margin-bottom:2rem">Coherence Diagnostic</h1>
+  <p class="fade-in fade-in-d2" style="color:var(--text-primary);font-size:1rem">Every organization has structural patterns that shape how decisions get made, how information flows, and how authority is distributed. Most of these patterns are invisible &mdash; until they aren&rsquo;t.</p>
+  <p class="fade-in fade-in-d2">This diagnostic surfaces those patterns. Sixteen scenario-based questions. No right or wrong answers. About five minutes.</p>
+
+  <div class="thesis-block fade-in fade-in-d3">
+    <p>Making the invisible, visible. No blame &mdash; just physics.</p>
+  </div>
+
+  <div class="privacy-box fade-in fade-in-d3">
+    <h3>Your data stays on your device</h3>
+    <p>All responses are processed locally in your browser. Nothing is sent to any server. No account required. No cookies. No tracking.</p>
+  </div>
+
+  <div style="margin-top:2.5rem" class="fade-in fade-in-d4">
+    <button class="cta-button btn-block" onclick="startAssessment()">Begin Diagnostic</button>
+  </div>
+
+  <div class="closing-line fade-in fade-in-d4" style="margin-top:3rem">
+    Greenbaum Labs &middot; dripractice.com
+  </div>
+</div>
+
+<!-- QUESTIONS -->
+<div id="questions" class="screen">
+  <div class="progress-bar"><div class="progress-fill" id="progress"></div></div>
+  <div class="phase-label" id="phaseLabel"></div>
+  <div class="question-text" id="questionText"></div>
+  <div id="optionsContainer"></div>
+  <div class="q-nav">
+    <button class="back-link" id="backBtn" onclick="goBack()">&larr; Back</button>
+    <button class="cta-button" id="nextBtn" disabled onclick="goNext()">Next</button>
+  </div>
+</div>
+
+<!-- RESULTS -->
+<div id="results" class="screen">
+  <div class="eyebrow" style="text-align:center">Diagnostic Results</div>
+  <h1 class="results-title">Your Coherence Profile</h1>
+  <div class="results-subtitle">Based on 16 structural indicators</div>
+  <div class="triangle-container" id="triangleContainer"></div>
+  <div class="interpretation-box" id="interpretation"></div>
+  <div id="activeFMs"></div>
+  <div id="cascadeAlerts"></div>
+  <div id="emergingFMs"></div>
+  <div id="dormantFMs"></div>
+  <div id="upsellBox"></div>
+  <div class="privacy-box" style="margin-top:2rem">
+    <p style="text-align:center;margin-bottom:0">These results exist only on your device. Nothing was sent to any server.</p>
+  </div>
+  <div class="actions">
+    <button class="cta-button secondary" onclick="retake()">Retake Diagnostic</button>
+  </div>
+  <div class="closing-line">
+    &copy; 2026 Decision &amp; Responsibility Infrastructure&trade; &middot; Greenbaum Labs
+  </div>
+</div>
+
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-l">DRI Practice</div>
+  <div class="footer-r"><a href="https://justingreenbaum.com">Founder</a> &middot; <a href="https://greenbaumlabs.com">Labs</a></div>
+</footer>
+
+<script>
+// NAV TOGGLE
+document.getElementById('navToggle').addEventListener('click',function(){this.classList.toggle('active');document.getElementById('navLinks').classList.toggle('active')});
+
+// ===== DATA =====
+const FM={
+'FM-01':{name:'Responsibility Compression',tier:'foundational',pv:'authority',cascade:['FM-09'],what:"The people closest to problems can describe them precisely but can\u2019t fix them without approval. Decisions queue behind senior calendars. Frontline teams develop learned helplessness\u200a\u2014\u200athey stop trying to resolve things and start routing everything upward.",oneQ:"When someone closest to a problem doesn\u2019t have the authority to resolve it, where does it go\u200a\u2014\u200aand how long does it take to get there?"},
+'FM-03':{name:'Responsibility Without Authority',tier:'foundational',pv:'authority',cascade:['FM-15'],what:"Job postings promise autonomy and ownership. Employee reviews describe rigid approval chains. People with \u201Cowner\u201D in their title spend most of their time requesting permission. The gap between the stated culture and the lived culture widens quietly.",oneQ:"For the last person we asked to \u201Cown\u201D something\u200a\u2014\u200adid we also give them the authority to make the decisions that ownership requires?"},
+'FM-04':{name:'Metric Shadowing',tier:'mechanism',pv:'truth',cascade:['FM-14'],what:"Dashboards are green. Customer complaints tell a different story. Teams optimize for the metric, not the outcome the metric was supposed to represent. \u201CWe hit our numbers\u201D becomes a separate conversation from \u201Chow are we actually doing.\u201D",oneQ:"What important thing is happening in this organization right now that none of our metrics would show us?"},
+'FM-05':{name:'Normalized Workarounds',tier:'mechanism',pv:'truth',cascade:[],what:"New hires are taught the \u201Creal\u201D way to get things done within their first week. Critical workflows run on personal spreadsheets, side Slack channels, or tools IT doesn\u2019t know about. Nobody maintains the official process documentation because nobody uses it.",oneQ:"If we turned off every unofficial tool and side channel tomorrow, what would break?"},
+'FM-07':{name:'Coordination Decay',tier:'foundational',pv:'continuity',cascade:[],what:"Ask five people who owns a key initiative and you get five answers. Handoffs between teams fail routinely\u200a\u2014\u200a\u201CI did my part\u201D is a standard defense. Buffer time for coordination overhead is baked into every project plan because everyone knows things will fall through the cracks.",oneQ:"For our most important cross-functional initiative\u200a\u2014\u200awho is the single person accountable for the outcome, not just their team\u2019s piece of it?"},
+'FM-09':{name:'Over-Escalation',tier:'mechanism',pv:'authority',cascade:[],what:"\u201CI wanted to make sure you were aware\u201D is the organization\u2019s most common phrase. Escalation isn\u2019t about getting better judgment\u200a\u2014\u200ait\u2019s about making sure someone more senior is on the hook if things go wrong.",oneQ:"Of the last ten decisions that reached senior leadership, how many genuinely required their judgment versus their air cover?"},
+'FM-14':{name:'Narrative Collapse',tier:'terminal',pv:'truth',cascade:['FM-15'],what:"The investor deck describes a different company than the one employees experience. Leadership communications feel scripted. People internally joke about the gap between the official narrative and their reality.",oneQ:"If we asked ten people across different levels \u201Cwhat is our strategy\u201D\u200a\u2014\u200ahow many different answers would we get?"},
+'FM-15':{name:'Trust Exhaustion',tier:'terminal',pv:'truth',cascade:[],what:"New initiatives are met with \u201Clet\u2019s see if this one sticks.\u201D People do what\u2019s asked but don\u2019t volunteer ideas or improvements. The most talented people leave quietly\u200a\u2014\u200anot in protest, but in resignation.",oneQ:"When was the last time someone pushed back on a decision not because they were difficult, but because they cared enough to fight for a better outcome?"},
+};
+const CQ=[
+{id:'C1',text:'What best describes your role?',opts:['Individual contributor / specialist','Team lead / manager','Director / VP / senior leader','Executive / C-suite / founder']},
+{id:'C2',text:'How large is your organization?',opts:['Under 50 people','50\u2013500','500\u20135,000','Over 5,000']},
+{id:'C3',text:'What industry are you in?',opts:['Technology','Financial Services','Healthcare','Manufacturing','Retail / Consumer','Defense / Aerospace','Media / Entertainment','Education','Government','Professional Services','Other']},
+{id:'C4',text:'How long have you been at this organization?',opts:['Less than 1 year','1\u20133 years','3\u20137 years','More than 7 years']},
+{id:'C5',text:'What prompted you to take this diagnostic?',opts:['General curiosity','Something specific feels off but I can\u2019t name it','A known problem I\u2019m trying to understand better','Someone recommended it to me']},
+];
+const AQ=[
+{id:'Q1',fm:'FM-01',text:"When a customer or stakeholder has a problem that doesn\u2019t fit the standard process, what typically happens?",opts:[{l:'The person closest to the problem has the authority and context to resolve it',a:0},{l:'They can handle most of it but need approval for anything outside a narrow band',a:.33},{l:'They document it and pass it up; someone more senior decides',a:.67},{l:'It bounces between people until someone senior enough finally owns it',a:1}]},
+{id:'Q2',fm:'FM-01',text:'When something goes wrong operationally, where does accountability land?',opts:[{l:'On the team or person best positioned to understand and fix it',a:0},{l:'On the manager closest to the work, who then coordinates the fix',a:.33},{l:'On the people doing the work, even when the root cause is upstream',a:.67},{l:'On whoever was last to touch it, regardless of whether they had the power to prevent it',a:1}]},
+{id:'Q3',fm:'FM-03',text:'Think about the last time someone was asked to \u201Cown\u201D an outcome. Did they also receive the decision rights, budget, and access needed to deliver it?',opts:[{l:'Yes \u2014 ownership comes with real authority to act',a:0},{l:'Mostly, though they had to negotiate for some resources',a:.33},{l:'They got the title of owner but had to ask permission for key decisions',a:.67},{l:'They were accountable for results but had to work around constraints they couldn\u2019t change',a:1}]},
+{id:'Q4',fm:'FM-03',text:"How closely does your organization\u2019s description of its culture match your day-to-day experience?",opts:[{l:'Very closely \u2014 what\u2019s described is what I experience',a:0},{l:'Mostly accurate, with gaps in specific areas',a:.33},{l:'The aspirational version and the operational version are noticeably different',a:.67},{l:'They describe a different organization than the one I work in',a:1}]},
+{id:'Q5',fm:'FM-04',text:"Think about the metrics your organization reports most visibly. How well do they capture the reality of what\u2019s actually happening?",opts:[{l:'They\u2019re genuine indicators \u2014 when they move, something real changed',a:0},{l:'Mostly useful but miss some important dimensions',a:.33},{l:'The metrics look good on paper but people on the ground would tell a different story',a:.67},{l:'The metrics and the reality have diverged \u2014 we\u2019re optimizing numbers, not outcomes',a:1}]},
+{id:'Q6',fm:'FM-04',text:'Has your organization ever hit its targets while something was clearly getting worse?',opts:[{l:'No \u2014 when we hit targets, things are genuinely going well',a:0},{l:'Occasionally, in isolated areas',a:.33},{l:'Yes \u2014 we\u2019ve celebrated results while morale or quality was declining',a:.67},{l:'Regularly \u2014 \u201Cwe hit our numbers\u201D is a separate conversation from \u201Chow are we actually doing\u201D',a:1}]},
+{id:'Q7',fm:'FM-05',text:'Think about how new employees learn to get things done. How much of what they learn is the \u201Cofficial\u201D process versus the \u201Creal\u201D process?',opts:[{l:'The official process is the real process',a:0},{l:'The official process works for most things; there are a few shortcuts people learn',a:.33},{l:'New hires are explicitly taught workarounds by their teammates early on',a:.67},{l:'The official process is decorative \u2014 the real work runs on informal systems',a:1}]},
+{id:'Q8',fm:'FM-05',text:"Are there tools, spreadsheets, or informal systems that aren\u2019t officially supported but that work would stop without?",opts:[{l:'No \u2014 our supported tools handle what we need',a:0},{l:'A few convenience tools, but nothing mission-critical',a:.33},{l:'Yes \u2014 several shadow systems that specific teams depend on',a:.67},{l:'Yes \u2014 entire workflows run on unofficial infrastructure that IT doesn\u2019t know about',a:1}]},
+{id:'Q9',fm:'FM-07',text:'For the most important cross-functional initiative right now, how many teams need to coordinate to deliver it?',opts:[{l:'One team owns it end-to-end, with clear interfaces to others',a:0},{l:'2\u20133 teams, with a named coordinator who can make tradeoff decisions',a:.33},{l:'4+ teams, with regular sync meetings but no single owner of the outcome',a:.67},{l:'Ownership is distributed and shifts depending on the phase',a:1}]},
+{id:'Q10',fm:'FM-07',text:'If you asked five people across different teams \u201Cwho owns this initiative?\u201D, how consistent would the answers be?',opts:[{l:'They\u2019d all name the same person or team',a:0},{l:'Most would agree, with some ambiguity at the edges',a:.33},{l:'You\u2019d get 2\u20133 different answers depending on which aspect they focus on',a:.67},{l:'You\u2019d get 5 different answers, or people would say \u201Cit depends\u201D',a:1}]},
+{id:'Q11',fm:'FM-09',text:'Think about the decisions that reach your most senior leaders. What proportion could have been made two levels lower?',opts:[{l:'Very few \u2014 senior leaders mostly handle genuinely senior decisions',a:0},{l:'Some \u2014 maybe 20\u201330% could be delegated',a:.33},{l:'A lot \u2014 senior leaders spend significant time on operational decisions',a:.67},{l:'Most of them \u2014 the senior team is the default resolution mechanism',a:1}]},
+{id:'Q12',fm:'FM-09',text:'How often do you see \u201CI wanted to make sure you were aware\u201D in your organization?',opts:[{l:'Rarely \u2014 information flows to the right level naturally',a:0},{l:'Sometimes \u2014 for genuinely important updates',a:.33},{l:'Frequently \u2014 it\u2019s a polite way of saying \u201CI\u2019m putting this on your radar so it\u2019s not just on me\u201D',a:.67},{l:'Constantly \u2014 it\u2019s the organization\u2019s default CYA mechanism',a:1}]},
+{id:'Q13',fm:'FM-14',text:'If you asked 10 people across different levels \u201Cwhat is this organization\u2019s strategy?\u201D, how consistent would the answers be?',opts:[{l:'Very \u2014 people would tell the same story in their own words',a:0},{l:'Mostly consistent at the top line, with divergence in the details',a:.33},{l:'You\u2019d get 3\u20134 different versions depending on the team',a:.67},{l:'You\u2019d get 10 different answers, or a lot of \u201CI\u2019m not sure\u201D',a:1}]},
+{id:'Q14',fm:'FM-14',text:'When leadership communicates a \u201Cwhy\u201D behind a major decision, how does it land?',opts:[{l:'It resonates \u2014 people understand and can connect it to their work',a:0},{l:'It makes sense logically, even if people have questions',a:.33},{l:'It feels scripted or incomplete \u2014 the stated reason and the real reason seem different',a:.67},{l:'People don\u2019t believe it \u2014 the \u201Cwhy\u201D is received as PR, not explanation',a:1}]},
+{id:'Q15',fm:'FM-15',text:"When leadership announces a new initiative, what\u2019s the default reaction among the people who will execute it?",opts:[{l:'Genuine engagement \u2014 people want to understand and contribute',a:0},{l:'Cautious optimism \u2014 \u201Clet\u2019s see if this one sticks\u201D',a:.33},{l:'Skepticism \u2014 \u201Cwe\u2019ve heard this before\u201D',a:.67},{l:'Resigned compliance \u2014 people do what\u2019s asked but don\u2019t believe it will matter',a:1}]},
+{id:'Q16',fm:'FM-15',text:'Think about the last three major promises leadership made. How many were kept?',opts:[{l:'All three \u2014 leadership delivers on commitments',a:0},{l:'Two out of three \u2014 mostly reliable',a:.33},{l:'One at best \u2014 promises are made with good intentions but not sustained',a:.67},{l:'None \u2014 promises are received as messaging, not commitments',a:1}]},
+];
+const VM={truth:[{fm:'FM-04',w:1},{fm:'FM-05',w:1},{fm:'FM-14',w:1},{fm:'FM-15',w:1}],authority:[{fm:'FM-01',w:1},{fm:'FM-03',w:1},{fm:'FM-09',w:1}],continuity:[{fm:'FM-05',w:.5},{fm:'FM-07',w:1},{fm:'FM-14',w:.5}]};
+const VW={truth:.40,authority:.35,continuity:.25};
+
+// ===== STATE =====
+let allQs=[],ci=0,res={},si=null;
+function buildQs(){allQs=[];CQ.forEach(q=>allQs.push({...q,phase:'context',isCtx:true}));AQ.forEach(q=>allQs.push({...q,phase:'assessment',isCtx:false}))}
+function show(id){document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));document.getElementById(id).classList.add('active');window.scrollTo(0,0)}
+
+function startAssessment(){buildQs();ci=0;res={};si=null;show('questions');renderQ()}
+function renderQ(){
+  const q=allQs[ci],tot=allQs.length,pct=Math.round(((ci+1)/tot)*100);
+  document.getElementById('progress').style.width=pct+'%';
+  document.getElementById('phaseLabel').textContent=(q.phase==='context'?'Getting Started':'Assessment')+' \u2014 '+(ci+1)+' of '+tot;
+  document.getElementById('questionText').textContent=q.text;
+  document.getElementById('backBtn').style.visibility=ci===0?'hidden':'visible';
+  const nb=document.getElementById('nextBtn');nb.textContent=ci===tot-1?'See Results':'Next';nb.disabled=true;
+  si=null;
+  const c=document.getElementById('optionsContainer');c.innerHTML='';
+  const opts=q.isCtx?q.opts.map(l=>({l,a:0})):q.opts;
+  opts.forEach((o,i)=>{const d=document.createElement('div');d.className='option';d.innerHTML='<div class="radio"><div class="radio-dot"></div></div><div class="option-text">'+(o.l||o)+'</div>';d.onclick=()=>selOpt(i);c.appendChild(d)})
+}
+function selOpt(i){si=i;document.querySelectorAll('.option').forEach((el,j)=>el.classList.toggle('selected',j===i));document.getElementById('nextBtn').disabled=false}
+function goNext(){if(si===null)return;const q=allQs[ci];res[q.isCtx?q.id:q.id]=q.isCtx?q.opts[si]:q.opts[si].a;ci<allQs.length-1?(ci++,renderQ()):showResults()}
+function goBack(){ci>0&&(ci--,renderQ())}
+
+// ===== SCORING =====
+function compute(){
+  const fa={};AQ.forEach(q=>{if(res[q.id]!==undefined){if(!fa[q.fm])fa[q.fm]=[];fa[q.fm].push(res[q.id])}});
+  const fs=Object.entries(fa).map(([c,a])=>{const avg=a.reduce((x,y)=>x+y,0)/a.length;return{code:c,name:FM[c].name,act:Math.round(avg*100)/100,status:avg>=.67?'active':avg>=.34?'emerging':'dormant',tier:FM[c].tier,pv:FM[c].pv}});
+  const vx={};['truth','authority','continuity'].forEach(v=>{let ws=0,tw=0,cf=[];VM[v].forEach(({fm,w})=>{const f=fs.find(x=>x.code===fm);if(f){ws+=f.act*w;tw+=w;cf.push(fm)}});vx[v]={score:Math.round((1-(tw>0?ws/tw:0))*100)/100,fms:cf}});
+  const ov=Math.round((vx.truth.score*VW.truth+vx.authority.score*VW.authority+vx.continuity.score*VW.continuity)*100)/100;
+  const act=fs.filter(f=>f.status==='active'),cas=[];
+  act.forEach(f=>(FM[f.code].cascade||[]).forEach(t=>cas.push({from:f.code,fn:f.name,to:t,tn:FM[t].name})));
+  let interp;
+  if(ov>=.80)interp='Your organization shows strong structural coherence. Decision authority, information flow, and institutional memory are well-aligned.';
+  else if(ov>=.60)interp='Solid foundations with friction in specific areas. The patterns below are worth investigating before they compound.';
+  else if(ov>=.40)interp='Significant structural challenges. Multiple patterns are active and likely reinforcing each other. The questions below can help you start naming what people already feel.';
+  else interp='Critical coherence gaps across multiple dimensions. These patterns are likely visible in daily operations. The good news: naming them is the first step to changing them.';
+  return{ov,vx,fs,act,em:fs.filter(f=>f.status==='emerging'),dor:fs.filter(f=>f.status==='dormant'),cas,interp}
+}
+
+// ===== RESULTS =====
+function showResults(){
+  const p=compute();show('results');
+  // Triangle
+  const tc=document.getElementById('triangleContainer');
+  const cx=170,ty=30,blx=40,bly=270,brx=300,bry=270;
+  const tC=p.vx.truth.score>=.6?'#c9a84c':'#c8553a',aC=p.vx.authority.score>=.6?'#c9a84c':'#c8553a',cC=p.vx.continuity.score>=.6?'#c9a84c':'#c8553a';
+  tc.innerHTML=`<svg viewBox="0 0 340 310" class="triangle-svg">
+    <defs><filter id="glow"><feGaussianBlur stdDeviation="2" result="blur"/><feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs>
+    <polygon points="${cx},${ty} ${blx},${bly} ${brx},${bly}" fill="none" stroke="rgba(240,236,228,0.06)" stroke-width="1"/>
+    <line x1="${cx}" y1="${ty}" x2="${blx}" y2="${bly}" stroke="${tC}" stroke-width="1" opacity=".4"/>
+    <line x1="${blx}" y1="${bly}" x2="${brx}" y2="${bly}" stroke="${cC}" stroke-width="1" opacity=".4"/>
+    <line x1="${brx}" y1="${bly}" x2="${cx}" y2="${ty}" stroke="${aC}" stroke-width="1" opacity=".4"/>
+    <circle cx="${cx}" cy="${ty-2}" r="3" fill="${tC}" filter="url(#glow)"/>
+    <text x="${cx}" y="${ty-16}" text-anchor="middle" fill="${tC}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2" font-weight="400">TRUTH</text>
+    <text x="${cx}" y="${ty-30}" text-anchor="middle" fill="${tC}" font-family="Cormorant Garamond,serif" font-size="18" font-weight="300">${p.vx.truth.score.toFixed(2)}</text>
+    <circle cx="${blx-2}" cy="${bly+2}" r="3" fill="${aC}" filter="url(#glow)"/>
+    <text x="${blx-2}" y="${bly+18}" text-anchor="middle" fill="${aC}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2" font-weight="400">AUTHORITY</text>
+    <text x="${blx-2}" y="${bly+32}" text-anchor="middle" fill="${aC}" font-family="Cormorant Garamond,serif" font-size="18" font-weight="300">${p.vx.authority.score.toFixed(2)}</text>
+    <circle cx="${brx+2}" cy="${bly+2}" r="3" fill="${cC}" filter="url(#glow)"/>
+    <text x="${brx+2}" y="${bly+18}" text-anchor="middle" fill="${cC}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2" font-weight="400">CONTINUITY</text>
+    <text x="${brx+2}" y="${bly+32}" text-anchor="middle" fill="${cC}" font-family="Cormorant Garamond,serif" font-size="18" font-weight="300">${p.vx.continuity.score.toFixed(2)}</text>
+    <text x="${cx}" y="${(ty+bly)/2+5}" text-anchor="middle" fill="var(--accent)" font-family="Cormorant Garamond,serif" font-size="32" font-weight="300">${p.ov.toFixed(2)}</text>
+    <text x="${cx}" y="${(ty+bly)/2+22}" text-anchor="middle" fill="var(--text-dim)" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="2">OVERALL COHERENCE</text>
+  </svg>`;
+  document.getElementById('interpretation').innerHTML='<p>'+p.interp+'</p>';
+  // Active
+  let h='';
+  if(p.act.length){h+='<div class="section-title">What your organization is telling you</div>';
+  p.act.forEach(f=>{const d=FM[f.code];h+=`<div class="fm-card active-card"><div class="fm-card-inner"><div class="fm-header"><span class="fm-code">${f.code}</span><span class="badge badge-active">Active</span></div><div class="fm-name">${f.name}</div><div class="fm-label">What this looks like</div><div class="fm-body">${d.what}</div><div class="question-box"><div class="fm-label">One question to ask Monday</div><p>\u201C${d.oneQ}\u201D</p></div>${d.cascade.length?'<div class="cascade-note">If unaddressed, this pattern feeds into '+d.cascade.map(c=>FM[c].name).join(' and ')+'.</div>':''}<a href="https://dripractice.com/fm/${f.code.toLowerCase()}" class="deeper-link" target="_blank">Go deeper \u2192</a></div></div>`})}
+  document.getElementById('activeFMs').innerHTML=h;
+  // Cascades
+  h='';if(p.cas.length){h+='<div class="section-title">Patterns that reinforce each other</div>';p.cas.forEach(c=>{h+=`<div class="cascade-alert"><strong>${c.fn}</strong> \u2192 <strong>${c.tn}</strong>. These patterns feed each other.</div>`})}
+  document.getElementById('cascadeAlerts').innerHTML=h;
+  // Emerging
+  h='';if(p.em.length){h+='<div class="section-title">Worth watching</div>';p.em.forEach(f=>{const d=FM[f.code];h+=`<div class="fm-card emerging-card"><div class="fm-card-inner"><div class="fm-header"><span class="fm-code">${f.code}</span><span class="badge badge-emerging">Emerging</span></div><div class="fm-name">${f.name}</div><div class="fm-body">${d.what.split('.')[0]}.</div></div></div>`})}
+  document.getElementById('emergingFMs').innerHTML=h;
+  // Dormant
+  h='';if(p.dor.length){h+='<div class="dormant-section"><div class="dormant-title">Not currently detected</div><div class="dormant-list">'+p.dor.map(f=>f.name).join(', ')+'</div></div>'}
+  document.getElementById('dormantFMs').innerHTML=h;
+  // Upsell
+  document.getElementById('upsellBox').innerHTML=`<div class="upsell-box"><h3>Want the full picture?</h3><p>This diagnostic assessed 8 of 17 structural patterns. The full Coherence Diagnostic covers all 17 failure modes with 51 questions, detailed cascade analysis, and trend tracking over time.</p></div>`;
+}
+function retake(){startAssessment()}
+</script>
+</body>
+</html>
