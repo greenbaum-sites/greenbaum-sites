@@ -10,7 +10,7 @@
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://dripractice.com/diagnose">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -33,11 +33,11 @@ body::after{content:'';position:fixed;inset:0;background-image:url("data:image/s
 /* NAV — matches dripractice.com exactly */
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,10,0.97);border-bottom:1px solid var(--border);backdrop-filter:blur(8px)}
 .nav-brand{text-decoration:none;display:flex;flex-direction:column}
-.nav-name{font-family:var(--serif);font-weight:400;font-size:1.3rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--text-primary)}
+.nav-name{font-family:var(--sans);font-weight:700;font-size:1rem;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-primary)}
 .nav-name .tm{font-size:0.6em;vertical-align:super;color:var(--text-dim)}
-.nav-role{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
+.nav-role{font-family:var(--mono);font-size:0.55rem;font-weight:400;letter-spacing:0.15em;text-transform:uppercase;color:var(--text-dim);margin-top:2px}
 .nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
-.nav-links a{font-family:var(--mono);font-size:0.6rem;font-weight:400;letter-spacing:0.2em;text-transform:uppercase;color:var(--text-secondary);text-decoration:none;transition:color 0.3s ease}
+.nav-links a{font-family:var(--mono);font-size:0.65rem;font-weight:500;letter-spacing:0.1em;text-transform:uppercase;color:var(--text-secondary);text-decoration:none;transition:color 0.3s ease}
 .nav-links a:hover{color:var(--text-primary)}
 .nav-links a.active{color:var(--accent)}
 .nav-toggle{display:none;background:none;border:none;cursor:pointer;padding:0.5rem;z-index:101}
@@ -58,9 +58,9 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.5rem 3rem;display:
 .fade-in-d1{animation-delay:0.2s}.fade-in-d2{animation-delay:0.4s}.fade-in-d3{animation-delay:0.6s}.fade-in-d4{animation-delay:0.8s}
 
 /* TYPOGRAPHY */
-h1{font-family:var(--serif);font-weight:400;font-size:clamp(2rem,4vw,2.8rem);line-height:1.15;letter-spacing:-0.02em;color:var(--text-primary)}
-h2{font-family:var(--serif);font-weight:400;font-size:clamp(1.4rem,3vw,1.8rem);line-height:1.3;color:var(--text-primary);margin-bottom:1.5rem}
-h3{font-family:var(--serif);font-weight:400;font-size:1.15rem;color:var(--text-primary)}
+h1{font-family:var(--sans);font-weight:700;font-size:clamp(2rem,4vw,2.8rem);line-height:1.15;letter-spacing:-0.035em;color:var(--text-primary)}
+h2{font-family:var(--sans);font-weight:700;font-size:clamp(1.4rem,3vw,1.8rem);line-height:1.3;color:var(--text-primary);margin-bottom:1.5rem}
+h3{font-family:var(--sans);font-weight:600;font-size:1.15rem;color:var(--text-primary)}
 .section-label{font-family:var(--mono);font-size:0.65rem;font-weight:400;letter-spacing:0.3em;text-transform:uppercase;color:var(--accent);margin-bottom:2rem}
 .eyebrow{font-family:var(--mono);font-size:0.6rem;font-weight:400;letter-spacing:0.35em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem}
 p{font-size:1.05rem;line-height:1.8;color:var(--text-secondary);margin-bottom:1.2rem}
@@ -68,7 +68,7 @@ p strong{color:var(--text-primary);font-weight:600}
 
 /* THESIS BLOCK */
 .thesis-block{background:var(--bg-card);border:1px solid var(--border);border-left:2px solid var(--accent);padding:2rem 2.5rem;margin:2rem 0}
-.thesis-block p{font-family:var(--serif);font-size:1.15rem;line-height:1.6;color:var(--text-primary);font-style:italic;margin-bottom:0}
+.thesis-block p{font-family:var(--sans);font-size:1.15rem;line-height:1.6;color:var(--text-primary);margin-bottom:0}
 
 /* PRIVACY BOX */
 .privacy-box{background:var(--bg-card);border:1px solid var(--border);padding:1.5rem 2rem;margin:2rem 0}
@@ -92,7 +92,7 @@ p strong{color:var(--text-primary);font-weight:600}
 .phase-label{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.3em;text-transform:uppercase;color:var(--text-dim);margin-bottom:1.5rem}
 
 /* QUESTION TEXT */
-.question-text{font-family:var(--serif);font-weight:400;font-size:clamp(1.2rem,2.5vw,1.5rem);line-height:1.4;color:var(--text-primary);margin-bottom:2rem}
+.question-text{font-family:var(--sans);font-weight:600;font-size:clamp(1.2rem,2.5vw,1.5rem);line-height:1.4;color:var(--text-primary);margin-bottom:2rem}
 
 /* OPTIONS */
 .option{display:flex;align-items:flex-start;gap:1rem;background:var(--bg-card);border:1px solid var(--border);padding:1.2rem 1.5rem;margin-bottom:0.5rem;cursor:pointer;transition:all 0.3s ease;min-height:48px}
@@ -116,8 +116,8 @@ p strong{color:var(--text-primary);font-weight:600}
 .triangle-container{display:flex;justify-content:center;margin:2rem 0 3rem}
 .triangle-svg{max-width:340px;width:100%}
 .interpretation-box{background:var(--bg-card);border:1px solid var(--border);border-left:2px solid var(--accent);padding:2rem 2.5rem;margin-bottom:3rem}
-.interpretation-box p{font-family:var(--serif);font-size:1.1rem;line-height:1.6;color:var(--text-primary);font-style:italic;margin-bottom:0}
-.section-title{font-family:var(--serif);font-weight:400;font-size:1.4rem;color:var(--text-primary);margin:3rem 0 1.5rem;padding-top:2rem;border-top:1px solid var(--border)}
+.interpretation-box p{font-family:var(--sans);font-size:1.1rem;line-height:1.6;color:var(--text-primary);margin-bottom:0}
+.section-title{font-family:var(--sans);font-weight:700;font-size:1.4rem;color:var(--text-primary);margin:3rem 0 1.5rem;padding-top:2rem;border-top:1px solid var(--border)}
 
 /* ACTIVE FM CARD */
 .fm-card{background:var(--bg-card);border:1px solid var(--border);margin-bottom:1.5rem;overflow:hidden;transition:border-color 0.3s ease}
@@ -129,12 +129,12 @@ p strong{color:var(--text-primary);font-weight:600}
 .badge{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.15em;text-transform:uppercase;padding:0.2rem 0.6rem;border:1px solid}
 .badge-active{border-color:var(--warm);color:var(--warm)}
 .badge-emerging{border-color:var(--accent);color:var(--accent)}
-.fm-name{font-family:var(--serif);font-weight:400;font-size:1.15rem;color:var(--text-primary);margin-bottom:1.2rem}
+.fm-name{font-family:var(--sans);font-weight:600;font-size:1.15rem;color:var(--text-primary);margin-bottom:1.2rem}
 .fm-label{font-family:var(--mono);font-size:0.6rem;letter-spacing:0.25em;text-transform:uppercase;color:var(--accent);margin-bottom:0.5rem}
 .fm-body{font-size:0.88rem;line-height:1.7;color:var(--text-secondary);margin-bottom:1.2rem}
 .question-box{background:var(--bg-primary);border:1px solid var(--border);border-left:2px solid var(--accent);padding:1.2rem 1.5rem;margin-bottom:1.2rem}
 .question-box .fm-label{margin-bottom:0.4rem}
-.question-box p{font-family:var(--serif);font-size:1rem;line-height:1.5;color:var(--text-primary);font-style:italic;margin-bottom:0}
+.question-box p{font-family:var(--sans);font-size:1rem;line-height:1.5;color:var(--text-primary);margin-bottom:0}
 .cascade-note{font-size:0.9rem;color:var(--text-dim);font-style:italic;margin-bottom:0.8rem}
 .deeper-link{font-family:var(--mono);font-size:0.65rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);text-decoration:none;transition:color 0.3s ease;display:inline-block;padding:0.5rem 0}
 .deeper-link:hover{color:var(--text-primary)}
@@ -363,14 +363,14 @@ function showResults(){
     <line x1="${brx}" y1="${bly}" x2="${cx}" y2="${ty}" stroke="${aC}" stroke-width="1" opacity=".4"/>
     <circle cx="${cx}" cy="${ty-2}" r="3" fill="${tC}" filter="url(#glow)"/>
     <text x="${cx}" y="${ty-16}" text-anchor="middle" fill="${tC}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2" font-weight="400">TRUTH</text>
-    <text x="${cx}" y="${ty-30}" text-anchor="middle" fill="${tC}" font-family="Cormorant Garamond,serif" font-size="18" font-weight="300">${p.vx.truth.score.toFixed(2)}</text>
+    <text x="${cx}" y="${ty-30}" text-anchor="middle" fill="${tC}" font-family="Instrument Sans,sans-serif" font-size="18" font-weight="500">${p.vx.truth.score.toFixed(2)}</text>
     <circle cx="${blx-2}" cy="${bly+2}" r="3" fill="${aC}" filter="url(#glow)"/>
     <text x="${blx-2}" y="${bly+18}" text-anchor="middle" fill="${aC}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2" font-weight="400">AUTHORITY</text>
-    <text x="${blx-2}" y="${bly+32}" text-anchor="middle" fill="${aC}" font-family="Cormorant Garamond,serif" font-size="18" font-weight="300">${p.vx.authority.score.toFixed(2)}</text>
+    <text x="${blx-2}" y="${bly+32}" text-anchor="middle" fill="${aC}" font-family="Instrument Sans,sans-serif" font-size="18" font-weight="500">${p.vx.authority.score.toFixed(2)}</text>
     <circle cx="${brx+2}" cy="${bly+2}" r="3" fill="${cC}" filter="url(#glow)"/>
     <text x="${brx+2}" y="${bly+18}" text-anchor="middle" fill="${cC}" font-family="JetBrains Mono,monospace" font-size="8" letter-spacing="2" font-weight="400">CONTINUITY</text>
-    <text x="${brx+2}" y="${bly+32}" text-anchor="middle" fill="${cC}" font-family="Cormorant Garamond,serif" font-size="18" font-weight="300">${p.vx.continuity.score.toFixed(2)}</text>
-    <text x="${cx}" y="${(ty+bly)/2+5}" text-anchor="middle" fill="var(--accent)" font-family="Cormorant Garamond,serif" font-size="32" font-weight="300">${p.ov.toFixed(2)}</text>
+    <text x="${brx+2}" y="${bly+32}" text-anchor="middle" fill="${cC}" font-family="Instrument Sans,sans-serif" font-size="18" font-weight="500">${p.vx.continuity.score.toFixed(2)}</text>
+    <text x="${cx}" y="${(ty+bly)/2+5}" text-anchor="middle" fill="var(--accent)" font-family="Instrument Sans,sans-serif" font-size="32" font-weight="500">${p.ov.toFixed(2)}</text>
     <text x="${cx}" y="${(ty+bly)/2+22}" text-anchor="middle" fill="var(--text-dim)" font-family="JetBrains Mono,monospace" font-size="7" letter-spacing="2">OVERALL COHERENCE</text>
   </svg>`;
   document.getElementById('interpretation').innerHTML='<p>'+p.interp+'</p>';

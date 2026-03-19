@@ -17,11 +17,11 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
     :root { --bg: #0d0d0d; --gold: #c9a84c; --gold-dim: rgba(201, 168, 76, 0.25); --gold-glow: rgba(201, 168, 76, 0.12); --text-primary: #e8e4dc; --text-warm: #d4cfc6; --text-cold: #b8b4ad; --text-dim: #756f69; --text-muted: #5a5652; --img-narrative-opacity: 0.08; --img-structure-opacity: 0.10; --img-structure-opacity-full: 0.14; --grain-opacity: 0.04; }
-    html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text-primary); font-family: 'Cormorant Garamond', serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
+    html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text-primary); font-family: 'Instrument Sans', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
     body::after { content: ''; position: fixed; inset: 0; z-index: 200; pointer-events: none; background-image: var(--grain-bg, url('images/grain.png')); background-repeat: repeat; background-size: 512px 512px; mix-blend-mode: overlay; opacity: var(--grain-opacity); }
     .header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: center; padding: 2.2rem 2rem 0; pointer-events: none; }
     .header-label { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; font-weight: 300; letter-spacing: 0.22em;
@@ -61,7 +61,7 @@
     .fm-label { position: absolute; bottom: 2.8rem; left: 50%; transform: translateX(-50%); z-index: 60; text-align: center; opacity: 0; transition: opacity 1s ease; pointer-events: none; white-space: nowrap; }
     .fm-label.visible { opacity: 1; }
     .fm-code { font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
-    .fm-line { font-weight: 300; font-style: italic; font-size: clamp(0.85rem, 1.15vw, 0.95rem); color: var(--text-muted); line-height: 1.65; white-space: normal; max-width: 520px; margin: 0 auto; }
+    .fm-line { font-family: 'Instrument Sans', sans-serif; font-weight: 400; font-size: clamp(0.85rem, 1.15vw, 0.95rem); color: var(--text-muted); line-height: 1.65; white-space: normal; max-width: 520px; margin: 0 auto; }
     .carousel-nav { position: fixed; bottom: 0.6rem; left: 50%; transform: translateX(-50%); z-index: 80; display: flex; align-items: center; gap: 0.75rem; }
     .carousel-arrow { background: none; border: 1px solid var(--gold-dim); border-radius: 50%; width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; cursor: pointer; opacity: 0.4; transition: opacity 0.3s, border-color 0.3s; padding: 0; }
     .carousel-arrow:hover { opacity: 1; border-color: var(--gold); }
@@ -76,7 +76,7 @@
     .footer-mono:hover { color: var(--gold); }
     /* ========== CLOSING STATEMENT ========== */
     .closing-statement { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; background: var(--bg); will-change: transform; }
-    .closing-line { font-family: 'Cormorant Garamond', serif; font-weight: 300; font-style: italic; font-size: clamp(0.8rem, 1.1vw, 0.95rem); line-height: 1.8; color: var(--gold); max-width: 520px; margin: 0 auto; }
+    .closing-line { font-family: 'Instrument Sans', sans-serif; font-weight: 400; font-size: clamp(0.8rem, 1.1vw, 0.95rem); line-height: 1.8; color: var(--gold); max-width: 520px; margin: 0 auto; }
     .closing-line + .closing-line { margin-top: 1.2rem; }
     @keyframes softIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes handleIn { from { opacity: 0; } to { opacity: 1; } }

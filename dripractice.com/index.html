@@ -44,7 +44,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
 
   <style>
     :root {
@@ -117,10 +117,10 @@
     }
 
     .nav-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.3rem;
-      letter-spacing: 0.12em;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--text-primary);
     }
@@ -133,8 +133,9 @@
 
     .nav-role {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.3em;
+      font-size: 0.55rem;
+      font-weight: 400;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--text-dim);
       margin-top: 2px;
@@ -150,8 +151,8 @@
     .nav-links a {
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.65rem;
-      font-weight: 300;
-      letter-spacing: 0.2em;
+      font-weight: 500;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-secondary);
       text-decoration: none;
@@ -208,22 +209,32 @@
 
     .hero-eyebrow {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.7rem;
-      font-weight: 300;
-      letter-spacing: 0.35em;
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
       opacity: 0;
       animation: fadeUp 0.8s ease 0.3s forwards;
     }
+    .hero-eyebrow::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
+    }
 
     .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 700;
       font-size: clamp(2.8rem, 6vw, 4.5rem);
-      line-height: 1.1;
-      letter-spacing: -0.02em;
+      line-height: 1.08;
+      letter-spacing: -0.04em;
       color: var(--text-primary);
       margin-bottom: 2rem;
       opacity: 0;
@@ -238,10 +249,10 @@
 
     .hero-sub {
       font-family: 'Instrument Sans', sans-serif;
-      font-size: 1.2rem;
-      line-height: 1.7;
+      font-size: 1.15rem;
+      line-height: 1.8;
       color: var(--text-secondary);
-      max-width: 620px;
+      max-width: 580px;
       opacity: 0;
       animation: fadeUp 0.8s ease 0.7s forwards;
     }
@@ -262,11 +273,11 @@
 
     /* ---- SECTIONS ---- */
     section {
-      padding: 6rem 3rem;
+      padding: 8rem 3rem;
       border-top: 1px solid var(--border);
     }
     .sec-lifted { background: var(--bg-secondary); }
-    .sec-lifted .lens-card { background: var(--bg-secondary); }
+    .sec-lifted .lens-card { background: var(--bg-elevated); }
 
     .section-inner {
       max-width: 720px;
@@ -275,35 +286,45 @@
 
     .section-label {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      font-weight: 300;
-      letter-spacing: 0.3em;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
       text-transform: uppercase;
       color: var(--accent);
-      margin-bottom: 2rem;
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+    .section-label::before {
+      content: '';
+      width: 24px;
+      height: 1px;
+      background: var(--accent);
+      opacity: 0.5;
     }
 
     section h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: clamp(1.8rem, 3.5vw, 2.4rem);
-      line-height: 1.2;
-      letter-spacing: -0.01em;
-      margin-bottom: 2rem;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      line-height: 1.08;
+      letter-spacing: -0.035em;
+      margin-bottom: 1.5rem;
       color: var(--text-primary);
     }
 
     section h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.4rem;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1.3rem;
       margin: 2.5rem 0 1rem;
       color: var(--text-primary);
     }
 
     section p {
-      font-size: 1.05rem;
-      line-height: 1.75;
+      font-size: 1rem;
+      line-height: 1.8;
       color: var(--text-secondary);
       margin-bottom: 1.2rem;
     }
@@ -316,8 +337,8 @@
     /* Reveal animation */
     .reveal {
       opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease;
+      transform: translateY(32px);
+      transition: opacity 0.9s cubic-bezier(.16,1,.3,1), transform 0.9s cubic-bezier(.16,1,.3,1);
     }
 
     .reveal.visible {
@@ -329,53 +350,56 @@
     .thesis-block {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-left: 2px solid var(--accent);
-      padding: 2.5rem 2.5rem;
+      border-left: 3px solid var(--accent);
+      padding: 2rem 2.5rem;
       margin: 2.5rem 0;
+      border-radius: 0 6px 6px 0;
     }
 
     .thesis-block p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      line-height: 1.6;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      line-height: 1.75;
       color: var(--text-primary);
-      font-style: italic;
       margin-bottom: 0;
     }
 
     /* ---- LENS GRID ---- */
     .lens-section {
-      padding: 6rem 3rem;
+      padding: 8rem 3rem;
       border-top: 1px solid var(--border);
     }
 
     .lens-header {
       max-width: 720px;
-      margin: 0 auto 4rem;
+      margin: 0 auto 3rem;
     }
 
     .lens-grid {
       max-width: 1100px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1px;
-      background: var(--border);
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
     }
 
     .lens-card {
-      background: var(--bg-primary);
-      padding: 2.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 2rem 2rem;
       cursor: pointer;
       text-decoration: none;
       color: inherit;
       display: block;
-      transition: all 0.4s ease;
+      transition: all 0.3s ease;
       position: relative;
     }
 
     .lens-card:hover {
-      background: var(--bg-card);
+      border-color: var(--accent);
+      transform: translateY(-2px);
     }
 
     .lens-card:hover .lens-role {
@@ -383,18 +407,18 @@
     }
 
     .lens-role {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.15rem;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
       color: var(--text-primary);
-      margin-bottom: 0.75rem;
+      margin-bottom: 0.5rem;
       transition: color 0.3s ease;
     }
 
     .lens-line {
       font-family: 'Instrument Sans', sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.6;
+      font-size: 0.88rem;
+      line-height: 1.65;
       color: var(--text-secondary);
     }
 
@@ -453,6 +477,7 @@
     .triangle-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
+      border-radius: 6px;
       padding: 2rem;
       transition: all 0.3s ease;
     }
@@ -463,16 +488,17 @@
 
     .triangle-card h4 {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.65rem;
-      letter-spacing: 0.2em;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.15em;
       text-transform: uppercase;
       color: var(--accent);
       margin-bottom: 1rem;
     }
 
     .triangle-card p {
-      font-size: 0.95rem;
-      line-height: 1.7;
+      font-size: 0.92rem;
+      line-height: 1.75;
       color: var(--text-secondary);
       margin-bottom: 0;
     }
@@ -488,7 +514,8 @@
     a.fm-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      padding: 1.5rem 1.8rem;
+      border-radius: 6px;
+      padding: 1.8rem 2rem;
       transition: all 0.3s ease;
       text-decoration: none;
       display: block;
@@ -508,8 +535,8 @@
     }
 
     .fm-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
       font-size: 1.05rem;
       color: var(--text-primary);
       margin-bottom: 0.6rem;
@@ -546,6 +573,7 @@
     .instrument-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
+      border-radius: 6px;
       padding: 1.8rem;
       display: flex;
       align-items: flex-start;
@@ -572,9 +600,9 @@
     }
 
     .instrument-info h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.05rem;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
       color: var(--text-primary);
       margin-bottom: 0.4rem;
     }
@@ -597,6 +625,7 @@
     .eco-card {
       background: var(--bg-card);
       border: 1px solid var(--border);
+      border-radius: 6px;
       padding: 2rem;
       text-decoration: none;
       transition: all 0.3s ease;
@@ -618,9 +647,9 @@
     }
 
     .eco-card h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.1rem;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
       color: var(--text-primary);
       margin-bottom: 0.5rem;
     }
@@ -643,15 +672,17 @@
     .cta-section {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      padding: 3rem;
+      border-radius: 8px;
+      padding: 3.5rem;
       text-align: center;
       margin: 2rem 0;
     }
 
     .cta-section h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-weight: 400;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       margin: 0 0 1rem 0;
       color: var(--text-primary);
     }
@@ -666,14 +697,16 @@
 
     .cta-button {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.6rem;
-      letter-spacing: 0.15em;
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--bg-primary);
       background: var(--accent);
       text-decoration: none;
-      padding: 0.9rem 1.8rem;
+      padding: 0.85rem 2rem;
       border: 1px solid var(--accent);
+      border-radius: 4px;
       transition: all 0.3s ease;
     }
 
@@ -694,18 +727,19 @@
     /* ---- PRINCIPLE ---- */
     .principle-box {
       border: 1px solid var(--border);
-      border-left: 2px solid var(--accent);
+      border-left: 3px solid var(--accent);
       padding: 2rem 2.5rem;
       margin: 2rem 0;
       background: var(--bg-card);
+      border-radius: 0 6px 6px 0;
     }
 
     .principle-box p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.15rem;
-      line-height: 1.6;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 500;
+      line-height: 1.75;
       color: var(--text-primary);
-      font-style: italic;
       margin-bottom: 0;
     }
 
@@ -721,8 +755,8 @@
 
     .footer-l, .footer-r {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.5rem;
-      letter-spacing: 0.15em;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
       color: var(--text-dim);
       text-transform: uppercase;
     }
@@ -736,6 +770,11 @@
     .footer-r a:hover { color: var(--accent); }
 
     /* ---- RESPONSIVE ---- */
+    @media (max-width: 960px) {
+      .lens-grid { grid-template-columns: repeat(2, 1fr); }
+      .triangle-cards { grid-template-columns: 1fr; }
+      section, .lens-section { padding: 5rem 2rem; }
+    }
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
       .nav-toggle { display: block; }
@@ -755,9 +794,7 @@
       .nav-links.active { display: flex; }
       section, .lens-section { padding: 4rem 1.5rem; }
       .hero { padding: 0 1.5rem 6rem; }
-      section p { font-size: 1rem; }
-      .triangle-cards { grid-template-columns: 1fr; }
-      .lens-grid { grid-template-columns: 1fr; }
+      .lens-grid { grid-template-columns: 1fr; gap: 0.75rem; }
       .fm-grid { grid-template-columns: 1fr; }
       .instrument-list { grid-template-columns: 1fr; }
       .ecosystem-grid { grid-template-columns: 1fr; }
@@ -891,7 +928,7 @@
     <div class="lens-header reveal">
       <div class="section-label">Entry Points</div>
       <h2>Same system. Different lens.</h2>
-      <p style="font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary);">Structural conditions look different from every chair. Find yours.</p>
+      <p style="font-size: 1rem; line-height: 1.8; color: var(--text-secondary);">Structural conditions look different from every chair. Find yours.</p>
     </div>
 
     <div class="lens-grid reveal">
@@ -1005,7 +1042,7 @@
 
       <p>Seven instruments that observe, summarize, and suggest. They do not decide.</p>
 
-      <p style="font-size: 0.8rem; color: var(--text-dim); font-style: italic;">AR-001: Automation may observe, summarize, and suggest. Automation may not decide.</p>
+      <p style="font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 500; letter-spacing: 0.1em; color: var(--text-dim); padding: 0.8rem 1.2rem; background: var(--accent-dim); border: 1px solid var(--border); border-radius: 4px; display: inline-block;">AR-001 — Automation may observe, summarize, and suggest. Automation may not decide.</p>
     </div>
 
     <div class="instrument-list reveal">
@@ -1146,7 +1183,7 @@
     <div class="section-inner">
       <div class="cta-section reveal">
         <h3>Engage With the Practice</h3>
-        <p style="font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0;">DRI™ is a field in formation. The work is public. The methodology is transparent. The canon is evolving.</p>
+        <p style="font-size: 0.95rem; color: var(--text-secondary); line-height: 1.75; margin-bottom: 0;">DRI™ is a field in formation. The work is public. The methodology is transparent. The canon is evolving.</p>
         <div class="cta-buttons">
           <a href="https://writing.justingreenbaum.com/subscribe" class="cta-button" target="_blank">Subscribe to Field Notes</a>
           <a href="mailto:justin@greenbaumlabs.com" class="cta-button secondary">Contact</a>
