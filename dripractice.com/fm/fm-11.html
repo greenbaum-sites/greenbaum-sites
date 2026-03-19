@@ -17,17 +17,17 @@ What began as indicators become decision-makers. People stop asking whether a nu
     :root {
       --bg-primary: #0a0a0a;
       --bg-secondary: #111111;
-      --bg-card: #161616;
+      --bg-card: #181818;
       --bg-elevated: #1a1a1a;
       --text-primary: #f0ece4;
-      --text-secondary: #8a8580;
-      --text-dim: #4a4744;
+      --text-secondary: #b5b0a8;
+      --text-dim: #756f69;
       --accent: #c9a84c;
       --accent-dim: rgba(201, 168, 76, 0.12);
       --warm: #c8553a;
       --warm-dim: rgba(200, 85, 58, 0.1);
-      --border: rgba(240, 236, 228, 0.06);
-      --border-hover: rgba(240, 236, 228, 0.12);
+      --border: rgba(240, 236, 228, 0.10);
+      --border-hover: rgba(240, 236, 228, 0.18);
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
     html { scroll-behavior: smooth; }
@@ -56,18 +56,18 @@ What began as indicators become decision-makers. People stop asking whether a nu
     }
     .nav-brand { text-decoration: none; display: flex; flex-direction: column; }
     .nav-name {
-      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-family: 'Cormorant Garamond', serif; font-weight: 400;
       font-size: 1.3rem; letter-spacing: 0.12em; text-transform: uppercase;
       color: var(--text-primary);
     }
     .nav-name .tm { font-size: 0.6em; vertical-align: super; color: var(--text-dim); }
     .nav-role {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
       letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
     }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
     .nav-links a {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 300;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 300;
       letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary);
       text-decoration: none; transition: color 0.3s ease;
     }
@@ -79,7 +79,7 @@ What began as indicators become decision-makers. People stop asking whether a nu
       padding: 8rem 3rem 4rem;
     }
     .back-link {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
       letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-dim);
       text-decoration: none; transition: color 0.3s ease;
       display: inline-block; margin-bottom: 2rem;
@@ -91,7 +91,7 @@ What began as indicators become decision-makers. People stop asking whether a nu
       margin-bottom: 0.5rem;
     }
     h1 {
-      font-family: 'Cormorant Garamond', serif; font-weight: 300;
+      font-family: 'Cormorant Garamond', serif; font-weight: 400;
       font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.15;
       letter-spacing: -0.02em; margin-bottom: 1.5rem;
     }
@@ -101,17 +101,17 @@ What began as indicators become decision-makers. People stop asking whether a nu
       border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
     }
     .fm-meta-item {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
       letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
     }
     .fm-meta-item span { color: var(--text-secondary); }
     .fm-section { margin-bottom: 2.5rem; }
     .fm-section h3 {
-      font-family: 'Cormorant Garamond', serif; font-weight: 400;
+      font-family: 'Cormorant Garamond', serif; font-weight: 500;
       font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-primary);
     }
     .fm-body p {
-      font-size: 0.95rem; line-height: 1.8; color: var(--text-secondary);
+      font-size: 1.05rem; line-height: 1.8; color: var(--text-secondary);
       margin-bottom: 1rem;
     }
     .fm-body strong { color: var(--text-primary); font-weight: 600; }
@@ -120,7 +120,7 @@ What began as indicators become decision-makers. People stop asking whether a nu
       list-style: none; padding: 0; margin: 0.5rem 0;
     }
     .signal-list li {
-      font-size: 0.9rem; line-height: 1.7; color: var(--text-secondary);
+      font-size: 1rem; line-height: 1.7; color: var(--text-secondary);
       padding: 0.4rem 0 0.4rem 1.2rem;
       position: relative;
     }
@@ -134,11 +134,11 @@ What began as indicators become decision-makers. People stop asking whether a nu
       border-top: 1px solid var(--border);
     }
     .closing-line em {
-      font-family: 'Cormorant Garamond', serif; font-size: 1.1rem;
+      font-family: 'Cormorant Garamond', serif; font-size: 1.25rem;
       line-height: 1.6; color: var(--text-secondary); font-style: italic;
     }
     .diagnostic-note {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
       letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
       margin-top: 3rem; padding-top: 1.5rem; border-top: 1px solid var(--border);
     }
@@ -147,7 +147,7 @@ What began as indicators become decision-makers. People stop asking whether a nu
       align-items: center; border-top: 1px solid var(--border);
     }
     .footer-l, .footer-r {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.5rem;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
       letter-spacing: 0.15em; color: var(--text-dim); text-transform: uppercase;
     }
     .footer-r a {
