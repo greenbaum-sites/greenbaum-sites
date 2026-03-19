@@ -10,7 +10,7 @@
   <link rel="apple-touch-icon" href="/apple-touch-icon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #0a0a0a;
@@ -51,19 +51,19 @@
     }
     .nav-brand { text-decoration: none; display: flex; flex-direction: column; }
     .nav-name {
-      font-family: 'Cormorant Garamond', serif; font-weight: 400;
-      font-size: 1.3rem; letter-spacing: 0.12em; text-transform: uppercase;
+      font-family: 'Instrument Sans', sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--text-primary);
     }
     .nav-name .tm { font-size: 0.6em; vertical-align: super; color: var(--text-dim); }
     .nav-role {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
-      letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
+      font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; font-weight: 400;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
     }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
     .nav-links a {
-      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 300;
-      letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 500;
+      letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-secondary);
       text-decoration: none; transition: color 0.3s ease;
     }
     .nav-links a:hover { color: var(--text-primary); }
@@ -71,7 +71,7 @@
 
     .page-content {
       max-width: 720px; margin: 0 auto;
-      padding: 8rem 3rem 4rem;
+      padding: 8rem 3rem 5rem;
     }
     .back-link {
       font-family: 'JetBrains Mono', monospace; font-size: 0.65rem;
@@ -86,9 +86,9 @@
       margin-bottom: 0.5rem;
     }
     h1 {
-      font-family: 'Cormorant Garamond', serif; font-weight: 400;
+      font-family: 'Instrument Sans', sans-serif; font-weight: 700;
       font-size: clamp(2rem, 4vw, 2.8rem); line-height: 1.15;
-      letter-spacing: -0.02em; margin-bottom: 1.5rem;
+      letter-spacing: -0.035em; margin-bottom: 1.5rem;
     }
     .fm-meta {
       display: flex; gap: 2rem; flex-wrap: wrap;
@@ -102,7 +102,7 @@
     .fm-meta-item span { color: var(--text-secondary); }
     .fm-section { margin-bottom: 2.5rem; }
     .fm-section h3 {
-      font-family: 'Cormorant Garamond', serif; font-weight: 500;
+      font-family: 'Instrument Sans', sans-serif; font-weight: 600;
       font-size: 1.3rem; margin-bottom: 1rem; color: var(--text-primary);
     }
     .fm-body p {
@@ -124,8 +124,8 @@
       border-top: 1px solid var(--border);
     }
     .closing-line em {
-      font-family: 'Cormorant Garamond', serif; font-size: 1.25rem;
-      line-height: 1.6; color: var(--text-secondary); font-style: italic;
+      font-family: 'Instrument Sans', sans-serif; font-size: 1.05rem; font-weight: 500;
+      line-height: 1.75; color: var(--text-primary); font-style: normal;
     }
     .diagnostic-note {
       font-family: 'JetBrains Mono', monospace; font-size: 0.6rem;
