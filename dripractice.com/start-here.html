@@ -1,0 +1,647 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Start Here | DRI Practice</title>
+  <meta name="description" content="Organizations fail in predictable, structural ways. There are 17 of them. Here's how to see them.">
+  <link rel="canonical" href="https://dripractice.com/start-here">
+
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://dripractice.com/start-here">
+  <meta property="og:title" content="Start Here — DRI Practice">
+  <meta property="og:description" content="Organizations fail in predictable, structural ways. There are 17 of them. Here's how to see them.">
+  <meta property="og:site_name" content="DRI Practice">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Start Here — DRI Practice">
+  <meta name="twitter:description" content="Organizations fail in predictable, structural ways. There are 17 of them. Here's how to see them.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #faf8f5;
+      --bg-warm: #f4f1ec;
+      --bg-card: #ffffff;
+      --bg-dark: #1a1a1a;
+      --text: #2a2520;
+      --text-secondary: #6b6460;
+      --text-dim: #a09890;
+      --accent: #b8942e;
+      --accent-soft: rgba(184, 148, 46, 0.08);
+      --accent-border: rgba(184, 148, 46, 0.25);
+      --border: rgba(42, 37, 32, 0.08);
+      --border-hover: rgba(42, 37, 32, 0.15);
+      --warm-red: #9e4a3a;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ---- NAV ---- */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 3rem;
+      display: flex; justify-content: space-between; align-items: center;
+      background: rgba(250, 248, 245, 0.95);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+    }
+
+    .nav-brand { text-decoration: none; display: flex; flex-direction: column; }
+
+    .nav-name {
+      font-family: 'Cormorant Garamond', serif; font-weight: 400;
+      font-size: 1.2rem; letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .nav-name .tm { font-size: 0.55em; vertical-align: super; color: var(--text-dim); }
+
+    .nav-role {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.45rem;
+      letter-spacing: 0.3em; text-transform: uppercase; color: var(--text-dim); margin-top: 2px;
+    }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; align-items: center; }
+
+    .nav-links a {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 400;
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary);
+      text-decoration: none; transition: color 0.3s ease;
+    }
+
+    .nav-links a:hover { color: var(--text); }
+    .nav-links a.active { color: var(--accent); }
+
+    /* ---- HERO (above the fold) ---- */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 8rem 2rem 4rem;
+      position: relative;
+    }
+
+    .hero-eyebrow {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.2s forwards;
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.4rem, 5.5vw, 3.8rem);
+      line-height: 1.2;
+      letter-spacing: -0.02em;
+      color: var(--text);
+      max-width: 700px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.35s forwards;
+    }
+
+    .hero-sub {
+      font-size: 1.15rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 520px;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.5s forwards;
+    }
+
+    /* Triangle */
+    .triangle-hero {
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.65s forwards;
+    }
+
+    .triangle-hero svg { width: 280px; height: 250px; }
+
+    .hero-cta {
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.8s forwards;
+    }
+
+    .hero-cta a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--bg);
+      background: var(--text);
+      text-decoration: none;
+      padding: 1rem 2.5rem;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .hero-cta a:hover {
+      background: var(--accent);
+    }
+
+    .scroll-hint {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      opacity: 0;
+      animation: fadeUp 0.7s ease 1.2s forwards;
+    }
+
+    .scroll-hint::after {
+      content: '';
+      display: block;
+      width: 1px;
+      height: 24px;
+      background: var(--text-dim);
+      margin: 0.5rem auto 0;
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* ---- SECTIONS ---- */
+    section {
+      padding: 5rem 3rem;
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      line-height: 1.3;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+
+    section p {
+      font-size: 0.95rem;
+      line-height: 1.85;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    section p strong { color: var(--text); font-weight: 600; }
+    section p em { color: var(--accent); font-style: normal; font-weight: 500; }
+
+    section a {
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent-border);
+      transition: border-color 0.3s ease;
+    }
+
+    section a:hover { border-color: var(--accent); }
+
+    .section-divider {
+      max-width: 760px;
+      margin: 0 auto;
+      border: none;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ---- TRIANGLE SECTION ---- */
+    .triangle-section {
+      background: var(--bg-warm);
+      max-width: 100%;
+      padding: 5rem 3rem;
+    }
+
+    .triangle-inner {
+      max-width: 760px;
+      margin: 0 auto;
+    }
+
+    .triangle-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 2.5rem;
+    }
+
+    .tri-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1.75rem;
+    }
+
+    .tri-card h4 {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .tri-card p {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* ---- FM GRID ---- */
+    .fm-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      margin: 2rem 0;
+    }
+
+    .fm-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1.5rem 1.75rem;
+      text-decoration: none;
+      transition: all 0.25s ease;
+      display: block;
+    }
+
+    .fm-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    }
+
+    .fm-card .fm-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      color: var(--text-dim);
+      display: block;
+      margin-bottom: 0.4rem;
+    }
+
+    .fm-card .fm-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.05rem;
+      font-weight: 500;
+      color: var(--text);
+      display: block;
+    }
+
+    .fm-card:hover .fm-title { color: var(--accent); }
+
+    /* ---- QUOTE BLOCK ---- */
+    .quote-block {
+      border-left: 3px solid var(--accent);
+      padding: 1.5rem 0 1.5rem 2rem;
+      margin: 2.5rem 0;
+    }
+
+    .quote-block p {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.35rem;
+      font-weight: 400;
+      line-height: 1.5;
+      color: var(--text);
+      font-style: italic;
+      margin: 0;
+    }
+
+    /* ---- CTA SECTION ---- */
+    .cta-section {
+      background: var(--bg-dark);
+      max-width: 100%;
+      padding: 5rem 3rem;
+      text-align: center;
+    }
+
+    .cta-inner { max-width: 600px; margin: 0 auto; }
+
+    .cta-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 2rem;
+      color: #f0ece4;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: #8a8580;
+      margin-bottom: 2rem;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-btn {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.9rem 2rem;
+      border-radius: 2px;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+
+    .cta-btn.primary {
+      background: #c9a84c;
+      color: #1a1a1a;
+    }
+
+    .cta-btn.primary:hover { background: #d4b55a; }
+
+    .cta-btn.secondary {
+      background: transparent;
+      color: #8a8580;
+      border: 1px solid rgba(240,236,228,0.12);
+    }
+
+    .cta-btn.secondary:hover {
+      color: #f0ece4;
+      border-color: rgba(240,236,228,0.3);
+    }
+
+    /* ---- ABOUT ---- */
+    .about-section {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 3rem;
+    }
+
+    .about-section p {
+      font-size: 0.85rem;
+      line-height: 1.8;
+      color: var(--text-dim);
+    }
+
+    .about-section a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.3s ease;
+    }
+
+    .about-section a:hover { color: var(--accent); }
+
+    /* ---- FOOTER ---- */
+    footer {
+      padding: 2rem 3rem;
+      text-align: center;
+      border-top: 1px solid var(--border);
+    }
+
+    footer p {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    footer a {
+      color: var(--text-dim);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover { color: var(--text-secondary); }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ---- RESPONSIVE ---- */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero { padding: 7rem 1.5rem 3rem; min-height: 90vh; }
+      .hero h1 { font-size: 2.2rem; }
+      .triangle-hero svg { width: 220px; height: 195px; }
+      section { padding: 3.5rem 1.5rem; }
+      .triangle-section { padding: 3.5rem 1.5rem; }
+      .triangle-grid { grid-template-columns: 1fr; }
+      .fm-grid { grid-template-columns: 1fr; }
+      .cta-section { padding: 3.5rem 1.5rem; }
+      .cta-buttons { flex-direction: column; align-items: center; }
+      .about-section { padding: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav>
+    <a href="/" class="nav-brand">
+      <span class="nav-name">DRI<span class="tm">&trade;</span></span>
+      <span class="nav-role">Decision &middot; Responsibility &middot; Infrastructure</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">The Field</a></li>
+      <li><a href="/start-here" class="active">Start Here</a></li>
+      <li><a href="/#taxonomy">Taxonomy</a></li>
+      <li><a href="/diagnose">Diagnose</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO — above the fold -->
+  <div class="hero">
+    <p class="hero-eyebrow">Organizational Diagnosis</p>
+    <h1>Decisions break.<br>Organizations forget&nbsp;why.</h1>
+    <p class="hero-sub">There are 17 structural patterns behind organizational failure. They&rsquo;re predictable, diagnosable, and&nbsp;invisible from the&nbsp;inside.</p>
+
+    <div class="triangle-hero">
+      <svg viewBox="0 0 280 250" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- Triangle -->
+        <path d="M140 35 L255 210 L25 210 Z" stroke="rgba(184,148,46,0.4)" stroke-width="1.5" fill="rgba(184,148,46,0.03)"/>
+        <!-- Vertices -->
+        <circle cx="140" cy="35" r="5" fill="#b8942e"/>
+        <circle cx="25" cy="210" r="5" fill="#b8942e"/>
+        <circle cx="255" cy="210" r="5" fill="#b8942e"/>
+        <!-- Labels -->
+        <text x="140" y="20" text-anchor="middle" fill="#b8942e" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" letter-spacing="0.2em">TRUTH</text>
+        <text x="18" y="235" text-anchor="start" fill="#b8942e" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" letter-spacing="0.2em">AUTHORITY</text>
+        <text x="262" y="235" text-anchor="end" fill="#b8942e" font-family="JetBrains Mono, monospace" font-size="10" font-weight="500" letter-spacing="0.2em">CONTINUITY</text>
+        <!-- Center text -->
+        <text x="140" y="145" text-anchor="middle" fill="rgba(42,37,32,0.25)" font-family="Cormorant Garamond, serif" font-size="14" font-weight="400" letter-spacing="0.1em">COHERENCE</text>
+      </svg>
+    </div>
+
+    <div class="hero-cta">
+      <a href="#the-problem">Learn how it works</a>
+    </div>
+
+    <div class="scroll-hint">Scroll</div>
+  </div>
+
+  <!-- THE PROBLEM -->
+  <hr class="section-divider">
+  <section id="the-problem">
+    <p class="section-label">The Problem</p>
+    <h2>The problem is structural,<br>not cultural</h2>
+    <p>When organizations struggle, the diagnosis is almost always <strong>&ldquo;culture.&rdquo;</strong> The leadership team isn&rsquo;t aligned. Communication is poor. People aren&rsquo;t accountable.</p>
+    <p>These are symptoms. They describe what it feels like, not what&rsquo;s actually broken.</p>
+    <p>The structural reality is more specific: <em>decisions are being made without the authority to make them.</em> Or authority exists, but the information it depends on has eroded. Or the organization has changed shape so many times that nobody knows where responsibility actually lives.</p>
+    <p>These are diagnosable conditions &mdash; and they follow patterns.</p>
+  </section>
+
+  <!-- COHERENCE TRIANGLE -->
+  <div class="triangle-section">
+    <div class="triangle-inner">
+      <p class="section-label">The Framework</p>
+      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:400; font-size:1.8rem; color:var(--text); margin-bottom:1rem;">The Coherence Triangle</h2>
+      <p style="font-size:0.95rem; line-height:1.85; color:var(--text-secondary); margin-bottom:0;">Every failure mode maps to one of three structural dimensions &mdash; the minimum conditions for an organization to function.</p>
+
+      <div class="triangle-grid">
+        <div class="tri-card">
+          <h4>Truth</h4>
+          <p>Can the organization see itself clearly? Does the information that reaches decision-makers reflect what&rsquo;s actually happening?</p>
+        </div>
+        <div class="tri-card">
+          <h4>Authority</h4>
+          <p>Do the people making decisions have the mandate, context, and standing to make them? Does accountability follow authority?</p>
+        </div>
+        <div class="tri-card">
+          <h4>Continuity</h4>
+          <p>Does the organization remember why it made the decisions it made? Does context survive transitions and reorgs?</p>
+        </div>
+      </div>
+
+      <p style="font-size:0.9rem; line-height:1.8; color:var(--text-secondary); margin-top:2rem;">When all three hold, the organization is <em style="color:var(--accent); font-style:normal; font-weight:500;">coherent</em>. When any one breaks, dysfunction follows. When two or more break simultaneously, the failure compounds &mdash; and becomes invisible from the inside.</p>
+    </div>
+  </div>
+
+  <!-- 17 PATTERNS -->
+  <section>
+    <p class="section-label">The Taxonomy</p>
+    <h2>There are 17 patterns</h2>
+    <p>Through systematic analysis of organizations across sectors, we&rsquo;ve identified <strong>17 distinct failure modes</strong> &mdash; structural dysfunctions that recur with remarkable consistency. They aren&rsquo;t opinions. They&rsquo;re patterns that emerge from evidence and survive adversarial scrutiny.</p>
+    <p><em>Responsibility Compression</em> &mdash; responsibility is pushed down to the people doing the work, but the authority and context to act stays upstream. Everyone is accountable; no one is empowered. You&rsquo;ve seen it.</p>
+
+    <div class="fm-grid">
+      <a href="/fm/fm-01.html" class="fm-card">
+        <span class="fm-num">FM-01</span>
+        <span class="fm-title">Responsibility Compression</span>
+      </a>
+      <a href="/fm/fm-03.html" class="fm-card">
+        <span class="fm-num">FM-03</span>
+        <span class="fm-title">Responsibility Without Authority</span>
+      </a>
+      <a href="/fm/fm-08.html" class="fm-card">
+        <span class="fm-num">FM-08</span>
+        <span class="fm-title">Decision Latency</span>
+      </a>
+      <a href="/fm/fm-10.html" class="fm-card">
+        <span class="fm-num">FM-10</span>
+        <span class="fm-title">Leadership Saturation</span>
+      </a>
+      <a href="/fm/fm-15.html" class="fm-card">
+        <span class="fm-num">FM-15</span>
+        <span class="fm-title">Trust Exhaustion</span>
+      </a>
+      <a href="/fm/fm-17.html" class="fm-card">
+        <span class="fm-num">FM-17</span>
+        <span class="fm-title">Structural Amnesia</span>
+      </a>
+    </div>
+
+    <p><a href="/#taxonomy">See all 17 failure modes &rarr;</a></p>
+  </section>
+
+  <!-- DIAGNOSED FROM OUTSIDE -->
+  <hr class="section-divider">
+  <section>
+    <p class="section-label">The Method</p>
+    <h2>Diagnosed from the outside</h2>
+    <p>Every consulting firm diagnoses organizations with interviews and surveys &mdash; asking the patient to describe their own symptoms. We do something different.</p>
+    <p><strong>We diagnose from the outside.</strong> No interviews. No access required. Only publicly observable evidence &mdash; filings, press, earnings calls, employee reviews, litigation, organizational changes.</p>
+    <p>Why? Because organizations cannot reliably self-report on their own structural dysfunction. The people closest to the problem are the ones creating it.</p>
+
+    <div class="quote-block">
+      <p>A doctor doesn&rsquo;t ask a fractured bone how it feels &mdash; they take an X-ray.</p>
+    </div>
+
+    <p>Each finding is then subjected to <em>adversarial review</em> &mdash; a second, skeptical pass designed to tear it apart. Only findings that survive that scrutiny count. What remains is signal. What doesn&rsquo;t is noise.</p>
+  </section>
+
+  <!-- WHAT THIS MEANS -->
+  <hr class="section-divider">
+  <section>
+    <p class="section-label">For Leaders</p>
+    <h2>What this means for you</h2>
+    <p>You can&rsquo;t fix what you can&rsquo;t diagnose. And you can&rsquo;t diagnose your own organization from the inside &mdash; the same way a doctor doesn&rsquo;t operate on themselves.</p>
+    <p>The 17 failure modes are a vocabulary for the things you already feel but can&rsquo;t quite name. The ones your team talks around but never directly addresses. The patterns that survive every reorg because nobody sees them as structural.</p>
+    <p><strong>Making the invisible visible, and the nameless named.</strong></p>
+  </section>
+
+  <!-- CTA -->
+  <div class="cta-section">
+    <div class="cta-inner">
+      <h2>See the patterns</h2>
+      <p>Explore the 17 failure modes. Run a pilot diagnosis.<br>Start recognizing what&rsquo;s been hiding in plain sight.</p>
+      <div class="cta-buttons">
+        <a href="/#taxonomy" class="cta-btn primary">Explore the Taxonomy</a>
+        <a href="/diagnose" class="cta-btn secondary">Run a Pilot Diagnosis</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <div class="about-section">
+    <p>DRI Practice is the work of <a href="https://greenbaumlabs.com">Justin R. Greenbaum</a> at Greenbaum Labs &mdash; a research practice defining the structural conditions under which organizations succeed or fail. The framework is built on systematic analysis of public companies, validated through adversarial AI review, and grounded in 17 failure modes identified across sectors and scales.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>&copy; 2026 <a href="https://greenbaumlabs.com">Greenbaum Labs</a> &middot; <a href="/">DRI Practice</a></p>
+  </footer>
+
+</body>
+</html>
