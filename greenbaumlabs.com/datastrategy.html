@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <title>Our Data Strategy, Published — Greenbaum Labs</title>
+  <meta name="description" content="How we chose prompting over fine-tuning, why collection is the ballgame, and what finding-derived scoring changed about determinism.">
+
+  <meta property="og:title" content="Our Data Strategy, Published — Greenbaum Labs">
+  <meta property="og:description" content="How we chose prompting over fine-tuning, why collection is the ballgame, and what finding-derived scoring changed about determinism.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+  <meta property="og:url" content="https://greenbaumlabs.com/datastrategy">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Our Data Strategy, Published — Greenbaum Labs">
+  <meta name="twitter:description" content="How we chose prompting over fine-tuning, why collection is the ballgame, and what finding-derived scoring changed about determinism.">
+  <meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #161616;
+      --bg-card: #1c1c1c;
+      --bg-terminal: #0c0c0c;
+      --text-primary: #e8e4dc;
+      --text-secondary: #8a857f;
+      --text-dim: #4d4945;
+      --green: #5dba5d;
+      --green-dim: rgba(93, 186, 93, 0.08);
+      --green-glow: rgba(93, 186, 93, 0.15);
+      --accent: #c9a84c;
+      --warm: #c8553a;
+      --cyan: #5eb8c4;
+      --border: rgba(240, 236, 228, 0.07);
+      --border-green: rgba(93, 186, 93, 0.15);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+      z-index: 100;
+    }
+
+    .back-link:hover { color: var(--green); }
+
+    .hero {
+      padding: 8rem 3rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .hero-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--green);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+    }
+
+    .hero-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      margin-top: 1.5rem;
+      letter-spacing: 0.1em;
+    }
+
+    .constraint-box {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-green);
+      padding: 2rem;
+      margin: 4rem auto;
+      max-width: 800px;
+    }
+
+    .constraint-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1rem;
+    }
+
+    .constraint-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.5rem;
+      font-style: italic;
+      color: var(--text-primary);
+    }
+
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 3rem 6rem;
+    }
+
+    .content h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      margin: 4rem 0 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .content h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .content p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .content strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    .content em {
+      color: var(--text-primary);
+      font-style: italic;
+    }
+
+    .bucket-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-green);
+      margin: 2rem 0;
+    }
+
+    .bucket-item {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+    }
+
+    .bucket-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      color: var(--green);
+      margin-bottom: 0.25rem;
+    }
+
+    .bucket-status {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .bucket-status.active {
+      color: var(--accent);
+    }
+
+    .bucket-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .principle-list {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .principle-list li {
+      padding: 1.25rem 0;
+      padding-left: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      position: relative;
+      line-height: 1.6;
+    }
+
+    .principle-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.5rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .principle-list li strong {
+      display: block;
+      color: var(--text-primary);
+      font-weight: 500;
+      margin-bottom: 0.25rem;
+    }
+
+    .callout {
+      background: var(--bg-terminal);
+      border-left: 2px solid var(--green);
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .callout strong {
+      color: var(--green);
+    }
+
+    .redacted {
+      list-style: none;
+      margin: 2rem 0;
+    }
+
+    .redacted li {
+      padding: 0.75rem 0;
+      padding-left: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.95rem;
+      color: var(--text-dim);
+      position: relative;
+      font-style: italic;
+    }
+
+    .redacted li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.1rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--warm);
+    }
+
+    .cta-section {
+      background: var(--bg-secondary);
+      border-top: 1px solid var(--border-green);
+      padding: 4rem 3rem;
+      text-align: center;
+      margin-top: 4rem;
+    }
+
+    .cta-section h3 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .cta-section p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+    }
+
+    .cta-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--green);
+      text-decoration: none;
+      padding: 0.75rem 2rem;
+      border: 1px solid var(--border-green);
+      transition: all 0.3s ease;
+    }
+
+    .cta-link:hover {
+      background: var(--green-dim);
+      border-color: var(--green);
+    }
+
+    .footer-meta {
+      text-align: center;
+      padding: 3rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--text-dim);
+      letter-spacing: 0.1em;
+    }
+
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .content { padding: 0 1.5rem 4rem; }
+      .bucket-grid { grid-template-columns: 1fr; }
+      .back-link { top: 1rem; left: 1rem; }
+      .constraint-box { margin: 3rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/" class="back-link">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="19" y1="12" x2="5" y2="12"/><polyline points="12 19 5 12 12 5"/></svg>
+    Greenbaum Labs
+  </a>
+
+  <div class="hero">
+    <div class="hero-label">Data Strategy</div>
+    <h1>Our Data Strategy, Published</h1>
+    <div class="hero-sub">How we chose prompting over fine-tuning, why collection is the ballgame, and what finding-derived scoring changed about determinism.</div>
+    <div class="hero-date">March 2026 &mdash; Cambridge, MA</div>
+  </div>
+
+  <div class="constraint-box">
+    <div class="constraint-label">The Prompt</div>
+    <div class="constraint-text">"Companies should publish their data strategy."<br><span style="font-size:1rem;font-style:normal;color:var(--text-dim);">&mdash; Sertac Karaman, MIT AI Executive Academy</span></div>
+  </div>
+
+  <div class="content">
+
+    <p>Most won't. Data strategy lives in internal decks that nobody reads twice, or worse, in the heads of three engineers who haven't written anything down. Publishing forces clarity. If you can't explain your data strategy to someone outside your organization, you probably don't have one &mdash; you have a collection of habits.</p>
+
+    <p>So here's ours.</p>
+
+    <h2>The Three Buckets</h2>
+
+    <p>Sertac teaches a framework I've found useful: every AI system makes a fundamental choice across three buckets &mdash; training, fine-tuning, or prompting.</p>
+
+    <div class="bucket-grid">
+      <div class="bucket-item">
+        <div class="bucket-name">Training</div>
+        <div class="bucket-status">Not our bucket</div>
+        <div class="bucket-desc">Build a model from scratch. Massive data, massive compute, a team that debugs gradient descent at 3 AM. Unless you're a frontier lab, this isn't your bucket.</div>
+      </div>
+      <div class="bucket-item">
+        <div class="bucket-name">Fine-tuning</div>
+        <div class="bucket-status">Evaluated, rejected</div>
+        <div class="bucket-desc">Specialize a foundation model on your data. Domain expertise baked into weights &mdash; but also brittleness. Fine-tuned models drift and hallucinate confidently just outside their training distribution.</div>
+      </div>
+      <div class="bucket-item">
+        <div class="bucket-name">Prompting</div>
+        <div class="bucket-status active">Our bucket</div>
+        <div class="bucket-desc">Keep the model general. Make your data strategy about what goes into the context window. The model is a reasoning engine; your job is to give it the right evidence at the right time.</div>
+      </div>
+    </div>
+
+    <p>We chose prompting. Deliberately.</p>
+
+    <p>The thing we're building &mdash; a diagnostic system that examines how organizations make decisions and where those decisions structurally break down &mdash; requires the model to reason about novel situations with fresh evidence. We don't want a model that has "learned" what organizational dysfunction looks like and pattern-matches against its training. We want a model that looks at <em>this company's</em> public evidence <em>this week</em> and draws conclusions from what it actually finds.</p>
+
+    <p>Prompting keeps the reasoning honest. The model can't fall back on memorized patterns. It has to show its work with the evidence we give it.</p>
+
+    <p>That choice cascades into everything else.</p>
+
+    <h2>Collection: Multi-Source, Deduplicated, Fresh</h2>
+
+    <p>If prompting is the bucket, then collection is the ballgame. The quality of what goes into the context window determines the quality of what comes out.</p>
+
+    <p>We collect from multiple public source types per entity: regulatory filings, press releases, job postings, customer reviews, employee reviews, social media, news coverage. Each source type has a different collector with its own ingestion logic and deduplication. A company's job postings tell you something its press releases never will. Customer complaints reveal patterns that earnings calls are designed to obscure.</p>
+
+    <ul class="principle-list">
+      <li>
+        <strong>Multi-source diversity.</strong>
+        No single source type gets to dominate the evidence base. We cap each source during scoring so that an entity with 1,200 customer reviews and 10 press releases doesn't become a customer-review-only analysis.
+      </li>
+      <li>
+        <strong>Deduplication at ingest.</strong>
+        The same content appears across sources &mdash; a press release quoted in a news article, a Reddit post screenshotted on Twitter. Content dedup catches this before it enters the pipeline. Duplicate evidence doesn't make a finding stronger; it makes the system overconfident.
+      </li>
+      <li>
+        <strong>Freshness matters.</strong>
+        We re-collect before every analysis run. Stale data is a structural risk. An organization's public signals shift week to week &mdash; a job posting that appeared Friday and disappeared Monday is a signal. A regulatory filing from six months ago is context, not evidence.
+      </li>
+    </ul>
+
+    <h2>Scoring: Finding-Derived, Adversarial, Deterministic</h2>
+
+    <p>Here's where most people's data strategies stop: collect data, throw it at a model, get a number. We spent months learning why that doesn't work.</p>
+
+    <p>Early versions of our system asked an AI agent to read the evidence and produce a score &mdash; a float between 0 and 1. The problem: that float was non-deterministic. Same evidence, same model, same temperature set to zero, different number every time. Unacceptable for anything you'd want to stand behind.</p>
+
+    <p>The solution was to stop trusting the model to produce numbers and start trusting it to produce <em>findings</em> &mdash; structured observations about specific patterns in the evidence. The model is good at reading a document and saying "this company's job postings contradict its public messaging about AI investment." The model is bad at deciding whether that's a 0.37 or a 0.42.</p>
+
+    <div class="callout">
+      <strong>Finding-derived scoring:</strong> Agents produce findings. A skeptic agent challenges each one. Findings that survive adversarial debate are "sustained." The score is computed deterministically from sustained findings using calibrated weights. Three independent runs of the same evidence now produce identical scores. Stdev: 0.000.
+    </div>
+
+    <ul class="principle-list">
+      <li>
+        <strong>Hard finding caps.</strong>
+        Each analysis produces exactly three findings per dimension &mdash; no more, no less. Without this, the model would produce anywhere from two to six findings per run, creating a different debate surface each time.
+      </li>
+      <li>
+        <strong>Seeded sampling.</strong>
+        When the evidence base is too large for the context window, we sample. That sample is seeded from the entity and source metadata, so the same input always selects the same documents.
+      </li>
+      <li>
+        <strong>Skeptic throughput as a quality metric.</strong>
+        We track what percentage of findings survive the adversarial debate. A run where everything survives isn't rigorous. A run where nothing survives has bad extraction. The sweet spot is in the middle.
+      </li>
+    </ul>
+
+    <h2>Embeddings: Visual and Textual, Separate Concerns</h2>
+
+    <p>We maintain two embedding strategies for two different problems.</p>
+
+    <p>For our visual corpus (150,000+ photographs), we use CLIP embeddings &mdash; 768-dimensional vectors that let us search images by concept rather than metadata. "Show me photos that feel like isolation" returns something. The visual index exists to connect a diagnostic concept to an image that illustrates it, without anyone having to manually tag 150,000 files.</p>
+
+    <p>For the diagnostic pipeline, we use ChromaDB for retrieval over extracted evidence. The key decision was keeping the embedding index <em>per entity, per collection date</em>. No cross-contamination between entities. No stale embeddings from last month's collection mixed with this week's evidence.</p>
+
+    <h2>Governance: The Boring Part That Matters Most</h2>
+
+    <p>Data strategy without governance is just data hoarding.</p>
+
+    <ul class="principle-list">
+      <li>
+        <strong>Experiment discipline.</strong>
+        Every change to the pipeline &mdash; code or prompt &mdash; is tracked separately. We learned this the hard way when unlabeled changes across both layers silently invalidated 41 experiments of prompt optimization. The baseline shifted and nobody noticed until scores collapsed. Now: code changes are tested independently. Prompt changes live on the experiment surface. Never mix both in the same commit.
+      </li>
+      <li>
+        <strong>Automated prompt optimization.</strong>
+        We run a continuous evaluation harness that tests prompt variations against a fixed proxy dataset. The metric isn't "does the score go up" &mdash; it's a composite of reproducibility, stability, evidence quality, and diagnostic value. A prompt that produces high scores but unreproducible findings is worse than one that produces moderate scores reliably.
+      </li>
+      <li>
+        <strong>Post-run hygiene.</strong>
+        Every completed run triggers automated ingest into a performance ledger, token aggregation, and scorecard generation. The system of record updates itself. That operational history <em>is</em> the governance.
+      </li>
+    </ul>
+
+    <h2>What We Don't Publish</h2>
+
+    <p>Transparency has limits.</p>
+
+    <ul class="redacted">
+      <li>Actual scoring prompts &mdash; the product of months of adversarial optimization</li>
+      <li>Entity-specific findings or scores &mdash; that's diagnostic output, not strategy</li>
+      <li>Infrastructure topology &mdash; operational, not strategic</li>
+    </ul>
+
+    <p>The strategy is the <em>architecture of decisions</em>: why prompting over fine-tuning, why adversarial debate over single-pass scoring, why deterministic derivation over model-generated floats. Those decisions generalize. The specific implementation is ours.</p>
+
+    <h2>The Takeaway</h2>
+
+    <p>If you're building an AI system and you haven't written down your data strategy, start with the three buckets. Pick one. Then follow the implications all the way through: if you pick prompting, your collection architecture becomes your competitive advantage. If you pick fine-tuning, your data curation pipeline is everything. If you pick training, you're probably not reading this.</p>
+
+    <p>Whatever you pick, write it down. Publish it. The act of making it legible to outsiders is the act of making it legible to yourself.</p>
+
+    <p>And if your data strategy is "we put everything in a vector database and hope for the best" &mdash; that's not a strategy. That's a prayer.</p>
+
+  </div>
+
+  <div class="cta-section">
+    <h3>Want to see this in practice?</h3>
+    <p>The Coherence Diagnostic Engine applies this data strategy to measure the structural gap between what organizations say and what they do.</p>
+    <a href="/case-study-diagnostic-engine" class="cta-link">Read the Case Study</a>
+  </div>
+
+  <div class="footer-meta">
+    Greenbaum Labs &mdash; Cambridge, MA &mdash; 2026
+  </div>
+
+</body>
+</html>
