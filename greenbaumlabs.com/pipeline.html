@@ -1,0 +1,577 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Multi-Agent Pipeline — Greenbaum Labs</title>
+<meta name="description" content="Six autonomous agents. Adversarial debate. Deterministic scoring. The architecture of the Coherence Diagnostic Pipeline.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="Multi-Agent Pipeline — Greenbaum Labs">
+<meta property="og:description" content="Six autonomous agents. Adversarial debate. Deterministic scoring. The architecture of the Coherence Diagnostic Pipeline.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+<meta property="og:url" content="https://greenbaumlabs.com/pipeline">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Multi-Agent Pipeline — Greenbaum Labs">
+<meta name="twitter:description" content="Six autonomous agents. Adversarial debate. Deterministic scoring.">
+<meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#060E0A;color:#e8e4dc;font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* HEADER */
+.header{text-align:center;padding:4rem 2rem 2rem;position:relative}
+.header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(52,211,153,.3),transparent)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:#34D399;margin-bottom:1rem}
+.header h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.header h1 span{color:#34D399}
+.header-sub{font-size:1rem;color:#6B7A6E;margin-top:1rem;max-width:600px;margin-left:auto;margin-right:auto;line-height:1.7}
+.header-stats{display:flex;gap:3rem;justify-content:center;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.hstat{text-align:center}
+.hstat-val{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:600;color:#e8e4dc}
+.hstat-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:#3A4A3D;margin-top:.2rem}
+
+/* CANVAS AREA */
+.pipeline-canvas{position:relative;max-width:1200px;margin:3rem auto;padding:0 2rem;min-height:900px}
+
+/* STAGE LABELS */
+.stage-row{display:flex;justify-content:space-between;margin-bottom:2rem;padding:0 1rem}
+.stage-pill{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:#34D399;padding:.4rem 1rem;border:1px solid rgba(52,211,153,.15);border-radius:2px;background:rgba(52,211,153,.03);flex:1;text-align:center;margin:0 .25rem;position:relative;cursor:default;transition:all .4s}
+.stage-pill:hover{background:rgba(52,211,153,.08);border-color:rgba(52,211,153,.3)}
+.stage-pill.active{background:rgba(52,211,153,.12);border-color:#34D399;box-shadow:0 0 20px rgba(52,211,153,.1)}
+.stage-num{display:block;font-size:1.4rem;font-weight:600;color:#e8e4dc;margin-bottom:.2rem;letter-spacing:-.02em}
+
+/* FLOW CONTAINER */
+.flow{display:grid;grid-template-columns:1fr 1fr 2fr 1fr;gap:1px;background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.1);border-radius:6px;overflow:hidden;position:relative}
+
+/* AGENT CARDS */
+.agent{background:#0A1812;padding:2rem 1.5rem;position:relative;transition:all .5s;overflow:hidden}
+.agent::before{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--agent-color,.15),transparent);opacity:0;transition:opacity .4s}
+.agent:hover::before{opacity:1}
+.agent:hover{background:#0D1E17}
+.agent.scoring-zone{grid-column:3;grid-row:1/3;display:flex;flex-direction:column;gap:1rem;background:#0c1610;border-left:1px solid rgba(52,211,153,.08);border-right:1px solid rgba(52,211,153,.08)}
+
+.agent-id{font-family:'JetBrains Mono',monospace;font-size:.45rem;letter-spacing:.15em;text-transform:uppercase;color:var(--agent-color,#34D399);opacity:.7;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
+.agent-id::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--agent-color,#34D399);animation:pulse-dot 2s ease-in-out infinite;box-shadow:0 0 6px var(--agent-color,rgba(52,211,153,.5))}
+@keyframes pulse-dot{0%,100%{opacity:.4;transform:scale(.8)}50%{opacity:1;transform:scale(1)}}
+
+.agent-name{font-size:1.2rem;font-weight:700;color:#e8e4dc;margin-bottom:.5rem;letter-spacing:-.01em}
+.agent-role{font-size:.8rem;color:#6B7A6E;line-height:1.6;margin-bottom:1rem}
+
+.agent-detail{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#3A4A3D;line-height:1.8}
+.agent-detail .label{color:#34D399;opacity:.6}
+
+/* DATA FLOW ARROWS */
+.flow-arrow{position:absolute;z-index:10;pointer-events:none}
+
+/* SCORING ZONE INNER */
+.scoring-inner{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(52,211,153,.04);border-radius:4px;overflow:hidden;flex:1}
+.scoring-agent{background:#0A1812;padding:1.5rem;position:relative}
+.scoring-agent:hover{background:#0D1E17}
+
+/* SKEPTIC DEBATE */
+.debate-flow{margin-top:1rem;padding:1rem 1.5rem;background:rgba(200,85,58,.03);border:1px solid rgba(200,85,58,.12);border-radius:4px;position:relative}
+.debate-flow::before{content:'ADVERSARIAL DEBATE';font-family:'JetBrains Mono',monospace;font-size:.45rem;letter-spacing:.2em;color:#c8553a;position:absolute;top:-.5rem;left:1rem;background:#0c1610;padding:0 .5rem}
+.debate-step{display:flex;align-items:center;gap:.75rem;padding:.4rem 0;font-size:.7rem;color:#6B7A6E}
+.debate-step .arrow{color:#c8553a;font-family:'JetBrains Mono',monospace;font-size:.8rem;flex-shrink:0;width:20px;text-align:center}
+.debate-step .step-text strong{color:#e8e4dc;font-weight:500}
+.debate-verdict{display:flex;gap:1rem;margin-top:.75rem;padding-top:.75rem;border-top:1px solid rgba(200,85,58,.1)}
+.verdict-box{flex:1;text-align:center;padding:.5rem;border-radius:3px;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase}
+.verdict-sustained{background:rgba(52,211,153,.06);border:1px solid rgba(52,211,153,.15);color:#34D399}
+.verdict-rejected{background:rgba(200,85,58,.06);border:1px solid rgba(200,85,58,.15);color:#c8553a}
+
+/* DETERMINISTIC SCORE BOX */
+.score-output{margin-top:1rem;padding:1.25rem 1.5rem;background:rgba(52,211,153,.04);border:1px solid rgba(52,211,153,.15);border-radius:4px;position:relative}
+.score-output::before{content:'DETERMINISTIC DERIVATION';font-family:'JetBrains Mono',monospace;font-size:.45rem;letter-spacing:.2em;color:#34D399;position:absolute;top:-.5rem;left:1rem;background:#0c1610;padding:0 .5rem}
+.score-formula{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:#6B7A6E;line-height:2;margin-top:.25rem}
+.score-formula span{color:#34D399}
+.score-result{display:flex;align-items:baseline;gap:.5rem;margin-top:.75rem}
+.score-result .big{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:600;color:#e8e4dc}
+.score-result .stdev{font-family:'JetBrains Mono',monospace;font-size:.6rem;color:#34D399}
+
+/* INFRASTRUCTURE BAR */
+.infra-bar{max-width:1200px;margin:3rem auto 0;padding:0 2rem}
+.infra-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.25em;text-transform:uppercase;color:#34D399;margin-bottom:1rem;display:flex;align-items:center;gap:.75rem}
+.infra-label::before{content:'';width:24px;height:1px;background:#34D399;opacity:.4}
+.infra-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:1px;background:rgba(52,211,153,.06);border-radius:4px;overflow:hidden;border:1px solid rgba(52,211,153,.08)}
+.infra-node{background:#0A1812;padding:1.25rem;text-align:center;transition:background .3s;position:relative}
+.infra-node:hover{background:#0D1E17}
+.infra-node::after{content:'_';position:absolute;top:.5rem;right:.75rem;font-family:'JetBrains Mono',monospace;font-size:.5rem;color:#34D399;opacity:.2;animation:blink 1.2s step-end infinite}
+@keyframes blink{50%{opacity:0}}
+.node-name{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:#34D399;margin-bottom:.5rem}
+.node-hw{font-size:.8rem;font-weight:600;color:#e8e4dc;margin-bottom:.2rem}
+.node-role{font-size:.7rem;color:#3A4A3D;line-height:1.4}
+
+/* AUTORESEARCH LOOP */
+.autoresearch{max-width:1200px;margin:3rem auto;padding:0 2rem}
+.ar-container{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(184,148,46,.06);border:1px solid rgba(184,148,46,.1);border-radius:4px;overflow:hidden}
+.ar-track{background:#0A1812;padding:2rem;position:relative}
+.ar-track:hover{background:#0D1E17}
+.ar-track-label{font-family:'JetBrains Mono',monospace;font-size:.45rem;letter-spacing:.2em;text-transform:uppercase;color:#b8942e;margin-bottom:.75rem}
+.ar-track-name{font-size:1.1rem;font-weight:700;color:#e8e4dc;margin-bottom:.5rem}
+.ar-track-desc{font-size:.8rem;color:#6B7A6E;line-height:1.6;margin-bottom:1rem}
+.ar-metric{display:flex;justify-content:space-between;padding:.4rem 0;border-bottom:1px solid rgba(255,255,255,.03);font-family:'JetBrains Mono',monospace;font-size:.6rem}
+.ar-metric .k{color:#3A4A3D}.ar-metric .v{color:#b8942e}
+
+/* FEEDBACK LOOPS */
+.feedback-section{max-width:1200px;margin:3rem auto;padding:0 2rem}
+.feedback-grid{display:flex;flex-direction:column;gap:1.5rem}
+.feedback-loop{position:relative;border-radius:6px;overflow:hidden;transition:all .4s}
+.feedback-loop:hover{transform:translateY(-2px)}
+
+/* Loop container with animated border */
+.loop-inner{display:grid;grid-template-columns:80px 1fr;gap:0;min-height:160px}
+.loop-spine{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:1.5rem .5rem}
+.loop-spine::before{content:'';position:absolute;top:15%;bottom:15%;width:2px;background:var(--loop-color);opacity:.3;border-radius:1px}
+/* Animated particle on spine */
+.loop-spine::after{content:'';position:absolute;width:6px;height:6px;border-radius:50%;background:var(--loop-color);box-shadow:0 0 12px var(--loop-color),0 0 24px var(--loop-color-glow);animation:spine-pulse 2s ease-in-out infinite var(--loop-delay,0s)}
+@keyframes spine-pulse{0%{top:15%;opacity:.3}50%{top:75%;opacity:1}100%{top:15%;opacity:.3}}
+
+.loop-speed{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--loop-color);opacity:.6;position:relative;z-index:2;background:#060E0A;padding:.25rem 0;text-align:center}
+
+.loop-content{background:#0A1812;padding:2rem 2.5rem;border:1px solid var(--loop-color-dim);border-left:3px solid var(--loop-color);transition:background .3s}
+.feedback-loop:hover .loop-content{background:#0D1E17}
+
+.loop-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.loop-badge{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;padding:.3rem .75rem;border-radius:3px;font-weight:600;white-space:nowrap;background:var(--loop-color-dim);color:var(--loop-color)}
+.loop-name{font-size:1.2rem;font-weight:700;color:#e8e4dc;letter-spacing:-.01em}
+
+.loop-desc{font-size:.85rem;color:#6B7A6E;line-height:1.7;margin-bottom:1.25rem}
+
+/* Loop flow diagram */
+.loop-flow{display:flex;align-items:center;gap:0;flex-wrap:wrap}
+.loop-node{font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:.4rem .75rem;border:1px solid var(--loop-color-dim);border-radius:3px;color:var(--loop-color);background:rgba(0,0,0,.3);white-space:nowrap;letter-spacing:.05em}
+.loop-node.highlight{background:var(--loop-color-dim);color:#e8e4dc;font-weight:500;border-color:var(--loop-color)}
+.loop-arrow{font-family:'JetBrains Mono',monospace;font-size:.8rem;color:var(--loop-color);padding:0 .4rem;opacity:.5;flex-shrink:0}
+.loop-arrow.return{color:var(--loop-color);opacity:.8;font-weight:600}
+
+/* Loop metrics */
+.loop-metrics{display:flex;gap:2rem;margin-top:1rem;padding-top:1rem;border-top:1px solid rgba(255,255,255,.03)}
+.loop-metric{font-family:'JetBrains Mono',monospace;font-size:.55rem}
+.loop-metric .lm-label{color:#3A4A3D;letter-spacing:.1em;text-transform:uppercase}
+.loop-metric .lm-val{color:var(--loop-color);font-weight:500;margin-top:.15rem}
+
+/* Loop-specific colors */
+.loop-adversarial{--loop-color:#c8553a;--loop-color-dim:rgba(200,85,58,.1);--loop-color-glow:rgba(200,85,58,.4);--loop-delay:0s}
+.loop-optimization{--loop-color:#b8942e;--loop-color-dim:rgba(184,148,46,.1);--loop-color-glow:rgba(184,148,46,.4);--loop-delay:.7s}
+.loop-architectural{--loop-color:#e8e4dc;--loop-color-dim:rgba(232,228,220,.08);--loop-color-glow:rgba(232,228,220,.3);--loop-delay:1.4s}
+
+/* Feedback section header */
+.feedback-header{display:flex;align-items:center;gap:1.5rem;margin-bottom:2rem}
+.feedback-header-line{flex:1;height:1px;background:linear-gradient(90deg,rgba(52,211,153,.2),transparent)}
+.feedback-header-text{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:#34D399;white-space:nowrap}
+
+/* GOVERNANCE */
+.governance{max-width:1200px;margin:2rem auto 4rem;padding:0 2rem}
+.gov-bar{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 2rem;background:rgba(52,211,153,.03);border:1px solid rgba(52,211,153,.1);border-radius:4px}
+.gov-tag{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;color:#34D399;white-space:nowrap;padding:.3rem .75rem;background:rgba(52,211,153,.08);border-radius:3px;letter-spacing:.08em}
+.gov-text{font-size:.9rem;color:#6B7A6E;font-style:italic}
+
+/* CONNECTION LINES (SVG overlay) */
+.connections{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:5}
+.conn-line{stroke:rgba(52,211,153,.2);stroke-width:1;fill:none}
+.conn-arrow{fill:rgba(52,211,153,.3)}
+
+/* ANIMATED DATA PARTICLES */
+.particle-track{position:absolute;pointer-events:none;z-index:6}
+.particle{width:4px;height:4px;border-radius:50%;background:#34D399;position:absolute;box-shadow:0 0 8px rgba(52,211,153,.6);animation:flow-particle 3s linear infinite}
+@keyframes flow-particle{0%{opacity:0;transform:translateX(0)}10%{opacity:1}90%{opacity:1}100%{opacity:0;transform:translateX(var(--travel,200px))}}
+
+/* HORIZONTAL FLOW ARROWS */
+.flow-arrows{display:flex;justify-content:space-between;padding:0 1rem;margin:-1rem 0 0;position:relative;z-index:5}
+.flow-arrow-h{flex:1;display:flex;align-items:center;justify-content:center;height:40px;position:relative}
+.flow-arrow-h::before{content:'';position:absolute;left:10%;right:10%;height:1px;background:linear-gradient(90deg,rgba(52,211,153,.05),rgba(52,211,153,.25),rgba(52,211,153,.05))}
+.flow-arrow-h::after{content:'';position:absolute;right:10%;width:6px;height:6px;border-right:1px solid rgba(52,211,153,.4);border-top:1px solid rgba(52,211,153,.4);transform:rotate(45deg)}
+.flow-arrow-h .flow-label{position:absolute;top:50%;transform:translateY(-50%);font-family:'JetBrains Mono',monospace;font-size:.45rem;letter-spacing:.1em;color:#34D399;opacity:.4;background:#060E0A;padding:0 .5rem}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .flow{grid-template-columns:1fr 1fr;gap:1px}
+  .agent.scoring-zone{grid-column:1/3}
+  .infra-grid{grid-template-columns:repeat(3,1fr)}
+  .ar-container{grid-template-columns:1fr}
+}
+@media(max-width:600px){
+  .flow{grid-template-columns:1fr}
+  .agent.scoring-zone{grid-column:1}
+  .scoring-inner{grid-template-columns:1fr}
+  .infra-grid{grid-template-columns:repeat(2,1fr)}
+  .stage-row{flex-wrap:wrap}
+  .header-stats{flex-wrap:wrap;gap:1.5rem}
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="eyebrow">Multi-Agent Architecture</div>
+  <h1>The <span>Coherence</span> Diagnostic Pipeline</h1>
+  <p class="header-sub">Six autonomous agents. Adversarial debate. Deterministic scoring. All local inference. No cloud dependency for pipeline execution.</p>
+  <div class="header-stats">
+    <div class="hstat"><div class="hstat-val">6</div><div class="hstat-label">Autonomous Agents</div></div>
+    <div class="hstat"><div class="hstat-val">4</div><div class="hstat-label">Pipeline Stages</div></div>
+    <div class="hstat"><div class="hstat-val">0.000</div><div class="hstat-label">Score Stdev</div></div>
+    <div class="hstat"><div class="hstat-val">133</div><div class="hstat-label">Production Runs</div></div>
+    <div class="hstat"><div class="hstat-val">15</div><div class="hstat-label">Entities</div></div>
+  </div>
+</div>
+
+<div class="pipeline-canvas">
+
+  <!-- STAGE LABELS -->
+  <div class="stage-row">
+    <div class="stage-pill" id="s1"><span class="stage-num">01</span>Collect</div>
+    <div class="stage-pill" id="s2"><span class="stage-num">02</span>Extract</div>
+    <div class="stage-pill" id="s3"><span class="stage-num">03</span>Score</div>
+    <div class="stage-pill" id="s4"><span class="stage-num">04</span>Synthesize</div>
+  </div>
+
+  <!-- FLOW ARROWS -->
+  <div class="flow-arrows">
+    <div class="flow-arrow-h"><span class="flow-label">JSONL</span></div>
+    <div class="flow-arrow-h"><span class="flow-label">Claims + Observations</span></div>
+    <div class="flow-arrow-h"><span class="flow-label">Case File</span></div>
+  </div>
+
+  <!-- MAIN AGENT GRID -->
+  <div class="flow">
+
+    <!-- COLLECTOR -->
+    <div class="agent" style="--agent-color:#5eb8c4">
+      <div class="agent-id">Agent 01</div>
+      <div class="agent-name">The Collector</div>
+      <div class="agent-role">Gathers raw center + edge documents from 7 public source types per entity.</div>
+      <div class="agent-detail">
+        <div><span class="label">CENTER</span> press releases, job postings, earnings transcripts</div>
+        <div><span class="label">EDGE</span> customer reviews, social media, news, employee reviews</div>
+        <div><span class="label">OUTPUT</span> ~1,800 docs/entity &rarr; JSONL</div>
+        <div><span class="label">DEDUP</span> content-level, ~170 lines</div>
+        <div><span class="label">TOOLS</span> Perplexity Computer + custom collectors</div>
+      </div>
+    </div>
+
+    <!-- EXTRACTOR -->
+    <div class="agent" style="--agent-color:#a78bfa">
+      <div class="agent-id">Agent 02</div>
+      <div class="agent-name">The Extractor</div>
+      <div class="agent-role">Reads each document individually. Produces structured claims (center) and observations (edge).</div>
+      <div class="agent-detail">
+        <div><span class="label">INPUT</span> raw JSONL, batch_size=1</div>
+        <div><span class="label">CENTER</span> &rarr; structured claims</div>
+        <div><span class="label">EDGE</span> &rarr; structured observations</div>
+        <div><span class="label">OUTPUT</span> ~6,100 claims + observations</div>
+        <div><span class="label">MODULE</span> agent_extract.py</div>
+      </div>
+    </div>
+
+    <!-- SCORING ZONE (spans 2 rows) -->
+    <div class="agent scoring-zone" style="--agent-color:#34D399">
+      <div class="agent-id">Agents 03 &ndash; 05 &middot; The Adversarial Core</div>
+
+      <div class="scoring-inner">
+        <!-- TRUTH AGENT -->
+        <div class="scoring-agent" style="--agent-color:#34D399">
+          <div class="agent-id">Agent 03a</div>
+          <div class="agent-name">Truth Diagnostician</div>
+          <div class="agent-role">Scores center-edge alignment. 3 findings: alignment, omission, contradiction.</div>
+          <div class="agent-detail">
+            <div><span class="label">WEIGHT</span> 55% of overall</div>
+            <div><span class="label">CAP</span> 3 findings (hard)</div>
+          </div>
+        </div>
+        <!-- AUTHORITY AGENT -->
+        <div class="scoring-agent" style="--agent-color:#c9a84c">
+          <div class="agent-id">Agent 03b</div>
+          <div class="agent-name">Authority Diagnostician</div>
+          <div class="agent-role">Scores voice/power coherence. 3 findings: compression, diffusion, misalignment.</div>
+          <div class="agent-detail">
+            <div><span class="label">WEIGHT</span> 45% of overall</div>
+            <div><span class="label">CAP</span> 3 findings (hard)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SKEPTIC DEBATE -->
+      <div class="debate-flow">
+        <div class="agent-id" style="--agent-color:#c8553a;margin-bottom:.5rem">Agent 04 &middot; The Skeptic</div>
+        <div class="debate-step"><span class="arrow">&rarr;</span><span class="step-text">Finding submitted with evidence citations</span></div>
+        <div class="debate-step"><span class="arrow">&larr;</span><span class="step-text"><strong>Skeptic challenges</strong> &mdash; evidence quality, circular reasoning, unsupported confidence</span></div>
+        <div class="debate-step"><span class="arrow">&rarr;</span><span class="step-text"><strong>Diagnostician rebuts</strong> &mdash; defends with specific evidence</span></div>
+        <div class="debate-step"><span class="arrow">&darr;</span><span class="step-text">Verdict rendered for each of 6 findings</span></div>
+        <div class="debate-verdict">
+          <div class="verdict-box verdict-sustained">Sustained &rarr; Evidence Ledger</div>
+          <div class="verdict-box verdict-rejected">Rejected &rarr; Rejection Log</div>
+        </div>
+      </div>
+
+      <!-- DETERMINISTIC SCORE -->
+      <div class="score-output">
+        <div class="score-formula">
+          <span>truth</span> = alignment(+0.45) + omission(-0.30) + contradiction(-0.50)<br>
+          <span>authority</span> = compression(-0.25) + diffusion(-0.18) + misalignment(-0.22)<br>
+          <span>overall</span> = truth &times; 0.55 + authority &times; 0.45<br>
+          strength: <span>strong</span>(0.40) &middot; <span>moderate</span>(0.25) &middot; <span>weak</span>(0.10)
+        </div>
+        <div class="score-result">
+          <div class="big">0.448</div>
+          <div class="stdev">&sigma; = 0.000 (deterministic)</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RECORDER / SYNTHESIZER -->
+    <div class="agent" style="--agent-color:#f59e0b">
+      <div class="agent-id">Agent 06</div>
+      <div class="agent-name">The Recorder</div>
+      <div class="agent-role">Logs every run to the performance ledger. Maintains evidence chains. Writes case files and summaries.</div>
+      <div class="agent-detail">
+        <div><span class="label">CASE FILE</span> case_file.json</div>
+        <div><span class="label">SUMMARY</span> case_summary.md</div>
+        <div><span class="label">LEDGER</span> ledger.json (133 entries)</div>
+        <div><span class="label">TOKENS</span> aggregate_tokens.py</div>
+        <div><span class="label">HYGIENE</span> post_run_hygiene.sh</div>
+        <div><span class="label">NOTIFY</span> operator_inbox.jsonl</div>
+      </div>
+    </div>
+
+    <!-- THE ARCHITECT (human, row 2 col 1-2) -->
+    <div class="agent" style="--agent-color:#e8e4dc;grid-column:1/3">
+      <div class="agent-id" style="--agent-color:#e8e4dc">Agent 00 &middot; Human</div>
+      <div class="agent-name">The Architect</div>
+      <div class="agent-role">Designs pipeline, writes prompts, debugs failures, makes all decisions. The only entity with decision authority. Agents observe and suggest. <strong style="color:#34D399">The Architect decides.</strong></div>
+      <div class="agent-detail">
+        <div><span class="label">RULE</span> AR-001: Automation may observe, summarize, and suggest. Automation may not decide.</div>
+        <div><span class="label">SCOPE</span> prompt design, architecture, failure triage, all external decisions</div>
+      </div>
+    </div>
+
+    <!-- VALIDATOR (row 2 col 4) -->
+    <div class="agent" style="--agent-color:#ec4899">
+      <div class="agent-id">Agent 05</div>
+      <div class="agent-name">The Validator</div>
+      <div class="agent-role">Entity resolution, schema validation, provenance hash checks. Runs inline between extraction and scoring.</div>
+      <div class="agent-detail">
+        <div><span class="label">CHECK</span> schema conformance</div>
+        <div><span class="label">CHECK</span> provenance hashes</div>
+        <div><span class="label">CHECK</span> entity resolution</div>
+        <div><span class="label">GATE</span> blocks malformed data</div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- INFRASTRUCTURE -->
+<div class="infra-bar">
+  <div class="infra-label">Compute Infrastructure &mdash; All Local, No Cloud Dependency</div>
+  <div class="infra-grid">
+    <div class="infra-node">
+      <div class="node-name">Spark 1</div>
+      <div class="node-hw">NVIDIA DGX</div>
+      <div class="node-role">Primary inference<br>Ops Center host</div>
+    </div>
+    <div class="infra-node">
+      <div class="node-name">Spark 2</div>
+      <div class="node-hw">NVIDIA DGX</div>
+      <div class="node-role">Parallel fleet<br>scoring</div>
+    </div>
+    <div class="infra-node">
+      <div class="node-name">M2 Studio</div>
+      <div class="node-hw">Apple M2 Ultra</div>
+      <div class="node-role">Embeddings<br>Agent host</div>
+    </div>
+    <div class="infra-node">
+      <div class="node-name">M3 Ultra</div>
+      <div class="node-hw">Apple M3 Ultra</div>
+      <div class="node-role">72b vision<br>Image generation</div>
+    </div>
+    <div class="infra-node">
+      <div class="node-name">NAS</div>
+      <div class="node-hw">Synology + NVMe</div>
+      <div class="node-role">Shared filesystem<br>Source of truth</div>
+    </div>
+    <div class="infra-node">
+      <div class="node-name">MacBook Pro</div>
+      <div class="node-hw">Orchestrator</div>
+      <div class="node-role">SSH control plane<br>Dispatches, doesn't infer</div>
+    </div>
+  </div>
+</div>
+
+<!-- AUTORESEARCH -->
+<div class="autoresearch">
+  <div class="infra-label">Autoresearch &mdash; Continuous Prompt Optimization</div>
+  <div class="ar-container">
+    <div class="ar-track">
+      <div class="ar-track-label">Track 1 &mdash; Scoring</div>
+      <div class="ar-track-name">Scoring Prompt Optimization</div>
+      <div class="ar-track-desc">Optimizes Truth, Authority, Skeptic, and Rebuttal prompts against a fixed proxy entity.</div>
+      <div class="ar-metric"><span class="k">PROXY</span><span class="v">Nike run_079 (22 docs)</span></div>
+      <div class="ar-metric"><span class="k">EXPERIMENTS</span><span class="v">41+</span></div>
+      <div class="ar-metric"><span class="k">BASELINE</span><span class="v">0.058</span></div>
+      <div class="ar-metric"><span class="k">BEST</span><span class="v">0.091 (1.57x)</span></div>
+      <div class="ar-metric"><span class="k">TIME/EXPERIMENT</span><span class="v">~45 min (3 trials)</span></div>
+      <div class="ar-metric"><span class="k">METRIC</span><span class="v">repro &times; stability &times; evidence &times; diagnostic</span></div>
+    </div>
+    <div class="ar-track">
+      <div class="ar-track-label">Track 2 &mdash; Extraction</div>
+      <div class="ar-track-name">Extraction Prompt Optimization</div>
+      <div class="ar-track-desc">Optimizes source-specific extraction prompts. Key insight: fewer, sharper items beat volume.</div>
+      <div class="ar-metric"><span class="k">PROXY</span><span class="v">Nike stratified (15 docs)</span></div>
+      <div class="ar-metric"><span class="k">EXPERIMENTS</span><span class="v">19+</span></div>
+      <div class="ar-metric"><span class="k">METRIC</span><span class="v">sustain_rate &times; mean_strength</span></div>
+      <div class="ar-metric"><span class="k">KEY FINDING</span><span class="v">98% extracted items never cited</span></div>
+      <div class="ar-metric"><span class="k">SOLUTION</span><span class="v">asymmetric limits, fewer/sharper</span></div>
+      <div class="ar-metric"><span class="k">TIME/EXPERIMENT</span><span class="v">~20 min</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- FEEDBACK LOOPS -->
+<div class="feedback-section">
+  <div class="feedback-header">
+    <div class="feedback-header-line" style="background:linear-gradient(90deg,transparent,rgba(52,211,153,.2))"></div>
+    <div class="feedback-header-text">Three Feedback Loops</div>
+    <div class="feedback-header-line"></div>
+  </div>
+
+  <div class="feedback-grid">
+
+    <!-- LOOP 1: ADVERSARIAL (FAST) -->
+    <div class="feedback-loop loop-adversarial">
+      <div class="loop-inner">
+        <div class="loop-spine">
+          <div class="loop-speed">FAST</div>
+        </div>
+        <div class="loop-content">
+          <div class="loop-header">
+            <div class="loop-badge">Loop 1 &mdash; Real-Time</div>
+            <div class="loop-name">Adversarial Debate</div>
+          </div>
+          <div class="loop-desc">Every finding is challenged in real-time. The Skeptic forces the Diagnostician to defend each claim with specific evidence. Findings that can't survive debate are rejected before they ever reach the score. This loop runs 6 times per entity &mdash; once per finding. It is the structural mechanism that prevents the system from producing conclusions it cannot defend.</div>
+          <div class="loop-flow">
+            <span class="loop-node highlight">Diagnostician</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Finding + Evidence</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node highlight">Skeptic</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Challenge</span>
+            <span class="loop-arrow return">&larr;</span>
+            <span class="loop-node highlight">Diagnostician</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Rebuttal</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node highlight">Verdict</span>
+          </div>
+          <div class="loop-metrics">
+            <div class="loop-metric"><div class="lm-label">Cycle Time</div><div class="lm-val">~30 sec / finding</div></div>
+            <div class="loop-metric"><div class="lm-label">Frequency</div><div class="lm-val">6x per run (3 Truth + 3 Authority)</div></div>
+            <div class="loop-metric"><div class="lm-label">Healthy Sustain Rate</div><div class="lm-val">50&ndash;75%</div></div>
+            <div class="loop-metric"><div class="lm-label">What it Prevents</div><div class="lm-val">Unsupported conclusions, circular reasoning</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOOP 2: OPTIMIZATION (MEDIUM) -->
+    <div class="feedback-loop loop-optimization">
+      <div class="loop-inner">
+        <div class="loop-spine">
+          <div class="loop-speed">MED</div>
+        </div>
+        <div class="loop-content">
+          <div class="loop-header">
+            <div class="loop-badge">Loop 2 &mdash; Continuous</div>
+            <div class="loop-name">Autoresearch Optimization</div>
+          </div>
+          <div class="loop-desc">The Recorder logs run performance to the ledger &mdash; sustain rates, evidence quality, score distributions. Autoresearch reads those metrics and evaluates prompt variations against a fixed proxy. Winning prompts are written back into the scoring and extraction prompt files, changing how every agent behaves on the next run. This is the loop that turned a 17% skeptic sustain rate into 50%.</div>
+          <div class="loop-flow">
+            <span class="loop-node highlight">Recorder</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Ledger Metrics</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node highlight">Autoresearch</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Prompt Experiment</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Eval Harness</span>
+            <span class="loop-arrow return">&larr;</span>
+            <span class="loop-node highlight">scoring_prompts.py</span>
+            <span class="loop-arrow return">&larr;</span>
+            <span class="loop-node highlight">extractor_prompts.py</span>
+          </div>
+          <div class="loop-metrics">
+            <div class="loop-metric"><div class="lm-label">Cycle Time</div><div class="lm-val">~45 min / experiment</div></div>
+            <div class="loop-metric"><div class="lm-label">Experiments Run</div><div class="lm-val">60+ across both tracks</div></div>
+            <div class="loop-metric"><div class="lm-label">Scoring Improvement</div><div class="lm-val">11.5x (baseline &rarr; production)</div></div>
+            <div class="loop-metric"><div class="lm-label">What it Prevents</div><div class="lm-val">Prompt stagnation, extraction waste</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOOP 3: ARCHITECTURAL (SLOW) -->
+    <div class="feedback-loop loop-architectural">
+      <div class="loop-inner">
+        <div class="loop-spine">
+          <div class="loop-speed">SLOW</div>
+        </div>
+        <div class="loop-content">
+          <div class="loop-header">
+            <div class="loop-badge">Loop 3 &mdash; Architectural</div>
+            <div class="loop-name">The Architect&rsquo;s Design Loop</div>
+          </div>
+          <div class="loop-desc">The Recorder surfaces patterns that no prompt change can fix &mdash; score drift, non-determinism, structural calibration failures. The Architect reads these, diagnoses the root cause, and modifies the pipeline architecture itself. This loop is slow but produces the biggest changes. Hard finding caps, seeded sampling, finding-derived scoring, and the skeptic debate itself all emerged from this loop. It is the reason stdev went from 0.114 to 0.000.</div>
+          <div class="loop-flow">
+            <span class="loop-node highlight">Recorder</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Pattern / Anomaly</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node highlight">The Architect</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Diagnosis</span>
+            <span class="loop-arrow">&rarr;</span>
+            <span class="loop-node">Architecture Change</span>
+            <span class="loop-arrow return">&larr;</span>
+            <span class="loop-node highlight">Pipeline</span>
+          </div>
+          <div class="loop-metrics">
+            <div class="loop-metric"><div class="lm-label">Cycle Time</div><div class="lm-val">Days to weeks</div></div>
+            <div class="loop-metric"><div class="lm-label">Major Changes</div><div class="lm-val">Finding-derived scoring, skeptic debate, hard caps, seeded sampling</div></div>
+            <div class="loop-metric"><div class="lm-label">Impact</div><div class="lm-val">Stdev 0.114 &rarr; 0.000</div></div>
+            <div class="loop-metric"><div class="lm-label">What it Prevents</div><div class="lm-val">Structural failures no prompt can fix</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- GOVERNANCE -->
+<div class="governance">
+  <div class="gov-bar">
+    <div class="gov-tag">AR-001</div>
+    <div class="gov-text">"Automation may observe, summarize, and suggest. Automation may not decide."</div>
+  </div>
+</div>
+
+<script>
+// Animate stage pills on scroll
+const pills = document.querySelectorAll('.stage-pill');
+let activeStage = 0;
+setInterval(() => {
+  pills.forEach(p => p.classList.remove('active'));
+  pills[activeStage].classList.add('active');
+  activeStage = (activeStage + 1) % pills.length;
+}, 2000);
+</script>
+
+</body>
+</html>
