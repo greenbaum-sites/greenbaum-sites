@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>System Ontology — Greenbaum Labs</title>
+<meta name="description" content="The complete knowledge architecture of organizational diagnosis. 17 Failure Modes, 21 Field Notes, 7 Axioms, the Coherence Triangle, and deterministic scoring mechanics.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="System Ontology — Greenbaum Labs">
+<meta property="og:description" content="17 Failure Modes. 21 Field Notes. 7 Axioms. The Coherence Triangle. The complete knowledge architecture of organizational diagnosis.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+<meta property="og:url" content="https://greenbaumlabs.com/ontology">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="System Ontology — Greenbaum Labs">
+<meta name="twitter:description" content="17 Failure Modes. 21 Field Notes. 7 Axioms. The complete knowledge architecture of organizational diagnosis.">
+<meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#060E0A;--bg2:#0A1812;--bg3:#0D1E17;
+  --t1:#e8e4dc;--t2:#6B7A6E;--t3:#3A4A3D;
+  --g:#34D399;--g-dim:rgba(52,211,153,.08);--g-border:rgba(52,211,153,.15);
+  --truth:#5eb8c4;--truth-dim:rgba(94,184,196,.08);--truth-border:rgba(94,184,196,.2);
+  --auth:#c9a84c;--auth-dim:rgba(201,168,76,.08);--auth-border:rgba(201,168,76,.2);
+  --cont:#a78bfa;--cont-dim:rgba(167,139,250,.08);--cont-border:rgba(167,139,250,.2);
+  --warm:#c8553a;--warm-dim:rgba(200,85,58,.08);--warm-border:rgba(200,85,58,.2);
+  --pink:#ec4899;--pink-dim:rgba(236,72,153,.08);
+  --border:rgba(255,255,255,.05);
+}
+body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* HEADER */
+.header{text-align:center;padding:4rem 2rem 3rem;position:relative}
+.header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,rgba(52,211,153,.3),transparent)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
+.header h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.header h1 span{color:var(--g)}
+.header-sub{font-size:1rem;color:var(--t2);margin-top:1rem;max-width:700px;margin-left:auto;margin-right:auto;line-height:1.7}
+
+/* LAYOUT */
+.wrap{max-width:1300px;margin:0 auto;padding:0 2rem}
+.ontology-section{padding:3rem 0;position:relative}
+.ontology-section+.ontology-section{border-top:1px solid var(--border)}
+
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--g);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--g);opacity:.4}
+.sec-title{font-size:1.6rem;font-weight:700;letter-spacing:-.02em;margin-bottom:.5rem}
+.sec-desc{font-size:.9rem;color:var(--t2);line-height:1.7;max-width:700px;margin-bottom:2rem}
+
+/* TRIANGLE */
+.triangle-container{display:flex;justify-content:center;padding:2rem 0 3rem;position:relative}
+.triangle-svg{width:100%;max-width:600px}
+.tri-vertex-label{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600;letter-spacing:2px;text-transform:uppercase}
+.tri-dim-label{font-family:'JetBrains Mono',monospace;font-size:9px;fill:var(--t2)}
+.tri-weight{font-family:'JetBrains Mono',monospace;font-size:8px;opacity:.5}
+
+/* VERTEX CARDS */
+.vertex-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--border);border-radius:6px;overflow:hidden;margin-bottom:2rem}
+.vertex-card{background:var(--bg2);padding:2rem;position:relative;transition:background .3s}
+.vertex-card:hover{background:var(--bg3)}
+.vertex-card::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--v-color)}
+.vertex-name{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--v-color);margin-bottom:.75rem}
+.vertex-def{font-size:.9rem;color:var(--t2);line-height:1.6;margin-bottom:1rem}
+.vertex-weight{font-family:'JetBrains Mono',monospace;font-size:1.4rem;font-weight:600;color:var(--t1)}
+.vertex-weight-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--t3);letter-spacing:.1em;margin-top:.15rem}
+.vertex-dims{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border)}
+.dim-row{display:flex;justify-content:space-between;align-items:center;padding:.35rem 0;font-family:'JetBrains Mono',monospace;font-size:.6rem}
+.dim-name{color:var(--v-color)}
+.dim-weight{color:var(--t3)}
+.dim-dir{font-size:.5rem;padding:.15rem .4rem;border-radius:2px}
+.dim-pos{background:rgba(52,211,153,.1);color:var(--g)}
+.dim-neg{background:rgba(200,85,58,.1);color:var(--warm)}
+
+/* FM TAXONOMY */
+.tier-section{margin-bottom:2rem}
+.tier-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;padding:.4rem .75rem;border-radius:3px;display:inline-block;margin-bottom:1rem}
+.tier-1{background:rgba(200,85,58,.1);color:var(--warm)}
+.tier-2{background:rgba(201,168,76,.1);color:var(--auth)}
+.tier-3{background:rgba(167,139,250,.1);color:var(--cont)}
+
+.fm-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--border);border-radius:4px;overflow:hidden}
+.fm-card{background:var(--bg2);padding:1.25rem;transition:background .3s;position:relative}
+.fm-card:hover{background:var(--bg3)}
+.fm-code{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1em;color:var(--warm);margin-bottom:.35rem}
+.fm-name{font-size:.9rem;font-weight:600;color:var(--t1);margin-bottom:.35rem}
+.fm-vertex{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.08em;text-transform:uppercase}
+.fm-vertex .primary{color:var(--g)}
+.fm-vertex .secondary{color:var(--t3)}
+
+/* CASCADE */
+.cascade-container{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:2rem;margin:2rem 0;overflow-x:auto}
+.cascade-flow{display:flex;align-items:center;flex-wrap:wrap;gap:.25rem}
+.cascade-node{font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:.4rem .75rem;border-radius:3px;white-space:nowrap;border:1px solid;transition:all .3s}
+.cascade-node:hover{transform:translateY(-1px)}
+.cascade-t1{background:rgba(200,85,58,.06);border-color:rgba(200,85,58,.2);color:var(--warm)}
+.cascade-t2{background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.2);color:var(--auth)}
+.cascade-t3{background:rgba(167,139,250,.06);border-color:rgba(167,139,250,.2);color:var(--cont)}
+.cascade-terminal{background:rgba(167,139,250,.15);border-color:var(--cont);color:var(--t1);font-weight:600}
+.cascade-arrow{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--t3);padding:0 .15rem}
+
+/* FFN INDEX */
+.ffn-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1px;background:var(--border);border-radius:4px;overflow:hidden}
+.ffn-card{background:var(--bg2);padding:1rem 1.25rem;transition:background .3s}
+.ffn-card:hover{background:var(--bg3)}
+.ffn-card.confirmed{border-left:2px solid var(--g)}
+.ffn-card.draft{border-left:2px solid var(--t3)}
+.ffn-code{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--auth);margin-bottom:.25rem}
+.ffn-name{font-size:.8rem;font-weight:600;color:var(--t1);margin-bottom:.25rem}
+.ffn-domain{font-family:'JetBrains Mono',monospace;font-size:.45rem;color:var(--t3);letter-spacing:.08em;text-transform:uppercase}
+.ffn-precedes{font-family:'JetBrains Mono',monospace;font-size:.45rem;color:var(--warm);margin-top:.35rem}
+
+/* AXIOMS */
+.axiom-list{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:4px;overflow:hidden}
+.axiom{display:grid;grid-template-columns:60px 1fr;background:var(--bg2);transition:background .3s}
+.axiom:hover{background:var(--bg3)}
+.axiom-num{display:flex;align-items:center;justify-content:center;font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:600;color:var(--g);border-right:1px solid var(--border)}
+.axiom-content{padding:1.25rem 1.5rem}
+.axiom-name{font-size:.95rem;font-weight:600;color:var(--t1);margin-bottom:.3rem}
+.axiom-principle{font-size:.8rem;color:var(--t2);line-height:1.6}
+.axiom-violation{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--warm);margin-top:.5rem;opacity:.7}
+
+/* DATA OBJECTS */
+.obj-flow{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:4px;overflow:hidden}
+.obj-row{display:grid;grid-template-columns:180px 1fr 200px;background:var(--bg2);transition:background .3s;align-items:center}
+.obj-row:hover{background:var(--bg3)}
+.obj-name-cell{padding:1rem 1.25rem;border-right:1px solid var(--border)}
+.obj-name{font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:600;color:var(--g);letter-spacing:.05em}
+.obj-desc-cell{padding:1rem 1.25rem}
+.obj-desc{font-size:.8rem;color:var(--t2);line-height:1.5}
+.obj-producer-cell{padding:1rem 1.25rem;border-left:1px solid var(--border);text-align:right}
+.obj-producer{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--auth);letter-spacing:.05em}
+
+/* SIGNAL TYPES */
+.signal-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border-radius:4px;overflow:hidden}
+.signal-col{background:var(--bg2);padding:2rem}
+.signal-col:hover{background:var(--bg3)}
+.signal-type{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.75rem}
+.signal-center{color:var(--truth)}
+.signal-edge{color:var(--warm)}
+.signal-def{font-size:.85rem;color:var(--t2);margin-bottom:1.25rem;line-height:1.6}
+.source-list{display:flex;flex-direction:column;gap:.5rem}
+.source-item{display:flex;align-items:center;gap:.75rem;font-size:.8rem;color:var(--t2)}
+.source-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.source-dot.center{background:var(--truth)}
+.source-dot.edge{background:var(--warm)}
+
+/* STRENGTH WEIGHTS TABLE */
+.weights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border-radius:4px;overflow:hidden;margin:1.5rem 0}
+.weight-cell{background:var(--bg2);padding:1.25rem;text-align:center}
+.weight-cell:hover{background:var(--bg3)}
+.weight-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:.5rem}
+.weight-val{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--t1)}
+
+/* SCORE FORMULA */
+.formula-box{background:var(--bg2);border:1px solid var(--g-border);border-radius:4px;padding:2rem;margin:1.5rem 0;font-family:'JetBrains Mono',monospace}
+.formula-line{font-size:.7rem;color:var(--t2);line-height:2.2;padding:.1rem 0}
+.formula-line span{color:var(--g)}
+.formula-line .comment{color:var(--t3);font-style:italic}
+.formula-result{margin-top:1rem;padding-top:1rem;border-top:1px solid var(--border);display:flex;align-items:baseline;gap:.75rem}
+.formula-result .big{font-size:2rem;font-weight:600;color:var(--t1)}
+.formula-result .note{font-size:.6rem;color:var(--g)}
+
+/* SCORE CAPS */
+.caps-grid{display:flex;flex-direction:column;gap:1px;background:var(--border);border-radius:4px;overflow:hidden;margin:1.5rem 0}
+.cap-row{display:grid;grid-template-columns:1fr 1fr 100px;background:var(--bg2);align-items:center}
+.cap-row:hover{background:var(--bg3)}
+.cap-cell{padding:.75rem 1.25rem;font-size:.8rem;color:var(--t2)}
+.cap-cell:first-child{font-weight:500;color:var(--t1);border-right:1px solid var(--border)}
+.cap-val{font-family:'JetBrains Mono',monospace;font-size:.7rem;color:var(--warm);text-align:center;border-left:1px solid var(--border)}
+
+/* GOVERNANCE BAR */
+.gov-bar{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 2rem;background:var(--g-dim);border:1px solid var(--g-border);border-radius:4px;margin:2rem 0}
+.gov-tag{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;color:var(--g);white-space:nowrap;padding:.3rem .75rem;background:rgba(52,211,153,.12);border-radius:3px;letter-spacing:.08em}
+.gov-text{font-size:.9rem;color:var(--t2);font-style:italic}
+
+/* IDENTITY MODES */
+.mode-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border-radius:4px;overflow:hidden}
+.mode-card{background:var(--bg2);padding:1.5rem;text-align:center;transition:background .3s}
+.mode-card:hover{background:var(--bg3)}
+.mode-name{font-family:'JetBrains Mono',monospace;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.5rem}
+.mode-desc{font-size:.8rem;color:var(--t2);line-height:1.5}
+
+/* RELATIONSHIP MAP */
+.rel-container{background:var(--bg2);border:1px solid var(--border);border-radius:6px;padding:2rem;margin:1.5rem 0}
+.rel-row{display:flex;align-items:center;gap:.5rem;padding:.6rem 0;border-bottom:1px solid rgba(255,255,255,.02);flex-wrap:wrap}
+.rel-row:last-child{border-bottom:none}
+.rel-from{font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:.3rem .6rem;border-radius:3px;white-space:nowrap}
+.rel-arrow{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--t3)}
+.rel-to{font-family:'JetBrains Mono',monospace;font-size:.6rem;padding:.3rem .6rem;border-radius:3px;white-space:nowrap}
+.rel-label{font-size:.7rem;color:var(--t3);font-style:italic;margin-left:.5rem}
+.rel-ffn{background:var(--auth-dim);color:var(--auth);border:1px solid var(--auth-border)}
+.rel-fm{background:var(--warm-dim);color:var(--warm);border:1px solid var(--warm-border)}
+.rel-vertex{background:var(--truth-dim);color:var(--truth);border:1px solid var(--truth-border)}
+.rel-finding{background:var(--g-dim);color:var(--g);border:1px solid var(--g-border)}
+.rel-score{background:var(--cont-dim);color:var(--cont);border:1px solid var(--cont-border)}
+.rel-agent{background:rgba(236,72,153,.08);color:var(--pink);border:1px solid rgba(236,72,153,.2)}
+
+footer{padding:3rem 2rem;text-align:center}
+footer p{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--t3)}
+
+@media(max-width:900px){
+  .vertex-grid,.signal-grid{grid-template-columns:1fr}
+  .fm-grid,.ffn-grid{grid-template-columns:1fr 1fr}
+  .mode-grid{grid-template-columns:1fr 1fr}
+  .obj-row{grid-template-columns:1fr;gap:0}
+  .obj-name-cell,.obj-producer-cell{border:none}
+  .cap-row{grid-template-columns:1fr}
+  .cascade-flow{flex-direction:column;align-items:flex-start}
+}
+@media(max-width:600px){
+  .fm-grid,.ffn-grid{grid-template-columns:1fr}
+  .mode-grid{grid-template-columns:1fr}
+  .weights-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="eyebrow">System Ontology</div>
+  <h1>The <span>Coherence</span> Diagnostic Framework</h1>
+  <p class="header-sub">Every concept, entity, relationship, and hierarchy in the system. The complete knowledge architecture of organizational diagnosis.</p>
+</div>
+
+<div class="wrap">
+
+<!-- ═══ THE COHERENCE TRIANGLE ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">Core Framework</div>
+  <div class="sec-title">The Coherence Triangle</div>
+  <div class="sec-desc">Three vertices. The system is only as coherent as its weakest vertex. Each vertex measures a different structural dimension of organizational health.</div>
+
+  <!-- SVG TRIANGLE -->
+  <div class="triangle-container">
+    <svg class="triangle-svg" viewBox="0 0 600 480" fill="none">
+      <!-- Triangle edges -->
+      <line x1="300" y1="60" x2="80" y2="420" stroke="rgba(94,184,196,.3)" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="300" y1="60" x2="520" y2="420" stroke="rgba(201,168,76,.3)" stroke-width="1" stroke-dasharray="4,4"/>
+      <line x1="80" y1="420" x2="520" y2="420" stroke="rgba(167,139,250,.3)" stroke-width="1" stroke-dasharray="4,4"/>
+      <!-- Vertex dots -->
+      <circle cx="300" cy="55" r="8" fill="#5eb8c4" opacity=".8"/>
+      <circle cx="75" cy="425" r="8" fill="#c9a84c" opacity=".8"/>
+      <circle cx="525" cy="425" r="8" fill="#a78bfa" opacity=".8"/>
+      <!-- Vertex glows -->
+      <circle cx="300" cy="55" r="20" fill="#5eb8c4" opacity=".08"/>
+      <circle cx="75" cy="425" r="20" fill="#c9a84c" opacity=".08"/>
+      <circle cx="525" cy="425" r="20" fill="#a78bfa" opacity=".08"/>
+      <!-- Labels -->
+      <text x="300" y="30" text-anchor="middle" class="tri-vertex-label" fill="#5eb8c4">Truth</text>
+      <text x="300" y="18" text-anchor="middle" class="tri-weight" fill="#5eb8c4">55%</text>
+      <text x="40" y="452" text-anchor="middle" class="tri-vertex-label" fill="#c9a84c">Authority</text>
+      <text x="40" y="440" text-anchor="middle" class="tri-weight" fill="#c9a84c">45%</text>
+      <text x="560" y="452" text-anchor="middle" class="tri-vertex-label" fill="#a78bfa">Continuity</text>
+      <text x="560" y="440" text-anchor="middle" class="tri-weight" fill="#a78bfa">Phase 2</text>
+      <!-- Dimension labels along edges -->
+      <text x="175" y="220" text-anchor="middle" transform="rotate(-55,175,220)" class="tri-dim-label" fill="#6B7A6E">alignment &middot; omission &middot; contradiction</text>
+      <text x="425" y="220" text-anchor="middle" transform="rotate(55,425,220)" class="tri-dim-label" fill="#6B7A6E">compression &middot; diffusion &middot; misalignment</text>
+      <text x="300" y="455" text-anchor="middle" class="tri-dim-label" fill="#6B7A6E">stability &middot; memory &middot; commitment (not yet scored)</text>
+      <!-- Center label -->
+      <text x="300" y="300" text-anchor="middle" font-family="JetBrains Mono" font-size="9" fill="#3A4A3D" letter-spacing="3" text-transform="uppercase">Overall = min(vertices)</text>
+    </svg>
+  </div>
+
+  <!-- VERTEX CARDS -->
+  <div class="vertex-grid">
+    <div class="vertex-card" style="--v-color:#5eb8c4">
+      <div class="vertex-name">Truth</div>
+      <div class="vertex-def">Is reality being accurately perceived and spoken? Not what is reported or believed, but what is actually happening.</div>
+      <div class="vertex-weight">55%</div>
+      <div class="vertex-weight-label">Pipeline Weight</div>
+      <div class="vertex-dims">
+        <div class="dim-row"><span class="dim-name">alignment</span><span class="dim-dir dim-pos">+0.45</span></div>
+        <div class="dim-row"><span class="dim-name">omission</span><span class="dim-dir dim-neg">-0.30</span></div>
+        <div class="dim-row"><span class="dim-name">contradiction</span><span class="dim-dir dim-neg">-0.50</span></div>
+      </div>
+    </div>
+    <div class="vertex-card" style="--v-color:#c9a84c">
+      <div class="vertex-name">Authority</div>
+      <div class="vertex-def">Does decision-making power match responsibility? Clear ownership with the power to act on it.</div>
+      <div class="vertex-weight">45%</div>
+      <div class="vertex-weight-label">Pipeline Weight</div>
+      <div class="vertex-dims">
+        <div class="dim-row"><span class="dim-name">compression</span><span class="dim-dir dim-neg">-0.25</span></div>
+        <div class="dim-row"><span class="dim-name">diffusion</span><span class="dim-dir dim-neg">-0.18</span></div>
+        <div class="dim-row"><span class="dim-name">misalignment</span><span class="dim-dir dim-neg">-0.22</span></div>
+      </div>
+    </div>
+    <div class="vertex-card" style="--v-color:#a78bfa">
+      <div class="vertex-name">Continuity</div>
+      <div class="vertex-def">Are commitments, decisions, and narratives stable over time? Institutional memory connecting past to present.</div>
+      <div class="vertex-weight">Phase 2</div>
+      <div class="vertex-weight-label">Not Yet Scored</div>
+      <div class="vertex-dims">
+        <div class="dim-row"><span class="dim-name">stability</span><span class="dim-dir" style="color:var(--t3);font-size:.5rem">TBD</span></div>
+        <div class="dim-row"><span class="dim-name">memory</span><span class="dim-dir" style="color:var(--t3);font-size:.5rem">TBD</span></div>
+        <div class="dim-row"><span class="dim-name">commitment</span><span class="dim-dir" style="color:var(--t3);font-size:.5rem">TBD</span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 17 FAILURE MODES ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">Failure Taxonomy</div>
+  <div class="sec-title">17 Failure Modes</div>
+  <div class="sec-desc">Structural patterns that degrade organizational coherence. Organized in three tiers: foundational failures create the conditions, mechanism failures describe how the system malfunctions, terminal failures mark irreversible degradation.</div>
+
+  <div class="tier-section">
+    <div class="tier-label tier-1">Tier 1 &mdash; Foundational (Root Conditions)</div>
+    <div class="fm-grid">
+      <div class="fm-card"><div class="fm-code">FM-01</div><div class="fm-name">Responsibility Compression</div><div class="fm-vertex"><span class="primary">Authority</span> <span class="secondary">&middot; Truth</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-03</div><div class="fm-name">Responsibility Without Authority</div><div class="fm-vertex"><span class="primary">Authority</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-07</div><div class="fm-name">Coordination Decay</div><div class="fm-vertex"><span class="primary">Continuity</span> <span class="secondary">&middot; Authority</span></div></div>
+    </div>
+  </div>
+
+  <div class="tier-section">
+    <div class="tier-label tier-2">Tier 2 &mdash; Mechanism (How the System Malfunctions)</div>
+    <div class="fm-grid">
+      <div class="fm-card"><div class="fm-code">FM-02</div><div class="fm-name">Escalation Inversion</div><div class="fm-vertex"><span class="primary">Truth</span> <span class="secondary">&middot; Authority</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-04</div><div class="fm-name">Metric Shadowing</div><div class="fm-vertex"><span class="primary">Truth</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-05</div><div class="fm-name">Normalized Workarounds</div><div class="fm-vertex"><span class="primary">Continuity</span> <span class="secondary">&middot; Truth</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-06</div><div class="fm-name">Exception Inflation</div><div class="fm-vertex"><span class="primary">Continuity</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-08</div><div class="fm-name">Decision Latency</div><div class="fm-vertex"><span class="primary">Authority</span> <span class="secondary">&middot; Continuity</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-09</div><div class="fm-name">Over-Escalation</div><div class="fm-vertex"><span class="primary">Authority</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-11</div><div class="fm-name">Metric Authority Drift</div><div class="fm-vertex"><span class="primary">Authority</span> <span class="secondary">&middot; Truth</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-16</div><div class="fm-name">Process Inflation</div><div class="fm-vertex"><span class="primary">Continuity</span></div></div>
+    </div>
+  </div>
+
+  <div class="tier-section">
+    <div class="tier-label tier-3">Tier 3 &mdash; Terminal (System-Level Degradation)</div>
+    <div class="fm-grid">
+      <div class="fm-card"><div class="fm-code">FM-10</div><div class="fm-name">Leadership Saturation</div><div class="fm-vertex"><span class="primary">Authority</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-12</div><div class="fm-name">Strategic Myopia</div><div class="fm-vertex"><span class="primary">Continuity</span> <span class="secondary">&middot; Truth</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-13</div><div class="fm-name">Capability Atrophy</div><div class="fm-vertex"><span class="primary">All Three</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-14</div><div class="fm-name">Narrative Collapse</div><div class="fm-vertex"><span class="primary">Continuity</span> <span class="secondary">&middot; Truth</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-15</div><div class="fm-name">Trust Exhaustion</div><div class="fm-vertex"><span class="primary">Terminal</span></div></div>
+      <div class="fm-card"><div class="fm-code">FM-17</div><div class="fm-name">Structural Amnesia</div><div class="fm-vertex"><span class="primary">Continuity</span></div></div>
+    </div>
+  </div>
+
+  <!-- CASCADE CHAIN -->
+  <div class="sec-label" style="margin-top:2rem">Primary Cascade Chain</div>
+  <div class="cascade-container">
+    <div class="cascade-flow">
+      <span class="cascade-node cascade-t1">FM-01/03/07</span><span class="cascade-arrow">&rarr;</span>
+      <span class="cascade-node cascade-t2">FM-02</span><span class="cascade-arrow">&rarr;</span>
+      <span class="cascade-node cascade-t2">FM-09</span><span class="cascade-arrow">&rarr;</span>
+      <span class="cascade-node cascade-t3">FM-10</span><span class="cascade-arrow">&rarr;</span>
+      <span class="cascade-node cascade-t3">FM-12</span><span class="cascade-arrow">&rarr;</span>
+      <span class="cascade-node cascade-t3">FM-13</span><span class="cascade-arrow">&rarr;</span>
+      <span class="cascade-node cascade-t3">FM-14</span><span class="cascade-arrow">&rarr;</span>
+      <span class="cascade-node cascade-t3">FM-17</span><span class="cascade-arrow">&rarr;</span>
+      <span class="cascade-node cascade-terminal">FM-15 Trust Exhaustion</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ 21 FIELD NOTES ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">Early Warning System</div>
+  <div class="sec-title">21 Functional Field Notes</div>
+  <div class="sec-desc">FFNs describe conditions. FMs describe patterns. Progression: observed &rarr; recurrent &rarr; confirmed &rarr; failure mode. FFNs are the early warning; FMs are what happens if you ignore them.</div>
+
+  <div class="ffn-grid">
+    <div class="ffn-card confirmed"><div class="ffn-code">FFN-01</div><div class="ffn-name">Responsibility Compression at the Edge</div><div class="ffn-domain">Structural</div><div class="ffn-precedes">&rarr; FM-01</div></div>
+    <div class="ffn-card confirmed"><div class="ffn-code">FFN-02</div><div class="ffn-name">Interpretive Drift</div><div class="ffn-domain">Structural / Cognitive</div><div class="ffn-precedes">&rarr; FM-14, FM-17</div></div>
+    <div class="ffn-card confirmed"><div class="ffn-code">FFN-03</div><div class="ffn-name">Authority Without Commitment</div><div class="ffn-domain">Structural / Governance</div><div class="ffn-precedes">&rarr; FM-03, FM-08</div></div>
+    <div class="ffn-card confirmed"><div class="ffn-code">FFN-04</div><div class="ffn-name">Escalation Inversion</div><div class="ffn-domain">Structural</div><div class="ffn-precedes">&rarr; FM-02</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-05</div><div class="ffn-name">Escalation Bounceback</div><div class="ffn-domain">Decision Systems</div><div class="ffn-precedes">&rarr; FM-09, FM-10</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-06</div><div class="ffn-name">Signal Misread</div><div class="ffn-domain">Metrics</div><div class="ffn-precedes">&rarr; FM-04</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-07</div><div class="ffn-name">Orphaned Escalation</div><div class="ffn-domain">Governance</div><div class="ffn-precedes">&rarr; FM-02, FM-07</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-08</div><div class="ffn-name">Authority Fog</div><div class="ffn-domain">Governance</div><div class="ffn-precedes">&rarr; FM-03, FM-08</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-09</div><div class="ffn-name">Shadow Infrastructure</div><div class="ffn-domain">Operations</div><div class="ffn-precedes">&rarr; FM-05</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-10</div><div class="ffn-name">Metric Displacement</div><div class="ffn-domain">Metrics</div><div class="ffn-precedes">&rarr; FM-04, FM-11</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-11</div><div class="ffn-name">Context Gap</div><div class="ffn-domain">Metrics</div><div class="ffn-precedes">&rarr; FM-12</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-12</div><div class="ffn-name">Authority Without Permission</div><div class="ffn-domain">Governance</div><div class="ffn-precedes">&rarr; FM-08</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-13</div><div class="ffn-name">Alignment Creep</div><div class="ffn-domain">Decision Systems</div><div class="ffn-precedes">&rarr; FM-08, FM-16</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-14</div><div class="ffn-name">Frozen Recognition</div><div class="ffn-domain">Org Design</div><div class="ffn-precedes">&rarr; FM-08, FM-13</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-15</div><div class="ffn-name">Permission Cascade</div><div class="ffn-domain">Structural</div><div class="ffn-precedes">&rarr; FM-08, FM-16</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-16</div><div class="ffn-name">Defensive Escalation</div><div class="ffn-domain">Decision Systems</div><div class="ffn-precedes">&rarr; FM-09</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-17</div><div class="ffn-name">Horizon Collapse</div><div class="ffn-domain">Cognitive</div><div class="ffn-precedes">&rarr; FM-12</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-18</div><div class="ffn-name">Now Over Later</div><div class="ffn-domain">Cognitive</div><div class="ffn-precedes">&rarr; FM-12</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-19</div><div class="ffn-name">Judgment Erosion</div><div class="ffn-domain">Cognitive</div><div class="ffn-precedes">&rarr; FM-11, FM-13</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-20</div><div class="ffn-name">Memory Scatter</div><div class="ffn-domain">Cognitive</div><div class="ffn-precedes">&rarr; FM-17</div></div>
+    <div class="ffn-card draft"><div class="ffn-code">FFN-21</div><div class="ffn-name">Opaque Logic Drift</div><div class="ffn-domain">Cognitive</div><div class="ffn-precedes">&rarr; FM-17</div></div>
+  </div>
+</div>
+
+<!-- ═══ 7 AXIOMS ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">First Principles</div>
+  <div class="sec-title">7 Axioms</div>
+  <div class="sec-desc">Non-negotiable constraints. Axiom 1 is the master axiom and wins all conflicts.</div>
+
+  <div class="axiom-list">
+    <div class="axiom"><div class="axiom-num">1</div><div class="axiom-content"><div class="axiom-name">Structure Serves Life</div><div class="axiom-principle">Systems exist to support human flourishing, not replace human judgment. Master axiom.</div><div class="axiom-violation">Violation &rarr; presence becomes labor</div></div></div>
+    <div class="axiom"><div class="axiom-num">2</div><div class="axiom-content"><div class="axiom-name">Boundaries Enable Freedom</div><div class="axiom-principle">Clear boundaries create safety for genuine presence.</div><div class="axiom-violation">Violation &rarr; connection suffers</div></div></div>
+    <div class="axiom"><div class="axiom-num">3</div><div class="axiom-content"><div class="axiom-name">Domain Separation</div><div class="axiom-principle">Coherence governs structure. Presence governs relationship. Complementary, not competing.</div><div class="axiom-violation">Violation &rarr; both domains degrade</div></div></div>
+    <div class="axiom"><div class="axiom-num">4</div><div class="axiom-content"><div class="axiom-name">Truth Over Comfort</div><div class="axiom-principle">Diagnostics are falsifiable, cold, precise. Surface what is, not what we wish.</div><div class="axiom-violation">Violation &rarr; decisions built on fiction</div></div></div>
+    <div class="axiom"><div class="axiom-num">5</div><div class="axiom-content"><div class="axiom-name">Agency Preserved</div><div class="axiom-principle">No system may override human choice. Tolerate ambiguity, remain optional.</div><div class="axiom-violation">Violation &rarr; resentment builds</div></div></div>
+    <div class="axiom"><div class="axiom-num">6</div><div class="axiom-content"><div class="axiom-name">Explicit Over Implicit</div><div class="axiom-principle">What is unspoken cannot be examined. Hidden assumptions are structural debt.</div><div class="axiom-violation">Violation &rarr; assumptions compound</div></div></div>
+    <div class="axiom"><div class="axiom-num">7</div><div class="axiom-content"><div class="axiom-name">Minimal Viable Structure</div><div class="axiom-principle">Add structure only when its absence causes harm. Over-structuring is itself incoherent.</div><div class="axiom-violation">Violation &rarr; FM-16 Process Inflation</div></div></div>
+  </div>
+</div>
+
+<!-- ═══ SIGNAL TYPES ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">Signal Architecture</div>
+  <div class="sec-title">Center vs. Edge</div>
+  <div class="sec-desc">The core diagnostic insight. Truth measures the gap between what center sources claim and what edge sources observe.</div>
+
+  <div class="signal-grid">
+    <div class="signal-col">
+      <div class="signal-type signal-center">Center Sources</div>
+      <div class="signal-def">What the organization says about itself. The official narrative, the intended message, the projected identity.</div>
+      <div class="source-list">
+        <div class="source-item"><span class="source-dot center"></span>Press releases</div>
+        <div class="source-item"><span class="source-dot center"></span>Job postings</div>
+        <div class="source-item"><span class="source-dot center"></span>Earnings transcripts</div>
+      </div>
+    </div>
+    <div class="signal-col">
+      <div class="signal-type signal-edge">Edge Sources</div>
+      <div class="signal-def">What the world sees. The lived experience, the external perception, the reality on the ground.</div>
+      <div class="source-list">
+        <div class="source-item"><span class="source-dot edge"></span>Customer reviews</div>
+        <div class="source-item"><span class="source-dot edge"></span>Employee reviews</div>
+        <div class="source-item"><span class="source-dot edge"></span>News coverage</div>
+        <div class="source-item"><span class="source-dot edge"></span>Social media</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ SCORING MECHANICS ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">Scoring Mechanics</div>
+  <div class="sec-title">Deterministic Score Derivation</div>
+  <div class="sec-desc">Scores are computed from sustained findings, not generated by the model. The LLM produces findings; math produces scores.</div>
+
+  <div class="weights-grid">
+    <div class="weight-cell"><div class="weight-label">Strong</div><div class="weight-val">0.40</div></div>
+    <div class="weight-cell"><div class="weight-label">Moderate</div><div class="weight-val">0.25</div></div>
+    <div class="weight-cell"><div class="weight-label">Weak</div><div class="weight-val">0.10</div></div>
+  </div>
+
+  <div class="formula-box">
+    <div class="formula-line"><span>score</span> = 0.5 + &Sigma;( base_weight[dimension] &times; strength_weight[strength] )</div>
+    <div class="formula-line">&nbsp;</div>
+    <div class="formula-line"><span>truth</span> = alignment(+0.45) + omission(-0.30) + contradiction(-0.50)</div>
+    <div class="formula-line"><span>authority</span> = compression(-0.25) + diffusion(-0.18) + misalignment(-0.22)</div>
+    <div class="formula-line"><span>overall</span> = truth &times; 0.55 + authority &times; 0.45</div>
+    <div class="formula-line">&nbsp;</div>
+    <div class="formula-line"><span>dampener</span> = min(1.0, n_findings / 3.0) <span class="comment">// Truth only, scales shift from 0.5</span></div>
+    <div class="formula-result">
+      <div class="big">&sigma; = 0.000</div>
+      <div class="note">Deterministic across identical rescores</div>
+    </div>
+  </div>
+
+  <div class="sec-label" style="margin-top:2rem">Score Caps &amp; Constraints</div>
+  <div class="caps-grid">
+    <div class="cap-row"><div class="cap-cell">No employee reviews in edge data</div><div class="cap-cell">Authority score capped</div><div class="cap-val">0.70</div></div>
+    <div class="cap-row"><div class="cap-cell">Edge sources &lt; 2 distinct types</div><div class="cap-cell">Truth score capped</div><div class="cap-val">Capped</div></div>
+    <div class="cap-row"><div class="cap-cell">Single-period data</div><div class="cap-cell">Overall confidence capped</div><div class="cap-val">0.50</div></div>
+    <div class="cap-row"><div class="cap-cell">Truth findings</div><div class="cap-cell">Hard cap per run</div><div class="cap-val">3</div></div>
+    <div class="cap-row"><div class="cap-cell">Authority findings</div><div class="cap-cell">Hard cap per run</div><div class="cap-val">2</div></div>
+    <div class="cap-row"><div class="cap-cell">Per-category input docs</div><div class="cap-cell">Sampling cap</div><div class="cap-val">100</div></div>
+  </div>
+</div>
+
+<!-- ═══ DATA OBJECTS ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">Data Objects</div>
+  <div class="sec-title">Every Object in the System</div>
+  <div class="sec-desc">From raw documents to the final ledger entry. Each object is produced by a specific agent and consumed by the next.</div>
+
+  <div class="obj-flow">
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Entity</div></div><div class="obj-desc-cell"><div class="obj-desc">The organization being diagnosed. 15 entities across 5 sectors.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Architect</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Collection</div></div><div class="obj-desc-cell"><div class="obj-desc">A dated set of raw documents from 7 source types. ~1,800 docs per entity.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Collector</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Document</div></div><div class="obj-desc-cell"><div class="obj-desc">A single source item with source type (center/edge) and provenance hash.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Collector</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Claim</div></div><div class="obj-desc-cell"><div class="obj-desc">Structured extraction from center documents. What the org says about itself.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Extractor</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Observation</div></div><div class="obj-desc-cell"><div class="obj-desc">Structured extraction from edge documents. What the world sees.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Extractor</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Finding</div></div><div class="obj-desc-cell"><div class="obj-desc">Diagnostic conclusion with dimension, strength, and evidence citations. 5 per run.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Diagnostician</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Sustained Finding</div></div><div class="obj-desc-cell"><div class="obj-desc">A finding that survived adversarial debate. Used in score computation.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Skeptic</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Rejected Finding</div></div><div class="obj-desc-cell"><div class="obj-desc">A finding that did not survive debate. Logged but not scored.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Skeptic</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Case File</div></div><div class="obj-desc-cell"><div class="obj-desc">Structured JSON output: triangle assessment, findings, FM codes, scores.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Recorder</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Case Summary</div></div><div class="obj-desc-cell"><div class="obj-desc">Human-readable markdown narrative of the diagnosis.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Recorder</div></div></div>
+    <div class="obj-row"><div class="obj-name-cell"><div class="obj-name">Ledger Entry</div></div><div class="obj-desc-cell"><div class="obj-desc">Performance record: scores, sustain rates, tokens, metadata. 133 entries.</div></div><div class="obj-producer-cell"><div class="obj-producer">The Recorder</div></div></div>
+  </div>
+</div>
+
+<!-- ═══ RELATIONSHIP MAP ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">Relationship Map</div>
+  <div class="sec-title">How Everything Connects</div>
+
+  <div class="rel-container">
+    <div class="rel-row"><span class="rel-from rel-ffn">FFN</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-fm">FM</span><span class="rel-label">hardens into (if unaddressed)</span></div>
+    <div class="rel-row"><span class="rel-from rel-fm">FM</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-vertex">Vertex</span><span class="rel-label">degrades (primary + secondary mapping)</span></div>
+    <div class="rel-row"><span class="rel-from rel-fm">FM (Tier 1)</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-fm">FM (Tier 2)</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-fm">FM (Tier 3)</span><span class="rel-label">cascades into</span></div>
+    <div class="rel-row"><span class="rel-from rel-agent">Collector</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-finding">Documents</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-agent">Extractor</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-finding">Claims + Observations</span><span class="rel-label">pipeline flow</span></div>
+    <div class="rel-row"><span class="rel-from rel-agent">Diagnostician</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-finding">Findings</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-agent">Skeptic</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-finding">Sustained / Rejected</span><span class="rel-label">adversarial debate</span></div>
+    <div class="rel-row"><span class="rel-from rel-finding">Sustained Findings</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-score">Deterministic Score</span><span class="rel-label">math, not model</span></div>
+    <div class="rel-row"><span class="rel-from rel-score">Score</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-vertex">Triangle Assessment</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-fm">FM Codes</span><span class="rel-label">diagnosis</span></div>
+    <div class="rel-row"><span class="rel-from rel-agent">Recorder</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-score">Ledger</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-ffn">Autoresearch</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-agent">Prompts</span><span class="rel-label">optimization loop</span></div>
+    <div class="rel-row"><span class="rel-from rel-agent">Recorder</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-score">Patterns</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-agent">The Architect</span><span class="rel-arrow">&rarr;</span><span class="rel-to rel-finding">Architecture</span><span class="rel-label">design loop (human)</span></div>
+  </div>
+</div>
+
+<!-- ═══ IDENTITY MODES ═══ -->
+<div class="ontology-section">
+  <div class="sec-label">Operational Constraints</div>
+  <div class="sec-title">Identity Modes</div>
+  <div class="sec-desc">Mode bleed &mdash; operating in one mode when another is required &mdash; is itself a coherence failure.</div>
+
+  <div class="mode-grid">
+    <div class="mode-card"><div class="mode-name">Inhabitant</div><div class="mode-desc">Operating within the system as-is. Observe, document, cope. No redesign.</div></div>
+    <div class="mode-card"><div class="mode-name">Alchemist</div><div class="mode-desc">Exploring and testing ideas. Experiment, prototype. No commitment.</div></div>
+    <div class="mode-card"><div class="mode-name">Architect</div><div class="mode-desc">Designing or modifying structure. Propose, restructure, build.</div></div>
+    <div class="mode-card"><div class="mode-name">Executor</div><div class="mode-desc">Acting decisively within approved structure. Implement, enforce, deliver.</div></div>
+  </div>
+</div>
+
+<!-- GOVERNANCE -->
+<div class="ontology-section" style="border-bottom:none">
+  <div class="gov-bar">
+    <div class="gov-tag">AR-001</div>
+    <div class="gov-text">"Automation may observe, summarize, and suggest. Automation may not decide."</div>
+  </div>
+</div>
+
+</div>
+
+<footer>
+  <p>Greenbaum Labs &mdash; Coherence Diagnostic Framework &mdash; System Ontology &mdash; 2026</p>
+</footer>
+
+</body>
+</html>
