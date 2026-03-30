@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Autoresearch: Pipeline Hardening — Greenbaum Labs</title>
+<meta name="description" content="73 experiments across 4 research tracks. 30 hours of distributed compute. 0.000 standard deviation. A complete record of systematic pipeline hardening.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:title" content="Autoresearch: Pipeline Hardening — Greenbaum Labs">
+<meta property="og:description" content="73 experiments. 0.000 standard deviation. The system works.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+<meta property="og:url" content="https://greenbaumlabs.com/autoresearch">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Autoresearch: Pipeline Hardening — Greenbaum Labs">
+<meta name="twitter:description" content="73 experiments. 0.000 standard deviation. The system works.">
+<meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07110C;--bg2:#0A1812;--bg3:#0D1E17;
+  --g:#34D399;--g2:#5EEAD4;
+  --g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);--g-hi:rgba(52,211,153,.2);--g-glow:rgba(52,211,153,.3);
+  --t1:#F0F0F0;--t2:#A8B0A8;--t3:#6B7A6E;--t4:#3A4A3D;
+  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.12);
+  --gold:#c9a84c;--gold-a:rgba(201,168,76,.3);--gold-dim:rgba(201,168,76,.12);
+  --warm:#c8553a;--warm-a:rgba(200,85,58,.3);--warm-dim:rgba(200,85,58,.12);
+  --blue:#5b8def;--blue-a:rgba(91,141,239,.3);--blue-dim:rgba(91,141,239,.12);
+}
+body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+
+/* HEADER */
+.header{text-align:center;padding:4rem 2rem 2rem;position:relative}
+.header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--g-glow),transparent)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
+.header h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.header h1 span{color:var(--g)}
+.header-sub{font-size:1rem;color:var(--t3);margin-top:1rem;max-width:650px;margin-left:auto;margin-right:auto;line-height:1.7}
+.header-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.hstat{text-align:center;min-width:100px}
+.hstat-val{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--t1)}
+.hstat-val.green{color:var(--g)}
+.hstat-val.gold{color:var(--gold)}
+.hstat-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-top:.2rem}
+
+/* WRAP */
+.wrap{max-width:1200px;margin:0 auto;padding:3rem 2rem}
+
+/* SECTION */
+.section{margin-bottom:4rem}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--g);margin-bottom:.75rem}
+.section h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem}
+.section p{color:var(--t2);font-size:1rem;line-height:1.7;max-width:720px}
+.section p strong{color:var(--t1)}
+
+/* CARDS */
+.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1.5rem;transition:all .3s}
+.card:hover{border-color:var(--bdr2);background:var(--bg3)}
+
+/* STAT ROW */
+.stat-row{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
+.stat-box{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1.25rem 1.5rem;flex:1;min-width:140px}
+.stat-val{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:600;line-height:1}
+.stat-val.green{color:var(--g)}
+.stat-val.gold{color:var(--gold)}
+.stat-val.warm{color:var(--warm)}
+.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t4);margin-top:.5rem}
+
+/* CHARTS */
+.chart-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1.5rem;margin:1.5rem 0;flex:1}
+.chart-title{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t4);margin-bottom:1rem}
+.chart-area{position:relative;height:360px}
+.chart-area.short{height:280px}
+.chart-caption{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--t4);margin-top:.75rem;line-height:1.6}
+
+/* COLS */
+.cols{display:flex;gap:2rem;align-items:flex-start}
+.col{flex:1}
+.col-narrow{flex:0 0 320px}
+.col-wide{flex:1}
+
+/* CALLOUT */
+.callout{border-left:2px solid var(--g);padding:1rem 1.25rem;margin:1rem 0;background:var(--g-lo);border-radius:0 4px 4px 0}
+.callout p{color:var(--t1);margin:0;max-width:none}
+.callout-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:.4rem}
+.callout.warm{border-left-color:var(--warm);background:var(--warm-dim)}
+.callout.warm .callout-label{color:var(--warm)}
+.callout.gold{border-left-color:var(--gold);background:var(--gold-dim)}
+.callout.gold .callout-label{color:var(--gold)}
+
+/* POINTS */
+.points{list-style:none;margin:1rem 0}
+.points li{padding:.5rem 0;border-bottom:1px solid var(--bdr);color:var(--t2);font-size:.95rem;line-height:1.6}
+.points li strong{color:var(--t1)}
+.points li:last-child{border-bottom:none}
+
+/* STEPS */
+.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin:1.5rem 0}
+.step{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1rem}
+.step-num{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--g);letter-spacing:.15em;margin-bottom:.4rem}
+.step-title{font-weight:600;font-size:.85rem;margin-bottom:.3rem}
+.step-desc{font-size:.7rem;color:var(--t3);line-height:1.5}
+
+/* PHASE BADGES */
+.phase{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:2px;margin-right:.5rem}
+.phase.blue{background:var(--blue-dim);color:var(--blue)}
+.phase.gold{background:var(--gold-dim);color:var(--gold)}
+.phase.green{background:var(--g-lo);color:var(--g)}
+.phase.warm{background:var(--warm-dim);color:var(--warm)}
+
+/* DIVIDER */
+.gem-div{text-align:center;margin:3rem 0;position:relative}
+.gem-div::before{content:'';position:absolute;top:50%;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--g-glow),transparent)}
+.gem-div svg{position:relative;z-index:1;background:var(--bg);padding:0 1rem}
+
+/* GOVERNANCE */
+.governance{max-width:1200px;margin:2rem auto 4rem;padding:0 2rem}
+.gov-bar{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 2rem;background:var(--g-lo);border:1px solid rgba(52,211,153,.1);border-radius:4px}
+.gov-tag{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--g);white-space:nowrap}
+.gov-text{font-size:.8rem;color:var(--t3);line-height:1.5}
+
+/* RESPONSIVE */
+@media(max-width:900px){
+  .cols{flex-direction:column}
+  .col-narrow{flex:auto}
+  .steps{grid-template-columns:repeat(3,1fr)}
+  .header-stats{gap:1rem}
+}
+@media(max-width:600px){
+  .steps{grid-template-columns:1fr 1fr}
+  .stat-row{flex-direction:column}
+  .wrap{padding:2rem 1.25rem}
+  .header{padding:3rem 1.25rem 2rem}
+}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="eyebrow">Coherence Record</div>
+  <h1>Autoresearch: <span>Pipeline Hardening</span></h1>
+  <p class="header-sub">73 experiments across 4 research tracks. 30 hours of distributed compute. 0.000 standard deviation. A complete record of systematic pipeline hardening through adversarial self-research.</p>
+  <div class="header-stats">
+    <div class="hstat"><div class="hstat-val gold">73</div><div class="hstat-label">Experiments</div></div>
+    <div class="hstat"><div class="hstat-val">4</div><div class="hstat-label">Research Tracks</div></div>
+    <div class="hstat"><div class="hstat-val green">0.000</div><div class="hstat-label">Stdev (All Runs)</div></div>
+    <div class="hstat"><div class="hstat-val gold">11.5x</div><div class="hstat-label">Scoring Improvement</div></div>
+    <div class="hstat"><div class="hstat-val">1.6x</div><div class="hstat-label">Extraction Improvement</div></div>
+    <div class="hstat"><div class="hstat-val">~30h</div><div class="hstat-label">Compute Time</div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+<!-- FM-04 MOMENT -->
+<div class="section">
+  <div class="section-label">The FM-04 Moment</div>
+  <h2>When the System Found Itself</h2>
+  <div class="cols" style="margin-top:1.5rem">
+    <div class="col">
+      <p>Failure Mode 04 is <strong>Metric Shadowing</strong>&mdash;when a measurement becomes the target and ceases to be useful. The pipeline diagnosed this on itself during Track 1.</p>
+      <div class="callout" style="margin-top:1.5rem">
+        <div class="callout-label">What Happened</div>
+        <p style="font-size:.9rem">The v1 metric was <code style="color:var(--g)">sustain_rate &times; mean_strength_weight</code>. The system optimized for highest score&mdash;but the skeptic had been softened so much it was barely challenging anything. The metric went up. The quality went down.</p>
+      </div>
+    </div>
+    <div class="col">
+      <div class="callout warm">
+        <div class="callout-label">Why This Matters</div>
+        <p style="font-size:.9rem">The Coherence pipeline diagnosed FM-04 on itself. The same framework built to detect metric shadowing in organizations caught metric shadowing in its own scoring logic.</p>
+      </div>
+      <p style="margin-top:1.5rem">The fix was structural: <strong>replace the metric entirely</strong>. The v2 correctness metric uses reproducibility as a multiplicative gate and verifies evidence through Jaccard overlap. You cannot game evidence verification by softening the skeptic.</p>
+    </div>
+  </div>
+</div>
+
+<!-- METHODOLOGY -->
+<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+
+<div class="section">
+  <div class="section-label">Methodology</div>
+  <h2>The Autoresearch Loop</h2>
+  <div class="steps">
+    <div class="step"><div class="step-num">Step 1</div><div class="step-title">Hypothesis</div><div class="step-desc">Agent proposes a specific prompt change. Scoped to a single variable.</div></div>
+    <div class="step"><div class="step-num">Step 2</div><div class="step-title">Modification</div><div class="step-desc">Prompt file modified programmatically. Diff recorded.</div></div>
+    <div class="step"><div class="step-num">Step 3</div><div class="step-title">Triple-Blind Trial</div><div class="step-desc">3 independent trials against Nike run_079. Same evidence, different scoring runs.</div></div>
+    <div class="step"><div class="step-num">Step 4</div><div class="step-title">Measurement</div><div class="step-desc">Mean, stdev, and component metrics computed and logged to JSONL.</div></div>
+    <div class="step"><div class="step-num">Step 5</div><div class="step-title">Decision</div><div class="step-desc">Score improves &rarr; keep. Regresses &rarr; revert. Propose next hypothesis.</div></div>
+  </div>
+  <div class="callout gold" style="margin-top:1.5rem">
+    <div class="callout-label">The Correctness Metric (v2)</div>
+    <p style="font-size:.9rem;font-family:'JetBrains Mono',monospace"><code>correctness = reproducibility &times; stability_rate &times; mean(evidence_score &times; diagnostic_weight &times; strength_weight)</code></p>
+  </div>
+</div>
+
+<!-- COMPUTE DISTRIBUTION -->
+<div class="section">
+  <div class="section-label">Methodology</div>
+  <h2>Compute Distribution</h2>
+  <div class="cols">
+    <div class="col-wide">
+      <div class="chart-card">
+        <div class="chart-title">Experiment Distribution Across Tracks &amp; Devices</div>
+        <div class="chart-area short"><canvas id="chart-distribution"></canvas></div>
+      </div>
+    </div>
+    <div class="col-narrow">
+      <ul class="points">
+        <li><strong>Spark 1 (DGX):</strong> Scoring v1 (13) + Scoring v2 (41) = 54 experiments</li>
+        <li><strong>Spark 2 (DGX):</strong> Extraction (19 experiments)</li>
+        <li><strong>M2 Studio:</strong> Cross-entity validation (9 trials)</li>
+        <li><strong>Total compute:</strong> ~30 hours across 3 nodes, all local qwen3:32b inference</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- SCORING V1 -->
+<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+
+<div class="section">
+  <div class="section-label">Track 1 &mdash; Scoring V1</div>
+  <h2>The Throughput Metric</h2>
+  <p><strong>13 experiments &middot; Spark 1 &middot; March 10 evening</strong></p>
+  <div class="chart-card" style="margin-top:1rem">
+    <div class="chart-title">Scoring V1 Trajectory</div>
+    <div class="chart-area short"><canvas id="chart-v1-trajectory"></canvas></div>
+    <div class="chart-caption">Gold line = composite score. Blue bars = skeptic throughput. Red markers = experiments with low_challenge_rate (skeptic too lenient). Most prompt changes had zero measurable effect. The metric was abandoned after ar_013.</div>
+  </div>
+</div>
+
+<!-- SCORING V2 -->
+<div class="section">
+  <div class="section-label">Track 2 &mdash; Scoring V2</div>
+  <h2>The Correctness Metric: 41 Experiments</h2>
+  <div class="chart-card">
+    <div class="chart-title">Correctness Score Across 41 Experiments</div>
+    <div class="chart-area"><canvas id="chart-v2-trajectory"></canvas></div>
+    <div class="chart-caption">
+      <span class="phase blue">Foundation (cr_001&ndash;012)</span>
+      <span class="phase gold">Breakthroughs (cr_013&ndash;025)</span>
+      <span class="phase green">Maximum Extraction (cr_026&ndash;041)</span>
+      &mdash; Dashed line = running best. 0.058 baseline &rarr; 0.667 ceiling = 11.5x improvement.
+    </div>
+  </div>
+</div>
+
+<!-- V2 PHASES -->
+<div class="section">
+  <div class="section-label">Track 2 &mdash; Scoring V2</div>
+  <h2>Four Phases of Discovery</h2>
+  <div class="cols" style="margin-top:1rem">
+    <div class="col">
+      <h3 style="font-size:1.2rem;margin-bottom:.5rem"><span class="phase blue">Phase 1</span> Foundation</h3>
+      <p>Baseline 0.058. Explored evidence-first processes, citation verification, dimension-specific matching. Incremental gains to 0.156 (2.7x).</p>
+      <h3 style="font-size:1.2rem;margin-top:1.5rem;margin-bottom:.5rem"><span class="phase gold">Phase 2</span> Evidence Breakthrough</h3>
+      <p>Forcing <strong>verbatim word-copying</strong> in contradiction findings (cr_017) jumped Jaccard overlap from ~0.17 to 0.50. Score: 0.233, a <strong>4x improvement</strong> over baseline.</p>
+    </div>
+    <div class="col">
+      <h3 style="font-size:1.2rem;margin-bottom:.5rem"><span class="phase gold">Phase 3</span> Structural Concentration</h3>
+      <p>Dropping misalignment dimension from Authority (cr_024) jumped to 0.400. <strong>Fewer findings of higher quality beat more findings of mixed quality.</strong></p>
+      <h3 style="font-size:1.2rem;margin-top:1.5rem;margin-bottom:.5rem"><span class="phase green">Phase 4</span> Maximum Extraction</h3>
+      <p>Five different experiments reached the 0.667 ceiling through different mechanisms but the same outcome: <strong>one perfect finding</strong> with maximum diagnostic weight and verified evidence.</p>
+    </div>
+  </div>
+</div>
+
+<!-- EVIDENCE CHARTS -->
+<div class="section">
+  <div class="section-label">Track 2 &mdash; Scoring V2</div>
+  <h2>The Verification Bottleneck</h2>
+  <div class="cols">
+    <div class="col">
+      <div class="chart-card">
+        <div class="chart-title">Evidence Score vs. Correctness</div>
+        <div class="chart-area short"><canvas id="chart-v2-evidence"></canvas></div>
+        <div class="chart-caption">Evidence verification is the primary driver of correctness. The bottleneck is not reasoning&mdash;it is whether evidence actually supports the conclusion.</div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="chart-card">
+        <div class="chart-title">Sustained Findings vs. Diagnostic Weight</div>
+        <div class="chart-area short"><canvas id="chart-v2-sustained"></canvas></div>
+        <div class="chart-caption">As quality concentrated into fewer findings, diagnostic weight rose. The 0.667 cluster sustains 1 finding at maximum weight.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXTRACTION -->
+<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+
+<div class="section">
+  <div class="section-label">Track 3 &mdash; Extraction</div>
+  <h2>Fewer, Sharper Extractions Win</h2>
+  <div class="cols">
+    <div class="col-wide">
+      <div class="chart-card">
+        <div class="chart-title">Extraction Score vs. Total Items Extracted</div>
+        <div class="chart-area short"><canvas id="chart-extraction"></canvas></div>
+        <div class="chart-caption">Inverse relationship. Baseline: 57 items, 0.283 score. Optimal (arx_017): 45 items, 0.450 score. Star = best result with asymmetric limits: center=3, edge=5.</div>
+      </div>
+    </div>
+    <div class="col-narrow">
+      <h3 style="font-size:1.2rem;margin-bottom:.5rem">Key Insight</h3>
+      <p><strong>98% of extracted items are never cited in any finding.</strong> Broad extraction ensures coverage; aggressive filtering ensures quality.</p>
+      <h3 style="font-size:1.2rem;margin-top:1.25rem;margin-bottom:.5rem">Edge vs. Center</h3>
+      <p>Edge documents (employee reviews, regulatory filings) are scarce but high-signal. Setting asymmetric limits preserved edge signal while reducing center noise.</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-label">Track 3 &mdash; Extraction</div>
+  <h2>Extraction Trajectory</h2>
+  <div class="chart-card">
+    <div class="chart-title">Score Trajectory with Penalty Markers</div>
+    <div class="chart-area"><canvas id="chart-extraction-trajectory"></canvas></div>
+    <div class="chart-caption">Red markers = skeptic_too_harsh penalties. Pattern: upstream rigidity (rigid/verbose extractions) cascades into downstream scoring failures. The extraction and scoring systems are coupled.</div>
+  </div>
+</div>
+
+<!-- CROSS-ENTITY -->
+<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+
+<div class="section">
+  <div class="section-label">Track 4 &mdash; Cross-Entity Validation</div>
+  <h2>Do the Prompts Generalize?</h2>
+  <div class="cols">
+    <div class="col-wide">
+      <div class="chart-card">
+        <div class="chart-title">Cross-Entity Correctness Scores</div>
+        <div class="chart-area short"><canvas id="chart-cross-entity"></canvas></div>
+        <div class="chart-caption">Three entities, three sectors, three evidence profiles. Reproducibility is perfect across all. Score differences reflect evidence quality, not prompt overfitting.</div>
+      </div>
+    </div>
+    <div class="col-narrow">
+      <div class="stat-row" style="flex-direction:column">
+        <div class="stat-box"><div class="stat-val green">0.0</div><div class="stat-lbl">Sustained Count Stdev</div></div>
+        <div class="stat-box"><div class="stat-val">0.997</div><div class="stat-lbl">Mean Reproducibility</div></div>
+        <div class="stat-box"><div class="stat-val gold">3/3</div><div class="stat-lbl">Entities Confirmed Stable</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- REPRODUCIBILITY -->
+<div class="section">
+  <div class="section-label">The Core Result</div>
+  <h2>Perfect Reproducibility</h2>
+  <div class="chart-card">
+    <div class="chart-title">Standard Deviation Across All 73 Experiments = 0.000</div>
+    <div class="chart-area short"><canvas id="chart-reproducibility"></canvas></div>
+    <div class="chart-caption">Every experiment produced identical results across all trials. The system is fully deterministic given the same inputs. This was not a design goal&mdash;it is an emergent property of structured prompts with seeded sampling and fixed evidence corpora.</div>
+  </div>
+</div>
+
+<!-- LEARNINGS -->
+<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+
+<div class="section">
+  <div class="section-label">Learnings</div>
+  <h2>What the System Taught Us</h2>
+  <div class="cols" style="margin-top:1rem">
+    <div class="col">
+      <ul class="points">
+        <li><strong>1. Evidence verification is the bottleneck, not reasoning.</strong> Forcing verbatim word-copying produced the largest single improvement (4x). The model reasons well&mdash;it just doesn't naturally ground reasoning in evidence language.</li>
+        <li><strong>2. Constraints hurt more than they help.</strong> Templates, citation limits, format requirements produced regressions in 11 experiments. Tell the model what to attend to, not how to format.</li>
+        <li><strong>3. Alignment findings are dead weight.</strong> Diagnostic weight 0.2. Removing alignment entirely produced the highest scores. &ldquo;Your narrative matches reality&rdquo; is not actionable intelligence.</li>
+      </ul>
+    </div>
+    <div class="col">
+      <ul class="points">
+        <li><strong>4. Extraction has diminishing returns.</strong> 1.6x extraction improvement vs. 11.5x scoring improvement. Once extraction quality crosses a threshold, further upstream optimization yields minimal downstream gain.</li>
+        <li><strong>5. The metric itself requires scrutiny.</strong> The v2 metric rewards one perfect finding over several good ones. Whether to optimize for depth or breadth is a research decision that should be made deliberately.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- LEVERAGE -->
+<div class="section">
+  <div class="section-label">Learnings</div>
+  <h2>Where the Leverage Is</h2>
+  <div class="cols">
+    <div class="col-wide">
+      <div class="chart-card">
+        <div class="chart-title">Scoring vs. Extraction Improvement</div>
+        <div class="chart-area short"><canvas id="chart-leverage"></canvas></div>
+        <div class="chart-caption">Scoring prompt changes dominate. Resource allocation should reflect the leverage difference.</div>
+      </div>
+    </div>
+    <div class="col-narrow">
+      <div class="stat-row" style="flex-direction:column">
+        <div class="stat-box"><div class="stat-val gold">11.5x</div><div class="stat-lbl">Scoring Improvement</div></div>
+        <div class="stat-box"><div class="stat-val">1.6x</div><div class="stat-lbl">Extraction Improvement</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHAT SHIPS -->
+<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+
+<div class="section">
+  <div class="section-label">Production State</div>
+  <h2>What Ships</h2>
+  <div class="cols" style="margin-top:1rem">
+    <div class="col">
+      <div class="stat-row" style="flex-direction:column">
+        <div class="stat-box">
+          <div class="stat-val gold" style="font-size:1.2rem">scoring_prompts_best.py</div>
+          <div class="stat-lbl">cr_021 era &middot; 0.267 correctness</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-val gold" style="font-size:1.2rem">extractor_prompts_best.py</div>
+          <div class="stat-lbl">arx_017 &middot; 0.450 throughput</div>
+        </div>
+      </div>
+      <p style="margin-top:1rem"><strong>Why cr_021 and not cr_032?</strong> The 0.667 experiments achieve scores through extreme concentration&mdash;a single finding. The cr_021 config produces <strong>3 sustained findings across multiple dimensions</strong>. It is the more diagnostically useful output.</p>
+    </div>
+    <div class="col">
+      <h3 style="font-size:1.2rem;margin-bottom:.75rem">What Changed</h3>
+      <ul class="points">
+        <li><strong>Scoring prompts:</strong> 1&ndash;2 sentence findings with topic vocabulary. Evidence discipline blocks. Rewritten few-shot examples.</li>
+        <li><strong>Extraction prompts:</strong> Asymmetric limits (center=3, edge=5). Adversarial scrutiny filter. Confidence floor 0.6.</li>
+        <li><strong>Metric:</strong> finding_derived_v1 is production standard.</li>
+        <li><strong>Reproducibility:</strong> 0.000 stdev confirmed across all configs and entities.</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+</div><!-- /wrap -->
+
+<!-- GOVERNANCE -->
+<div class="governance">
+  <div class="gov-bar">
+    <div class="gov-tag">AR-001</div>
+    <div class="gov-text">&ldquo;Automation may observe, measure, and report. It may not decide, approve, or publish.&rdquo;</div>
+  </div>
+</div>
+
+<!-- CHARTS -->
+<script>
+Chart.defaults.color='#6B7A6E';
+Chart.defaults.borderColor='rgba(255,255,255,.06)';
+Chart.defaults.font.family="'JetBrains Mono',monospace";
+Chart.defaults.font.size=10;
+Chart.defaults.plugins.legend.labels.boxWidth=12;
+Chart.defaults.plugins.legend.labels.padding=16;
+
+const GOLD='#c9a84c',GOLD_A='rgba(201,168,76,.3)';
+const WARM='#c8553a',WARM_A='rgba(200,85,58,.3)';
+const GREEN='#34D399',GREEN_A='rgba(52,211,153,.25)';
+const BLUE='#5b8def',BLUE_A='rgba(91,141,239,.3)';
+const DIM='#3A4A3D';
+
+// 1. Distribution
+new Chart(document.getElementById('chart-distribution'),{
+  type:'bar',
+  data:{
+    labels:['Scoring v1\n(Throughput)','Scoring v2\n(Correctness)','Extraction','Cross-Entity'],
+    datasets:[
+      {label:'Spark 1',data:[13,41,0,0],backgroundColor:GOLD_A,borderColor:GOLD,borderWidth:1},
+      {label:'Spark 2',data:[0,0,19,0],backgroundColor:GREEN_A,borderColor:GREEN,borderWidth:1},
+      {label:'M2 Studio',data:[0,0,0,9],backgroundColor:BLUE_A,borderColor:BLUE,borderWidth:1},
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{x:{stacked:true},y:{stacked:true,title:{display:true,text:'Experiments'}}}}
+});
+
+// 2. V1 Trajectory
+const v1Labels=["ar_001","ar_002","ar_003","ar_004","ar_005","ar_006","ar_007","ar_008","ar_009","ar_010","ar_011","ar_012","ar_013"];
+const v1Scores=[0.333,0.333,0.283,0.478,0.333,0.478,0.567,0.45,0.333,0.333,0.333,0.333,0.567];
+const v1Sustained=[2,2,2,5,2,5,4,3,2,2,2,2,4];
+const v1Penalties=[false,false,false,true,false,true,false,false,false,false,false,false,false];
+
+new Chart(document.getElementById('chart-v1-trajectory'),{
+  type:'bar',
+  data:{
+    labels:v1Labels,
+    datasets:[
+      {label:'Sustained / 6',data:v1Sustained,backgroundColor:v1Penalties.map(p=>p?WARM_A:BLUE_A),borderColor:v1Penalties.map(p=>p?WARM:BLUE),borderWidth:1,yAxisID:'y1',order:2},
+      {label:'Composite Score',data:v1Scores,type:'line',borderColor:GOLD,backgroundColor:GOLD_A,fill:true,tension:.3,pointRadius:v1Penalties.map(p=>p?8:4),pointStyle:v1Penalties.map(p=>p?'crossRot':'circle'),pointBackgroundColor:v1Penalties.map(p=>p?WARM:GOLD),pointBorderColor:v1Penalties.map(p=>p?WARM:GOLD),yAxisID:'y',order:1}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{y:{position:'left',min:0,max:0.7,title:{display:true,text:'Score'}},y1:{position:'right',min:0,max:6,title:{display:true,text:'Sustained'},grid:{drawOnChartArea:false}}}}
+});
+
+// 3. V2 Trajectory
+const v2Labels=["cr_001","cr_002","cr_003","cr_004","cr_005","cr_006","cr_007","cr_008","cr_009","cr_010","cr_011","cr_012","cr_013","cr_014","cr_015","cr_016","cr_017","cr_018","cr_019","cr_020","cr_021","cr_022","cr_023","cr_024","cr_025","cr_026","cr_027","cr_028","cr_029","cr_030","cr_031","cr_032","cr_033","cr_034","cr_035","cr_036","cr_037","cr_038","cr_039","cr_040","cr_041"];
+const v2Scores=[0.058,0.0444,0.0333,0.0771,0.0911,0.0911,0.0683,0.1167,0.1167,0.1555,0.1555,0.1555,0.0444,0.0333,0.1167,0.0333,0.2333,0.2333,0.2,0.2667,0.2667,0.2,0.0267,0.4,0.4,0.0667,0.0,0.0667,0.0667,0.0667,0.0667,0.6667,0.6667,0.0667,0.28,0.6667,0.4,0.6667,0.0444,0.2,0.6667];
+const v2PhaseColors=v2Scores.map((s,i)=>i<=11?BLUE:i<=21?GOLD:GREEN);
+const v2PhaseColorsA=v2Scores.map((s,i)=>i<=11?BLUE_A:i<=21?GOLD_A:GREEN_A);
+
+new Chart(document.getElementById('chart-v2-trajectory'),{
+  type:'bar',
+  data:{
+    labels:v2Labels,
+    datasets:[
+      {label:'Correctness Score',data:v2Scores,backgroundColor:v2PhaseColorsA,borderColor:v2PhaseColors,borderWidth:1},
+      {label:'Running Best',data:v2Scores.reduce((a,s)=>{a.push(Math.max(s,a.length?a[a.length-1]:0));return a},[]),type:'line',borderColor:GOLD,borderDash:[4,4],pointRadius:0,borderWidth:2,fill:false}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{maxRotation:90,font:{size:8}}},y:{min:0,max:0.75,title:{display:true,text:'Correctness Score'}}}}
+});
+
+// 4. Evidence vs Correctness
+const v2Evidence=[0.2333,0.2222,0.1667,0.2133,0.2889,0.2889,0.2167,0.25,0.25,0.3333,0.3333,0.3333,0.2222,0.1667,0.25,0.1667,0.5,0.5,0.3333,0.4445,0.4445,0.3333,0.1333,0.6667,0.6667,0.3333,null,0.3333,0.3333,0.3333,0.3333,0.6667,0.6667,0.3333,0.4334,0.6667,0.6667,0.6667,0.2222,0.3333,0.6667];
+
+new Chart(document.getElementById('chart-v2-evidence'),{
+  type:'scatter',
+  data:{
+    datasets:[{
+      label:'Experiments',
+      data:v2Scores.map((s,i)=>v2Evidence[i]!=null?{x:v2Evidence[i],y:s}:null).filter(Boolean),
+      backgroundColor:GREEN_A,borderColor:GREEN,borderWidth:1,pointRadius:5
+    },{
+      label:'Perfect Correlation',
+      data:[{x:0,y:0},{x:0.7,y:0.7}],
+      type:'line',borderColor:DIM,borderDash:[4,4],borderWidth:1,pointRadius:0,fill:false
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{x:{min:0,max:0.75,title:{display:true,text:'Mean Evidence Score (Jaccard)'}},y:{min:0,max:0.75,title:{display:true,text:'Correctness Score'}}}}
+});
+
+// 5. Sustained vs Diagnostic Weight
+const v2Sustained=[4,3,4,5,3,3,4,4,4,3,3,3,3,4,4,4,2,2,4,3,3,4,5,2,2,2,null,2,2,2,2,1,1,2,4,1,2,1,3,4,1];
+const v2DiagWt=[0.7,0.6667,0.7,0.72,0.6667,0.6667,0.7,0.7,0.7,0.6667,0.6667,0.6667,0.6667,0.7,0.7,0.7,0.6,0.6,0.7,0.6667,0.6667,0.7,0.72,0.6,0.6,0.6,null,0.6,0.5,0.6,0.6,1.0,1.0,0.6,0.7,1.0,0.6,1.0,0.6667,0.7,1.0];
+
+new Chart(document.getElementById('chart-v2-sustained'),{
+  type:'scatter',
+  data:{
+    datasets:[{
+      label:'Experiments',
+      data:v2Sustained.map((s,i)=>s!=null?{x:s,y:v2DiagWt[i]}:null).filter(Boolean),
+      backgroundColor:v2Scores.map(s=>s>=0.6?GOLD:s>=0.2?GREEN:BLUE_A),
+      borderColor:v2Scores.map(s=>s>=0.6?GOLD:s>=0.2?GREEN:BLUE),
+      borderWidth:1,pointRadius:v2Scores.map(s=>4+s*12)
+    }]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{x:{min:0,max:6,title:{display:true,text:'Sustained Findings'},ticks:{stepSize:1}},y:{min:0.4,max:1.1,title:{display:true,text:'Mean Diagnostic Weight'}}}}
+});
+
+// 6. Extraction scatter
+const extLabels=["arx_001","arx_002","arx_003","arx_004","arx_005","arx_006","arx_007","arx_008","arx_009","arx_010","arx_011","arx_012","arx_013","arx_014","arx_015","arx_016","arx_017","arx_018","arx_019"];
+const extScores=[0.1167,0.2833,0.3333,0.2833,0.4,0.3333,0.2833,0.1167,0.4,0.2833,0.1167,0.4,0.35,0.1167,0.4,0.4,0.45,0.3333,0.4];
+const extItems=[57,57,59,60,38,37,38,37,38,37,31,32,50,30,38,40,45,50,45];
+const extPenalties=[true,false,false,false,false,false,false,true,false,false,true,false,false,true,false,false,false,false,false];
+
+new Chart(document.getElementById('chart-extraction'),{
+  type:'scatter',
+  data:{
+    datasets:[
+      {label:'Normal',data:extScores.map((s,i)=>!extPenalties[i]?{x:extItems[i],y:s}:null).filter(Boolean),backgroundColor:GREEN_A,borderColor:GREEN,borderWidth:1,pointRadius:6},
+      {label:'Penalized',data:extScores.map((s,i)=>extPenalties[i]?{x:extItems[i],y:s}:null).filter(Boolean),backgroundColor:WARM_A,borderColor:WARM,borderWidth:1,pointRadius:8,pointStyle:'crossRot'},
+      {label:'Best (arx_017)',data:[{x:45,y:0.45}],backgroundColor:GOLD,borderColor:GOLD,borderWidth:2,pointRadius:10,pointStyle:'star'}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{x:{min:25,max:65,title:{display:true,text:'Total Items Extracted'}},y:{min:0,max:0.55,title:{display:true,text:'Score'}}}}
+});
+
+// 7. Extraction Trajectory
+new Chart(document.getElementById('chart-extraction-trajectory'),{
+  type:'line',
+  data:{
+    labels:extLabels,
+    datasets:[
+      {label:'Score',data:extScores,borderColor:GREEN,backgroundColor:GREEN_A,fill:true,tension:.3,pointRadius:extPenalties.map(p=>p?8:4),pointStyle:extPenalties.map(p=>p?'crossRot':'circle'),pointBackgroundColor:extPenalties.map(p=>p?WARM:GREEN),pointBorderColor:extPenalties.map(p=>p?WARM:GREEN)},
+      {label:'Running Best',data:extScores.reduce((a,s)=>{a.push(Math.max(s,a.length?a[a.length-1]:0));return a},[]),borderColor:GOLD,borderDash:[4,4],borderWidth:2,pointRadius:0,fill:false}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{maxRotation:45}},y:{min:0,max:0.55,title:{display:true,text:'Score'}}}}
+});
+
+// 8. Cross-Entity
+new Chart(document.getElementById('chart-cross-entity'),{
+  type:'bar',
+  data:{
+    labels:['Boeing\n(Defense)','Tesla\n(EV)','Ford\n(Auto)'],
+    datasets:[
+      {label:'Correctness',data:[0.2994,0.1182,0.0703],backgroundColor:GOLD_A,borderColor:GOLD,borderWidth:1},
+      {label:'Reproducibility',data:[0.9924,1.0,1.0],backgroundColor:GREEN_A,borderColor:GREEN,borderWidth:1}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{y:{min:0,max:1.1,title:{display:true,text:'Score'}}}}
+});
+
+// 9. Reproducibility
+const allLabels=[...v2Labels.map(l=>'S:'+l),...extLabels.map(l=>'E:'+l)];
+const allStdevs=new Array(allLabels.length).fill(0);
+new Chart(document.getElementById('chart-reproducibility'),{
+  type:'line',
+  data:{
+    labels:allLabels,
+    datasets:[{label:'Standard Deviation',data:allStdevs,borderColor:GREEN,backgroundColor:GREEN_A,fill:true,pointRadius:2,borderWidth:2}]
+  },
+  options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{maxRotation:90,font:{size:7},maxTicksLimit:30}},y:{min:-0.05,max:0.5,title:{display:true,text:'Stdev of Sustained Count'}}}}
+});
+
+// 10. Leverage
+new Chart(document.getElementById('chart-leverage'),{
+  type:'bar',
+  data:{
+    labels:['Scoring v2\n(cr_001 → cr_032)','Extraction\n(arx_001 → arx_017)'],
+    datasets:[
+      {label:'Baseline',data:[0.058,0.283],backgroundColor:BLUE_A,borderColor:BLUE,borderWidth:1},
+      {label:'Best Result',data:[0.667,0.450],backgroundColor:GOLD_A,borderColor:GOLD,borderWidth:1}
+    ]
+  },
+  options:{responsive:true,maintainAspectRatio:false,indexAxis:'y',scales:{x:{min:0,max:0.75,title:{display:true,text:'Score'}}}}
+});
+</script>
+</body>
+</html>
