@@ -23,23 +23,23 @@
 
   <style>
     :root {
-      --bg: #faf8f5;
-      --bg-warm: #f4f1ec;
-      --bg-card: #ffffff;
-      --bg-dark: #1a1a1a;
-      --text: #2a2520;
-      --text-secondary: #6b6460;
-      --text-dim: #a09890;
-      --accent: #b8942e;
-      --accent-soft: rgba(184, 148, 46, 0.08);
-      --accent-border: rgba(184, 148, 46, 0.25);
-      --border: rgba(42, 37, 32, 0.08);
-      --border-hover: rgba(42, 37, 32, 0.15);
-      --warm-red: #9e4a3a;
+      --bg: #0a0a0a;
+      --bg-secondary: #111111;
+      --bg-card: #181818;
+      --bg-elevated: #1a1a1a;
+      --text: #f0ece4;
+      --text-secondary: #b5b0a8;
+      --text-dim: #756f69;
+      --accent: #c9a84c;
+      --accent-soft: rgba(201, 168, 76, 0.08);
+      --accent-border: rgba(201, 168, 76, 0.25);
+      --border: rgba(240, 236, 228, 0.10);
+      --border-hover: rgba(240, 236, 228, 0.18);
+      --warm-red: #c8553a;
     }
 
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scrollbar-width: thin; scrollbar-color: var(--text-dim) var(--bg); }
 
     body {
       font-family: 'Instrument Sans', sans-serif;
@@ -48,12 +48,23 @@
       -webkit-font-smoothing: antialiased;
     }
 
+    /* Film grain */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
     /* ---- NAV ---- */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 1.25rem 3rem;
       display: flex; justify-content: space-between; align-items: center;
-      background: rgba(250, 248, 245, 0.95);
+      background: rgba(10, 10, 10, 0.95);
       border-bottom: 1px solid var(--border);
       backdrop-filter: blur(12px);
     }
@@ -61,8 +72,8 @@
     .nav-brand { text-decoration: none; display: flex; flex-direction: column; }
 
     .nav-name {
-      font-family: 'Cormorant Garamond', serif; font-weight: 400;
-      font-size: 1.2rem; letter-spacing: 0.12em; text-transform: uppercase;
+      font-family: 'Instrument Sans', sans-serif; font-weight: 700;
+      font-size: 1rem; letter-spacing: 0.15em; text-transform: uppercase;
       color: var(--text);
     }
 
@@ -77,7 +88,7 @@
 
     .nav-links a {
       font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 400;
-      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-secondary);
+      letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim);
       text-decoration: none; transition: color 0.3s ease;
     }
 
@@ -109,11 +120,10 @@
     }
 
     .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
+      font-weight: 700;
       font-size: clamp(2.4rem, 5.5vw, 3.8rem);
-      line-height: 1.2;
-      letter-spacing: -0.02em;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
       color: var(--text);
       max-width: 700px;
       margin-bottom: 1.5rem;
@@ -150,8 +160,8 @@
       font-size: 0.7rem;
       letter-spacing: 0.15em;
       text-transform: uppercase;
-      color: var(--bg);
-      background: var(--text);
+      color: #0a0a0a;
+      background: var(--accent);
       text-decoration: none;
       padding: 1rem 2.5rem;
       border-radius: 2px;
@@ -159,8 +169,16 @@
       display: inline-block;
     }
 
-    .hero-cta a:hover {
-      background: var(--accent);
+    .hero-cta a:hover { background: #d4b55a; }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(201,168,76,0.03), transparent),
+        radial-gradient(ellipse 40% 60% at 20% 80%, rgba(200,85,58,0.02), transparent);
+      pointer-events: none;
     }
 
     .scroll-hint {
@@ -210,10 +228,10 @@
     }
 
     section h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
+      font-weight: 700;
       font-size: 1.8rem;
-      line-height: 1.3;
+      line-height: 1.2;
+      letter-spacing: -0.02em;
       color: var(--text);
       margin-bottom: 1.5rem;
     }
@@ -246,7 +264,7 @@
 
     /* ---- TRIANGLE SECTION ---- */
     .triangle-section {
-      background: var(--bg-warm);
+      background: var(--bg-secondary);
       max-width: 100%;
       padding: 5rem 3rem;
     }
@@ -264,7 +282,7 @@
     }
 
     .tri-card {
-      background: var(--bg-card);
+      background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: 3px;
       padding: 1.75rem;
@@ -295,7 +313,7 @@
     }
 
     .fm-card {
-      background: var(--bg-card);
+      background: var(--bg-elevated);
       border: 1px solid var(--border);
       border-radius: 3px;
       padding: 1.5rem 1.75rem;
@@ -320,9 +338,8 @@
     }
 
     .fm-card .fm-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.05rem;
-      font-weight: 500;
+      font-size: 0.95rem;
+      font-weight: 600;
       color: var(--text);
       display: block;
     }
@@ -337,18 +354,16 @@
     }
 
     .quote-block p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.35rem;
-      font-weight: 400;
-      line-height: 1.5;
+      font-size: 1.1rem;
+      font-weight: 500;
+      line-height: 1.6;
       color: var(--text);
-      font-style: italic;
       margin: 0;
     }
 
     /* ---- CTA SECTION ---- */
     .cta-section {
-      background: var(--bg-dark);
+      background: var(--bg-secondary);
       max-width: 100%;
       padding: 5rem 3rem;
       text-align: center;
@@ -357,17 +372,17 @@
     .cta-inner { max-width: 600px; margin: 0 auto; }
 
     .cta-section h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
+      font-weight: 700;
       font-size: 2rem;
-      color: #f0ece4;
+      letter-spacing: -0.02em;
+      color: var(--text);
       margin-bottom: 1rem;
     }
 
     .cta-section p {
       font-size: 0.95rem;
       line-height: 1.7;
-      color: #8a8580;
+      color: var(--text-dim);
       margin-bottom: 2rem;
     }
 
@@ -399,13 +414,13 @@
 
     .cta-btn.secondary {
       background: transparent;
-      color: #8a8580;
-      border: 1px solid rgba(240,236,228,0.12);
+      color: var(--text-dim);
+      border: 1px solid var(--border);
     }
 
     .cta-btn.secondary:hover {
-      color: #f0ece4;
-      border-color: rgba(240,236,228,0.3);
+      color: var(--text);
+      border-color: var(--border-hover);
     }
 
     /* ---- ABOUT ---- */
@@ -435,6 +450,7 @@
       padding: 2rem 3rem;
       text-align: center;
       border-top: 1px solid var(--border);
+      background: var(--bg);
     }
 
     footer p {
@@ -536,7 +552,7 @@
   <div class="triangle-section">
     <div class="triangle-inner">
       <p class="section-label">The Framework</p>
-      <h2 style="font-family:'Cormorant Garamond',serif; font-weight:400; font-size:1.8rem; color:var(--text); margin-bottom:1rem;">The Coherence Triangle</h2>
+      <h2 style="font-weight:700; font-size:1.8rem; letter-spacing:-0.02em; color:var(--text); margin-bottom:1rem;">The Coherence Triangle</h2>
       <p style="font-size:0.95rem; line-height:1.85; color:var(--text-secondary); margin-bottom:0;">Every failure mode maps to one of three structural dimensions &mdash; the minimum conditions for an organization to function.</p>
 
       <div class="triangle-grid">
