@@ -7,6 +7,7 @@
 <meta name="description" content="A diagnostic demonstration showing what the Coherence Sprint surfaces for leaders navigating structural dysfunction.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -17,6 +18,7 @@
   --g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);
   --t1:#f0ece4;--t2:#b0ada6;--t3:#706d68;--t4:#3a3936;
   --bdr:rgba(240,236,228,.08);--bdr2:rgba(240,236,228,.14);
+  --warm:#c8553a;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -25,7 +27,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.02;pointer-events:none;z-index:9999}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,15,12,.97);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.nav-brand{text-decoration:none;display:flex;flex-direction:column}
+.nav-brand{text-decoration:none}
 .nav-name{font-weight:700;font-size:1rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t1)}
 .nav-role{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-top:2px}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
@@ -40,18 +42,34 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display
 
 .section{padding:3rem 0}
 .section-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
-.section h2{font-weight:700;font-size:1.3rem;color:var(--t1);margin-bottom:1rem;letter-spacing:-.02em}
 .section p{font-size:.95rem;line-height:1.85;color:var(--t2);margin-bottom:1rem}
 .section p:last-child{margin-bottom:0}
 .section strong{color:var(--t1);font-weight:600}
 
+/* Scorecard */
+.scorecard{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bdr);border-radius:4px;overflow:hidden;border:1px solid var(--bdr2);margin:1.5rem 0 2rem}
+.score-cell{background:var(--bg2);padding:1.5rem 1rem;text-align:center}
+.score-val{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--t1)}
+.score-val.stressed{color:var(--warm)}
+.score-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:.3rem}
+.score-note{font-size:.6rem;color:var(--t4);margin-top:.2rem}
+
 .finding{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:3px;padding:1.5rem 1.75rem;margin:1.5rem 0}
+.finding.active{border-left-color:var(--warm)}
 .finding-code{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.4rem}
+.finding.active .finding-code{color:var(--warm)}
 .finding-name{font-weight:700;font-size:1rem;color:var(--t1);margin-bottom:.5rem}
 .finding-desc{font-size:.88rem;color:var(--t2);line-height:1.75}
 
 .pullquote{border-left:3px solid var(--g);padding:1.5rem 0 1.5rem 2rem;margin:2rem 0}
 .pullquote p{font-size:1.1rem;line-height:1.6;color:var(--t1);font-weight:500;margin:0}
+
+.watch-list{background:var(--bg2);border:1px solid var(--bdr);border-radius:3px;padding:1.75rem;margin:1.5rem 0}
+.watch-item{font-size:.88rem;color:var(--t2);line-height:1.7;padding:.6rem 0;border-bottom:1px solid var(--bdr)}
+.watch-item:last-child{border-bottom:none}
+.watch-tag{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .5rem;border-radius:2px;margin-right:.5rem}
+.watch-tag.decay{color:var(--warm);background:rgba(200,85,58,.1);border:1px solid rgba(200,85,58,.2)}
+.watch-tag.improve{color:var(--g);background:var(--g-lo);border:1px solid var(--g-md)}
 
 .divider{border:none;border-top:1px solid var(--bdr);margin:0}
 
@@ -75,6 +93,7 @@ nav{padding:1rem 1.5rem}
 .col{padding:0 1.5rem}
 .page{padding:7rem 0 3rem}
 .nav-links{display:none}
+.scorecard{grid-template-columns:1fr}
 .footer-inner{flex-direction:column;gap:.75rem;text-align:center}
 }
 </style>
@@ -92,7 +111,6 @@ nav{padding:1rem 1.5rem}
 </div>
 </a>
 <ul class="nav-links">
-<li><a href="/#about">About</a></li>
 <li><a href="/#contact">Contact</a></li>
 </ul>
 </nav>
@@ -108,7 +126,8 @@ nav{padding:1rem 1.5rem}
 <div class="col">
 <div class="section">
 <div class="section-label">The Entity</div>
-<p>A publicly traded automotive manufacturer undergoing a platform transition. Internal diagnostics showed engagement scores holding steady. The CEO suspected the numbers were masking something structural.</p>
+<p>A publicly traded fintech platform. Rapid growth, expanding product lines, increasing regulatory scrutiny. The leadership team suspected structural friction but internal diagnostics (engagement surveys, OKR reviews) showed nothing actionable.</p>
+<p>The Coherence diagnostic processed 844 public documents across three source categories: job postings, regulatory filings, and consumer complaints. Data quality grade: <strong>B</strong>.</p>
 </div>
 
 <hr class="divider">
@@ -116,19 +135,31 @@ nav{padding:1rem 1.5rem}
 <div class="section">
 <div class="section-label">What the Diagnostic Found</div>
 
-<div class="finding">
-<div class="finding-code">FM-08</div>
-<div class="finding-name">Decision Latency</div>
-<div class="finding-desc">Decisions that required days were taking weeks. Authority was distributed across legacy divisions that no longer matched the product architecture. Each decision required informal consensus across boundaries that the org chart said did not exist.</div>
+<div class="scorecard">
+<div class="score-cell"><div class="score-val stressed">0.40</div><div class="score-label">Overall Coherence</div><div class="score-note">Structural tension</div></div>
+<div class="score-cell"><div class="score-val">0.42</div><div class="score-label">Truth</div><div class="score-note">Omission pattern</div></div>
+<div class="score-cell"><div class="score-val stressed">0.39</div><div class="score-label">Authority</div><div class="score-note">Most stressed</div></div>
 </div>
 
-<div class="finding">
-<div class="finding-code">FM-17</div>
-<div class="finding-name">Structural Amnesia</div>
-<div class="finding-desc">The organization had reorganized twice in eighteen months. Context from the first reorg did not survive into the second. Teams were operating on assumptions about roles, boundaries, and mandates that no longer held. Nobody corrected them because nobody remembered the original intent.</div>
+<p>15 findings sustained through adversarial debate. 5 rejected for insufficient evidence. The diagnostic found structural stress concentrated in the <strong>Authority vertex</strong>, with a defining asymmetry:</p>
+
+<div class="finding active">
+<div class="finding-code">FM-01 &middot; Active</div>
+<div class="finding-name">Responsibility Compression</div>
+<div class="finding-desc">Decision authority for critical customer issues is compressed into senior compliance roles. Frontline support cannot resolve account access problems without escalation. Customers wait. Cases queue. The people closest to the problem lack the authority to fix it.</div>
 </div>
 
-<p><strong>Authority vertex fractured. Continuity eroding.</strong> Truth scores held, but the information reaching leadership described an organization that no longer existed in the form being reported.</p>
+<div class="finding active">
+<div class="finding-code">FM-02 &middot; Active</div>
+<div class="finding-name">Escalation Inversion</div>
+<div class="finding-desc">30 defensive escalation signals detected. Escalation is used for accountability transfer rather than resolution. Issues circulate between teams without ownership. The escalation path exists to distribute blame, not to solve the problem.</div>
+</div>
+
+<div class="pullquote">
+<p>Authority compresses when the organization restricts. It diffuses when the organization needs to resolve. The organization can act decisively to limit access but cannot act decisively to restore it.</p>
+</div>
+
+<p>The <strong>Truth vertex</strong> showed a different pattern: not contradiction, but silence. The center narrative did not make false claims. It simply did not address what edge data was showing. 573 consumer complaints described a product and support reality that the center narrative did not reference. The gap is not deception. It is omission.</p>
 </div>
 
 <hr class="divider">
@@ -136,13 +167,18 @@ nav{padding:1rem 1.5rem}
 <div class="section">
 <div class="section-label">What This Means for a Leader</div>
 
-<div class="pullquote">
-<p>The engagement surveys said the organization was fine. The structure said it was fragmenting.</p>
+<p>Internal diagnostics showed nothing because they measure sentiment, not structure. Engagement scores were stable. The OKR dashboard was green. But underneath those numbers, decision authority was misaligned with responsibility, and escalation paths were being used defensively rather than productively.</p>
+
+<p>A Coherence Sprint surfaces these conditions in 3 to 4 weeks. It maps all 17 failure modes across the three vertices, identifies cascade risks (FM-01 feeds FM-02, which feeds FM-10 Leadership Saturation), and produces a structural map that tells the leader exactly where the breaks are.</p>
+
+<div class="section-label" style="margin-top:2rem">Watch List</div>
+<div class="watch-list">
+<div class="watch-item"><span class="watch-tag decay">Decay</span>Authority score trajectory over the next 2 collection periods</div>
+<div class="watch-item"><span class="watch-tag decay">Decay</span>FM-01 and FM-02 evidence density for intensification signals</div>
+<div class="watch-item"><span class="watch-tag decay">Decay</span>Compression, escalation bounceback, and context gap recurrence</div>
+<div class="watch-item"><span class="watch-tag improve">Monitor</span>Truth score below 0.50. Watch for narrative adjustments addressing edge signals</div>
+<div class="watch-item"><span class="watch-tag improve">Monitor</span>Metric displacement: 3 metric mentions vs. 1,294 complaints</div>
 </div>
-
-<p>Internal diagnostics (engagement surveys, town halls, skip-levels) could not name the problem because the dysfunction was structural, not cultural. People were not disengaged. They were operating inside a structure that no longer supported the decisions they needed to make.</p>
-
-<p>A Coherence Sprint maps all 17 failure modes across the three vertices and shows the leader exactly where the breaks are, which conditions are compounding, and which interventions would address structure rather than symptoms.</p>
 </div>
 </div>
 

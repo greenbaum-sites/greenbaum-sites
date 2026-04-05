@@ -7,6 +7,7 @@
 <meta name="description" content="A diagnostic demonstration showing what the Portfolio Diagnostic surfaces for PE firms evaluating acquisitions.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -17,6 +18,7 @@
   --g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);
   --t1:#f0ece4;--t2:#b0ada6;--t3:#706d68;--t4:#3a3936;
   --bdr:rgba(240,236,228,.08);--bdr2:rgba(240,236,228,.14);
+  --warm:#c8553a;
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
@@ -25,7 +27,7 @@ body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t
 body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.02;pointer-events:none;z-index:9999}
 
 nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,15,12,.97);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
-.nav-brand{text-decoration:none;display:flex;flex-direction:column}
+.nav-brand{text-decoration:none}
 .nav-name{font-weight:700;font-size:1rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t1)}
 .nav-role{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-top:2px}
 .nav-links{display:flex;gap:2.5rem;list-style:none}
@@ -40,10 +42,16 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display
 
 .section{padding:3rem 0}
 .section-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
-.section h2{font-weight:700;font-size:1.3rem;color:var(--t1);margin-bottom:1rem;letter-spacing:-.02em}
 .section p{font-size:.95rem;line-height:1.85;color:var(--t2);margin-bottom:1rem}
 .section p:last-child{margin-bottom:0}
 .section strong{color:var(--t1);font-weight:600}
+
+.scorecard{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--bdr);border-radius:4px;overflow:hidden;border:1px solid var(--bdr2);margin:1.5rem 0 2rem}
+.score-cell{background:var(--bg2);padding:1.5rem 1rem;text-align:center}
+.score-val{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--t1)}
+.score-val.stressed{color:var(--warm)}
+.score-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-top:.3rem}
+.score-note{font-size:.6rem;color:var(--t4);margin-top:.2rem}
 
 .finding{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:3px;padding:1.5rem 1.75rem;margin:1.5rem 0}
 .finding-code{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.4rem}
@@ -52,6 +60,13 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display
 
 .pullquote{border-left:3px solid var(--g);padding:1.5rem 0 1.5rem 2rem;margin:2rem 0}
 .pullquote p{font-size:1.1rem;line-height:1.6;color:var(--t1);font-weight:500;margin:0}
+
+.watch-list{background:var(--bg2);border:1px solid var(--bdr);border-radius:3px;padding:1.75rem;margin:1.5rem 0}
+.watch-item{font-size:.88rem;color:var(--t2);line-height:1.7;padding:.6rem 0;border-bottom:1px solid var(--bdr)}
+.watch-item:last-child{border-bottom:none}
+.watch-tag{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:.15rem .5rem;border-radius:2px;margin-right:.5rem}
+.watch-tag.decay{color:var(--warm);background:rgba(200,85,58,.1);border:1px solid rgba(200,85,58,.2)}
+.watch-tag.improve{color:var(--g);background:var(--g-lo);border:1px solid var(--g-md)}
 
 .divider{border:none;border-top:1px solid var(--bdr);margin:0}
 
@@ -75,6 +90,7 @@ nav{padding:1rem 1.5rem}
 .col{padding:0 1.5rem}
 .page{padding:7rem 0 3rem}
 .nav-links{display:none}
+.scorecard{grid-template-columns:1fr}
 .footer-inner{flex-direction:column;gap:.75rem;text-align:center}
 }
 </style>
@@ -92,7 +108,6 @@ nav{padding:1rem 1.5rem}
 </div>
 </a>
 <ul class="nav-links">
-<li><a href="/#about">About</a></li>
 <li><a href="/#contact">Contact</a></li>
 </ul>
 </nav>
@@ -108,22 +123,42 @@ nav{padding:1rem 1.5rem}
 <div class="col">
 <div class="section">
 <div class="section-label">The Entity</div>
-<p>A mid-cap fintech platform. Clean financials. Strong unit economics. Active PE acquisition target. Financial due diligence showed a healthy business.</p>
+<p>A publicly traded automotive and energy platform undergoing a major platform transition. Strong brand. Growing revenue. Active acquisition target for institutional investors evaluating the EV sector.</p>
+<p>Financial due diligence showed a healthy business. The Coherence diagnostic processed 42 public documents (35 center, 7 edge) across 4 collection periods. Data quality grade: <strong>B</strong>.</p>
 </div>
 
 <hr class="divider">
 
 <div class="section">
 <div class="section-label">What the Diagnostic Found</div>
-<p>Highest evidence density in the fleet. Consumer complaints, regulatory filings, and employee disclosures produced more diagnostic signal per entity than any other sector scored.</p>
 
-<div class="finding">
-<div class="finding-code">FM-01</div>
-<div class="finding-name">Responsibility Compression</div>
-<div class="finding-desc">Customer-facing teams absorbed structural failures upstream and managed them through individual effort rather than organizational infrastructure. Resolution depended on specific people, not repeatable systems.</div>
+<div class="scorecard">
+<div class="score-cell"><div class="score-val">0.48</div><div class="score-label">Overall Coherence</div><div class="score-note">Moderate tension</div></div>
+<div class="score-cell"><div class="score-val stressed">0.46</div><div class="score-label">Truth</div><div class="score-note">Most stressed</div></div>
+<div class="score-cell"><div class="score-val">0.50</div><div class="score-label">Authority</div><div class="score-note">Compression pattern</div></div>
 </div>
 
-<p><strong>Truth vertex stressed.</strong> The gap between the company's public narrative and its observable operational reality was wider than any other fintech entity scored. What leadership described in earnings calls did not match what surfaced in complaint filings and regulatory correspondence.</p>
+<p>The diagnostic found structural stress concentrated in the <strong>Truth vertex</strong>. The pattern was not contradiction but selective framing: the center narrative emphasized product innovation while omitting operational and cultural signals visible in edge data.</p>
+
+<div class="finding">
+<div class="finding-code">Truth &middot; Omission</div>
+<div class="finding-name">Selective Narrative Framing</div>
+<div class="finding-desc">The center narrative emphasizes technology leadership and market expansion. Edge data shows a different reality: customer complaints about service and communication are not reflected in any center claims. Employee reviews describe operational friction that job postings do not acknowledge. The narrative focuses on product strengths at the expense of support and culture issues.</div>
+</div>
+
+<div class="finding">
+<div class="finding-code">Truth &middot; Contradiction</div>
+<div class="finding-name">Financial Narrative vs. Market Reality</div>
+<div class="finding-desc">The organization reports rising sales in a key growth market while the broader market is slowing. This contradiction remains unchallenged in the center narrative, suggesting selective framing of external conditions to support revenue growth claims.</div>
+</div>
+
+<div class="pullquote">
+<p>Financial due diligence showed a growth story. The structural diagnostic showed an organization whose public narrative and observable reality are diverging. The gap is widening, not closing.</p>
+</div>
+
+<p><strong>Authority showed moderate compression</strong>: decision-making is concentrated in oversight roles. Senior-level hiring in compliance and risk is increasing, but customer and employee reports describe unresolved issues at the frontline. Resolution authority is not delegated downward.</p>
+
+<p>Emerging signals flagged <strong>interpretive fragmentation</strong> (contradictions recurring across 2 collection periods), <strong>metric displacement</strong> (3 metric mentions vs. 125 complaints), and <strong>culture concentration</strong> (46 observations clustered around employee experience). No failure modes crossed the active threshold, but the trajectory is concerning.</p>
 </div>
 
 <hr class="divider">
@@ -131,13 +166,24 @@ nav{padding:1rem 1.5rem}
 <div class="section">
 <div class="section-label">What This Means for an Investor</div>
 
-<div class="pullquote">
-<p>Financial due diligence showed a healthy business. The diagnostic showed a business where execution depended on individual heroics rather than structural reliability.</p>
+<p>The financials are clean. The structural diagnostic reveals what the financials cannot: an organization where the gap between what is communicated and what is experienced is widening. For an investor, this creates three specific risks:</p>
+
+<p><strong>Narrative risk.</strong> If the Truth score continues to decline, the organization's public positioning becomes increasingly detached from operational reality. This creates vulnerability to regulatory scrutiny, media coverage, or employee disclosure.</p>
+
+<p><strong>Execution risk.</strong> Authority compression means decisions concentrate at the top while frontline issues go unresolved. Post-acquisition, this pattern constrains the speed of any operational improvement thesis.</p>
+
+<p><strong>Integration risk.</strong> Cultural signals in edge data suggest friction that the center narrative does not acknowledge. Installing new leadership into this environment without understanding these conditions increases the probability of leadership failure.</p>
+
+<div class="section-label" style="margin-top:2rem">Watch List</div>
+<div class="watch-list">
+<div class="watch-item"><span class="watch-tag decay">Decay</span>Truth score trajectory. Currently below 0.50 and the most stressed vertex</div>
+<div class="watch-item"><span class="watch-tag decay">Decay</span>Interpretive fragmentation recurring across collection periods</div>
+<div class="watch-item"><span class="watch-tag decay">Decay</span>Metric displacement: 3 metric mentions vs. 125 complaints</div>
+<div class="watch-item"><span class="watch-tag improve">Monitor</span>Culture complaints (46 observations) for escalation or resolution</div>
+<div class="watch-item"><span class="watch-tag improve">Monitor</span>Signal classification gaps (17% of segments) for emerging patterns</div>
 </div>
 
-<p>Post-acquisition, that dependency becomes a risk. The people holding it together may leave during the transition, and the structure underneath them will not compensate. What looks like a scaling opportunity in the financial model is actually a concentration risk in the operating model.</p>
-
-<p>A quarterly monitoring engagement tracks whether these conditions improve or degrade after the deal closes. The same instrument that diagnosed the pre-acquisition state measures the post-acquisition trajectory.</p>
+<p style="margin-top:1.5rem">A quarterly monitoring engagement tracks whether these conditions improve or degrade. The same instrument that diagnosed the pre-acquisition state measures the post-acquisition trajectory.</p>
 </div>
 </div>
 
