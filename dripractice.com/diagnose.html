@@ -374,7 +374,7 @@ function renderQ(){
   const opts=q.isCtx?q.opts.map(l=>({l,a:0})):q.opts;
   opts.forEach((o,i)=>{const d=document.createElement('div');d.className='option';d.innerHTML='<div class="radio"><div class="radio-dot"></div></div><div class="option-text">'+(o.l||o)+'</div>';d.onclick=()=>selOpt(i);c.appendChild(d)})
 }
-function selOpt(i){si=i;document.querySelectorAll('.option').forEach((el,j)=>el.classList.toggle('selected',j===i));document.getElementById('nextBtn').disabled=false}
+function selOpt(i){si=i;document.querySelectorAll('#optionsContainer .option').forEach((el,j)=>el.classList.toggle('selected',j===i));document.getElementById('nextBtn').disabled=false}
 function goNext(){
   if(si===null)return;
   const q=allQs[ci];res[q.id]=q.isCtx?q.opts[si]:q.opts[si].a;
