@@ -1,645 +1,291 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Greenbaum Labs</title>
-<meta name="description" content="Diagnostic instruments for organizational coherence. Greenbaum Labs measures the structural gap between what organizations say and what they do.">
+<title>Greenbaum Labs — Structural Diagnostics for Organizations</title>
+<meta name="description" content="Bloodwork for how your organization makes decisions. A structural diagnostic practice that measures the conditions that produce failure, before the failure arrives.">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
 <link rel="icon" href="/favicon.ico" sizes="32x32">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://greenbaumlabs.com/">
-<meta property="og:title" content="Greenbaum Labs">
-<meta property="og:description" content="Diagnostic instruments for organizational coherence.">
+<meta property="og:title" content="Greenbaum Labs — Structural Diagnostics for Organizations">
+<meta property="og:description" content="Bloodwork for how your organization makes decisions. Structural diagnostics that measure the conditions that produce failure, before the failure arrives.">
 <meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Greenbaum Labs">
-<meta name="twitter:description" content="Diagnostic instruments for organizational coherence.">
+<meta name="twitter:title" content="Greenbaum Labs — Structural Diagnostics for Organizations">
+<meta name="twitter:description" content="Bloodwork for how your organization makes decisions.">
 <meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════
-   GREENBAUM LABS v11 — Elevated Visual Design
-   Strong dark/light alternation, atmospheric sections
-   ═══════════════════════════════════════════════ */
-
-:root{
-/* DARK palette — Deep Emerald */
---bg:#07110C;--bg2:#0A1812;--bg3:#0D1E17;
---bg-light:#F6F5F2;--bg-light2:#EEEDEA;--bg-light3:#E5E4E0;
---card:#0A1812;--card-h:#0D1E17;
---card-light:#FFFFFF;--card-light-h:#FAFAF8;
---bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.12);
---bdr-light:rgba(0,0,0,.08);
---g:#34D399;--g2:#5EEAD4;--g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);--g-hi:rgba(52,211,153,.2);--g-glow:rgba(52,211,153,.3);
---g-dark:#059669;
---t1:#F0F0F0;--t2:#A8B0A8;--t3:#6B7A6E;--t4:#3A4A3D;
---t1-light:#111;--t2-light:#555;--t3-light:#888;--t4-light:#CCC;
-}
-html[data-theme="light"]{
---bg:#FAFAF8;--bg2:#F2F1EE;--bg3:#E8E7E3;
---bg-light:#07110C;--bg-light2:#0A1812;--bg-light3:#0D1E17;
---card:#FFFFFF;--card-h:#F7F7F5;
---card-light:#0A1812;--card-light-h:#0D1E17;
---bdr:rgba(0,0,0,.07);--bdr2:rgba(0,0,0,.12);
---bdr-light:rgba(255,255,255,.08);
---g:#059669;--g2:#10B981;--g-lo:rgba(5,150,105,.04);--g-md:rgba(5,150,105,.08);--g-hi:rgba(5,150,105,.14);--g-glow:rgba(5,150,105,.2);
---g-dark:#34D399;
---t1:#111;--t2:#555;--t3:#888;--t4:#CCC;
---t1-light:#F0F0F0;--t2-light:#A8B0A8;--t3-light:#6B7A6E;--t4-light:#3A4A3D;
+:root {
+  --bg:#0a0f0c;--bg2:#111a14;--bg3:#162119;
+  --g:#34D399;--g2:#5EEAD4;
+  --g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);
+  --g-glow:rgba(52,211,153,.3);
+  --t1:#f0ece4;--t2:#b0ada6;--t3:#706d68;--t4:#3a3936;
+  --bdr:rgba(240,236,228,.08);--bdr2:rgba(240,236,228,.14);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
-body{background:var(--bg);color:var(--t2);font-family:'Instrument Sans',sans-serif;overflow-x:hidden;transition:background .5s,color .5s}
-::selection{background:var(--g-hi);color:var(--t1)}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t2);overflow-x:hidden}
+::selection{background:rgba(52,211,153,.2);color:var(--t1)}
 
-.prog{position:fixed;top:0;left:0;height:2px;background:var(--g);z-index:200;width:0;pointer-events:none;box-shadow:0 0 12px var(--g-glow)}
+/* Film grain */
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.02;pointer-events:none;z-index:9999}
 
 /* ═══ NAV ═══ */
-nav{position:fixed;top:0;left:0;right:0;z-index:100;height:56px;display:flex;align-items:center;justify-content:space-between;padding:0 2.5rem;background:rgba(7,17,12,.92);backdrop-filter:blur(24px) saturate(1.4);-webkit-backdrop-filter:blur(24px) saturate(1.4);border-bottom:1px solid var(--bdr);transition:all .5s}
-html[data-theme="light"] nav{background:rgba(250,250,248,.85)}
-.nm{display:flex;align-items:center;gap:.7rem;text-decoration:none}
-.nm svg{width:28px;height:28px}
-.nw{font-size:.75rem;font-weight:700;color:var(--t1);letter-spacing:.15em;text-transform:uppercase;transition:color .5s}
-.nr{display:flex;align-items:center;gap:1.5rem}
-.nl{display:flex;gap:1.5rem;list-style:none}
-.nl a{font-size:.65rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);text-decoration:none;transition:color .3s}
-.nl a:hover{color:var(--g)}
-.nt{display:none;flex-direction:column;gap:4px;background:none;border:none;cursor:pointer;padding:4px}
-.nt span{width:18px;height:1.5px;background:var(--t3);display:block}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,15,12,.97);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-brand{text-decoration:none;display:flex;flex-direction:column}
+.nav-name{font-weight:700;font-size:1rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t1)}
+.nav-role{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-top:2px}
+.nav-links{display:flex;gap:2.5rem;list-style:none;align-items:center}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:var(--t1)}
+.nav-links a.ext::after{content:' \2197';font-size:.5rem}
+.nt{display:none;background:none;border:none;cursor:pointer;padding:.5rem}
+.nt span{display:block;width:20px;height:1px;background:var(--t1);margin:5px 0}
 
-/* ═══ HERO — Full atmosphere ═══ */
-.hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:56px 2rem 3rem;position:relative;overflow:hidden;background:#060E0A}
+/* ═══ CONTENT COLUMN ═══ */
+.col{max-width:800px;margin:0 auto;padding:0 3rem}
+.col-wide{max-width:1100px;margin:0 auto;padding:0 3rem}
 
-/* Dot grid texture */
-.hero::before{content:'';position:absolute;inset:0;
-background-image:radial-gradient(circle,rgba(52,211,153,.12) 1px,transparent 1px);
-background-size:40px 40px;pointer-events:none;
-mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,black 20%,transparent 70%);
--webkit-mask-image:radial-gradient(ellipse 80% 70% at 50% 45%,black 20%,transparent 70%);
-animation:dot-drift 20s linear infinite}
-html[data-theme="light"] .hero::before{background-image:radial-gradient(circle,rgba(5,150,105,.05) 1px,transparent 1px)}
-@keyframes dot-drift{0%{background-position:0 0}100%{background-position:40px 40px}}
+/* ═══ HERO ═══ */
+.hero{padding:10rem 0 4rem}
+.hero-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:2rem;display:flex;align-items:center;gap:.75rem;opacity:0;animation:fadeUp .8s ease .2s forwards}
+.hero-eyebrow::before{content:'';width:24px;height:1px;background:var(--g);opacity:.5}
+.hero h1{font-weight:700;font-size:clamp(2.2rem,5vw,3.2rem);line-height:1.12;letter-spacing:-.03em;color:var(--t1);margin-bottom:2rem;opacity:0;animation:fadeUp .8s ease .4s forwards}
+.hero-sub{font-size:1.1rem;line-height:1.8;color:var(--t2);max-width:620px;opacity:0;animation:fadeUp .8s ease .6s forwards}
+@keyframes fadeUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 
-/* Glow layers hidden — clean evergreen */
-.hero-glow{display:none}
+/* ═══ DIVIDER ═══ */
+.divider{border:none;border-top:1px solid var(--bdr);margin:0}
 
-.hero-mark-wrap{position:relative;z-index:1;margin-bottom:2.5rem}
-.hero-mark-glow{display:none}
-.hero-mark{width:220px;height:220px;opacity:0;
-filter:drop-shadow(0 0 6px rgba(52,211,153,.5)) drop-shadow(0 0 20px rgba(52,211,153,.22)) drop-shadow(0 0 50px rgba(52,211,153,.07));
-animation:mark-in 1.6s cubic-bezier(.16,1,.3,1) .3s forwards}
-html[data-theme="light"] .hero-mark{filter:drop-shadow(0 0 6px rgba(5,150,105,.6)) drop-shadow(0 0 20px rgba(5,150,105,.3)) drop-shadow(0 0 60px rgba(5,150,105,.12))}
-@keyframes mark-in{0%{opacity:0;transform:scale(.92)}100%{opacity:1;transform:scale(1)}}
+/* ═══ DOORS ═══ */
+.doors{padding:4rem 0 5rem}
+.doors-header{margin-bottom:2.5rem}
+.doors-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--g);margin-bottom:.75rem}
+.diag-link{font-size:.9rem;color:var(--t3)}
+.diag-link a{color:var(--g2);text-decoration:none;border-bottom:1px solid rgba(94,234,212,.2);transition:border-color .3s}
+.diag-link a:hover{border-color:var(--g2)}
 
-.hero-name{position:relative;z-index:1;font-size:clamp(2.6rem,6.5vw,5.5rem);font-weight:700;letter-spacing:-.04em;color:var(--t1);line-height:1;margin-bottom:1.5rem;transition:color .5s;animation:text-up .9s cubic-bezier(.16,1,.3,1) 1.4s both}
-.hero-name .g{color:var(--g)}
-.hero-desc{position:relative;z-index:1;font-size:1.15rem;color:var(--t2);line-height:1.7;max-width:580px;transition:color .5s;animation:text-up .9s cubic-bezier(.16,1,.3,1) 1.7s both}
-@keyframes text-up{0%{opacity:0;transform:translateY(24px)}100%{opacity:1;transform:translateY(0)}}
+.doors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.door{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:3px;padding:2rem 1.75rem;display:flex;flex-direction:column;transition:all .3s}
+.door:hover{background:var(--bg3);border-color:var(--bdr2);border-left-color:var(--g)}
+.door-question{font-size:1.2rem;font-weight:700;color:var(--t1);line-height:1.2;margin-bottom:.4rem}
+.door-service{display:block;font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:1.25rem}
+.door-desc{font-size:.88rem;color:var(--t2);line-height:1.75;flex-grow:1}
+.door-desc p+p{margin-top:.75rem}
+.door-for{font-size:.78rem;color:var(--t3);margin-top:1.25rem;padding-top:1rem;border-top:1px solid var(--bdr)}
+.door-links{display:flex;flex-direction:column;gap:.35rem;margin-top:1.25rem}
+.door-links a{font-size:.78rem;text-decoration:none;transition:color .3s}
+.door-links a.primary{font-family:'JetBrains Mono',monospace;font-weight:500;color:var(--g);letter-spacing:.02em}
+.door-links a.primary:hover{color:var(--g2)}
+.door-links a.secondary{color:var(--t4)}
+.door-links a.secondary:hover{color:var(--t3)}
 
-.hero-scroll{position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);z-index:1;animation:text-up .9s cubic-bezier(.16,1,.3,1) 2.2s both}
-.hero-scroll span{display:block;width:1px;height:48px;background:linear-gradient(to bottom,var(--g),transparent);animation:scroll-line 2s ease-in-out infinite}
-@keyframes scroll-line{0%{opacity:0;transform:scaleY(0);transform-origin:top}30%{opacity:1;transform:scaleY(1)}100%{opacity:0;transform:scaleY(1);transform-origin:bottom}}
+/* ═══ LIGHT SECTION ═══ */
+.sec-light{background:#F6F5F2}
+.sec-light .doors-header{color:#555}
+.sec-light .doors-label{color:#059669}
+.sec-light .diag-link{color:#777}
+.sec-light .diag-link a{color:#059669;border-bottom-color:rgba(5,150,105,.25)}
+.sec-light .diag-link a:hover{border-color:#059669}
+.sec-light .door{background:#fff;border-color:rgba(0,0,0,.07);border-left-color:#34D399}
+.sec-light .door:hover{background:#FAFAF8;border-color:rgba(0,0,0,.12);border-left-color:#34D399}
+.sec-light .door-question{color:#111}
+.sec-light .door-service{color:#059669}
+.sec-light .door-desc{color:#555}
+.sec-light .door-for{color:#888;border-color:rgba(0,0,0,.07)}
+.sec-light .door-links a.primary{color:#059669}
+.sec-light .door-links a.primary:hover{color:#047857}
+.sec-light .door-links a.secondary{color:#aaa}
+.sec-light .door-links a.secondary:hover{color:#777}
 
-/* ═══ SECTION SYSTEM — Alternating dark/light ═══ */
-.wrap{max-width:1100px;margin:0 auto;padding:0 2.5rem}
-.sec{padding:8rem 0;position:relative}
+/* ═══ CREDENTIALS ═══ */
+.cred{padding:4rem 0 5rem}
+.cred-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.25rem;margin-bottom:2rem}
+.cred-cell{background:var(--bg2);border:1px solid var(--bdr);border-radius:3px;padding:1.5rem 1.25rem;text-align:center}
+.cred-val{font-weight:700;font-size:.95rem;color:var(--t1);margin-bottom:.3rem}
+.cred-label{font-family:'JetBrains Mono',monospace;font-size:.45rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3)}
+.cred-footer{text-align:center}
+.cred-footer p{font-size:.88rem;color:var(--t3);margin-bottom:.75rem}
+.cred-footer a{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--g);text-decoration:none;padding:.75rem 2rem;background:var(--g-lo);border:1px solid var(--g-md);border-radius:3px;transition:all .3s}
+.cred-footer a:hover{background:var(--g-md);border-color:var(--g)}
 
-/* DARK sections */
-.sec-dark{background:var(--bg);color:var(--t2);transition:background .5s}
-.sec-dark .sec-label{color:var(--g)}
-.sec-dark .sec-h{color:var(--t1)}
-.sec-dark .sec-p{color:var(--t3)}
+/* ═══ CTA ═══ */
+.cta{padding:4rem 0 8rem;text-align:center}
+.cta-h{font-weight:700;font-size:clamp(1.8rem,3vw,2.6rem);letter-spacing:-.03em;color:var(--t1);margin-bottom:1rem}
+.cta-p{font-size:.95rem;color:var(--t3);line-height:1.75;margin-bottom:2rem;max-width:480px;margin-left:auto;margin-right:auto}
+.cta-email{display:inline-block;text-align:center;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#000;text-decoration:none;padding:1.1rem 2.5rem;background:var(--g);border-radius:3px;transition:all .3s}
+.cta-email:hover{background:var(--g2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(52,211,153,.15)}
 
-/* LIGHT sections — real contrast */
-.sec-light{background:var(--bg-light);color:var(--t2-light);transition:background .5s;position:relative}
-.sec-light .sec-label{color:var(--g-dark)}
-.sec-light .sec-h{color:var(--t1-light)}
-.sec-light .sec-p{color:var(--t3-light)}
+/* ═══ FOOTER ═══ */
+footer{border-top:1px solid var(--bdr);padding:2rem 3rem}
+.footer-inner{max-width:800px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:.65rem;color:var(--t4)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:.7rem;color:var(--t3);text-decoration:none;transition:color .3s}
+.footer-links a:hover{color:var(--g)}
 
-/* Section typography */
-.sec-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;margin-bottom:.75rem;display:flex;align-items:center;gap:.75rem}
-.sec-label::before{content:'';width:24px;height:1px;background:currentColor;opacity:.5}
-.sec-h{font-weight:700;font-size:clamp(2rem,3.5vw,3.2rem);line-height:1.08;letter-spacing:-.035em;margin-bottom:1.2rem;transition:color .5s}
-.sec-p{font-size:.98rem;line-height:1.8;max-width:540px;transition:color .5s}
-
-/* ═══ DIAMOND DIVIDER — Neon line emitting from diamond ═══ */
-.gem-div{position:relative;height:0;display:flex;align-items:center;justify-content:center;z-index:2}
-/* The neon line */
-.gem-div::before{content:'';position:absolute;left:0;right:0;top:50%;height:1px;
-background:linear-gradient(90deg,transparent 2%,rgba(52,211,153,.06) 15%,rgba(52,211,153,.25) 40%,rgba(52,211,153,.5) 48%,rgba(52,211,153,.5) 52%,rgba(52,211,153,.25) 60%,rgba(52,211,153,.06) 85%,transparent 98%)}
-/* Soft glow behind the line */
-.gem-div::after{content:'';position:absolute;left:15%;right:15%;top:50%;height:2px;transform:translateY(-50%);
-background:linear-gradient(90deg,transparent,rgba(52,211,153,.1) 35%,rgba(52,211,153,.2) 50%,rgba(52,211,153,.1) 65%,transparent);
-filter:blur(3px)}
-/* The diamond itself */
-.gem-div svg{position:relative;z-index:1;width:14px;height:14px;color:var(--g);
-filter:drop-shadow(0 0 3px rgba(52,211,153,.6)) drop-shadow(0 0 8px rgba(52,211,153,.2))}
-/* Light theme overrides */
-html[data-theme="light"] .gem-div::before{
-background:linear-gradient(90deg,transparent 2%,rgba(5,150,105,.04) 15%,rgba(5,150,105,.18) 40%,rgba(5,150,105,.35) 48%,rgba(5,150,105,.35) 52%,rgba(5,150,105,.18) 60%,rgba(5,150,105,.04) 85%,transparent 98%)}
-html[data-theme="light"] .gem-div::after{
-background:linear-gradient(90deg,transparent,rgba(5,150,105,.1) 35%,rgba(5,150,105,.2) 50%,rgba(5,150,105,.1) 65%,transparent)}
-html[data-theme="light"] .gem-div svg{
-filter:drop-shadow(0 0 4px rgba(5,150,105,.4)) drop-shadow(0 0 12px rgba(5,150,105,.15))}
-
-/* ═══ DRI SECTION (dark) ═══ */
-.dri-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;align-items:center}
-.tri-area{display:flex;justify-content:center;position:relative}
-.tri-area::before{content:'';position:absolute;inset:-40px;background:radial-gradient(circle at center,rgba(52,211,153,.06) 0%,transparent 70%);border-radius:50%;pointer-events:none}
-html[data-theme="light"] .tri-area::before{background:radial-gradient(circle at center,rgba(5,150,105,.04) 0%,transparent 70%)}
-.tsvg{width:100%;max-width:320px;position:relative;z-index:1}
-.tri-line{stroke-dasharray:700;stroke-dashoffset:700;transition:stroke-dashoffset 2s cubic-bezier(.16,1,.3,1)}
-.tri-line.drawn{stroke-dashoffset:0}
-.tri-dot{opacity:0;transform-origin:center;transition:opacity .4s,transform .4s}
-.tri-dot.drawn{opacity:1;transform:scale(1)}
-.tri-lbl{opacity:0;transition:opacity .5s}
-.tri-lbl.drawn{opacity:1}
-.tax-list{display:flex;flex-direction:column}
-.tx{display:flex;gap:1.25rem;align-items:center;padding:1.5rem 0;border-bottom:1px solid var(--bdr);transition:border .5s}
-.tx:first-child{padding-top:0}
-.tx:last-child{border-bottom:none;padding-bottom:0}
-.tx-n{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:600;color:var(--g);min-width:52px;transition:color .5s}
-.tx-t{font-size:.65rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t1);transition:color .5s}
-.tx-d{font-size:.86rem;color:var(--t3);line-height:1.6;margin-top:.2rem;transition:color .5s}
-.fw-link{display:inline-flex;align-items:center;gap:.5rem;font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:500;color:var(--g);text-decoration:none;margin-top:2rem;padding:.6rem 1.2rem;background:var(--g-lo);border:1px solid var(--g-md);border-radius:4px;transition:all .3s}
-.fw-link:hover{background:var(--g-md);border-color:var(--g)}
-/* Light-section overrides for taxonomy */
-.sec-light .tx-t{color:var(--t1-light)}
-.sec-light .tx-d{color:var(--t3-light)}
-.sec-light .tx-n{color:var(--g-dark)}
-.sec-light .tx{border-color:var(--bdr-light)}
-.sec-light .fw-link{color:var(--g-dark);background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.15)}
-.sec-light .fw-link:hover{background:rgba(5,150,105,.12);border-color:var(--g-dark)}
-
-/* ═══ RECORD SECTION (light) ═══ */
-.editions{margin-top:3rem;display:flex;flex-direction:column;gap:1px;border-radius:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.04)}
-html[data-theme="dark"] .editions{box-shadow:0 0 0 1px rgba(255,255,255,.04),0 8px 32px rgba(0,0,0,.4)}
-.ed-card{display:grid;grid-template-columns:80px 1fr;gap:2rem;padding:2rem 2rem;background:var(--card-light);text-decoration:none;transition:all .3s;border-left:3px solid transparent}
-html[data-theme="dark"] .ed-card{background:var(--card)}
-.ed-card:hover{border-left-color:var(--g)}
-.ed-card:hover .ed-title{color:var(--g)}
-.ed-num{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:600;color:var(--g);line-height:1;transition:all .3s}
-html[data-theme="light"] .ed-num{color:var(--g)}
-.ed-date{font-family:'JetBrains Mono',monospace;font-size:.55rem;color:var(--t4-light);margin-top:.3rem;transition:color .5s}
-html[data-theme="dark"] .ed-date{color:var(--t4)}
-.ed-title{font-size:1.15rem;font-weight:700;color:var(--t1-light);margin-bottom:.4rem;transition:color .3s}
-html[data-theme="dark"] .ed-title{color:var(--t1)}
-.ed-desc{font-size:.87rem;color:var(--t3-light);line-height:1.65;transition:color .5s}
-html[data-theme="dark"] .ed-desc{color:var(--t3)}
-
-/* ═══ FLEET SECTION (dark) — Bold data display ═══ */
-.fleet-layout{display:grid;grid-template-columns:1fr 1fr;gap:5rem;margin-top:4rem;align-items:center}
-.fleet-big{font-family:'JetBrains Mono',monospace;font-size:clamp(7rem,16vw,12rem);font-weight:600;color:var(--g);line-height:.78;letter-spacing:-.06em;margin-left:-.06em;transition:color .5s;text-shadow:0 0 80px var(--g-glow),0 0 160px rgba(52,211,153,.15)}
-html[data-theme="light"] .fleet-big{text-shadow:none}
-.fleet-sub{font-size:1.15rem;font-weight:700;color:var(--t1);margin-top:1.5rem;line-height:1.3;transition:color .5s}
-.fleet-note{font-size:.9rem;color:var(--t3);margin-top:.75rem;line-height:1.6;transition:color .5s}
-.fl-sec{padding:1.1rem 0;border-bottom:1px solid var(--bdr);transition:all .3s}
-.fl-sec:last-child{border-bottom:none}
-.fl-sec:hover{padding-left:.75rem}
-.fl-sec:hover .fl-name{color:var(--g2)}
-.fl-name{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);transition:all .3s}
-.fl-desc{font-size:.84rem;color:var(--t3);line-height:1.55;margin-top:.15rem;transition:color .5s}
-/* Light-section overrides for fleet */
-.sec-light .fleet-sub{color:var(--t1-light)}
-.sec-light .fleet-note{color:var(--t2-light)}
-.sec-light .fl-name{color:var(--g-dark)}
-.sec-light .fl-desc{color:var(--t3-light)}
-.sec-light .fl-sec{border-color:var(--bdr-light)}
-.sec-light .fl-sec:hover .fl-name{color:var(--g-dark)}
-
-/* Fleet stats bar */
-.fleet-meta{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:4rem;border-radius:8px;overflow:hidden;border:1px solid var(--bdr2);background:var(--bdr)}
-.fm-cell{background:var(--card);padding:1.5rem 1.25rem;text-align:center;transition:background .3s}
-.fm-cell:hover{background:var(--card-h)}
-.fm-v{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--t1);transition:color .5s}
-.fm-l{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);margin-top:.4rem;transition:color .5s}
-/* Force fleet meta dark — terminal style like infra */
-.sec-light .fleet-meta{border-color:rgba(255,255,255,.08);background:rgba(255,255,255,.04);box-shadow:0 0 0 1px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.15)}
-.sec-light .fm-cell{background:#0A1812}
-.sec-light .fm-cell:hover{background:#0D1E17}
-.sec-light .fm-v{color:#F0F0F0}
-.sec-light .fm-l{color:#6B7A6E}
-
-/* ═══ PIPELINE SECTION (light) — Numbered cards à la Inovarion ═══ */
-.pipeline-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:2.5rem;background:var(--bdr-light);border-radius:12px;overflow:hidden;border:1px solid var(--bdr-light)}
-html[data-theme="dark"] .pipeline-grid{background:var(--bdr);border-color:var(--bdr)}
-.pipe-card{background:var(--card-light);padding:2.5rem 1.5rem;text-align:center;transition:all .3s;position:relative}
-html[data-theme="dark"] .pipe-card{background:var(--card)}
-.pipe-card:hover{transform:translateY(-2px)}
-.pipe-num{display:inline-flex;align-items:center;justify-content:center;width:36px;height:36px;border-radius:50%;background:var(--g);color:#000;font-family:'JetBrains Mono',monospace;font-size:.75rem;font-weight:700;margin-bottom:1.25rem}
-.pipe-title{font-size:.72rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--t1-light);margin-bottom:.5rem;transition:color .5s}
-html[data-theme="dark"] .pipe-title{color:var(--t1)}
-.pipe-desc{font-size:.82rem;color:var(--t3-light);line-height:1.6;transition:color .5s}
-html[data-theme="dark"] .pipe-desc{color:var(--t3)}
-
-/* ═══ INFRA SECTION (dark) — Terminal style, more drama ═══ */
-.infra-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;margin-top:3.5rem;background:var(--bdr);border-radius:8px;overflow:hidden;border:1px solid var(--bdr2);box-shadow:0 0 0 1px rgba(52,211,153,.03),0 12px 40px rgba(0,0,0,.4)}
-html[data-theme="light"] .infra-grid{box-shadow:0 0 0 1px rgba(0,0,0,.04),0 8px 32px rgba(0,0,0,.06)}
-.inf{background:var(--bg2);padding:2.25rem;transition:all .3s;position:relative;overflow:hidden}
-.inf::before{content:'_';position:absolute;top:.75rem;right:1rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;color:var(--g);opacity:.3;animation:blink 1.2s step-end infinite}
-.inf::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,var(--g-md),transparent);opacity:0;transition:opacity .3s}
-.inf:hover::after{opacity:1}
-html[data-theme="dark"] .inf:hover{background:var(--bg3)}
-/* Force infra cards to always be dark terminal style */
-.sec-light .infra-grid{background:rgba(255,255,255,.06);border-color:rgba(0,0,0,.1);box-shadow:0 0 0 1px rgba(0,0,0,.04),0 12px 40px rgba(0,0,0,.15)}
-.sec-light .inf{background:#0A1812}
-.sec-light .inf:hover{background:#0D1E17}
-.sec-light .inf-label{color:#34D399}
-.sec-light .inf-val{color:#F0F0F0}
-.sec-light .inf-note{color:#666}
-.sec-light .inf::before{color:#34D399}
-.sec-light .inf::after{background:linear-gradient(90deg,transparent,rgba(52,211,153,.1),transparent)}
-.sec-light .ar-rule{background:rgba(5,150,105,.06);border-color:rgba(5,150,105,.15)}
-.sec-light .ar-tag{color:var(--g-dark);background:rgba(5,150,105,.12)}
-.sec-light .ar-txt{color:var(--t2-light)}
-@keyframes blink{50%{opacity:0}}
-.inf-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--g);opacity:.7;transition:color .5s}
-.inf-val{font-family:'JetBrains Mono',monospace;font-size:1.05rem;font-weight:600;color:var(--t1);margin-top:.5rem;transition:color .5s}
-.inf-note{font-size:.8rem;color:var(--t3);margin-top:.25rem;line-height:1.5;transition:color .5s}
-.ar-rule{margin-top:3.5rem;display:flex;gap:1rem;align-items:center;padding:1.25rem 1.5rem;background:var(--g-lo);border:1px solid var(--g-md);border-radius:6px;transition:all .5s}
-.ar-tag{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:600;color:var(--g);white-space:nowrap;padding:.25rem .6rem;background:var(--g-md);border-radius:3px;transition:all .5s}
-.ar-txt{font-size:.94rem;color:var(--t2);font-style:italic;transition:color .5s}
-
-/* ═══ ABOUT SECTION (light) ═══ */
-.about-layout{display:grid;grid-template-columns:3fr 2fr;gap:5rem;margin-top:3rem}
-.about-text{font-size:1rem;line-height:1.85;color:var(--t2-light);transition:color .5s}
-html[data-theme="dark"] .about-text{color:var(--t2)}
-.about-text p+p{margin-top:1.2rem}
-.about-meta{display:flex;flex-direction:column}
-.am{padding:1rem 0;border-bottom:1px solid var(--bdr-light);transition:border .5s}
-html[data-theme="dark"] .am{border-color:var(--bdr)}
-.am:last-child{border-bottom:none}
-.am-l{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--t4-light);transition:color .5s}
-html[data-theme="dark"] .am-l{color:var(--t4)}
-.am-v{font-size:.88rem;color:var(--t1-light);margin-top:.15rem;transition:color .5s}
-html[data-theme="dark"] .am-v{color:var(--t1)}
-.am-v a{color:var(--g);text-decoration:none}
-html[data-theme="light"] .am-v a{color:var(--g)}
-.am-v a:hover{text-decoration:underline}
-
-/* ═══ CTA SECTION (dark — bold, full-bleed) ═══ */
-.cta{padding:8rem 0;text-align:center;position:relative;overflow:hidden;background:var(--bg)}
-/* CTA dot grid — matches hero */
-.cta::before{content:'';position:absolute;inset:0;
-background-image:radial-gradient(circle,rgba(52,211,153,.035) 1px,transparent 1px);
-background-size:32px 32px;pointer-events:none;
-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent);
--webkit-mask-image:radial-gradient(ellipse 60% 60% at 50% 50%,black,transparent)}
-html[data-theme="light"] .cta::before{background-image:radial-gradient(circle,rgba(5,150,105,.04) 1px,transparent 1px)}
-.cta::after{display:none}
-.cta-h{position:relative;z-index:1;font-weight:700;font-size:clamp(1.8rem,3.2vw,2.8rem);color:var(--t1);letter-spacing:-.03em;line-height:1.15;margin-bottom:1.2rem;transition:color .5s}
-.cta-p{position:relative;z-index:1;font-size:1.02rem;color:var(--t3);line-height:1.7;max-width:560px;margin:0 auto 1.5rem;transition:color .5s}
-.cta-brief{position:relative;z-index:1;max-width:560px;margin:0 auto 2.5rem;text-align:left}
-.cta-brief-item{padding:.9rem 0;border-bottom:1px solid var(--bdr)}
-.cta-brief-item:last-child{border-bottom:none}
-.cta-brief-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.3rem}
-.cta-brief-text{font-size:.9rem;color:var(--t2);line-height:1.65}
-.cta-email{position:relative;z-index:1;display:inline-flex;align-items:center;gap:.6rem;font-family:'JetBrains Mono',monospace;font-size:.9rem;font-weight:500;color:#000;text-decoration:none;padding:.85rem 2.5rem;border:none;border-radius:6px;background:var(--g);transition:all .3s;box-shadow:0 0 30px var(--g-glow)}
-.cta-email:hover{background:var(--g2);box-shadow:0 0 50px var(--g-glow);transform:translateY(-1px)}
-.cta-types{position:relative;z-index:1;display:flex;justify-content:center;gap:.6rem;margin-top:2rem;flex-wrap:wrap}
-.cta-type{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t4);padding:.3rem .7rem;border:1px solid var(--bdr);border-radius:3px;transition:all .3s}
-.cta-type:hover{border-color:var(--g-md);color:var(--g)}
-
-/* ═══ FOOTER (dark, substantial) ═══ */
-footer{background:var(--bg2);border-top:1px solid var(--bdr);transition:all .5s}
-.footer-inner{max-width:1100px;margin:0 auto;padding:2.5rem 2.5rem 1.5rem;display:grid;grid-template-columns:2fr 1fr 1fr;gap:3rem}
-.footer-brand{display:flex;flex-direction:column;gap:.75rem}
-.footer-brand .nw{font-size:.8rem}
-.footer-brand-desc{font-size:.8rem;color:var(--t3);line-height:1.6;max-width:280px}
-.footer-col-title{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-bottom:1rem}
-.footer-col a{display:block;font-size:.82rem;color:var(--t2);text-decoration:none;padding:.3rem 0;transition:color .3s}
-.footer-col a:hover{color:var(--g)}
-.footer-bottom{max-width:1100px;margin:0 auto;padding:1.25rem 2.5rem;display:flex;justify-content:space-between;align-items:center;border-top:1px solid var(--bdr);font-size:.65rem;color:var(--t4)}
-/* Kill any trailing body space */
-footer{margin-bottom:0;padding-bottom:0}
-body{margin:0;padding:0}
-html{height:auto}
-
-/* ═══ REVEAL ANIMATIONS ═══ */
-.rv{opacity:0;transform:translateY(32px);transition:opacity .9s cubic-bezier(.16,1,.3,1),transform .9s cubic-bezier(.16,1,.3,1)}
+/* ═══ REVEAL ═══ */
+.rv{opacity:0;transform:translateY(12px);transition:opacity .7s ease,transform .7s ease}
 .rv.v{opacity:1;transform:translateY(0)}
 
 /* ═══ RESPONSIVE ═══ */
 @media(max-width:960px){
-nav{padding:0 1.5rem}.wrap{padding:0 1.5rem}.hero{padding:56px 1.5rem 3rem}
-.sec{padding:5rem 0}
-.hero-mark{width:160px;height:160px}
-.nl{display:none}.nl.a{display:flex;flex-direction:column;position:absolute;top:56px;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--bdr);padding:1.5rem;gap:1rem;z-index:99}.nt{display:flex}
-.dri-layout{grid-template-columns:1fr}
-.fleet-layout{grid-template-columns:1fr;gap:3rem}
-.fleet-meta{grid-template-columns:repeat(2,1fr)}
-.pipeline-grid{grid-template-columns:repeat(2,1fr)}
-.infra-grid{grid-template-columns:1fr}
-.about-layout{grid-template-columns:1fr}
-.footer-inner{grid-template-columns:1fr;gap:2rem;text-align:center}
-.footer-brand{align-items:center}
-.footer-brand-desc{max-width:100%}
-.footer-bottom{flex-direction:column;gap:.75rem;text-align:center}
+nav{padding:1rem 1.5rem}
+.col{padding:0 1.5rem}
+.hero{padding:8rem 0 3rem}
+.doors-grid{grid-template-columns:1fr;max-width:520px;margin:0 auto}
+.cred-grid{grid-template-columns:repeat(2,1fr)}
+.nav-links{display:none}
+.nav-links.a{display:flex;flex-direction:column;position:absolute;top:100%;left:0;right:0;background:var(--bg);border-bottom:1px solid var(--bdr);padding:1.5rem 2rem;gap:1rem}
+.nt{display:block}
+.footer-inner{flex-direction:column;gap:.75rem;text-align:center}
+.footer-links{flex-wrap:wrap;justify-content:center}
 }
 @media(max-width:480px){
-.hero-mark{width:120px;height:120px}
-.hero-name{font-size:2.4rem}
-.fleet-big{font-size:5.5rem}
-.fleet-meta{grid-template-columns:1fr}
-.pipeline-grid{grid-template-columns:1fr}
+.hero h1{font-size:1.9rem}
+.hero{padding:7rem 0 2.5rem}
+.door{padding:1.75rem 1.5rem}
+.cred-grid{grid-template-columns:1fr}
+.cta-email{font-size:.65rem}
 }
 </style>
 </head>
 <body>
-<div class="prog" id="sp"></div>
 
 <nav>
-<a href="#" class="nm">
-<svg viewBox="0 0 400 400" width="28" height="28"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" fill="none" style="color:var(--g)"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="12" stroke-linejoin="round" fill="none" style="color:var(--g)"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="12" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="12" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="12" stroke-linecap="round" style="color:var(--g)"/></svg>
-<span class="nw">Greenbaum Labs</span>
+<a href="/" class="nav-brand">
+<div style="display:flex;align-items:center;gap:.6rem">
+<svg viewBox="0 0 400 400" width="32" height="32" style="color:var(--g)"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="14" stroke-linejoin="round" fill="none"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg>
+<div>
+<div class="nav-name">Greenbaum Labs</div>
+<div class="nav-role">Structural diagnostics</div>
+</div>
+</div>
 </a>
-<div class="nr">
-<ul class="nl" id="nl">
-<li><a href="#research">Research</a></li>
-<li><a href="#record">Record</a></li>
-<li><a href="#fleet">Fleet</a></li>
-<li><a href="#infra">Infrastructure</a></li>
+<ul class="nav-links" id="nl">
 <li><a href="#about">About</a></li>
+<li><a href="https://dripractice.com/start-here" target="_blank" class="ext">Methodology</a></li>
+<li><a href="#contact">Contact</a></li>
 </ul>
 <button class="nt" id="nt" aria-label="Menu"><span></span><span></span><span></span></button>
-</div>
 </nav>
 
-<!-- ═══════════ HERO ═══════════ -->
+<main>
+
+<!-- ═══ HERO ═══ -->
 <section class="hero">
-<div class="hero-glow"><b></b><b></b><b></b></div>
-<div class="hero-mark-wrap">
-<div class="hero-mark-glow"></div>
-<svg class="hero-mark" viewBox="0 0 400 400"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none" style="color:var(--g)"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="10" stroke-linecap="round" stroke-linejoin="round" fill="none" style="color:var(--g)"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="10" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="10" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="10" stroke-linecap="round" style="color:var(--g)"/></svg>
-</div>
-<div class="hero-name"><span class="g">Greenbaum</span> Labs</div>
-<p class="hero-desc">Diagnostic instruments for organizational coherence.<br>Competitive benchmarks built on owned infrastructure.</p>
-<div style="position:relative;z-index:1;margin-top:2rem;animation:text-up .9s cubic-bezier(.16,1,.3,1) 2s both">
-<a href="https://dripractice.com/start-here" target="_blank" style="display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.65rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--g);text-decoration:none;padding:.8rem 1.8rem;border:1px solid var(--g-hi);border-radius:2px;transition:all .3s ease;background:var(--g-lo)" onmouseover="this.style.background='var(--g-md)';this.style.borderColor='var(--g-glow)'" onmouseout="this.style.background='var(--g-lo)';this.style.borderColor='var(--g-hi)'">Looking for the organizational diagnosis? Start here &#8594;</a>
-</div>
-<div class="hero-scroll"><span></span></div>
-</section>
-<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
-
-<!-- ═══════════ DRI RESEARCH (LIGHT) ═══════════ -->
-<section id="research" class="sec sec-light">
-<div class="wrap">
-<div class="sec-label rv">Primary Research Program</div>
-<h2 class="sec-h rv">Decision &amp; Responsibility Infrastructure&#8482;</h2>
-<p class="sec-p rv">The structural conditions that make good decisions possible. Not the decisions themselves.</p>
-<p class="sec-p rv" style="margin-top:.75rem;font-size:.9rem">DRI Practice defines 17 structural failure modes and a diagnostic framework for organizational coherence. <a href="https://dripractice.com/start-here" target="_blank" style="color:var(--g-dark);text-decoration:none;border-bottom:1px solid rgba(5,150,105,.3);transition:border-color .3s" onmouseover="this.style.borderColor='var(--g-dark)'" onmouseout="this.style.borderColor='rgba(5,150,105,.3)'">Start with the field</a>, then see how the lab runs it.</p>
-<div class="dri-layout rv">
-<div class="tri-area">
-<svg class="tsvg" id="triSvg" viewBox="-20 -10 340 310" fill="none">
-<polygon class="tri-line" points="150,30 35,255 265,255" stroke="currentColor" stroke-width="1.5" fill="none" style="color:var(--g)"/>
-<circle class="tri-dot" cx="150" cy="30" r="6" fill="currentColor" style="color:var(--g)"/>
-<circle class="tri-dot" cx="35" cy="255" r="6" fill="currentColor" style="color:var(--g)"/>
-<circle class="tri-dot" cx="265" cy="255" r="6" fill="currentColor" style="color:var(--g)"/>
-<!-- Connection lines between vertices and center -->
-<line class="tri-line" x1="150" y1="30" x2="150" y2="180" stroke="currentColor" stroke-width=".5" stroke-dasharray="4 4" style="color:var(--g);opacity:.3"/>
-<line class="tri-line" x1="35" y1="255" x2="150" y2="180" stroke="currentColor" stroke-width=".5" stroke-dasharray="4 4" style="color:var(--g);opacity:.3"/>
-<line class="tri-line" x1="265" y1="255" x2="150" y2="180" stroke="currentColor" stroke-width=".5" stroke-dasharray="4 4" style="color:var(--g);opacity:.3"/>
-<circle class="tri-dot" cx="150" cy="180" r="3" fill="currentColor" style="color:var(--g);opacity:.5"/>
-<text class="tri-lbl" x="150" y="12" text-anchor="middle" fill="currentColor" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="0.2em" style="color:var(--g-dark)">TRUTH</text>
-<text class="tri-lbl" x="35" y="282" text-anchor="middle" fill="currentColor" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="0.2em" style="color:var(--g-dark)">AUTHORITY</text>
-<text class="tri-lbl" x="265" y="282" text-anchor="middle" fill="currentColor" font-family="'JetBrains Mono',monospace" font-size="9" font-weight="600" letter-spacing="0.2em" style="color:var(--g-dark)">CONTINUITY</text>
-</svg>
-</div>
-<div>
-<div class="tax-list">
-<div class="tx"><div class="tx-n">17</div><div class="tx-body"><div class="tx-t">Failure Modes</div><div class="tx-d">Named structural breakdowns that recur across organizations at scale.</div></div></div>
-<div class="tx"><div class="tx-n">21</div><div class="tx-body"><div class="tx-t">Functional Field Notes</div><div class="tx-d">Patterns observed while interpretation is still forming.</div></div></div>
-<div class="tx"><div class="tx-n">7</div><div class="tx-body"><div class="tx-t">Instruments</div><div class="tx-d">FM Scanner, FFN Surface, System Nav, Continuity Chain, Regression Watch, Declaration Log, Verified Independence.</div></div></div>
-<div class="tx"><div class="tx-n">4</div><div class="tx-body"><div class="tx-t">Pipeline Stages</div><div class="tx-d">Collect. Extract. Score. Synthesize.</div></div></div>
-</div>
-<div style="display:flex;flex-wrap:wrap;gap:.75rem;margin-top:2.5rem">
-<a href="/ontology" class="fw-link">System Ontology &#8594;</a>
-<a href="/pipeline" class="fw-link">Multi-Agent Pipeline &#8594;</a>
-<a href="/datastrategy" class="fw-link">Data Strategy &#8594;</a>
-<a href="https://dripractice.com/start-here" class="fw-link" target="_blank">dripractice.com &#8594;</a>
-</div>
-</div>
-</div>
+<div class="col">
+<div class="hero-eyebrow">Diagnostic Practice</div>
+<h1>Organizations fail silently before they fail visibly.</h1>
+<p class="hero-sub">The conditions are already in place. Information gets distorted. Decision rights get blurry. Continuity breaks down. By the time it shows up in the numbers, the causes are a year old.</p>
+<p class="hero-sub" style="margin-top:1.25rem;animation-delay:.8s">We built a diagnostic to surface those conditions. Think of it as bloodwork for how your organization makes decisions.</p>
 </div>
 </section>
-<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-<!-- ═══════════ COHERENCE RECORD (DARK) ═══════════ -->
-<section id="record" class="sec sec-dark">
-<div class="wrap">
-<div class="sec-label rv">Applied Research Log</div>
-<h2 class="sec-h rv">Published twice monthly.</h2>
-<p class="sec-p rv">Each edition documents what the pipeline found, what broke, and what changed.</p>
-<div class="editions rv">
-<a href="https://writing.justingreenbaum.com/p/the-coherence-record-edition-5" class="ed-card" target="_blank">
-<div><div class="ed-num">05</div><div class="ed-date">Mar 2026</div></div>
-<div><div class="ed-title">What's happened</div><div class="ed-desc">Autoresearch: 60 experiments, two optimization tracks. Scoring improved 11.5x. Extraction 3.8x. Fleet rescore across 15 entities. Continuity now measurable.</div></div>
-</a>
-<a href="https://writing.justingreenbaum.com/p/the-coherence-record-edition-4" class="ed-card" target="_blank">
-<div><div class="ed-num">04</div><div class="ed-date">Mar 2026</div></div>
-<div><div class="ed-title">Can the measurement be trusted?</div><div class="ed-desc">Twenty-seven hardening runs on one entity. Scoring rebuilt from findings. Standard deviation: 0.000. The instrument reproduces.</div></div>
-</a>
-<a href="https://writing.justingreenbaum.com/p/the-coherence-record-edition-3" class="ed-card" target="_blank">
-<div><div class="ed-num">03</div><div class="ed-date">Mar 2026</div></div>
-<div><div class="ed-title">Does it hold at scale?</div><div class="ed-desc">Fifteen entities. Five sectors. Fleet-level patterns across fintech, defense, automotive, consumer, and big tech. FM-01 in 14 of 15.</div></div>
-</a>
-<a href="https://writing.justingreenbaum.com/p/the-coherence-record-edition-2" class="ed-card" target="_blank">
-<div><div class="ed-num">02</div><div class="ed-date">Jan 2026</div></div>
-<div><div class="ed-title">Can it measure one company?</div><div class="ed-desc">Thirteen runs on a single entity. Agent-powered extraction, adversarial debate, score evolution.</div></div>
-</a>
-<a href="https://writing.justingreenbaum.com/p/the-coherence-record-edition-1" class="ed-card" target="_blank">
-<div><div class="ed-num">01</div><div class="ed-date">Dec 2025</div></div>
-<div><div class="ed-title">Can the infrastructure exist?</div><div class="ed-desc">Forty hours. One entity. One GPU. Public data. Owned hardware.</div></div>
-</a>
+<!-- ═══ THREE DOORS ═══ -->
+<section class="doors sec-light" id="doors">
+<div class="col-wide">
+<div class="doors-header rv">
+<div class="doors-label">What brings you here?</div>
+<div class="diag-link">Not sure where to start? <a href="https://dripractice.com/diagnose" target="_blank">Take the free 5-minute diagnostic &#8594;</a></div>
 </div>
-</div>
-</section>
-<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-<!-- ═══════════ FLEET DATA (LIGHT) ═══════════ -->
-<section id="fleet" class="sec sec-light">
-<div class="wrap">
-<div class="sec-label rv">Lab Dataset</div>
-<h2 class="sec-h rv">Fifteen entities. Five sectors. Three per sector. One finding.</h2>
-<p class="sec-p rv">Each sector scored three entities on identical instruments &#8212; producing the first competitive coherence dataset of its kind.</p>
-<div class="fleet-layout rv">
-<div>
-<div class="fleet-big" id="fleetNum">14/15</div>
-<div class="fleet-sub">FM-01: Responsibility Compression</div>
-<div class="fleet-note">Responsibility accumulates at the edge faster than infrastructure can contain it.</div>
+<div class="doors-grid">
+<div class="door rv">
+<h3 class="door-question">Hiring a leader?</h3>
+<span class="door-service">Pre-Entry Diagnostic</span>
+<div class="door-desc">
+<p>30 to 50 percent of executive hires fail within 18 months. Most due diligence focuses on the candidate. Almost none examines the structural conditions the incoming leader will inherit.</p>
+<p>We diagnose those conditions before they accept.</p>
 </div>
-<div>
-<div class="fl-sec"><div class="fl-name">Aerospace</div><div class="fl-desc">Truth most stressed. Narrative fractures under regulatory scrutiny.</div></div>
-<div class="fl-sec"><div class="fl-name">Fintech</div><div class="fl-desc">Highest evidence density. Complaints reveal invisible gaps.</div></div>
-<div class="fl-sec"><div class="fl-name">Consumer</div><div class="fl-desc">Highest Truth, weakest Authority. Brand holds where structure does not.</div></div>
-<div class="fl-sec"><div class="fl-name">Auto / EV</div><div class="fl-desc">Authority fracture. Decision distribution gap.</div></div>
-<div class="fl-sec"><div class="fl-name">Big Tech</div><div class="fl-desc">Highest coherence. Truth still floors. Scale manages, cannot close.</div></div>
+<div class="door-for">For search firms, PE operating partners, and VP+ candidates evaluating a role.</div>
+<div class="door-links">
+<a href="#contact" class="primary">Start a conversation &#8594;</a>
+<a href="/case/pre-entry" class="secondary">What this reveals &#8594;</a>
+<a href="https://dripractice.com/start-here" target="_blank" class="secondary">About the methodology &#8594;</a>
 </div>
 </div>
-<div class="fleet-meta rv">
-<div class="fm-cell"><div class="fm-v">0.448</div><div class="fm-l">Fleet Avg</div></div>
-<div class="fm-cell"><div class="fm-v">0.37&#8211;0.52</div><div class="fm-l">Range</div></div>
-<div class="fm-cell"><div class="fm-v">117</div><div class="fm-l">Runs</div></div>
-<div class="fm-cell"><div class="fm-v">~1,900h</div><div class="fm-l">Inference</div></div>
-</div>
-</div>
-</section>
-<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-<!-- ═══════════ PIPELINE (DARK) — Numbered cards ═══════════ -->
-<section class="sec sec-dark">
-<div class="wrap">
-<div class="sec-label rv">How the Lab Runs the Work</div>
-<h2 class="sec-h rv">Four stages. Full provenance at every step.</h2>
-<p class="sec-p rv">Every score traces back to a source document, an extraction event, and a reasoning chain.</p>
-<div class="pipeline-grid rv">
-<div class="pipe-card">
-<div class="pipe-num">01</div>
-<div class="pipe-title">Collect</div>
-<div class="pipe-desc">Public filings, disclosures, complaints, and regulatory records. No privileged access required.</div>
+<div class="door rv">
+<h3 class="door-question">Leading an organization?</h3>
+<span class="door-service">Coherence Sprint</span>
+<div class="door-desc">
+<p>A 3 to 4 week structural diagnostic mapping all 17 failure modes across three vertices: Truth, Authority, and Continuity.</p>
+<p>For leaders who suspect the gap between what their organization says and what it does is wider than anyone has measured.</p>
 </div>
-<div class="pipe-card">
-<div class="pipe-num">02</div>
-<div class="pipe-title">Extract</div>
-<div class="pipe-desc">Agent-powered extraction surfaces structural signals across document types and timeframes.</div>
+<div class="door-for">For CEOs, COOs, CHROs, and transformation leaders.</div>
+<div class="door-links">
+<a href="#contact" class="primary">Start a conversation &#8594;</a>
+<a href="/case/coherence-sprint" class="secondary">What this reveals &#8594;</a>
+<a href="https://dripractice.com/start-here" target="_blank" class="secondary">About the methodology &#8594;</a>
 </div>
-<div class="pipe-card">
-<div class="pipe-num">03</div>
-<div class="pipe-title">Score</div>
-<div class="pipe-desc">Instruments score each entity on identical dimensions. Adversarial debate refines every assessment.</div>
 </div>
-<div class="pipe-card">
-<div class="pipe-num">04</div>
-<div class="pipe-title">Synthesize</div>
-<div class="pipe-desc">Cross-entity patterns emerge. Sector benchmarks form. The Coherence Record publishes findings.</div>
+
+<div class="door rv">
+<h3 class="door-question">Investing in a company?</h3>
+<span class="door-service">Portfolio Diagnostic</span>
+<div class="door-desc">
+<p>Structural due diligence that financial due diligence misses. We measure the decision-making infrastructure of acquisition targets, portfolio companies, and pre-exit assets.</p>
+</div>
+<div class="door-for">For PE firms evaluating acquisitions, planning leadership installations, or preparing for exit.</div>
+<div class="door-links">
+<a href="#contact" class="primary">Start a conversation &#8594;</a>
+<a href="/case/portfolio" class="secondary">What this reveals &#8594;</a>
+<a href="https://dripractice.com/start-here" target="_blank" class="secondary">About the methodology &#8594;</a>
+</div>
 </div>
 </div>
 </div>
 </section>
-<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
 
-<!-- ═══════════ INFRASTRUCTURE (LIGHT) ═══════════ -->
-<section id="infra" class="sec sec-light">
-<div class="wrap">
-<div class="sec-label rv">How the Lab Runs the Work</div>
-<h2 class="sec-h rv">Owned hardware. Local inference. Full provenance.</h2>
-<div class="infra-grid rv">
-<div class="inf"><div class="inf-label">compute</div><div class="inf-val">2&#215; DGX Spark</div><div class="inf-note">128GB unified / node</div></div>
-<div class="inf"><div class="inf-label">storage</div><div class="inf-val">Synology NAS</div><div class="inf-note">10GbE &#183; full audit</div></div>
-<div class="inf"><div class="inf-label">models</div><div class="inf-val">Qwen3 32B</div><div class="inf-note">local &#183; all stages</div></div>
-</div>
-<div class="ar-rule rv">
-<div class="ar-tag">AR-001</div>
-<div class="ar-txt">Automation may observe, summarize, and suggest, but may not decide.</div>
-</div>
-</div>
-</section>
-<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
-
-<!-- ═══════════ ABOUT (DARK) ═══════════ -->
-<section id="about" class="sec sec-dark">
-<div class="wrap">
-<div class="sec-label rv">About</div>
-<h2 class="sec-h rv">Founded to build what was missing.</h2>
-<div class="about-layout rv">
-<div class="about-text">
-<p>Greenbaum Labs is a research and engineering lab founded by Justin R. Greenbaum. The lab builds diagnostic instruments for organizational coherence &#8212; scoring organizations against their sector competitors on identical instruments and publishing the findings as applied research.</p>
-<p>Justin spent twenty years in Fortune 30 operations at Comcast, managing teams and budgets across regulatory response, cybersecurity, privacy, and executive escalations. The Coherence framework emerged from observing the same structural breakdowns recur across every organizational context.</p>
-</div>
-<div class="about-meta">
-<div class="am"><div class="am-l">entity</div><div class="am-v">Greenbaum Labs, LLC</div></div>
-<div class="am"><div class="am-l">founded</div><div class="am-v">2026 &#183; New Jersey</div></div>
-<div class="am"><div class="am-l">founder</div><div class="am-v">Justin R. Greenbaum</div></div>
-<div class="am"><div class="am-l">current</div><div class="am-v">MIT Sloan AI Executive Academy &#183; March 2026</div></div>
-</div>
-</div>
-</div>
-</section>
-<div class="gem-div"><svg viewBox="0 0 20 20" fill="currentColor"><polygon points="10,0 20,10 10,20 0,10"/></svg></div>
-
-<!-- ═══════════ CTA (DARK — bold) ═══════════ -->
-<section class="cta">
-<div class="wrap">
-<h2 class="cta-h rv">Lab Brief</h2>
-<p class="cta-p rv">For SVPs of Operations, Strategy, and CX who own failure before it hits the board &#8212; and suspect the gap between what their organization says and what it does is wider than anyone has measured.</p>
-<div class="cta-brief rv">
-<div class="cta-brief-item"><div class="cta-brief-label">What happens first</div><div class="cta-brief-text">A 30-minute scoping call to identify which entity and sector to score. Then a pilot competitive coherence diagnostic: your organization measured against sector peers on identical instruments, run on owned infrastructure. You receive failure mode codes, sector benchmarks, and structural findings &#8212; not a slide deck.</div></div>
-<div class="cta-brief-item"><div class="cta-brief-label">Who built this</div><div class="cta-brief-text">20 years leading operations, risk, and escalation teams across 30M+ customers at Comcast. The Coherence framework came from watching the same structural breakdowns recur at every level of scale. Currently MIT Sloan AI Executive Academy.</div></div>
-</div>
+<!-- ═══ CTA ═══ -->
+<section class="cta" id="contact">
+<div class="col">
+<h2 class="cta-h rv">Start with a conversation.</h2>
+<p class="cta-p rv">30 minutes. No pitch. We identify which structural questions matter for your situation and whether a diagnostic would surface useful answers.</p>
 <div class="rv">
-<a id="eml" class="cta-email" href="#">&#8203;</a>
-</div>
-<div class="cta-types rv">
-<span class="cta-type">Competitive Diagnostic</span>
-<span class="cta-type">Advisory</span>
-<span class="cta-type">Research</span>
+<a class="cta-email" id="ctaEmail" href="#">&#8203;</a>
 </div>
 </div>
 </section>
 
-<!-- ═══════════ FOOTER (DARK, SUBSTANTIAL) ═══════════ -->
+</main>
+
 <footer>
 <div class="footer-inner">
-<div class="footer-brand">
-<div style="display:flex;align-items:center;gap:.6rem">
-<svg viewBox="0 0 400 400" width="22" height="22"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none" style="color:var(--g)"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="14" stroke-linejoin="round" fill="none" style="color:var(--g)"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round" style="color:var(--g)"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round" style="color:var(--g)"/></svg>
-<span class="nw">Greenbaum Labs</span>
-</div>
-<p class="footer-brand-desc">Diagnostic instruments for organizational coherence. Competitive benchmarks built on owned infrastructure.</p>
-</div>
-<div class="footer-col">
-<div class="footer-col-title">Research</div>
-<a href="https://dripractice.com/start-here" target="_blank">DRI Practice</a>
-<a href="/ontology">System Ontology</a>
-<a href="/pipeline">Multi-Agent Pipeline</a>
+<div class="footer-copy">&copy; 2026 Greenbaum Labs, LLC &middot; New Jersey</div>
+<div class="footer-links">
+<a href="https://dripractice.com" target="_blank">DRI Practice</a>
+<a href="/ontology">Ontology</a>
 <a href="/datastrategy">Data Strategy</a>
 <a href="https://writing.justingreenbaum.com" target="_blank">Coherence Record</a>
-</div>
-<div class="footer-col">
-<div class="footer-col-title">Connect</div>
 <a href="https://justingreenbaum.com" target="_blank">justingreenbaum.com</a>
-<a href="#" class="footer-email">Email the lab</a>
 </div>
-</div>
-<div class="footer-bottom">
-<div>&#169; 2026 Greenbaum Labs, LLC</div>
-<div style="font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;color:var(--t4)">New Jersey</div>
 </div>
 </footer>
 
 <script>
 (function(){
-/* Email obfuscation */
-var u='justin',d='greenbaumlabs.com',e=document.getElementById('eml');
+var u='justin',d='greenbaumlabs.com';
+var e=document.getElementById('ctaEmail');
 if(e){e.href='mai'+'lto:'+u+'@'+d;e.textContent=u+'@'+d}
-var fe=document.querySelector('.footer-email');
-if(fe){fe.href='mai'+'lto:'+u+'@'+d}
 
-
-/* Mobile nav */
 var t=document.getElementById('nt'),l=document.getElementById('nl');
-if(t&&l){t.addEventListener('click',function(){t.classList.toggle('a');l.classList.toggle('a')});var aa=l.querySelectorAll('a');for(var i=0;i<aa.length;i++)aa[i].addEventListener('click',function(){t.classList.remove('a');l.classList.remove('a')})}
+if(t&&l){t.addEventListener('click',function(){l.classList.toggle('a')});var aa=l.querySelectorAll('a');for(var i=0;i<aa.length;i++)aa[i].addEventListener('click',function(){l.classList.remove('a')})}
 
-/* Progress bar */
-var sp=document.getElementById('sp');
-window.addEventListener('scroll',function(){var h=document.documentElement.scrollHeight-window.innerHeight;if(h>0)sp.style.width=(window.scrollY/h*100)+'%'},{passive:true});
-
-/* Reveal on scroll */
 var rv=document.querySelectorAll('.rv');
-var obs=new IntersectionObserver(function(en){for(var j=0;j<en.length;j++){if(en[j].isIntersecting){en[j].target.classList.add('v');obs.unobserve(en[j].target)}}},{threshold:0.06,rootMargin:'0px 0px -60px 0px'});
+var obs=new IntersectionObserver(function(en){for(var j=0;j<en.length;j++){if(en[j].isIntersecting){en[j].target.classList.add('v');obs.unobserve(en[j].target)}}},{threshold:.08,rootMargin:'0px 0px -40px 0px'});
 for(var k=0;k<rv.length;k++)obs.observe(rv[k]);
 
-/* Triangle animation */
-var tri=document.getElementById('triSvg');
-if(tri){var tO=new IntersectionObserver(function(en){if(en[0].isIntersecting){var li=tri.querySelectorAll('.tri-line'),dt=tri.querySelectorAll('.tri-dot'),lb=tri.querySelectorAll('.tri-lbl');for(var a=0;a<li.length;a++)li[a].classList.add('drawn');setTimeout(function(){for(var b=0;b<dt.length;b++)dt[b].classList.add('drawn')},800);setTimeout(function(){for(var c=0;c<lb.length;c++)lb[c].classList.add('drawn')},1300);tO.unobserve(tri)}},{threshold:0.3});tO.observe(tri)}
-
-/* Smooth scroll for anchor links */
 var anc=document.querySelectorAll('a[href^="#"]');
 for(var m=0;m<anc.length;m++)anc[m].addEventListener('click',function(ev){var tgt=document.querySelector(this.getAttribute('href'));if(tgt){ev.preventDefault();tgt.scrollIntoView({behavior:'smooth',block:'start'})}});
 })();

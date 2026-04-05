@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>What a Pre-Entry Diagnostic Reveals — Greenbaum Labs</title>
+<meta name="description" content="A diagnostic demonstration showing what the Pre-Entry Diagnostic surfaces before an executive hire accepts a role.">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0a0f0c;--bg2:#111a14;--bg3:#162119;
+  --g:#34D399;--g2:#5EEAD4;
+  --g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);
+  --t1:#f0ece4;--t2:#b0ada6;--t3:#706d68;--t4:#3a3936;
+  --bdr:rgba(240,236,228,.08);--bdr2:rgba(240,236,228,.14);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;scroll-behavior:smooth;-webkit-font-smoothing:antialiased}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t2);overflow-x:hidden}
+::selection{background:rgba(52,211,153,.2);color:var(--t1)}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.02;pointer-events:none;z-index:9999}
+
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display:flex;justify-content:space-between;align-items:center;background:rgba(10,15,12,.97);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-brand{text-decoration:none;display:flex;flex-direction:column}
+.nav-name{font-weight:700;font-size:1rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t1)}
+.nav-role{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-top:2px}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);text-decoration:none;transition:color .3s}
+.nav-links a:hover{color:var(--t1)}
+
+.col{max-width:800px;margin:0 auto;padding:0 3rem}
+.page{padding:10rem 0 4rem}
+.page-eyebrow{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem}
+.page-eyebrow::before{content:'';width:24px;height:1px;background:var(--g);opacity:.5}
+.page h1{font-weight:700;font-size:clamp(1.8rem,4vw,2.6rem);line-height:1.12;letter-spacing:-.03em;color:var(--t1);margin-bottom:2rem}
+
+.section{padding:3rem 0}
+.section-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
+.section h2{font-weight:700;font-size:1.3rem;color:var(--t1);margin-bottom:1rem;letter-spacing:-.02em}
+.section p{font-size:.95rem;line-height:1.85;color:var(--t2);margin-bottom:1rem}
+.section p:last-child{margin-bottom:0}
+.section strong{color:var(--t1);font-weight:600}
+
+.finding{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:3px;padding:1.5rem 1.75rem;margin:1.5rem 0}
+.finding-code{font-family:'JetBrains Mono',monospace;font-size:.55rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--g);margin-bottom:.4rem}
+.finding-name{font-weight:700;font-size:1rem;color:var(--t1);margin-bottom:.5rem}
+.finding-desc{font-size:.88rem;color:var(--t2);line-height:1.75}
+
+.pullquote{border-left:3px solid var(--g);padding:1.5rem 0 1.5rem 2rem;margin:2rem 0}
+.pullquote p{font-size:1.1rem;line-height:1.6;color:var(--t1);font-weight:500;margin:0}
+
+.divider{border:none;border-top:1px solid var(--bdr);margin:0}
+
+.cta-section{padding:4rem 0 6rem;text-align:center}
+.cta-section h2{font-weight:700;font-size:1.5rem;color:var(--t1);margin-bottom:.75rem;letter-spacing:-.02em}
+.cta-section p{font-size:.9rem;color:var(--t3);margin-bottom:1.5rem}
+.cta-section .btn{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.7rem;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#000;text-decoration:none;padding:1rem 2.5rem;background:var(--g);border-radius:3px;transition:all .3s}
+.cta-section .btn:hover{background:var(--g2);transform:translateY(-1px)}
+.cta-section .back{display:block;margin-top:1rem;font-size:.78rem;color:var(--t4);text-decoration:none;transition:color .3s}
+.cta-section .back:hover{color:var(--t3)}
+
+.note{font-size:.85rem;color:var(--t3);font-style:italic;margin-top:2rem;padding-top:1.5rem;border-top:1px solid var(--bdr)}
+
+footer{border-top:1px solid var(--bdr);padding:2rem 3rem}
+.footer-inner{max-width:800px;margin:0 auto;display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:.65rem;color:var(--t4)}
+.footer-links{display:flex;gap:1.5rem}
+.footer-links a{font-size:.7rem;color:var(--t3);text-decoration:none;transition:color .3s}
+.footer-links a:hover{color:var(--g)}
+
+@media(max-width:768px){
+nav{padding:1rem 1.5rem}
+.col{padding:0 1.5rem}
+.page{padding:7rem 0 3rem}
+.nav-links{display:none}
+.footer-inner{flex-direction:column;gap:.75rem;text-align:center}
+}
+</style>
+</head>
+<body>
+
+<nav>
+<a href="/" class="nav-brand">
+<div style="display:flex;align-items:center;gap:.6rem">
+<svg viewBox="0 0 400 400" width="32" height="32" style="color:var(--g)"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="14" stroke-linejoin="round" fill="none"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg>
+<div>
+<div class="nav-name">Greenbaum Labs</div>
+<div class="nav-role">Structural diagnostics</div>
+</div>
+</div>
+</a>
+<ul class="nav-links">
+<li><a href="/#about">About</a></li>
+<li><a href="/#contact">Contact</a></li>
+</ul>
+</nav>
+
+<main>
+<div class="page">
+<div class="col">
+<div class="page-eyebrow">Pre-Entry Diagnostic</div>
+<h1>What this diagnostic reveals</h1>
+</div>
+</div>
+
+<div class="col">
+<div class="section">
+<div class="section-label">The Entity</div>
+<p>A PE-backed national consumer services platform with repeated leadership turnover. Each incoming executive inherited the same conditions. Each departure was attributed to the individual.</p>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+<div class="section-label">What the Diagnostic Found</div>
+
+<div class="finding">
+<div class="finding-code">FM-01</div>
+<div class="finding-name">Responsibility Compression</div>
+<div class="finding-desc">Responsibility accumulated at frontline operations faster than any leader could absorb it. Strategic priorities competed with operational urgency at every level. The structure funneled accountability downward without distributing the authority to act on it.</div>
+</div>
+
+<div class="finding">
+<div class="finding-code">FM-03</div>
+<div class="finding-name">Responsibility Without Authority</div>
+<div class="finding-desc">Regional operators held accountability for outcomes but lacked the decision rights to change the conditions producing those outcomes. They could report the problems. They could not fix them.</div>
+</div>
+
+<p>Authority vertex scored lowest of the three. Truth was intact. The organization could see its problems clearly. It could not act on them.</p>
+</div>
+
+<hr class="divider">
+
+<div class="section">
+<div class="section-label">What This Means for a Hire</div>
+
+<div class="pullquote">
+<p>The previous leaders did not fail because they were unqualified. They failed because the structural conditions made success nearly impossible.</p>
+</div>
+
+<p>A Pre-Entry Diagnostic surfaces these conditions before an offer is extended. The search firm or PE sponsor can restructure first, adjust the mandate, or set realistic expectations with the candidate about what they are walking into.</p>
+
+<p>Without this diagnostic, the next hire walks into the same conditions and produces the same outcome. The organization blames the person again. The cycle continues.</p>
+
+<p class="note">A full diagnostic case study is available on request.</p>
+</div>
+</div>
+
+<hr class="divider">
+
+<div class="cta-section">
+<div class="col">
+<h2>Start with a conversation.</h2>
+<p>30 minutes. No pitch.</p>
+<a class="btn" id="ctaEmail" href="#">&#8203;</a>
+<a href="/" class="back">&larr; Back to Greenbaum Labs</a>
+</div>
+</div>
+</main>
+
+<footer>
+<div class="footer-inner">
+<div class="footer-copy">&copy; 2026 Greenbaum Labs, LLC &middot; New Jersey</div>
+<div class="footer-links">
+<a href="https://dripractice.com" target="_blank">DRI Practice</a>
+<a href="https://justingreenbaum.com" target="_blank">justingreenbaum.com</a>
+</div>
+</div>
+</footer>
+
+<script>
+(function(){
+var u='justin',d='greenbaumlabs.com';
+var e=document.getElementById('ctaEmail');
+if(e){e.href='mai'+'lto:'+u+'@'+d;e.textContent=u+'@'+d}
+})();
+</script>
+</body>
+</html>
