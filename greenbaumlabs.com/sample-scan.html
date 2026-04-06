@@ -764,8 +764,8 @@
     <div class="vertex-item">
       <div class="vertex-name continuity">Continuity</div>
       <div class="vertex-score c-dim">&mdash;</div>
-      <div class="vertex-stressed">Not yet scored</div>
-      <div class="vertex-desc">Does the organization remember what it learned? Requires longitudinal data across multiple collection periods. Assessment pending.</div>
+      <div class="vertex-stressed">Quantitative scoring in development</div>
+      <div class="vertex-desc">Does the organization remember what it learned? Four collection periods of longitudinal data exist. The automated scoring formula is being calibrated &mdash; but the trajectory analysis below tells the continuity story.</div>
     </div>
   </div>
 
@@ -829,7 +829,9 @@
   <p>Note what the skeptic rejected: a finding about customer support omission (insufficient sample breadth), a finding about account freeze contradictions (lacking frequency data), a finding about diffused product ownership (limited evidence), and a finding about mission-to-operations misalignment (aspirational vs. operational distinction unresolved). The instrument doesn't assert what it can't defend.</p>
 
   <!-- ── Failure Modes ── -->
-  <h2>Active Failure Mode</h2>
+  <h2>Active Failure Modes</h2>
+
+  <p>Across the full analysis period, the diagnostic detected <strong>6 active failure modes</strong> &mdash; structural conditions that crossed the activation threshold at least once. Some have since receded as the organization responded. Others remain active. The cascade relationships between them tell the real story.</p>
 
   <div class="fm-card">
     <div class="fm-header">
@@ -840,11 +842,82 @@
       Operational responsibility concentrates at the execution layer without corresponding decision-making authority. In this organization, the compression point is compliance: critical actions affecting customer accounts require senior authorization, but the volume of cases exceeds the capacity of those roles. The result is a queue, not a resolution path.
     </div>
     <div class="fm-cascade">
-      Cascade risk: FM-01 &rarr; FM-03 (Responsibility Without Authority) &rarr; FM-07 (Coordination Decay) &rarr; FM-09 (Over-Escalation)
+      Cascade risk: FM-01 &rarr; FM-03 &rarr; FM-09 (Over-Escalation)
     </div>
   </div>
 
-  <p>Across a 15-entity fleet diagnostic, FM-01 appeared in 5 organizations. In the fintech sector specifically, it was detected in all three entities analyzed. This suggests it may be a <strong>sector-level structural pattern</strong> rather than an organization-specific failure &mdash; likely driven by the intersection of regulatory compliance requirements and customer support scalability.</p>
+  <div class="fm-card">
+    <div class="fm-header">
+      <span class="fm-id">FM-03</span>
+      <span class="fm-name">Responsibility Without Authority</span>
+    </div>
+    <div class="fm-body">
+      Frontline teams carry the responsibility for resolving customer account issues but lack the authority to take action on freezes, holds, or restrictions. Customers experience this as being bounced between channels. Employees experience it as being accountable for outcomes they cannot control.
+    </div>
+    <div class="fm-cascade">
+      Cascade risk: FM-03 &rarr; FM-08 (Authority Fragmentation) &rarr; FM-09
+    </div>
+  </div>
+
+  <div class="fm-card">
+    <div class="fm-header">
+      <span class="fm-id">FM-02</span>
+      <span class="fm-name">Escalation Inversion</span>
+    </div>
+    <div class="fm-body">
+      Escalation paths are functionally inverted &mdash; issues that should resolve at lower tiers are forced upward, while complex issues that need senior attention circulate without landing. 18 orphaned escalations and 9 bouncebacks suggest the escalation system operates as a holding pattern, not a resolution mechanism.
+    </div>
+    <div class="fm-cascade">
+      Cascade risk: FM-02 &rarr; FM-10 (Strategic Freeze)
+    </div>
+  </div>
+
+  <div class="fm-card">
+    <div class="fm-header">
+      <span class="fm-id">FM-14</span>
+      <span class="fm-name">Narrative Collapse</span>
+    </div>
+    <div class="fm-body">
+      The shared story the organization tells itself about what it is and why it exists is fragmenting. Center claims emphasize a mission to democratize access, but edge observations describe a rigid, top-down operational structure with opaque decision logic. When the internal narrative diverges from external experience, coordination degrades because people are no longer solving the same problem.
+    </div>
+    <div class="fm-cascade">
+      Cascade risk: FM-14 &rarr; FM-12 (Strategic Paralysis) &rarr; FM-11
+    </div>
+  </div>
+
+  <div class="fm-card">
+    <div class="fm-header">
+      <span class="fm-id">FM-16</span>
+      <span class="fm-name">Process Inflation</span>
+    </div>
+    <div class="fm-body">
+      Processes designed to manage risk have accumulated beyond their original purpose. What was built for regulatory compliance now extends into routine operations, creating friction at every customer touchpoint. The organization adds process to contain problems rather than resolving the structural conditions that produce them.
+    </div>
+    <div class="fm-cascade">
+      Cascade risk: FM-16 &rarr; FM-05 (Normalized Workarounds)
+    </div>
+  </div>
+
+  <div class="fm-card">
+    <div class="fm-header">
+      <span class="fm-id">FM-06</span>
+      <span class="fm-name">Adaptive Overreach</span>
+    </div>
+    <div class="fm-body">
+      Individuals and teams compensate for structural gaps by extending beyond their defined roles. This creates short-term resilience but masks the underlying condition. When the compensators burn out or leave, the gap they were filling becomes suddenly, visibly catastrophic.
+    </div>
+    <div class="fm-cascade">
+      Cascade risk: FM-06 &rarr; FM-09 (Over-Escalation) &rarr; FM-16
+    </div>
+  </div>
+
+  <h3>The Cascade Pattern</h3>
+
+  <p>These six failure modes don't exist independently. FM-01 (Compression) feeds FM-03 (Responsibility Without Authority), which triggers FM-02 (Escalation Inversion). Simultaneously, FM-14 (Narrative Collapse) undermines the shared understanding needed to coordinate response, while FM-16 (Process Inflation) adds friction to every attempted fix. FM-06 (Adaptive Overreach) is what holds the system together &mdash; until it doesn't.</p>
+
+  <p>This is a <strong>cascade in progress</strong>, not a collection of independent issues. Addressing any single failure mode without understanding the chain will push the stress to adjacent conditions &mdash; which is exactly what the trajectory data shows happening.</p>
+
+  <p>Across a 15-entity fleet diagnostic, FM-01 appeared in 5 organizations. In the fintech sector specifically, it was detected in all three entities analyzed &mdash; suggesting a <strong>sector-level structural pattern</strong> driven by the intersection of regulatory compliance requirements and customer support scalability.</p>
 
   <!-- ── Precursor Signals ── -->
   <h2>Precursor Signals</h2>
@@ -908,9 +981,9 @@
   </div>
 
   <!-- ── Trajectory ── -->
-  <h2>Trajectory: The Condition Migrates</h2>
+  <h2>Continuity: The Condition Migrates</h2>
 
-  <p>This organization was scanned across multiple periods as data quality improved. The coherence score is only part of the story. Watch where the stress moves.</p>
+  <p>Continuity measures whether an organization retains what it learns. This entity was scanned across four collection periods as data quality improved from Grade C to Grade A. The coherence score is only part of the story. Watch where the stress moves &mdash; that's where continuity breaks.</p>
 
   <div class="trajectory-grid">
     <div class="trajectory-item">
