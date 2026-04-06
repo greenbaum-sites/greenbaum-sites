@@ -380,6 +380,25 @@
       font-size: 1rem;
     }
 
+    .fm-card a.fm-link {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      transition: color 0.2s ease;
+    }
+    .fm-card a.fm-link:hover .fm-name { color: var(--accent); }
+    .fm-card a.fm-link:hover .fm-id { color: var(--accent); }
+    .fm-card a.fm-link::after {
+      content: '\2197';
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-left: auto;
+      transition: color 0.2s ease;
+    }
+    .fm-card a.fm-link:hover::after { color: var(--accent); }
+
     .fm-body {
       font-size: 0.9rem;
       color: var(--text-secondary);
@@ -834,10 +853,10 @@
   <p>Across the full analysis period, the diagnostic detected <strong>6 active failure modes</strong> &mdash; structural conditions that crossed the activation threshold at least once. Some have since receded as the organization responded. Others remain active. The cascade relationships between them tell the real story.</p>
 
   <div class="fm-card">
-    <div class="fm-header">
+    <a href="https://dripractice.com/fm/fm-01" target="_blank" class="fm-link">
       <span class="fm-id">FM-01</span>
       <span class="fm-name">Responsibility Compression</span>
-    </div>
+    </a>
     <div class="fm-body">
       Operational responsibility concentrates at the execution layer without corresponding decision-making authority. In this organization, the compression point is compliance: critical actions affecting customer accounts require senior authorization, but the volume of cases exceeds the capacity of those roles. The result is a queue, not a resolution path.
     </div>
@@ -847,10 +866,10 @@
   </div>
 
   <div class="fm-card">
-    <div class="fm-header">
+    <a href="https://dripractice.com/fm/fm-03" target="_blank" class="fm-link">
       <span class="fm-id">FM-03</span>
       <span class="fm-name">Responsibility Without Authority</span>
-    </div>
+    </a>
     <div class="fm-body">
       Frontline teams carry the responsibility for resolving customer account issues but lack the authority to take action on freezes, holds, or restrictions. Customers experience this as being bounced between channels. Employees experience it as being accountable for outcomes they cannot control.
     </div>
@@ -860,10 +879,10 @@
   </div>
 
   <div class="fm-card">
-    <div class="fm-header">
+    <a href="https://dripractice.com/fm/fm-02" target="_blank" class="fm-link">
       <span class="fm-id">FM-02</span>
       <span class="fm-name">Escalation Inversion</span>
-    </div>
+    </a>
     <div class="fm-body">
       Escalation paths are functionally inverted &mdash; issues that should resolve at lower tiers are forced upward, while complex issues that need senior attention circulate without landing. 18 orphaned escalations and 9 bouncebacks suggest the escalation system operates as a holding pattern, not a resolution mechanism.
     </div>
@@ -873,10 +892,10 @@
   </div>
 
   <div class="fm-card">
-    <div class="fm-header">
+    <a href="https://dripractice.com/fm/fm-14" target="_blank" class="fm-link">
       <span class="fm-id">FM-14</span>
       <span class="fm-name">Narrative Collapse</span>
-    </div>
+    </a>
     <div class="fm-body">
       The shared story the organization tells itself about what it is and why it exists is fragmenting. Center claims emphasize a mission to democratize access, but edge observations describe a rigid, top-down operational structure with opaque decision logic. When the internal narrative diverges from external experience, coordination degrades because people are no longer solving the same problem.
     </div>
@@ -886,10 +905,10 @@
   </div>
 
   <div class="fm-card">
-    <div class="fm-header">
+    <a href="https://dripractice.com/fm/fm-16" target="_blank" class="fm-link">
       <span class="fm-id">FM-16</span>
       <span class="fm-name">Process Inflation</span>
-    </div>
+    </a>
     <div class="fm-body">
       Processes designed to manage risk have accumulated beyond their original purpose. What was built for regulatory compliance now extends into routine operations, creating friction at every customer touchpoint. The organization adds process to contain problems rather than resolving the structural conditions that produce them.
     </div>
@@ -899,10 +918,10 @@
   </div>
 
   <div class="fm-card">
-    <div class="fm-header">
+    <a href="https://dripractice.com/fm/fm-06" target="_blank" class="fm-link">
       <span class="fm-id">FM-06</span>
       <span class="fm-name">Adaptive Overreach</span>
-    </div>
+    </a>
     <div class="fm-body">
       Individuals and teams compensate for structural gaps by extending beyond their defined roles. This creates short-term resilience but masks the underlying condition. When the compensators burn out or leave, the gap they were filling becomes suddenly, visibly catastrophic.
     </div>
@@ -912,6 +931,144 @@
   </div>
 
   <h3>The Cascade Pattern</h3>
+
+  <!-- Cascade Waterfall SVG -->
+  <div style="margin: 2.5rem 0; overflow-x: auto;">
+    <svg viewBox="0 0 700 420" xmlns="http://www.w3.org/2000/svg" style="width: 100%; max-width: 700px; display: block; margin: 0 auto;">
+      <defs>
+        <marker id="arrow-red" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 4 L 0 8 z" fill="#e85d4a"/>
+        </marker>
+        <marker id="arrow-orange" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 4 L 0 8 z" fill="#e8a84a"/>
+        </marker>
+        <marker id="arrow-dim" viewBox="0 0 10 8" refX="10" refY="4" markerWidth="8" markerHeight="6" orient="auto-start-reverse">
+          <path d="M 0 0 L 10 4 L 0 8 z" fill="#4d4945"/>
+        </marker>
+      </defs>
+
+      <!-- Tier labels -->
+      <text x="12" y="60" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#4d4945" text-anchor="start">TIER 1</text>
+      <text x="12" y="72" font-family="JetBrains Mono" font-size="6" letter-spacing="1" fill="#3a3632" text-anchor="start">FOUNDATIONAL</text>
+      <text x="12" y="200" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#4d4945" text-anchor="start">TIER 2</text>
+      <text x="12" y="212" font-family="JetBrains Mono" font-size="6" letter-spacing="1" fill="#3a3632" text-anchor="start">SYSTEMIC</text>
+      <text x="12" y="340" font-family="JetBrains Mono" font-size="7" letter-spacing="2" fill="#4d4945" text-anchor="start">TIER 3</text>
+      <text x="12" y="352" font-family="JetBrains Mono" font-size="6" letter-spacing="1" fill="#3a3632" text-anchor="start">TERMINAL</text>
+
+      <!-- Tier divider lines -->
+      <line x1="80" y1="130" x2="688" y2="130" stroke="#1c1c1c" stroke-width="1"/>
+      <line x1="80" y1="270" x2="688" y2="270" stroke="#1c1c1c" stroke-width="1"/>
+
+      <style>
+        .fm-node rect { transition: fill 0.2s ease; cursor: pointer; }
+        .fm-node:hover rect { fill: #242424; }
+        .fm-node:hover text.fm-node-name { fill: #e8e4dc; }
+      </style>
+
+      <!-- ═══ TIER 1 NODES (Active — red) ═══ -->
+      <a href="https://dripractice.com/fm/fm-01" target="_blank" class="fm-node">
+        <rect x="100" y="40" width="170" height="56" rx="3" fill="#1c1c1c" stroke="#e85d4a" stroke-width="1.5"/>
+        <text x="115" y="60" font-family="JetBrains Mono" font-size="8" fill="#e85d4a" letter-spacing="1">FM-01</text>
+        <text x="160" y="60" font-family="Instrument Sans" font-size="8.5" fill="#e8e4dc" font-weight="600">ACTIVE</text>
+        <text x="115" y="78" font-family="Instrument Sans" font-size="9" fill="#8a857f" class="fm-node-name">Responsibility Compression</text>
+      </a>
+
+      <a href="https://dripractice.com/fm/fm-03" target="_blank" class="fm-node">
+        <rect x="310" y="40" width="190" height="56" rx="3" fill="#1c1c1c" stroke="#e85d4a" stroke-width="1.5"/>
+        <text x="325" y="60" font-family="JetBrains Mono" font-size="8" fill="#e85d4a" letter-spacing="1">FM-03</text>
+        <text x="370" y="60" font-family="Instrument Sans" font-size="8.5" fill="#e8e4dc" font-weight="600">ACTIVE</text>
+        <text x="325" y="78" font-family="Instrument Sans" font-size="9" fill="#8a857f" class="fm-node-name">Responsibility Without Authority</text>
+      </a>
+
+      <!-- ═══ TIER 2 NODES ═══ -->
+      <a href="https://dripractice.com/fm/fm-02" target="_blank" class="fm-node">
+        <rect x="100" y="170" width="160" height="56" rx="3" fill="#1c1c1c" stroke="#e8a84a" stroke-width="1.5"/>
+        <text x="115" y="190" font-family="JetBrains Mono" font-size="8" fill="#e8a84a" letter-spacing="1">FM-02</text>
+        <text x="160" y="190" font-family="Instrument Sans" font-size="8.5" fill="#e8e4dc" font-weight="600">ACTIVE</text>
+        <text x="115" y="208" font-family="Instrument Sans" font-size="9" fill="#8a857f" class="fm-node-name">Escalation Inversion</text>
+      </a>
+
+      <a href="https://dripractice.com/fm/fm-06" target="_blank" class="fm-node">
+        <rect x="300" y="170" width="160" height="56" rx="3" fill="#1c1c1c" stroke="#e8a84a" stroke-width="1.5"/>
+        <text x="315" y="190" font-family="JetBrains Mono" font-size="8" fill="#e8a84a" letter-spacing="1">FM-06</text>
+        <text x="360" y="190" font-family="Instrument Sans" font-size="8.5" fill="#e8e4dc" font-weight="600">ACTIVE</text>
+        <text x="315" y="208" font-family="Instrument Sans" font-size="9" fill="#8a857f" class="fm-node-name">Adaptive Overreach</text>
+      </a>
+
+      <a href="https://dripractice.com/fm/fm-16" target="_blank" class="fm-node">
+        <rect x="500" y="170" width="160" height="56" rx="3" fill="#1c1c1c" stroke="#e8a84a" stroke-width="1.5"/>
+        <text x="515" y="190" font-family="JetBrains Mono" font-size="8" fill="#e8a84a" letter-spacing="1">FM-16</text>
+        <text x="560" y="190" font-family="Instrument Sans" font-size="8.5" fill="#e8e4dc" font-weight="600">ACTIVE</text>
+        <text x="515" y="208" font-family="Instrument Sans" font-size="9" fill="#8a857f" class="fm-node-name">Process Inflation</text>
+      </a>
+
+      <!-- ═══ TIER 3 NODES ═══ -->
+      <a href="https://dripractice.com/fm/fm-14" target="_blank" class="fm-node">
+        <rect x="100" y="310" width="170" height="56" rx="3" fill="#1c1c1c" stroke="#e8a84a" stroke-width="1.5"/>
+        <text x="115" y="330" font-family="JetBrains Mono" font-size="8" fill="#e8a84a" letter-spacing="1">FM-14</text>
+        <text x="163" y="330" font-family="Instrument Sans" font-size="8.5" fill="#e8e4dc" font-weight="600">ACTIVE</text>
+        <text x="115" y="348" font-family="Instrument Sans" font-size="9" fill="#8a857f" class="fm-node-name">Narrative Collapse</text>
+      </a>
+
+      <a href="https://dripractice.com/fm/fm-09" target="_blank" class="fm-node">
+        <rect x="310" y="310" width="160" height="56" rx="3" fill="#161616" stroke="#4d4945" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="325" y="330" font-family="JetBrains Mono" font-size="8" fill="#4d4945" letter-spacing="1">FM-09</text>
+        <text x="370" y="330" font-family="Instrument Sans" font-size="8.5" fill="#4d4945" font-weight="500">AT RISK</text>
+        <text x="325" y="348" font-family="Instrument Sans" font-size="9" fill="#3a3632" class="fm-node-name">Over-Escalation</text>
+      </a>
+
+      <a href="https://dripractice.com/fm/fm-05" target="_blank" class="fm-node">
+        <rect x="510" y="310" width="170" height="56" rx="3" fill="#161616" stroke="#4d4945" stroke-width="1" stroke-dasharray="4,3"/>
+        <text x="525" y="330" font-family="JetBrains Mono" font-size="8" fill="#4d4945" letter-spacing="1">FM-05</text>
+        <text x="570" y="330" font-family="Instrument Sans" font-size="8.5" fill="#4d4945" font-weight="500">AT RISK</text>
+        <text x="525" y="348" font-family="Instrument Sans" font-size="9" fill="#3a3632" class="fm-node-name">Normalized Workarounds</text>
+      </a>
+
+      <!-- ═══ CASCADE ARROWS ═══ -->
+      <!-- FM-01 → FM-03 -->
+      <line x1="270" y1="68" x2="307" y2="68" stroke="#e85d4a" stroke-width="1.5" marker-end="url(#arrow-red)"/>
+
+      <!-- FM-01 → FM-02 (down) -->
+      <path d="M 185 96 L 185 167" stroke="#e85d4a" stroke-width="1.5" fill="none" marker-end="url(#arrow-red)"/>
+
+      <!-- FM-03 → FM-02 (down-left) -->
+      <path d="M 370 96 L 230 167" stroke="#e85d4a" stroke-width="1.5" fill="none" marker-end="url(#arrow-red)"/>
+
+      <!-- FM-03 → FM-09 (down to at-risk) -->
+      <path d="M 440 96 L 440 140 L 390 140 L 390 307" stroke="#e85d4a" stroke-width="1" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
+
+      <!-- FM-02 → FM-09 (down) -->
+      <path d="M 180 226 L 180 280 L 360 280 L 360 307" stroke="#e8a84a" stroke-width="1" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
+
+      <!-- FM-06 → FM-16 (right) -->
+      <line x1="460" y1="198" x2="497" y2="198" stroke="#e8a84a" stroke-width="1.5" marker-end="url(#arrow-orange)"/>
+
+      <!-- FM-06 → FM-09 (down) -->
+      <path d="M 380 226 L 380 307" stroke="#e8a84a" stroke-width="1" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
+
+      <!-- FM-16 → FM-05 (down) -->
+      <path d="M 580 226 L 580 307" stroke="#e8a84a" stroke-width="1" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
+
+      <!-- FM-14 → FM-09 (right, at risk) -->
+      <path d="M 270 338 L 307 338" stroke="#e8a84a" stroke-width="1" fill="none" stroke-dasharray="4,3" marker-end="url(#arrow-dim)"/>
+
+      <!-- Legend -->
+      <rect x="100" y="392" width="10" height="10" rx="1" fill="none" stroke="#e85d4a" stroke-width="1.5"/>
+      <text x="116" y="401" font-family="JetBrains Mono" font-size="7" fill="#8a857f">Active (Tier 1)</text>
+
+      <rect x="220" y="392" width="10" height="10" rx="1" fill="none" stroke="#e8a84a" stroke-width="1.5"/>
+      <text x="236" y="401" font-family="JetBrains Mono" font-size="7" fill="#8a857f">Active (Tier 2-3)</text>
+
+      <rect x="360" y="392" width="10" height="10" rx="1" fill="none" stroke="#4d4945" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="376" y="401" font-family="JetBrains Mono" font-size="7" fill="#8a857f">At Risk</text>
+
+      <line x1="460" y1="397" x2="480" y2="397" stroke="#e85d4a" stroke-width="1.5"/>
+      <text x="486" y="401" font-family="JetBrains Mono" font-size="7" fill="#8a857f">Active cascade</text>
+
+      <line x1="580" y1="397" x2="600" y2="397" stroke="#4d4945" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="606" y="401" font-family="JetBrains Mono" font-size="7" fill="#8a857f">Risk path</text>
+    </svg>
+  </div>
 
   <p>These six failure modes don't exist independently. FM-01 (Compression) feeds FM-03 (Responsibility Without Authority), which triggers FM-02 (Escalation Inversion). Simultaneously, FM-14 (Narrative Collapse) undermines the shared understanding needed to coordinate response, while FM-16 (Process Inflation) adds friction to every attempted fix. FM-06 (Adaptive Overreach) is what holds the system together &mdash; until it doesn't.</p>
 
