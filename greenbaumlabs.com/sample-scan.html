@@ -23,7 +23,7 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg-primary: #0a0a0a;
@@ -112,10 +112,10 @@
     }
 
     .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2.5rem, 5vw, 3.5rem);
-      line-height: 1.15;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
       margin-bottom: 1.5rem;
     }
 
@@ -145,11 +145,10 @@
     }
 
     .context-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
+      font-size: 1.1rem;
       font-style: italic;
       color: var(--text-primary);
-      line-height: 1.6;
+      line-height: 1.8;
     }
 
     /* ── Content ── */
@@ -160,12 +159,13 @@
     }
 
     .content h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.8rem;
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
       margin: 4rem 0 1.5rem;
       padding-top: 2rem;
       border-top: 1px solid var(--border);
+      color: var(--text-primary);
     }
 
     .content h2:first-of-type {
@@ -216,9 +216,9 @@
     }
 
     .glance-value {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2rem;
-      font-weight: 300;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 600;
       color: var(--text-primary);
     }
 
@@ -266,9 +266,9 @@
     .vertex-name.continuity { color: var(--text-dim); }
 
     .vertex-score {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 2.2rem;
-      font-weight: 300;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2rem;
+      font-weight: 600;
       margin-bottom: 0.25rem;
     }
 
@@ -469,9 +469,9 @@
     }
 
     .trajectory-score {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-weight: 300;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.6rem;
+      font-weight: 600;
     }
 
     .trajectory-vertex {
@@ -585,9 +585,9 @@
     }
 
     .cta-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: clamp(1.5rem, 3vw, 2rem);
-      font-weight: 300;
+      font-size: clamp(1.3rem, 3vw, 1.6rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
       max-width: 500px;
       margin: 0 auto 2rem;
       line-height: 1.4;
@@ -756,14 +756,14 @@
       <text x="400" y="385" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#4d4945">CONTINUITY</text>
 
       <!-- Score labels -->
-      <text x="230" y="140" text-anchor="middle" font-family="Cormorant Garamond" font-size="22" fill="#e8a84a">0.44</text>
-      <text x="120" y="315" text-anchor="middle" font-family="Cormorant Garamond" font-size="22" fill="#e85d4a">0.38</text>
-      <text x="340" y="315" text-anchor="middle" font-family="Cormorant Garamond" font-size="16" fill="#4d4945">&#8212;</text>
+      <text x="230" y="140" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="#e8a84a">0.44</text>
+      <text x="120" y="315" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="#e85d4a">0.38</text>
+      <text x="340" y="315" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#4d4945">&#8212;</text>
       <text x="340" y="335" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#4d4945">INSUFFICIENT DATA</text>
 
       <!-- Overall -->
       <text x="230" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="rgba(201,168,76,0.5)">OVERALL</text>
-      <text x="230" y="265" text-anchor="middle" font-family="Cormorant Garamond" font-size="28" fill="#e8e4dc">0.47</text>
+      <text x="230" y="265" text-anchor="middle" font-family="JetBrains Mono" font-size="28" fill="#e8e4dc">0.47</text>
     </svg>
   </div>
 
