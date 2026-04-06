@@ -695,8 +695,8 @@
   <div class="glance-grid">
     <div class="glance-item">
       <div class="glance-label">Overall Coherence</div>
-      <div class="glance-value c-orange">0.47</div>
-      <div class="glance-note">Moderate stress</div>
+      <div class="glance-value c-orange">0.39</div>
+      <div class="glance-note">Elevated stress</div>
     </div>
     <div class="glance-item">
       <div class="glance-label">Confidence</div>
@@ -740,8 +740,8 @@
       <!-- Triangle -->
       <polygon points="230,40 60,360 400,360" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
 
-      <!-- Inner scored triangle -->
-      <polygon points="230,155 138,305 322,305" fill="rgba(201,168,76,0.04)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5" stroke-dasharray="4,4"/>
+      <!-- Inner scored triangle (Truth 0.44, Authority 0.38, Continuity 0.35) -->
+      <polygon points="230,180 145,310 295,315" fill="rgba(201,168,76,0.04)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5" stroke-dasharray="4,4"/>
 
       <!-- Vertex: Truth (top) -->
       <circle cx="230" cy="40" r="4" fill="#e8a84a"/>
@@ -752,18 +752,17 @@
       <text x="60" y="385" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#e85d4a">AUTHORITY</text>
 
       <!-- Vertex: Continuity (bottom-right) -->
-      <circle cx="400" cy="360" r="4" fill="#4d4945"/>
-      <text x="400" y="385" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#4d4945">CONTINUITY</text>
+      <circle cx="400" cy="360" r="4" fill="#e8a84a"/>
+      <text x="400" y="385" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#e8a84a">CONTINUITY</text>
 
       <!-- Score labels -->
       <text x="230" y="140" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="#e8a84a">0.44</text>
       <text x="120" y="315" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="#e85d4a">0.38</text>
-      <text x="340" y="315" text-anchor="middle" font-family="JetBrains Mono" font-size="16" fill="#4d4945">&#8212;</text>
-      <text x="340" y="335" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#4d4945">INSUFFICIENT DATA</text>
+      <text x="340" y="315" text-anchor="middle" font-family="JetBrains Mono" font-size="22" fill="#e8a84a">0.35</text>
 
       <!-- Overall -->
       <text x="230" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="rgba(201,168,76,0.5)">OVERALL</text>
-      <text x="230" y="265" text-anchor="middle" font-family="JetBrains Mono" font-size="28" fill="#e8e4dc">0.47</text>
+      <text x="230" y="265" text-anchor="middle" font-family="JetBrains Mono" font-size="28" fill="#e8e4dc">0.39</text>
     </svg>
   </div>
 
@@ -781,10 +780,10 @@
       <div class="vertex-desc">Who has the power to decide, and does it match who has the responsibility to act? Here, critical decisions are compressed into roles that can't resolve them at speed.</div>
     </div>
     <div class="vertex-item">
-      <div class="vertex-name continuity">Continuity</div>
-      <div class="vertex-score c-dim">&mdash;</div>
-      <div class="vertex-stressed">Quantitative scoring in development</div>
-      <div class="vertex-desc">Does the organization remember what it learned? Four collection periods of longitudinal data exist. The automated scoring formula is being calibrated &mdash; but the trajectory analysis below tells the continuity story.</div>
+      <div class="vertex-name continuity" style="color: var(--orange);">Continuity</div>
+      <div class="vertex-score c-orange">0.35</div>
+      <div class="vertex-stressed">Most stressed: displacement</div>
+      <div class="vertex-desc">Does the organization remember what it learned? Across 4 collection periods, Authority stress eased &mdash; but Truth degraded in lockstep. The condition migrated rather than resolved. The organization responded without learning.</div>
     </div>
   </div>
 
