@@ -1,0 +1,1020 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <title>Coherence Weather Map: Consumer Fintech — Greenbaum Labs</title>
+  <meta name="description" content="A sample Coherence Scan of a high-growth consumer fintech platform. What organizational physics look like when measured — no blame, just structure.">
+
+  <meta property="og:title" content="Coherence Weather Map: Consumer Fintech">
+  <meta property="og:description" content="What organizational physics look like when measured. A sample diagnostic from the Coherence External Diagnostic Pipeline.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+  <meta property="og:url" content="https://greenbaumlabs.com/sample-scan">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Coherence Weather Map: Consumer Fintech">
+  <meta name="twitter:description" content="What organizational physics look like when measured. No blame — just structure.">
+  <meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #161616;
+      --bg-card: #1c1c1c;
+      --bg-terminal: #0c0c0c;
+      --text-primary: #e8e4dc;
+      --text-secondary: #8a857f;
+      --text-dim: #4d4945;
+      --green: #5dba5d;
+      --green-dim: rgba(93, 186, 93, 0.08);
+      --green-glow: rgba(93, 186, 93, 0.15);
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --warm-dim: rgba(200, 85, 58, 0.1);
+      --red: #e85d4a;
+      --orange: #e8a84a;
+      --yellow: #d4c45a;
+      --cyan: #5eb8c4;
+      --border: rgba(240, 236, 228, 0.07);
+      --border-accent: rgba(201, 168, 76, 0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+      z-index: 100;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 8rem 3rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      line-height: 1.15;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* ── Context Box ── */
+    .context-box {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-accent);
+      padding: 2rem;
+      margin: 3rem auto;
+      max-width: 800px;
+    }
+
+    .context-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .context-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.4rem;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.6;
+    }
+
+    /* ── Content ── */
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 3rem 6rem;
+    }
+
+    .content h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 400;
+      font-size: 1.8rem;
+      margin: 4rem 0 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+    }
+
+    .content h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .content h3 {
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 2.5rem 0 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .content p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .content strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ── At a Glance Grid ── */
+    .glance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-accent);
+      margin: 2rem 0;
+    }
+
+    .glance-item {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+    }
+
+    .glance-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .glance-value {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2rem;
+      font-weight: 300;
+      color: var(--text-primary);
+    }
+
+    .glance-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Triangle ── */
+    .triangle-container {
+      display: flex;
+      justify-content: center;
+      margin: 3rem 0;
+    }
+
+    .triangle-svg {
+      width: 100%;
+      max-width: 460px;
+    }
+
+    .vertex-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-accent);
+      margin: 2rem 0;
+    }
+
+    .vertex-item {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+    }
+
+    .vertex-name {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    .vertex-name.truth { color: var(--orange); }
+    .vertex-name.authority { color: var(--red); }
+    .vertex-name.continuity { color: var(--text-dim); }
+
+    .vertex-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.2rem;
+      font-weight: 300;
+      margin-bottom: 0.25rem;
+    }
+
+    .vertex-stressed {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+    }
+
+    .vertex-desc {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Velocity ── */
+    .velocity-bar-container {
+      margin: 2rem 0;
+    }
+
+    .velocity-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 60px;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+
+    .velocity-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .velocity-bar {
+      height: 8px;
+      border-radius: 1px;
+      position: relative;
+    }
+
+    .velocity-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      text-align: right;
+    }
+
+    /* ── Finding Cards ── */
+    .finding-card {
+      background: var(--bg-secondary);
+      border-left: 2px solid var(--accent);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .finding-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .finding-text {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+
+    .finding-evidence {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── FM Cards ── */
+    .fm-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .fm-header {
+      display: flex;
+      align-items: baseline;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .fm-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--red);
+      text-transform: uppercase;
+    }
+
+    .fm-name {
+      font-weight: 600;
+      font-size: 1rem;
+    }
+
+    .fm-body {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .fm-cascade {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--warm);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.75rem;
+      padding-top: 0.75rem;
+      border-top: 1px solid var(--border);
+    }
+
+    /* ── Field Notes ── */
+    .field-note {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 60px 1fr;
+      gap: 1rem;
+      align-items: baseline;
+    }
+
+    .field-note-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--accent);
+      letter-spacing: 0.1em;
+    }
+
+    .field-note-signal {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    .field-note-count {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+    }
+
+    /* ── Trajectory ── */
+    .trajectory-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 2rem 0;
+    }
+
+    .trajectory-item {
+      background: var(--bg-secondary);
+      padding: 1.25rem;
+    }
+
+    .trajectory-period {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .trajectory-score {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem;
+      font-weight: 300;
+    }
+
+    .trajectory-vertex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.45rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.25rem;
+    }
+
+    /* ── Watch List ── */
+    .watch-list {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+
+    .watch-list li {
+      padding: 0.75rem 0;
+      padding-left: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      position: relative;
+      line-height: 1.7;
+    }
+
+    .watch-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.1rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .watch-list li strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ── Methodology ── */
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 2rem 0;
+    }
+
+    .method-item {
+      background: var(--bg-secondary);
+      padding: 1.25rem;
+    }
+
+    .method-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .method-value {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Skeptic Box ── */
+    .skeptic-box {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .skeptic-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 0.75rem;
+    }
+
+    .skeptic-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      text-align: center;
+      padding: 5rem 3rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .cta-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 300;
+      max-width: 500px;
+      margin: 0 auto 2rem;
+      line-height: 1.4;
+    }
+
+    .cta-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--border-accent);
+      padding: 1rem 2.5rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .cta-link:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-l {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .footer-r a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    .footer-r a:hover { color: var(--text-secondary); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .content { padding: 0 1.5rem 4rem; }
+      .context-box { margin: 2rem 1.5rem; }
+      .glance-grid, .vertex-grid { grid-template-columns: 1fr; }
+      .trajectory-grid { grid-template-columns: repeat(2, 1fr); }
+      .method-grid { grid-template-columns: 1fr; }
+      .back-link { top: 1rem; left: 1rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-r a { margin: 0 0.75rem; }
+      .velocity-row { grid-template-columns: 80px 1fr 50px; }
+    }
+
+    /* ── Inline color helpers ── */
+    .c-red { color: var(--red); }
+    .c-orange { color: var(--orange); }
+    .c-yellow { color: var(--yellow); }
+    .c-green { color: var(--green); }
+    .c-accent { color: var(--accent); }
+    .c-dim { color: var(--text-dim); }
+    .c-warm { color: var(--warm); }
+  </style>
+</head>
+<body>
+
+<a href="/" class="back-link">
+  <span>&larr;</span> Greenbaum Labs
+</a>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div class="hero">
+  <div class="hero-label">Sample Coherence Scan</div>
+  <h1>Weather Map:<br>Consumer Fintech Platform</h1>
+  <p class="hero-sub">
+    This is a real diagnostic of a real organization, produced entirely from publicly available data. The company is anonymized. The structural conditions are not.
+  </p>
+</div>
+
+<!-- ═══════════════ CONTEXT ═══════════════ -->
+<div class="context-box">
+  <div class="context-label">How to read this</div>
+  <div class="context-text">
+    This is a weather map, not a report card. It measures the gap between what an organization says and what the world experiences. Nobody caused these conditions. Nobody is to blame. But someone has to see them to change them.
+  </div>
+</div>
+
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<div class="content">
+
+  <!-- ── At a Glance ── -->
+  <h2>At a Glance</h2>
+
+  <div class="glance-grid">
+    <div class="glance-item">
+      <div class="glance-label">Overall Coherence</div>
+      <div class="glance-value c-orange">0.47</div>
+      <div class="glance-note">Moderate stress</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Confidence</div>
+      <div class="glance-value">0.78</div>
+      <div class="glance-note">High</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Data Quality</div>
+      <div class="glance-value c-green">A</div>
+      <div class="glance-note">Strong coverage</div>
+    </div>
+  </div>
+
+  <div class="glance-grid">
+    <div class="glance-item">
+      <div class="glance-label">Source Documents</div>
+      <div class="glance-value">69</div>
+      <div class="glance-note">Collection files across 7 source types</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Claims Extracted</div>
+      <div class="glance-value">238</div>
+      <div class="glance-note">From organizational narrative</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Observations Extracted</div>
+      <div class="glance-value">4,848</div>
+      <div class="glance-note">From external reality</div>
+    </div>
+  </div>
+
+  <p>The pipeline collected public data from SEC filings, earnings transcripts, job postings, employee reviews, customer reviews, social media, news coverage, and regulatory signals. It extracted what the organization says about itself (<strong>claims</strong>) and what the world says about the organization (<strong>observations</strong>). Then it measured the gap.</p>
+
+  <!-- ── Triangle ── -->
+  <h2>The Coherence Triangle</h2>
+
+  <p>Organizational coherence rests on three vertices. When they align, the organization functions. When they diverge, structural conditions emerge that no amount of effort can compensate for.</p>
+
+  <div class="triangle-container">
+    <svg class="triangle-svg" viewBox="0 0 460 400" xmlns="http://www.w3.org/2000/svg">
+      <!-- Triangle -->
+      <polygon points="230,40 60,360 400,360" fill="none" stroke="rgba(201,168,76,0.15)" stroke-width="1"/>
+
+      <!-- Inner scored triangle -->
+      <polygon points="230,155 138,305 322,305" fill="rgba(201,168,76,0.04)" stroke="rgba(201,168,76,0.5)" stroke-width="1.5" stroke-dasharray="4,4"/>
+
+      <!-- Vertex: Truth (top) -->
+      <circle cx="230" cy="40" r="4" fill="#e8a84a"/>
+      <text x="230" y="22" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#e8a84a" text-transform="uppercase">TRUTH</text>
+
+      <!-- Vertex: Authority (bottom-left) -->
+      <circle cx="60" cy="360" r="4" fill="#e85d4a"/>
+      <text x="60" y="385" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#e85d4a">AUTHORITY</text>
+
+      <!-- Vertex: Continuity (bottom-right) -->
+      <circle cx="400" cy="360" r="4" fill="#4d4945"/>
+      <text x="400" y="385" text-anchor="middle" font-family="JetBrains Mono" font-size="9" letter-spacing="2" fill="#4d4945">CONTINUITY</text>
+
+      <!-- Score labels -->
+      <text x="230" y="140" text-anchor="middle" font-family="Cormorant Garamond" font-size="22" fill="#e8a84a">0.44</text>
+      <text x="120" y="315" text-anchor="middle" font-family="Cormorant Garamond" font-size="22" fill="#e85d4a">0.38</text>
+      <text x="340" y="315" text-anchor="middle" font-family="Cormorant Garamond" font-size="16" fill="#4d4945">&#8212;</text>
+      <text x="340" y="335" text-anchor="middle" font-family="JetBrains Mono" font-size="7" fill="#4d4945">INSUFFICIENT DATA</text>
+
+      <!-- Overall -->
+      <text x="230" y="240" text-anchor="middle" font-family="JetBrains Mono" font-size="8" letter-spacing="2" fill="rgba(201,168,76,0.5)">OVERALL</text>
+      <text x="230" y="265" text-anchor="middle" font-family="Cormorant Garamond" font-size="28" fill="#e8e4dc">0.47</text>
+    </svg>
+  </div>
+
+  <div class="vertex-grid">
+    <div class="vertex-item">
+      <div class="vertex-name truth">Truth</div>
+      <div class="vertex-score c-orange">0.44</div>
+      <div class="vertex-stressed">Most stressed: omission</div>
+      <div class="vertex-desc">The gap between what the organization says and what is true. This organization's financial narrative aligns with performance. Its operational narrative does not.</div>
+    </div>
+    <div class="vertex-item">
+      <div class="vertex-name authority">Authority</div>
+      <div class="vertex-score c-red">0.38</div>
+      <div class="vertex-stressed">Most stressed: compression</div>
+      <div class="vertex-desc">Who has the power to decide, and does it match who has the responsibility to act? Here, critical decisions are compressed into roles that can't resolve them at speed.</div>
+    </div>
+    <div class="vertex-item">
+      <div class="vertex-name continuity">Continuity</div>
+      <div class="vertex-score c-dim">&mdash;</div>
+      <div class="vertex-stressed">Not yet scored</div>
+      <div class="vertex-desc">Does the organization remember what it learned? Requires longitudinal data across multiple collection periods. Assessment pending.</div>
+    </div>
+  </div>
+
+  <!-- ── Signal Velocity ── -->
+  <h2>Signal Velocity</h2>
+
+  <p>Signal velocity measures how much heat an organization generates per document analyzed. It's the ratio of negative observations to total documents. A velocity above 50 is elevated. Above 100 is critical. <strong>This organization registered 176.</strong></p>
+
+  <div class="velocity-bar-container">
+    <div class="velocity-row">
+      <div class="velocity-label c-red">This entity</div>
+      <div class="velocity-bar" style="width: 100%; background: linear-gradient(90deg, var(--orange), var(--red));"></div>
+      <div class="velocity-number c-red">176.1</div>
+    </div>
+    <div class="velocity-row">
+      <div class="velocity-label">Peer A</div>
+      <div class="velocity-bar" style="width: 60%; background: var(--orange);"></div>
+      <div class="velocity-number c-orange">105.7</div>
+    </div>
+    <div class="velocity-row">
+      <div class="velocity-label">Peer B</div>
+      <div class="velocity-bar" style="width: 51%; background: var(--orange);"></div>
+      <div class="velocity-number c-orange">90.9</div>
+    </div>
+    <div class="velocity-row">
+      <div class="velocity-label">Peer C</div>
+      <div class="velocity-bar" style="width: 40%; background: var(--yellow);"></div>
+      <div class="velocity-number c-yellow">71.0</div>
+    </div>
+    <div class="velocity-row">
+      <div class="velocity-label">Fleet avg.</div>
+      <div class="velocity-bar" style="width: 28%; background: var(--green);"></div>
+      <div class="velocity-number c-green">49.7</div>
+    </div>
+    <div class="velocity-row">
+      <div class="velocity-label">Lowest</div>
+      <div class="velocity-bar" style="width: 10%; background: var(--green);"></div>
+      <div class="velocity-number c-green">17.0</div>
+    </div>
+  </div>
+
+  <p><strong>12,153 negative observations from 69 source documents.</strong> Each source document is a collection file &mdash; a batch of customer reviews, employee reviews, social media posts, or news articles. Individual reviews and posts within each file are extracted as separate observations. The ratio reflects an organization where a large, active customer base is generating signal at high volume. That signal isn't ambiguous. It's volume &mdash; the sound of a customer base telling the organization something it hasn't addressed in its public narrative.</p>
+
+  <!-- ── Sustained Findings ── -->
+  <h2>Sustained Findings</h2>
+
+  <p>The pipeline proposed 6 initial findings. An adversarial skeptic agent challenged each one across two rounds of debate. <strong>2 survived. 4 were rejected.</strong> What follows are only the findings that withstood scrutiny.</p>
+
+  <div class="finding-card">
+    <div class="finding-label">Sustained &mdash; Truth: Alignment</div>
+    <div class="finding-text">Customer praise for the platform's usability aligns with center claims of a mobile-first, interface-focused product. Users consistently describe the experience as intuitive and accessible.</div>
+    <div class="finding-evidence">Strength: Moderate &middot; Vertex: Truth &middot; Dimension: Alignment &middot; Scope: Product</div>
+  </div>
+
+  <div class="finding-card">
+    <div class="finding-label">Sustained &mdash; Authority: Compression</div>
+    <div class="finding-text">Decision authority for account restrictions and fund access is compressed into senior compliance roles. Frontline staff cannot resolve customer issues involving account freezes, holds, or access restrictions. Customers report being bounced between channels with no resolution path.</div>
+    <div class="finding-evidence">Strength: Strong &middot; Vertex: Authority &middot; Dimension: Compression &middot; Scope: Financial Operations</div>
+  </div>
+
+  <p>Note what the skeptic rejected: a finding about customer support omission (insufficient sample breadth), a finding about account freeze contradictions (lacking frequency data), a finding about diffused product ownership (limited evidence), and a finding about mission-to-operations misalignment (aspirational vs. operational distinction unresolved). The instrument doesn't assert what it can't defend.</p>
+
+  <!-- ── Failure Modes ── -->
+  <h2>Active Failure Mode</h2>
+
+  <div class="fm-card">
+    <div class="fm-header">
+      <span class="fm-id">FM-01</span>
+      <span class="fm-name">Responsibility Compression</span>
+    </div>
+    <div class="fm-body">
+      Operational responsibility concentrates at the execution layer without corresponding decision-making authority. In this organization, the compression point is compliance: critical actions affecting customer accounts require senior authorization, but the volume of cases exceeds the capacity of those roles. The result is a queue, not a resolution path.
+    </div>
+    <div class="fm-cascade">
+      Cascade risk: FM-01 &rarr; FM-03 (Responsibility Without Authority) &rarr; FM-07 (Coordination Decay) &rarr; FM-09 (Over-Escalation)
+    </div>
+  </div>
+
+  <p>Across a 15-entity fleet diagnostic, FM-01 appeared in 5 organizations. In the fintech sector specifically, it was detected in all three entities analyzed. This suggests it may be a <strong>sector-level structural pattern</strong> rather than an organization-specific failure &mdash; likely driven by the intersection of regulatory compliance requirements and customer support scalability.</p>
+
+  <!-- ── Precursor Signals ── -->
+  <h2>Precursor Signals</h2>
+
+  <p>Field notes track signals that haven't yet reached failure-mode threshold but are moving in that direction. These are the early indicators &mdash; the conditions that, left unaddressed, become the next diagnosis.</p>
+
+  <div class="field-note">
+    <div class="field-note-id">FFN-10</div>
+    <div>
+      <div class="field-note-signal"><strong>Metric Displacement</strong> &mdash; 12 metric mentions against 3,195 complaints. Performance indicators may be replacing operational reality in decision-making.</div>
+      <div class="field-note-count">Precursor to: FM-04 (Metric Shadowing), FM-11</div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    <div class="field-note-id">FFN-16</div>
+    <div>
+      <div class="field-note-signal"><strong>Defensive Escalation</strong> &mdash; 20 observations where escalation is used for accountability transfer rather than problem resolution.</div>
+      <div class="field-note-count">Precursor to: FM-02, FM-09 (Over-Escalation)</div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    <div class="field-note-id">FFN-07</div>
+    <div>
+      <div class="field-note-signal"><strong>Orphaned Escalation</strong> &mdash; 18 unresolved escalation mentions with no designated ownership for resolution.</div>
+      <div class="field-note-count">Precursor to: FM-03, FM-07 (Coordination Decay)</div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    <div class="field-note-id">FFN-01</div>
+    <div>
+      <div class="field-note-signal"><strong>Compression at the Edge</strong> &mdash; 14 signals of responsibility concentrating at the execution layer.</div>
+      <div class="field-note-count">Precursor to: FM-01, FM-02, FM-03</div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    <div class="field-note-id">FFN-11</div>
+    <div>
+      <div class="field-note-signal"><strong>Context Gap</strong> &mdash; 56 mentions of results presented without interpretive frame. Outcomes are reported, but the conditions producing them are not.</div>
+      <div class="field-note-count">Precursor to: FM-04 (Metric Shadowing)</div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    <div class="field-note-id">FFN-21</div>
+    <div>
+      <div class="field-note-signal"><strong>Opaque Logic Drift</strong> &mdash; 11 observations where decision reasoning has become untraceable to those affected by it.</div>
+      <div class="field-note-count">Precursor to: FM-04, FM-11</div>
+    </div>
+  </div>
+
+  <div class="field-note">
+    <div class="field-note-id">FFN-05</div>
+    <div>
+      <div class="field-note-signal"><strong>Escalation Bounceback</strong> &mdash; 9 observations of issues circulating through escalation channels without reaching resolution.</div>
+      <div class="field-note-count">Precursor to: FM-01, FM-02</div>
+    </div>
+  </div>
+
+  <!-- ── Trajectory ── -->
+  <h2>Trajectory: The Condition Migrates</h2>
+
+  <p>This organization was scanned across multiple periods as data quality improved. The coherence score is only part of the story. Watch where the stress moves.</p>
+
+  <div class="trajectory-grid">
+    <div class="trajectory-item">
+      <div class="trajectory-period">Period 1</div>
+      <div class="trajectory-score c-orange">0.42</div>
+      <div class="trajectory-vertex c-red">Authority stressed</div>
+    </div>
+    <div class="trajectory-item">
+      <div class="trajectory-period">Period 2</div>
+      <div class="trajectory-score c-red">0.43</div>
+      <div class="trajectory-vertex c-red">Authority critical &middot; 5 FMs active</div>
+    </div>
+    <div class="trajectory-item">
+      <div class="trajectory-period">Period 3</div>
+      <div class="trajectory-score c-orange">0.49</div>
+      <div class="trajectory-vertex c-red">Authority lowest: 0.375</div>
+    </div>
+    <div class="trajectory-item">
+      <div class="trajectory-period">Period 4</div>
+      <div class="trajectory-score c-orange">0.47</div>
+      <div class="trajectory-vertex c-orange">Truth now stressed</div>
+    </div>
+  </div>
+
+  <p>Between periods 3 and 4, the Authority score improved from 0.375 to 0.50. The organization appears to have responded to the compression pattern. But the overall coherence score <em>dropped</em> &mdash; because the Truth vertex degraded from 0.575 to 0.44.</p>
+
+  <p><strong>The structural condition didn't resolve. It migrated.</strong> Authority pressure eased, but the gap between organizational narrative and operational reality widened. Financial metrics improved while 3,195 customer complaints accumulated against 12 metric mentions. The organization may be looking at the dashboard while the building is on fire.</p>
+
+  <!-- ── What to Watch ── -->
+  <h2>What to Watch</h2>
+
+  <ul class="watch-list">
+    <li><strong>Truth trajectory.</strong> The truth score fell 0.13 points in one period. If it continues, expect FM-04 (Metric Shadowing) to cross threshold &mdash; the condition where an organization optimizes for metrics that no longer reflect reality.</li>
+    <li><strong>Metric displacement ratio.</strong> Currently 12 metric mentions to 3,195 complaints. If the ratio widens further, the gap between what the organization measures and what customers experience will become structurally invisible to leadership.</li>
+    <li><strong>Escalation resolution rate.</strong> 18 orphaned escalations and 9 bouncebacks suggest the escalation system is functioning as a holding pattern, not a resolution path. Watch for escalation volume to increase as unresolved issues compound.</li>
+    <li><strong>Authority recovery durability.</strong> The authority improvement (0.375 &rarr; 0.50) may be structural or cosmetic. If compression signals reappear in the next collection period, the improvement was a correction, not a fix.</li>
+    <li><strong>Continuity scoring.</strong> With 4 collection periods now complete, the next scan will enable continuity scoring for the first time &mdash; revealing whether these patterns are stable, worsening, or truly improving.</li>
+  </ul>
+
+  <!-- ── What This Doesn't Say ── -->
+  <h2>What This Doesn't Say</h2>
+
+  <p>This instrument measures structural conditions. It does not:</p>
+
+  <ul class="watch-list">
+    <li><strong>Assign fault.</strong> Failure modes are physics, not verdicts. They describe conditions that emerge from structure, not from individuals.</li>
+    <li><strong>Predict outcomes.</strong> A low coherence score is a weather reading, not a forecast. Organizations with stressed conditions can and do recover &mdash; if they see the conditions clearly.</li>
+    <li><strong>Replace internal knowledge.</strong> Public data reveals the gap between narrative and reality. Only people inside the organization know why the gap exists and what to do about it.</li>
+    <li><strong>Claim completeness.</strong> The skeptic rejected 4 of 6 proposed findings. That's the instrument working as designed. What remains is what survived scrutiny &mdash; not everything that's happening.</li>
+  </ul>
+
+  <!-- ── Methodology ── -->
+  <h2>Methodology</h2>
+
+  <div class="method-grid">
+    <div class="method-item">
+      <div class="method-label">Data Sources</div>
+      <div class="method-value">SEC filings, earnings transcripts, job postings, employee reviews, customer reviews, social media, news coverage, regulatory signals</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Collection</div>
+      <div class="method-value">Automated collection from public APIs and databases. No proprietary or confidential data. No inside sources.</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Extraction</div>
+      <div class="method-value">AI agents extract claims (what the organization says) and observations (what the world says) from each document. 5,231 total segments processed.</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Scoring</div>
+      <div class="method-value">Finding-derived scoring (v1) maps evidence to the Coherence Triangle. Agent-based scoring with adversarial skeptic debate. 2 rounds, 6 findings proposed, 2 sustained.</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Infrastructure</div>
+      <div class="method-value">Local compute only. No cloud inference. All models run on owned hardware. No data leaves the network.</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Taxonomy</div>
+      <div class="method-value">17 failure modes, 21 field notes, organized into the Coherence Triangle (Truth, Authority, Continuity). DRI&trade; framework v1.0.</div>
+    </div>
+  </div>
+
+  <div class="skeptic-box">
+    <div class="skeptic-label">Skeptic Agent Summary</div>
+    <div class="skeptic-text">"The findings are generally well-supported, but several rely on limited evidence and make assumptions that could be challenged. More comprehensive data would strengthen the conclusions."</div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ CTA ═══════════════ -->
+<div class="cta-section">
+  <div class="cta-label">Greenbaum Labs</div>
+  <div class="cta-text">Every organization has structural conditions. Most can't see them. This instrument can.</div>
+  <a href="mailto:justin@greenbaumlabs.com" class="cta-link">Request a Scan</a>
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-l">&copy; 2026 Greenbaum Labs</div>
+  <div class="footer-r">
+    <a href="/">Labs</a>
+    <a href="https://dripractice.com">DRI Practice</a>
+    <a href="https://justingreenbaum.com">Founder</a>
+  </div>
+</footer>
+
+</body>
+</html>
