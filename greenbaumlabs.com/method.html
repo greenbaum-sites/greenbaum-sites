@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <title>How the Instrument Works — Greenbaum Labs</title>
+  <meta name="description" content="The measurement model behind the Coherence Scan. Deterministic scoring, adversarial debate, evidence lineage, and the constraints that keep it honest.">
+
+  <meta property="og:title" content="How the Instrument Works — Greenbaum Labs">
+  <meta property="og:description" content="The measurement model behind the Coherence Scan. Deterministic scoring, adversarial debate, and the constraints that keep it honest.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+  <meta property="og:url" content="https://greenbaumlabs.com/method">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="How the Instrument Works — Greenbaum Labs">
+  <meta name="twitter:description" content="The measurement model behind the Coherence Scan.">
+  <meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #161616;
+      --bg3: #1c1c1c;
+      --bg-terminal: #0c0c0c;
+      --t1: #e8e4dc;
+      --t2: #8a857f;
+      --t3: #4d4945;
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --accent-border: rgba(201, 168, 76, 0.2);
+      --green: #5dba5d;
+      --green-dim: rgba(93, 186, 93, 0.08);
+      --warm: #c8553a;
+      --red: #e85d4a;
+      --orange: #e8a84a;
+      --border: rgba(240, 236, 228, 0.07);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg);
+      color: var(--t1);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--t2);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+      z-index: 100;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    .hero {
+      padding: 8rem 3rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--t2);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 3rem 6rem;
+    }
+
+    .content h2 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      margin: 4rem 0 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--t1);
+    }
+
+    .content h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .content h3 {
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 2.5rem 0 0.75rem;
+    }
+
+    .content p {
+      font-size: 1rem;
+      color: var(--t2);
+      margin-bottom: 1.5rem;
+    }
+
+    .content strong { color: var(--t1); font-weight: 500; }
+
+    /* Principle boxes */
+    .principle {
+      background: var(--bg-terminal);
+      border: 1px solid var(--accent-border);
+      padding: 1.5rem 2rem;
+      margin: 2rem 0;
+    }
+
+    .principle-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .principle-text {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: var(--t1);
+      line-height: 1.7;
+    }
+
+    /* Pipeline steps */
+    .pipeline {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+    }
+
+    .pipe-step {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      padding: 0.75rem 1.25rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .pipe-arrow {
+      color: var(--accent);
+      font-size: 1rem;
+    }
+
+    /* Detail grid */
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 2rem 0;
+    }
+
+    .detail-item {
+      background: var(--bg2);
+      padding: 1.25rem;
+    }
+
+    .detail-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-value {
+      font-size: 0.85rem;
+      color: var(--t2);
+      line-height: 1.6;
+    }
+
+    /* Evidence chain */
+    .chain {
+      margin: 2rem 0;
+      padding-left: 1.5rem;
+      border-left: 2px solid var(--accent-border);
+    }
+
+    .chain-step {
+      padding: 0.75rem 0;
+      position: relative;
+    }
+
+    .chain-step::before {
+      content: '';
+      position: absolute;
+      left: -1.75rem;
+      top: 1.1rem;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .chain-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.25rem;
+    }
+
+    .chain-text {
+      font-size: 0.9rem;
+      color: var(--t2);
+      line-height: 1.6;
+    }
+
+    /* Constraint list */
+    .constraints {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+
+    .constraints li {
+      padding: 0.75rem 0;
+      padding-left: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--t2);
+      position: relative;
+      line-height: 1.7;
+    }
+
+    .constraints li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.1rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .constraints li.guard::before { background: var(--green); }
+    .constraints li.cap::before { background: var(--orange); }
+    .constraints li.gate::before { background: var(--red); }
+
+    /* Convergence table */
+    .convergence-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 2rem 0;
+      font-size: 0.85rem;
+    }
+
+    .convergence-table th {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--t3);
+      text-align: left;
+      padding: 0.75rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .convergence-table td {
+      padding: 0.6rem 0.75rem;
+      border-bottom: 1px solid var(--border);
+      color: var(--t2);
+    }
+
+    .convergence-table td.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+    }
+
+    .convergence-table td.stress { color: var(--orange); }
+    .convergence-table td.good { color: var(--green); }
+
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 5rem 3rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+
+    .cta-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1.5rem;
+    }
+
+    .cta-text {
+      font-size: clamp(1.3rem, 3vw, 1.6rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      max-width: 520px;
+      margin: 0 auto 2rem;
+      line-height: 1.4;
+    }
+
+    .cta-link {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border: 1px solid var(--accent-border);
+      padding: 1rem 2.5rem;
+      transition: all 0.3s ease;
+      display: inline-block;
+    }
+    .cta-link:hover {
+      background: var(--accent-dim);
+      border-color: var(--accent);
+    }
+
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-l {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--t3);
+    }
+
+    .footer-r a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--t3);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    .footer-r a:hover { color: var(--t2); }
+
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .content { padding: 0 1.5rem 4rem; }
+      .detail-grid { grid-template-columns: 1fr; }
+      .back-link { top: 1rem; left: 1rem; }
+      .pipeline { flex-direction: column; align-items: flex-start; }
+      .pipe-arrow { transform: rotate(90deg); }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-r a { margin: 0 0.75rem; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="/" class="back-link">
+  <span>&larr;</span> Greenbaum Labs
+</a>
+
+<!-- ═══ HERO ═══ -->
+<div class="hero">
+  <div class="hero-label">Methodology</div>
+  <h1>How the Instrument Works</h1>
+  <p class="hero-sub">
+    The Coherence Scan is not a survey, a sentiment analysis, or a consulting framework. It is a measurement instrument with a defined evidence chain, deterministic scoring, and built-in constraints that prevent it from claiming more than it can prove.
+  </p>
+</div>
+
+<!-- ═══ CONTENT ═══ -->
+<div class="content">
+
+  <!-- ── Design Philosophy ── -->
+  <h2>Design Philosophy</h2>
+
+  <div class="principle">
+    <div class="principle-label">Core Principle</div>
+    <div class="principle-text">The lens is sophisticated because it needs to be. The math is simple because it should be.</div>
+  </div>
+
+  <p>Most diagnostic systems fail in one of two ways: they make interpretation simple and scoring complex, or they make both complex. The Coherence Scan separates these concerns deliberately.</p>
+
+  <p><strong>Interpretation is hard.</strong> Extracting meaningful signal from SEC filings, employee reviews, customer complaints, and job postings requires a sophisticated lens. AI agents do this work, and an adversarial process keeps them honest.</p>
+
+  <p><strong>Scoring is simple.</strong> Once findings survive debate, the math that converts them into scores is deterministic, locked, and auditable. No interpretation happens at the scoring layer. No weights shift between runs. The formula was calibrated against 74 scored runs and frozen.</p>
+
+  <p>This separation is the instrument's integrity mechanism. The agents can hallucinate or miss nuance &mdash; that's why the skeptic exists. But once a finding is sustained, the score it produces is the same score it will always produce. No drift. No judgment calls. No "it depends."</p>
+
+  <!-- ── The Pipeline ── -->
+  <h2>The Pipeline</h2>
+
+  <p>Every scan follows the same five-stage process. No stage is optional. No stage can be skipped.</p>
+
+  <div class="pipeline">
+    <div class="pipe-step">Collect</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">Extract</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">Score</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">Debate</div>
+    <div class="pipe-arrow">&rarr;</div>
+    <div class="pipe-step">Synthesize</div>
+  </div>
+
+  <div class="detail-grid">
+    <div class="detail-item">
+      <div class="detail-label">Collect</div>
+      <div class="detail-value">Automated collection from public sources: SEC filings, earnings transcripts, job postings, employee reviews, customer reviews, social media, news coverage, and regulatory signals. No proprietary data. No inside sources. No surveys.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Extract</div>
+      <div class="detail-value">AI agents read every document and extract two types of signal: <strong>claims</strong> (what the organization says about itself) and <strong>observations</strong> (what the world says about the organization). Each extraction is tagged with source, scope, polarity, and a traceable hash.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Score</div>
+      <div class="detail-value">Specialized agents assess Truth and Authority by comparing claims against observations. They produce structured findings with dimension classification, strength rating, and supporting evidence references. Scoring is deterministic from findings &mdash; the formula is locked.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Debate</div>
+      <div class="detail-value">An adversarial skeptic agent challenges every proposed finding across two rounds. It identifies logical flaws, evidence gaps, and unsupported conclusions. Only findings that survive both rounds enter the final assessment.</div>
+    </div>
+  </div>
+
+  <p>Each stage produces artifacts that feed the next. Nothing is inferred. Nothing is assumed. The synthesizer writes the final assessment from sustained findings only &mdash; it cannot reference anything the skeptic rejected.</p>
+
+  <!-- ── Evidence Chain ── -->
+  <h2>Evidence Lineage</h2>
+
+  <p>Every number in a Coherence Scan traces back to a specific source document. The chain is fully auditable.</p>
+
+  <div class="chain">
+    <div class="chain-step">
+      <div class="chain-label">Source Document</div>
+      <div class="chain-text">A public document &mdash; an SEC filing, a customer review, an employee review, a job posting. Identified by source type, retrieval date, and content hash.</div>
+    </div>
+    <div class="chain-step">
+      <div class="chain-label">Extraction</div>
+      <div class="chain-text">AI agent reads the document and extracts claims or observations. Each is assigned an ID, classification, and excerpt hash that ties it to the specific passage in the source.</div>
+    </div>
+    <div class="chain-step">
+      <div class="chain-label">Finding</div>
+      <div class="chain-text">A scoring agent compares claims and observations, identifies a pattern (alignment, contradiction, omission, compression, diffusion, misalignment), and proposes a finding with references to the specific claims and observations that support it.</div>
+    </div>
+    <div class="chain-step">
+      <div class="chain-label">Debate</div>
+      <div class="chain-text">The skeptic challenges the finding. If sustained, the finding enters the evidence ledger with the skeptic's reasoning preserved. If rejected, the rejection reason and evidence gap are recorded.</div>
+    </div>
+    <div class="chain-step">
+      <div class="chain-label">Score</div>
+      <div class="chain-text">The sustained finding's dimension and strength feed the deterministic formula. The contribution to the final score is computed mechanically. No interpretation at this layer.</div>
+    </div>
+  </div>
+
+  <p>If a buyer asks "why is the Authority score 0.38?" &mdash; the answer traces from score, to sustained finding, to specific claims and observations, to the exact passage in the source document. The chain does not break.</p>
+
+  <!-- ── The Skeptic ── -->
+  <h2>The Adversarial Skeptic</h2>
+
+  <p>The skeptic is not a quality check. It is a structural feature of the instrument. It exists because the agents that generate findings can be wrong.</p>
+
+  <h3>How it works</h3>
+
+  <p><strong>Round 1: Challenge.</strong> The skeptic reviews each proposed finding and issues a verdict: <em>sustained</em> (evidence holds), <em>weakened</em> (evidence is thin but not indefensible), or <em>rejected</em> (evidence does not support the claim).</p>
+
+  <p><strong>Round 2: Rebuttal.</strong> Weakened findings get a second chance. The skeptic reviews them again with the original challenge in view. Final verdict: sustained or rejected. No appeals.</p>
+
+  <h3>What the skeptic catches</h3>
+
+  <div class="detail-grid">
+    <div class="detail-item">
+      <div class="detail-label">Insufficient breadth</div>
+      <div class="detail-value">"The finding cites only 5 of 47 complaints. Are these representative or cherry-picked?"</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Logical inversion</div>
+      <div class="detail-value">"The finding treats quality control issues as evidence of improvement. These observations contradict the claim."</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Missing context</div>
+      <div class="detail-value">"Account freezes could be temporary or situational, not systemic. Frequency data is needed."</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Aspirational conflation</div>
+      <div class="detail-value">"The mission may be aspirational. Operational constraints may exist. The misalignment is plausible but not proven."</div>
+    </div>
+  </div>
+
+  <p>In a recent scan, the skeptic rejected 4 of 6 proposed findings. That is the instrument working correctly. The rejection rate is published in every scan because <strong>what the instrument chose not to assert is as important as what it did.</strong></p>
+
+  <h3>Evidence minimums</h3>
+
+  <p>Findings must meet minimum evidence thresholds before the skeptic even sees them. The thresholds vary by finding type &mdash; contradictions require more supporting evidence than alignments, because the claim is stronger. Findings below the threshold are automatically excluded. The exact thresholds are part of the proprietary scoring model.</p>
+
+  <!-- ── Scoring ── -->
+  <h2>Deterministic Scoring</h2>
+
+  <p>Once findings survive debate, the math is mechanical.</p>
+
+  <p>Each sustained finding has two properties that determine its contribution to the score:</p>
+
+  <div class="detail-grid">
+    <div class="detail-item">
+      <div class="detail-label">Dimension</div>
+      <div class="detail-value"><strong>Truth:</strong> alignment (positive), omission (negative), contradiction (negative). <strong>Authority:</strong> compression (negative), diffusion (negative), misalignment (negative). Each dimension has a fixed base value.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Strength</div>
+      <div class="detail-value">Strong, moderate, or weak &mdash; determined by the scoring agent based on evidence density and specificity. Each strength level has a fixed weight.</div>
+    </div>
+  </div>
+
+  <p>The score computation is: <strong>contribution = base value &times; strength weight</strong>, summed across all sustained findings, normalized, and bounded. A sparse-finding dampener prevents single findings from dominating. No findings in a dimension = neutral score (0.50), not a good score.</p>
+
+  <p>The overall coherence score is a weighted average of Truth, Authority, and Continuity. The vertex weights and dimension base values were calibrated against 74 agent-scored runs and have been frozen since calibration. They do not change between scans, between entities, or between operators.</p>
+
+  <div class="principle">
+    <div class="principle-label">What this means</div>
+    <div class="principle-text">Give two operators the same sustained findings, and they will produce the same score. The scoring layer has zero degrees of freedom.</div>
+  </div>
+
+  <!-- ── Confidence ── -->
+  <h2>Confidence: What the Instrument Trusts</h2>
+
+  <p>Every score comes with a confidence rating. This is not a subjective assessment &mdash; it is computed from five measurable properties of the evidence base:</p>
+
+  <ul class="constraints">
+    <li class="guard"><strong>Evidence count.</strong> How many claims and observations support the assessment. More evidence = higher confidence.</li>
+    <li class="guard"><strong>Source diversity.</strong> How many distinct source types contributed. A scan drawing from 7 source types is more reliable than one drawing from 2.</li>
+    <li class="guard"><strong>Recency.</strong> How current is the evidence. Stale data reduces confidence.</li>
+    <li class="guard"><strong>Internal consistency.</strong> Do the findings contradict each other? Contradicting findings reduce confidence. The penalty is capped &mdash; some contradiction is expected in complex organizations.</li>
+    <li class="guard"><strong>Traceability.</strong> What fraction of evidence has a verifiable link to a source document. Untraceable evidence is weighted less.</li>
+  </ul>
+
+  <p>The confidence score is the minimum across all assessed vertices. If Truth confidence is 0.85 but Authority confidence is 0.60, the overall confidence is 0.60. The instrument reports its weakest link, not its strongest.</p>
+
+  <p>A confidence of 0.78 means: "The evidence base is strong across multiple source types with high traceability and low internal contradiction." A confidence of 0.50 means: "I'm showing you what I see, but I need more data to be certain."</p>
+
+  <!-- ── Caps & Guards ── -->
+  <h2>Caps and Guards</h2>
+
+  <p>The instrument limits its own claims. When data quality is insufficient, scores are automatically capped regardless of what the agents found.</p>
+
+  <ul class="constraints">
+    <li class="cap"><strong>Source coverage caps.</strong> If the scan lacks minimum center or edge source diversity, scores cannot exceed a defined ceiling and confidence is reduced. The instrument will not produce a confident diagnosis from narrow data.</li>
+    <li class="cap"><strong>Evidence density caps.</strong> If total evidence (claims + observations) falls below a minimum threshold, the overall score is capped and confidence is downgraded. Sparse evidence cannot produce precise scores.</li>
+    <li class="cap"><strong>Temporal depth caps.</strong> Continuity scoring requires multiple collection periods. Without sufficient longitudinal data, the continuity vertex is scored from observed trajectory patterns rather than the full continuity formula.</li>
+    <li class="gate"><strong>Pre-debate rejection.</strong> Findings that do not meet minimum evidence thresholds are excluded before the skeptic debate begins. They never enter the scoring pipeline.</li>
+    <li class="gate"><strong>Sustain rate monitoring.</strong> If the skeptic rejects more than 80% of proposed findings, the system flags a data quality warning. This prevents low-quality evidence from producing overconfident assessments.</li>
+  </ul>
+
+  <p>These constraints exist because <strong>the most dangerous thing a diagnostic instrument can do is claim precision it hasn't earned.</strong> The caps are not a limitation. They are a design choice.</p>
+
+  <!-- ── Reproducibility ── -->
+  <h2>Reproducibility</h2>
+
+  <p>A diagnostic instrument must produce consistent results. We tested this by scanning the same organization seven times across four collection periods as data quality improved from Grade C to Grade A.</p>
+
+  <table class="convergence-table">
+    <thead>
+      <tr>
+        <th>Period</th>
+        <th>Truth</th>
+        <th>Authority</th>
+        <th>Overall</th>
+        <th>Grade</th>
+        <th>Primary Signal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="mono">1</td>
+        <td class="mono stress">0.45</td>
+        <td class="mono stress">0.38</td>
+        <td class="mono stress">0.42</td>
+        <td class="mono">C</td>
+        <td>Authority compression detected</td>
+      </tr>
+      <tr>
+        <td class="mono">2</td>
+        <td class="mono stress">0.33</td>
+        <td class="mono">0.55</td>
+        <td class="mono stress">0.43</td>
+        <td class="mono">B</td>
+        <td>Multiple failure modes cascade</td>
+      </tr>
+      <tr>
+        <td class="mono">3</td>
+        <td class="mono good">0.58</td>
+        <td class="mono stress">0.38</td>
+        <td class="mono">0.49</td>
+        <td class="mono good">A</td>
+        <td>Authority crisis &mdash; lowest score</td>
+      </tr>
+      <tr>
+        <td class="mono">4</td>
+        <td class="mono stress">0.44</td>
+        <td class="mono">0.50</td>
+        <td class="mono">0.47</td>
+        <td class="mono good">A</td>
+        <td>Stress migrates to Truth</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <p><strong>Scores moved. The structural diagnosis persisted.</strong> Authority compression was detected in the majority of runs. When data quality improved (Grade C to A), scoring precision increased but the underlying story remained consistent. That is how a real diagnostic instrument behaves: the readings sharpen as measurement quality improves, but the condition it's detecting doesn't change because the measurement got better.</p>
+
+  <p>Across a 15-entity fleet diagnostic, failure modes showed sector-level patterns: the same structural condition appeared in all three fintech entities analyzed, while aerospace and defense entities showed a different structural profile. The instrument detects structure, not noise.</p>
+
+  <!-- ── Failure Modes ── -->
+  <h2>Failure Mode Detection</h2>
+
+  <p>The 17 failure modes in the <a href="https://dripractice.com" style="color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent-border);">DRI&trade; taxonomy</a> are the structural conditions the instrument detects. Each has:</p>
+
+  <ul class="constraints">
+    <li class="guard"><strong>A tier classification.</strong> Foundational (Tier 1), Systemic (Tier 2), or Terminal (Tier 3). Higher tiers require stronger evidence to activate.</li>
+    <li class="guard"><strong>An activation threshold.</strong> A minimum confidence score that must be exceeded before the failure mode is reported as active. The thresholds are tiered &mdash; terminal failure modes have higher activation thresholds than foundational ones because the claim is more consequential.</li>
+    <li class="guard"><strong>Cascade relationships.</strong> Defined pathways through which one failure mode produces conditions that activate another. These are structural, not statistical &mdash; they are derived from the taxonomy, not from correlations in the data.</li>
+    <li class="guard"><strong>Precursor signals (field notes).</strong> 21 early-warning indicators that track patterns below the failure-mode threshold. These are the leading indicators &mdash; the conditions that, if left unaddressed, will cross the activation threshold.</li>
+  </ul>
+
+  <p>The activation thresholds, cascade definitions, and precursor mappings are part of the proprietary scoring model.</p>
+
+  <!-- ── What We Don't Share ── -->
+  <h2>What We Don't Share</h2>
+
+  <p>The architecture of this instrument is transparent. The parameters are proprietary.</p>
+
+  <div class="detail-grid">
+    <div class="detail-item">
+      <div class="detail-label">Published</div>
+      <div class="detail-value">The pipeline stages, the evidence chain structure, the adversarial debate process, the confidence model components, the scoring philosophy, the cap and guard system, the reproducibility evidence, and the full 17-failure-mode taxonomy.</div>
+    </div>
+    <div class="detail-item">
+      <div class="detail-label">Proprietary</div>
+      <div class="detail-value">The dimension base values, strength weights, vertex weights, sparse-finding dampener formula, confidence component weights, failure mode activation thresholds, evidence minimum thresholds, score cap triggers, and calibration dataset.</div>
+    </div>
+  </div>
+
+  <p>This is the same boundary that defines every serious measurement system. FICO publishes that credit scores use payment history, utilization, length of history, new credit, and credit mix. It does not publish the weights. The architecture builds trust. The parameters are the instrument.</p>
+
+</div>
+
+<!-- ═══ CTA ═══ -->
+<div class="cta-section">
+  <div class="cta-label">See it in action</div>
+  <div class="cta-text">The method produces the measurement. The measurement produces the weather map.</div>
+  <a href="/sample-scan" class="cta-link">View Sample Scan</a>
+</div>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div class="footer-l">&copy; 2026 Greenbaum Labs</div>
+  <div class="footer-r">
+    <a href="/">Labs</a>
+    <a href="/sample-scan">Sample Scan</a>
+    <a href="https://dripractice.com">DRI Practice</a>
+    <a href="https://justingreenbaum.com">Founder</a>
+  </div>
+</footer>
+
+</body>
+</html>
