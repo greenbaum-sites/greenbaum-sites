@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <title>Lab &mdash; Greenbaum Labs</title>
+  <meta name="description" content="Experiments, benchmarks, and field notes from the Greenbaum Labs diagnostic infrastructure. Real models, real data, real conditions.">
+
+  <meta property="og:title" content="Lab — Greenbaum Labs">
+  <meta property="og:description" content="Experiments, benchmarks, and field notes from the Greenbaum Labs diagnostic infrastructure.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+  <meta property="og:url" content="https://greenbaumlabs.com/lab">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Lab — Greenbaum Labs">
+  <meta name="twitter:description" content="Experiments, benchmarks, and field notes from the Greenbaum Labs diagnostic infrastructure.">
+  <meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #161616;
+      --bg-card: #1c1c1c;
+      --bg-terminal: #0c0c0c;
+      --text-primary: #e8e4dc;
+      --text-secondary: #8a857f;
+      --text-dim: #4d4945;
+      --green: #5dba5d;
+      --green-dim: rgba(93, 186, 93, 0.08);
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --border: rgba(240, 236, 228, 0.07);
+      --border-accent: rgba(201, 168, 76, 0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+      z-index: 100;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 8rem 3rem 3rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* ── Content ── */
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 2rem 3rem 6rem;
+    }
+
+    /* ── Experiment Cards ── */
+    .experiment-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      background: var(--border);
+    }
+
+    .experiment-card {
+      background: var(--bg-secondary);
+      padding: 2rem;
+      text-decoration: none;
+      transition: background 0.2s ease;
+      display: block;
+    }
+    .experiment-card:hover {
+      background: var(--bg-card);
+    }
+
+    .experiment-meta {
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .experiment-type {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-dim);
+      padding: 0.25rem 0.75rem;
+      border-radius: 2px;
+    }
+
+    .experiment-date {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      color: var(--text-dim);
+    }
+
+    .experiment-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      letter-spacing: -0.02em;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+
+    .experiment-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 0.75rem;
+    }
+
+    .experiment-stats {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .experiment-stat {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .experiment-stat strong {
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* ── Empty State ── */
+    .lab-intro {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-accent);
+      padding: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    .lab-intro-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .lab-intro-text {
+      font-size: 1rem;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-l {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .footer-r a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    .footer-r a:hover { color: var(--text-secondary); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.5rem 2rem; }
+      .content { padding: 2rem 1.5rem 4rem; }
+      .back-link { top: 1rem; left: 1rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-r a { margin: 0 0.75rem; }
+      .experiment-meta { flex-wrap: wrap; gap: 0.75rem; }
+      .experiment-stats { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="/" class="back-link">
+  <span>&larr;</span> Greenbaum Labs
+</a>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div class="hero">
+  <div class="hero-label">Lab</div>
+  <h1>Build notes from the&nbsp;diagnostic&nbsp;engine.</h1>
+  <p class="hero-sub">
+    Experiments, benchmarks, and field notes from building a structural diagnostic pipeline on local inference infrastructure. Real models, real data, real conditions.
+  </p>
+</div>
+
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<div class="content">
+
+  <div class="lab-intro">
+    <div class="lab-intro-label">What this is</div>
+    <div class="lab-intro-text">
+      The Coherence External Diagnostic Pipeline runs entirely on local hardware &mdash; no cloud APIs. Every model choice, prompt change, and scoring adjustment has measurable consequences. This is where we publish what we learn.
+    </div>
+  </div>
+
+  <!-- ── Experiment List ── -->
+  <div class="experiment-list">
+
+    <a href="/lab/model-race-starbucks" class="experiment-card">
+      <div class="experiment-meta">
+        <span class="experiment-type">Model Race</span>
+        <span class="experiment-date">April 7, 2026</span>
+      </div>
+      <div class="experiment-title">Gemma 4 vs Qwen3 on a Global QSR Chain</div>
+      <div class="experiment-desc">Two 30B-class models ran the full pipeline against the same 709-document corpus on parallel DGX Sparks. Speed, extraction quality, scoring fidelity, and diagnostic depth compared head-to-head.</div>
+      <div class="experiment-stats">
+        <span class="experiment-stat"><strong>709</strong> documents</span>
+        <span class="experiment-stat"><strong>Gemma 4</strong> 0.498</span>
+        <span class="experiment-stat"><strong>Qwen3</strong> 0.432</span>
+        <span class="experiment-stat"><strong>Winner:</strong> Gemma 4 31B</span>
+      </div>
+    </a>
+
+  </div>
+
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-l">Greenbaum Labs &middot; 2026</div>
+  <div class="footer-r">
+    <a href="/">Home</a>
+    <a href="/pipeline">Pipeline</a>
+    <a href="/method">Method</a>
+  </div>
+</footer>
+
+</body>
+</html>
