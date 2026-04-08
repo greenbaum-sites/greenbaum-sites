@@ -1,192 +1,526 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Autoresearch: Pipeline Hardening — Greenbaum Labs</title>
-<meta name="description" content="73 experiments across 4 research tracks. 30 hours of distributed compute. 0.000 standard deviation. A complete record of systematic pipeline hardening.">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<link rel="icon" href="/favicon.ico" sizes="32x32">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">
-<meta property="og:title" content="Autoresearch: Pipeline Hardening — Greenbaum Labs">
-<meta property="og:description" content="73 experiments. 0.000 standard deviation. The system works.">
-<meta property="og:type" content="article">
-<meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
-<meta property="og:url" content="https://greenbaumlabs.com/lab/autoresearch">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Autoresearch: Pipeline Hardening — Greenbaum Labs">
-<meta name="twitter:description" content="73 experiments. 0.000 standard deviation. The system works.">
-<meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --bg:#07110C;--bg2:#0A1812;--bg3:#0D1E17;
-  --g:#34D399;--g2:#5EEAD4;
-  --g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);--g-hi:rgba(52,211,153,.2);--g-glow:rgba(52,211,153,.3);
-  --t1:#F0F0F0;--t2:#A8B0A8;--t3:#6B7A6E;--t4:#3A4A3D;
-  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.12);
-  --gold:#c9a84c;--gold-a:rgba(201,168,76,.3);--gold-dim:rgba(201,168,76,.12);
-  --warm:#c8553a;--warm-a:rgba(200,85,58,.3);--warm-dim:rgba(200,85,58,.12);
-  --blue:#5b8def;--blue-a:rgba(91,141,239,.3);--blue-dim:rgba(91,141,239,.12);
-}
-body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
-/* HEADER */
-.header{text-align:center;padding:4rem 2rem 2rem;position:relative}
-.header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--g-glow),transparent)}
-.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
-.header h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
-.header h1 span{color:var(--g)}
-.header-sub{font-size:1rem;color:var(--t3);margin-top:1rem;max-width:650px;margin-left:auto;margin-right:auto;line-height:1.7}
-.header-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:2rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.04)}
-.hstat{text-align:center;min-width:100px}
-.hstat-val{font-family:'JetBrains Mono',monospace;font-size:1.6rem;font-weight:600;color:var(--t1)}
-.hstat-val.green{color:var(--g)}
-.hstat-val.gold{color:var(--gold)}
-.hstat-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.12em;text-transform:uppercase;color:var(--t4);margin-top:.2rem}
+  <title>Autoresearch: Pipeline Hardening &mdash; Greenbaum Labs</title>
+  <meta name="description" content="73 experiments across 4 research tracks. 30 hours of distributed compute. 0.000 standard deviation. A complete record of systematic pipeline hardening.">
 
-/* WRAP */
-.wrap{max-width:1200px;margin:0 auto;padding:3rem 2rem}
+  <meta property="og:title" content="Autoresearch: Pipeline Hardening — Greenbaum Labs">
+  <meta property="og:description" content="73 experiments. 0.000 standard deviation. The system works.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+  <meta property="og:url" content="https://greenbaumlabs.com/lab/autoresearch">
 
-/* SECTION */
-.section{margin-bottom:4rem}
-.section-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.3em;text-transform:uppercase;color:var(--g);margin-bottom:.75rem}
-.section h2{font-size:clamp(1.6rem,3vw,2.4rem);font-weight:700;letter-spacing:-.02em;margin-bottom:1rem}
-.section p{color:var(--t2);font-size:1rem;line-height:1.7;max-width:720px}
-.section p strong{color:var(--t1)}
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Autoresearch: Pipeline Hardening — Greenbaum Labs">
+  <meta name="twitter:description" content="73 experiments. 0.000 standard deviation. The system works.">
+  <meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
 
-/* CARDS */
-.card{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1.5rem;transition:all .3s}
-.card:hover{border-color:var(--bdr2);background:var(--bg3)}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.7/dist/chart.umd.min.js"></script>
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #161616;
+      --bg-card: #1c1c1c;
+      --bg-terminal: #0c0c0c;
+      --text-primary: #e8e4dc;
+      --text-secondary: #8a857f;
+      --text-dim: #4d4945;
+      --green: #5dba5d;
+      --green-dim: rgba(93, 186, 93, 0.08);
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --warm-dim: rgba(200, 85, 58, 0.1);
+      --red: #e85d4a;
+      --orange: #e8a84a;
+      --yellow: #d4c45a;
+      --cyan: #5eb8c4;
+      --blue: #5b8def;
+      --purple: #a78bfa;
+      --border: rgba(240, 236, 228, 0.07);
+      --border-accent: rgba(201, 168, 76, 0.2);
+    }
 
-/* STAT ROW */
-.stat-row{display:flex;gap:1rem;margin:1.5rem 0;flex-wrap:wrap}
-.stat-box{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1.25rem 1.5rem;flex:1;min-width:140px}
-.stat-val{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:600;line-height:1}
-.stat-val.green{color:var(--g)}
-.stat-val.gold{color:var(--gold)}
-.stat-val.warm{color:var(--warm)}
-.stat-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t4);margin-top:.5rem}
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* CHARTS */
-.chart-card{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1.5rem;margin:1.5rem 0;flex:1}
-.chart-title{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t4);margin-bottom:1rem}
-.chart-area{position:relative;height:360px}
-.chart-area.short{height:280px}
-.chart-caption{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--t4);margin-top:.75rem;line-height:1.6}
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
 
-/* COLS */
-.cols{display:flex;gap:2rem;align-items:flex-start}
-.col{flex:1}
-.col-narrow{flex:0 0 320px}
-.col-wide{flex:1}
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
 
-/* CALLOUT */
-.callout{border-left:2px solid var(--g);padding:1rem 1.25rem;margin:1rem 0;background:var(--g-lo);border-radius:0 4px 4px 0}
-.callout p{color:var(--t1);margin:0;max-width:none}
-.callout-label{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:.4rem}
-.callout.warm{border-left-color:var(--warm);background:var(--warm-dim)}
-.callout.warm .callout-label{color:var(--warm)}
-.callout.gold{border-left-color:var(--gold);background:var(--gold-dim)}
-.callout.gold .callout-label{color:var(--gold)}
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+      z-index: 100;
+    }
+    .back-link:hover { color: var(--accent); }
 
-/* POINTS */
-.points{list-style:none;margin:1rem 0}
-.points li{padding:.5rem 0;border-bottom:1px solid var(--bdr);color:var(--t2);font-size:.95rem;line-height:1.6}
-.points li strong{color:var(--t1)}
-.points li:last-child{border-bottom:none}
+    /* ── Hero ── */
+    .hero {
+      padding: 8rem 3rem 4rem;
+      max-width: 900px;
+      margin: 0 auto;
+    }
 
-/* STEPS */
-.steps{display:grid;grid-template-columns:repeat(5,1fr);gap:.75rem;margin:1.5rem 0}
-.step{background:var(--bg2);border:1px solid var(--bdr);border-radius:6px;padding:1rem}
-.step-num{font-family:'JetBrains Mono',monospace;font-size:.5rem;color:var(--g);letter-spacing:.15em;margin-bottom:.4rem}
-.step-title{font-weight:600;font-size:.85rem;margin-bottom:.3rem}
-.step-desc{font-size:.7rem;color:var(--t3);line-height:1.5}
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
 
-/* PHASE BADGES */
-.phase{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.1em;text-transform:uppercase;padding:.2rem .6rem;border-radius:2px;margin-right:.5rem}
-.phase.blue{background:var(--blue-dim);color:var(--blue)}
-.phase.gold{background:var(--gold-dim);color:var(--gold)}
-.phase.green{background:var(--g-lo);color:var(--g)}
-.phase.warm{background:var(--warm-dim);color:var(--warm)}
+    .hero h1 {
+      font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
 
-/* DIVIDER */
-.gem-div{text-align:center;margin:3rem 0;position:relative}
-.gem-div::before{content:'';position:absolute;top:50%;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--g-glow),transparent)}
-.gem-div svg{position:relative;z-index:1;background:var(--bg);padding:0 1rem}
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      line-height: 1.8;
+    }
 
-/* GOVERNANCE */
-.governance{max-width:1200px;margin:2rem auto 4rem;padding:0 2rem}
-.gov-bar{display:flex;align-items:center;gap:1.5rem;padding:1.25rem 2rem;background:var(--g-lo);border:1px solid rgba(52,211,153,.1);border-radius:4px}
-.gov-tag{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.15em;text-transform:uppercase;color:var(--g);white-space:nowrap}
-.gov-text{font-size:.8rem;color:var(--t3);line-height:1.5}
+    /* ── Glance Grid ── */
+    .glance-grid {
+      display: grid;
+      grid-template-columns: repeat(6, 1fr);
+      gap: 1px;
+      background: var(--border-accent);
+      margin: 2rem auto;
+      max-width: 900px;
+    }
 
-/* RESPONSIVE */
-@media(max-width:900px){
-  .cols{flex-direction:column}
-  .col-narrow{flex:auto}
-  .steps{grid-template-columns:repeat(3,1fr)}
-  .header-stats{gap:1rem}
-}
-@media(max-width:600px){
-  .steps{grid-template-columns:1fr 1fr}
-  .stat-row{flex-direction:column}
-  .wrap{padding:2rem 1.25rem}
-  .header{padding:3rem 1.25rem 2rem}
-}
-</style>
+    .glance-item {
+      background: var(--bg-secondary);
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .glance-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.4rem;
+    }
+
+    .glance-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    /* ── Content ── */
+    .content {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 3rem 6rem;
+    }
+
+    .content h2 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      margin: 4rem 0 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .content h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .content h3 {
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 2.5rem 0 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .content p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .content strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ── Section Label ── */
+    .section-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    /* ── Cols ── */
+    .cols {
+      display: flex;
+      gap: 2rem;
+      align-items: flex-start;
+      margin: 1.5rem 0;
+    }
+    .col { flex: 1; }
+
+    /* ── Callout ── */
+    .callout {
+      background: var(--bg-secondary);
+      border-left: 2px solid var(--accent);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .callout.warm { border-left-color: var(--warm); }
+
+    .callout-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .callout.warm .callout-label { color: var(--warm); }
+
+    .callout p {
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      margin: 0;
+      line-height: 1.7;
+    }
+
+    /* ── Chart Cards ── */
+    .chart-card {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .chart-title {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 1rem;
+    }
+
+    .chart-area { position: relative; height: 360px; }
+    .chart-area.short { height: 280px; }
+
+    .chart-caption {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--text-dim);
+      margin-top: 0.75rem;
+      line-height: 1.6;
+    }
+
+    /* ── Phase Badges ── */
+    .phase {
+      display: inline-block;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 0.2rem 0.6rem;
+      border-radius: 2px;
+      margin-right: 0.5rem;
+    }
+    .phase.blue { background: rgba(91, 141, 239, 0.12); color: var(--blue); }
+    .phase.gold { background: var(--accent-dim); color: var(--accent); }
+    .phase.green { background: var(--green-dim); color: var(--green); }
+
+    /* ── Points List ── */
+    .points {
+      list-style: none;
+      margin: 1rem 0;
+    }
+    .points li {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      color: var(--text-secondary);
+      font-size: 0.95rem;
+      line-height: 1.6;
+    }
+    .points li:last-child { border-bottom: none; }
+    .points li strong { color: var(--text-primary); font-weight: 500; }
+
+    /* ── Stat Row ── */
+    .stat-row {
+      display: flex;
+      gap: 1rem;
+      margin: 1.5rem 0;
+      flex-wrap: wrap;
+    }
+
+    .stat-box {
+      background: var(--bg-secondary);
+      border: 1px solid var(--border);
+      padding: 1.25rem 1.5rem;
+      flex: 1;
+      min-width: 140px;
+    }
+
+    .stat-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.2rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+    .stat-val.green { color: var(--green); }
+    .stat-val.gold { color: var(--accent); }
+
+    .stat-lbl {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-top: 0.5rem;
+    }
+
+    /* ── Steps ── */
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 1.5rem 0;
+    }
+
+    .step {
+      background: var(--bg-secondary);
+      padding: 1.25rem;
+    }
+
+    .step-num {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--accent);
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .step-title {
+      font-weight: 600;
+      font-size: 0.85rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .step-desc {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    /* ── Governance ── */
+    .gov-bar {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-accent);
+      padding: 1.25rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .gov-tag {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent);
+      white-space: nowrap;
+    }
+
+    .gov-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+      font-style: italic;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-l {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .footer-r a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    .footer-r a:hover { color: var(--text-secondary); }
+
+    /* ── Color Helpers ── */
+    .c-accent { color: var(--accent); }
+    .c-green { color: var(--green); }
+    .c-warm { color: var(--warm); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .content { padding: 0 1.5rem 4rem; }
+      .glance-grid { grid-template-columns: repeat(3, 1fr); margin-left: 1.5rem; margin-right: 1.5rem; }
+      .cols { flex-direction: column; }
+      .steps { grid-template-columns: repeat(3, 1fr); }
+      .back-link { top: 1rem; left: 1rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-r a { margin: 0 0.75rem; }
+    }
+    @media (max-width: 480px) {
+      .steps { grid-template-columns: 1fr 1fr; }
+      .glance-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-row { flex-direction: column; }
+    }
+  </style>
 </head>
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <div class="eyebrow">Coherence Record</div>
-  <h1>Autoresearch: <span>Pipeline Hardening</span></h1>
-  <p class="header-sub">73 experiments across 4 research tracks. 30 hours of distributed compute. 0.000 standard deviation. A complete record of systematic pipeline hardening through adversarial self-research.</p>
-  <div class="header-stats">
-    <div class="hstat"><div class="hstat-val gold">73</div><div class="hstat-label">Experiments</div></div>
-    <div class="hstat"><div class="hstat-val">4</div><div class="hstat-label">Research Tracks</div></div>
-    <div class="hstat"><div class="hstat-val green">0.000</div><div class="hstat-label">Stdev (All Runs)</div></div>
-    <div class="hstat"><div class="hstat-val gold">11.5x</div><div class="hstat-label">Scoring Improvement</div></div>
-    <div class="hstat"><div class="hstat-val">1.6x</div><div class="hstat-label">Extraction Improvement</div></div>
-    <div class="hstat"><div class="hstat-val">~30h</div><div class="hstat-label">Compute Time</div></div>
+<a href="/lab" class="back-link">
+  <span>&larr;</span> Lab
+</a>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div class="hero">
+  <div class="hero-label">Pipeline Hardening</div>
+  <h1>Autoresearch:<br>73 Experiments to 0.000</h1>
+  <p class="hero-sub">
+    Systematic pipeline hardening through adversarial self-research. 4 research tracks, 30 hours of distributed compute across 3 nodes, and an emergent result nobody planned for: perfect reproducibility.
+  </p>
+</div>
+
+<!-- ═══════════════ GLANCE ═══════════════ -->
+<div class="glance-grid">
+  <div class="glance-item">
+    <div class="glance-label">Experiments</div>
+    <div class="glance-value c-accent">73</div>
+  </div>
+  <div class="glance-item">
+    <div class="glance-label">Tracks</div>
+    <div class="glance-value">4</div>
+  </div>
+  <div class="glance-item">
+    <div class="glance-label">Stdev</div>
+    <div class="glance-value c-green">0.000</div>
+  </div>
+  <div class="glance-item">
+    <div class="glance-label">Scoring Gain</div>
+    <div class="glance-value c-accent">11.5x</div>
+  </div>
+  <div class="glance-item">
+    <div class="glance-label">Extraction Gain</div>
+    <div class="glance-value">1.6x</div>
+  </div>
+  <div class="glance-item">
+    <div class="glance-label">Compute</div>
+    <div class="glance-value">~30h</div>
   </div>
 </div>
 
-<div class="wrap">
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<div class="content">
 
-<!-- FM-04 MOMENT -->
-<div class="section">
-  <div class="section-label">The FM-04 Moment</div>
+  <!-- ── The FM-04 Moment ── -->
   <h2>When the System Found Itself</h2>
-  <div class="cols" style="margin-top:1.5rem">
+
+  <div class="cols">
     <div class="col">
       <p>One of our framework's failure modes describes <strong>Metric Shadowing</strong>&mdash;when a measurement becomes the target and ceases to be useful. The pipeline diagnosed this condition on itself during Track 1.</p>
-      <div class="callout" style="margin-top:1.5rem">
+      <div class="callout">
         <div class="callout-label">What Happened</div>
-        <p style="font-size:.9rem">The v1 scoring metric rewarded throughput. The system optimized for highest score&mdash;but the adversarial agent had been weakened so much it was barely challenging anything. The metric went up. The quality went down.</p>
+        <p>The v1 scoring metric rewarded throughput. The system optimized for highest score&mdash;but the adversarial agent had been weakened so much it was barely challenging anything. The metric went up. The quality went down.</p>
       </div>
     </div>
     <div class="col">
       <div class="callout warm">
         <div class="callout-label">Why This Matters</div>
-        <p style="font-size:.9rem">The Coherence pipeline diagnosed FM-04 on itself. The same framework built to detect metric shadowing in organizations caught metric shadowing in its own scoring logic.</p>
+        <p>The pipeline diagnosed metric shadowing on itself. The same framework built to detect this condition in organizations caught it in its own scoring logic.</p>
       </div>
-      <p style="margin-top:1.5rem">The fix was structural: <strong>replace the metric entirely</strong>. The v2 correctness metric uses reproducibility as a gate and verifies that evidence actually supports each conclusion. You cannot game evidence verification by weakening the adversarial agent.</p>
+      <p>The fix was structural: <strong>replace the metric entirely</strong>. The v2 correctness metric uses reproducibility as a gate and verifies that evidence actually supports each conclusion. You cannot game evidence verification by weakening the adversarial agent.</p>
     </div>
   </div>
-</div>
 
-<!-- METHODOLOGY -->
-<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
-
-<div class="section">
-  <div class="section-label">Methodology</div>
+  <!-- ── Methodology ── -->
   <h2>The Autoresearch Loop</h2>
+
   <div class="steps">
     <div class="step"><div class="step-num">Step 1</div><div class="step-title">Hypothesis</div><div class="step-desc">Agent proposes a specific change to the scoring or extraction logic. One variable at a time.</div></div>
     <div class="step"><div class="step-num">Step 2</div><div class="step-title">Modification</div><div class="step-desc">Configuration modified programmatically. Diff recorded.</div></div>
@@ -194,24 +528,23 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
     <div class="step"><div class="step-num">Step 4</div><div class="step-title">Measurement</div><div class="step-desc">Mean, stdev, and component metrics computed and logged to JSONL.</div></div>
     <div class="step"><div class="step-num">Step 5</div><div class="step-title">Decision</div><div class="step-desc">Score improves &rarr; keep. Regresses &rarr; revert. Propose next hypothesis.</div></div>
   </div>
-  <div class="callout gold" style="margin-top:1.5rem">
-    <div class="callout-label">The Correctness Metric (v2)</div>
-    <p style="font-size:.9rem">The v2 metric is a composite that gates on reproducibility first, then evaluates evidence quality and diagnostic significance. It rewards fewer, higher-quality findings over a larger volume of weaker ones.</p>
-  </div>
-</div>
 
-<!-- COMPUTE DISTRIBUTION -->
-<div class="section">
-  <div class="section-label">Methodology</div>
+  <div class="callout">
+    <div class="callout-label">The Correctness Metric (v2)</div>
+    <p>The v2 metric is a composite that gates on reproducibility first, then evaluates evidence quality and diagnostic significance. It rewards fewer, higher-quality findings over a larger volume of weaker ones.</p>
+  </div>
+
+  <!-- ── Compute Distribution ── -->
   <h2>Compute Distribution</h2>
+
   <div class="cols">
-    <div class="col-wide">
+    <div class="col" style="flex: 2;">
       <div class="chart-card">
         <div class="chart-title">Experiment Distribution Across Tracks &amp; Devices</div>
         <div class="chart-area short"><canvas id="chart-distribution"></canvas></div>
       </div>
     </div>
-    <div class="col-narrow">
+    <div class="col">
       <ul class="points">
         <li><strong>Spark 1 (DGX):</strong> Scoring v1 (13) + Scoring v2 (41) = 54 experiments</li>
         <li><strong>Spark 2 (DGX):</strong> Extraction (19 experiments)</li>
@@ -220,26 +553,21 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
       </ul>
     </div>
   </div>
-</div>
 
-<!-- SCORING V1 -->
-<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+  <!-- ── Track 1 ── -->
+  <h2>Track 1: The Throughput Metric</h2>
+  <div class="section-label">Scoring V1 &middot; 13 Experiments &middot; Spark 1</div>
 
-<div class="section">
-  <div class="section-label">Track 1 &mdash; Scoring V1</div>
-  <h2>The Throughput Metric</h2>
-  <p><strong>13 experiments &middot; Spark 1 &middot; March 10 evening</strong></p>
-  <div class="chart-card" style="margin-top:1rem">
+  <div class="chart-card">
     <div class="chart-title">Scoring V1 Trajectory</div>
     <div class="chart-area short"><canvas id="chart-v1-trajectory"></canvas></div>
-    <div class="chart-caption">Gold line = composite score. Blue bars = skeptic throughput. Red markers = experiments with low_challenge_rate (skeptic too lenient). Most prompt changes had zero measurable effect. The metric was abandoned after ar_013.</div>
+    <div class="chart-caption">Gold line = composite score. Blue bars = skeptic throughput. Red markers = experiments where the skeptic was too lenient. Most changes had zero measurable effect. The metric was abandoned after ar_013.</div>
   </div>
-</div>
 
-<!-- SCORING V2 -->
-<div class="section">
-  <div class="section-label">Track 2 &mdash; Scoring V2</div>
-  <h2>The Correctness Metric: 41 Experiments</h2>
+  <!-- ── Track 2 ── -->
+  <h2>Track 2: The Correctness Metric</h2>
+  <div class="section-label">Scoring V2 &middot; 41 Experiments &middot; Spark 1</div>
+
   <div class="chart-card">
     <div class="chart-title">Correctness Score Across 41 Experiments</div>
     <div class="chart-area"><canvas id="chart-v2-trajectory"></canvas></div>
@@ -250,32 +578,22 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
       &mdash; Dashed line = running best. 0.058 baseline &rarr; 0.667 ceiling = 11.5x improvement.
     </div>
   </div>
-</div>
 
-<!-- V2 PHASES -->
-<div class="section">
-  <div class="section-label">Track 2 &mdash; Scoring V2</div>
-  <h2>Four Phases of Discovery</h2>
-  <div class="cols" style="margin-top:1rem">
+  <h3>Four Phases of Discovery</h3>
+
+  <div class="cols">
     <div class="col">
-      <h3 style="font-size:1.2rem;margin-bottom:.5rem"><span class="phase blue">Phase 1</span> Foundation</h3>
-      <p>Baseline 0.058. Explored evidence-first processes, citation verification, dimension-specific matching. Incremental gains to 0.156 (2.7x).</p>
-      <h3 style="font-size:1.2rem;margin-top:1.5rem;margin-bottom:.5rem"><span class="phase gold">Phase 2</span> Evidence Breakthrough</h3>
-      <p>A single change to how the model grounds its reasoning in source evidence (cr_017) jumped evidence verification scores from ~0.17 to 0.50. Score: 0.233, a <strong>4x improvement</strong> over baseline.</p>
+      <p><span class="phase blue">Phase 1</span> <strong>Foundation.</strong> Baseline 0.058. Explored evidence-first processes, citation verification, dimension-specific matching. Incremental gains to 0.156 (2.7x).</p>
+      <p><span class="phase gold">Phase 2</span> <strong>Evidence Breakthrough.</strong> A single change to how the model grounds its reasoning in source evidence (cr_017) jumped evidence verification scores from ~0.17 to 0.50. Score: 0.233, a <strong>4x improvement</strong> over baseline.</p>
     </div>
     <div class="col">
-      <h3 style="font-size:1.2rem;margin-bottom:.5rem"><span class="phase gold">Phase 3</span> Structural Concentration</h3>
-      <p>Concentrating the scoring on fewer diagnostic dimensions (cr_024) jumped to 0.400. <strong>Fewer findings of higher quality beat more findings of mixed quality.</strong></p>
-      <h3 style="font-size:1.2rem;margin-top:1.5rem;margin-bottom:.5rem"><span class="phase green">Phase 4</span> Maximum Extraction</h3>
-      <p>Five different experiments reached the 0.667 ceiling through different mechanisms but the same outcome: <strong>one perfect finding</strong> with maximum diagnostic weight and verified evidence.</p>
+      <p><span class="phase gold">Phase 3</span> <strong>Structural Concentration.</strong> Concentrating the scoring on fewer diagnostic dimensions (cr_024) jumped to 0.400. <strong>Fewer findings of higher quality beat more findings of mixed quality.</strong></p>
+      <p><span class="phase green">Phase 4</span> <strong>Maximum Extraction.</strong> Five different experiments reached the 0.667 ceiling through different mechanisms but the same outcome: <strong>one perfect finding</strong> with maximum diagnostic weight and verified evidence.</p>
     </div>
   </div>
-</div>
 
-<!-- EVIDENCE CHARTS -->
-<div class="section">
-  <div class="section-label">Track 2 &mdash; Scoring V2</div>
-  <h2>The Verification Bottleneck</h2>
+  <h3>The Verification Bottleneck</h3>
+
   <div class="cols">
     <div class="col">
       <div class="chart-card">
@@ -292,123 +610,101 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
       </div>
     </div>
   </div>
-</div>
 
-<!-- EXTRACTION -->
-<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+  <!-- ── Track 3 ── -->
+  <h2>Track 3: Extraction</h2>
+  <div class="section-label">19 Experiments &middot; Spark 2</div>
 
-<div class="section">
-  <div class="section-label">Track 3 &mdash; Extraction</div>
-  <h2>Fewer, Sharper Extractions Win</h2>
   <div class="cols">
-    <div class="col-wide">
+    <div class="col" style="flex: 2;">
       <div class="chart-card">
         <div class="chart-title">Extraction Score vs. Total Items Extracted</div>
         <div class="chart-area short"><canvas id="chart-extraction"></canvas></div>
         <div class="chart-caption">Inverse relationship. Baseline: 57 items, 0.283 score. Optimal (arx_017): 45 items, 0.450 score. Star = best result with calibrated extraction limits.</div>
       </div>
     </div>
-    <div class="col-narrow">
-      <h3 style="font-size:1.2rem;margin-bottom:.5rem">Key Insight</h3>
+    <div class="col">
       <p><strong>98% of extracted items are never cited in any finding.</strong> Broad extraction ensures coverage; aggressive filtering ensures quality.</p>
-      <h3 style="font-size:1.2rem;margin-top:1.25rem;margin-bottom:.5rem">Edge vs. Center</h3>
       <p>Some document types are scarce but high-signal. Setting asymmetric extraction limits preserved those signals while reducing noise from higher-volume sources.</p>
     </div>
   </div>
-</div>
 
-<div class="section">
-  <div class="section-label">Track 3 &mdash; Extraction</div>
-  <h2>Extraction Trajectory</h2>
   <div class="chart-card">
-    <div class="chart-title">Score Trajectory with Penalty Markers</div>
+    <div class="chart-title">Extraction Score Trajectory</div>
     <div class="chart-area"><canvas id="chart-extraction-trajectory"></canvas></div>
     <div class="chart-caption">Red markers = downstream penalties from overly rigid extractions. Pattern: upstream rigidity cascades into downstream scoring failures. The extraction and scoring systems are coupled.</div>
   </div>
-</div>
 
-<!-- PIPELINE INSTABILITY (Simchi-Levi parallel) -->
-<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
-
-<div class="section">
-  <div class="section-label">Pipeline Instability</div>
+  <!-- ── Pipeline Instability ── -->
   <h2>The Bullwhip Effect in Diagnostics</h2>
-  <p style="margin-bottom:.5rem">Simchi-Levi shows that in supply chains, <strong>order variance amplifies upstream and compounds over time</strong>. The same pattern appears in the Coherence pipeline: upstream extraction instability cascades into downstream scoring failures.</p>
-  <div class="cols" style="margin-top:1rem">
-    <div class="col-wide">
+
+  <p>Simchi-Levi shows that in supply chains, <strong>order variance amplifies upstream and compounds over time</strong>. The same pattern appears in the pipeline: upstream extraction instability cascades into downstream scoring failures.</p>
+
+  <div class="cols">
+    <div class="col" style="flex: 2;">
       <div class="chart-card">
         <div class="chart-title">Score Variance by Pipeline Stage Across Experiments</div>
         <div class="chart-area"><canvas id="chart-instability"></canvas></div>
-        <div class="chart-caption">Each stage shows the range (min&ndash;max) and interquartile spread of scores across all experiments. Variance amplifies at each downstream stage &mdash; extraction variance is moderate, but scoring variance is extreme. The Skeptic Agent acts as a <strong>variance dampener</strong>, collapsing the spread at the output boundary.</div>
+        <div class="chart-caption">Each stage shows the range (min&ndash;max) and interquartile spread of scores across all experiments. Variance amplifies at each downstream stage. The adversarial agent acts as a <strong>variance dampener</strong>, collapsing the spread at the output boundary.</div>
       </div>
     </div>
-    <div class="col-narrow">
-      <div class="callout" style="margin-top:0">
+    <div class="col">
+      <div class="callout">
         <div class="callout-label">The Simchi-Levi Parallel</div>
-        <p style="font-size:.8rem">In supply chains, a 5% demand signal becomes a 40% order swing at the factory. In the pipeline, a 1.6x extraction improvement produces an 11.5x scoring improvement. <strong>Small upstream changes create large downstream effects.</strong></p>
+        <p style="font-size: 0.85rem;">In supply chains, a 5% demand signal becomes a 40% order swing at the factory. In the pipeline, a 1.6x extraction improvement produces an 11.5x scoring improvement. <strong>Small upstream changes create large downstream effects.</strong></p>
       </div>
-      <div class="callout" style="border-left-color:var(--warm);background:rgba(200,85,58,.08)">
-        <div class="callout-label" style="color:var(--warm)">Cascade Evidence</div>
-        <p style="font-size:.8rem">4 of 19 extraction experiments triggered downstream penalties. Rigid or verbose extractions didn't just score poorly &mdash; they <strong>poisoned the scoring stage</strong>.</p>
+      <div class="callout warm">
+        <div class="callout-label">Cascade Evidence</div>
+        <p style="font-size: 0.85rem;">4 of 19 extraction experiments triggered downstream penalties. Rigid or verbose extractions didn't just score poorly &mdash; they <strong>poisoned the scoring stage</strong>.</p>
       </div>
     </div>
   </div>
-</div>
 
-<!-- SETUP LAYERS (Simchi-Levi framework) -->
-<div class="section">
-  <div class="section-label">Infrastructure Layers</div>
-  <h2>It&rsquo;s Not the Model &mdash; It&rsquo;s the System</h2>
-  <p style="margin-bottom:.5rem">Simchi-Levi proved that each infrastructure layer compounds AI performance. The same model (qwen3:32b) with different system layers produces dramatically different results.</p>
-  <div class="chart-card" style="margin-top:1rem">
+  <!-- ── Setup Layers ── -->
+  <h2>It's Not the Model &mdash; It's the System</h2>
+
+  <p>Simchi-Levi proved that each infrastructure layer compounds AI performance. The same model (qwen3:32b) with different system layers produces dramatically different results.</p>
+
+  <div class="chart-card">
     <div class="chart-title">Correctness by Setup Layer (Same Model: qwen3:32b)</div>
     <div class="chart-area short"><canvas id="chart-layers"></canvas></div>
     <div class="chart-caption">Each bar = best result at that layer from 73 experiments. Single model throughout. Zero API cost. The 11.5x improvement comes entirely from <strong>system-level engineering</strong> &mdash; not the model itself, and portable across models.</div>
   </div>
-</div>
 
-<!-- CROSS-ENTITY -->
-<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
+  <!-- ── Track 4 ── -->
+  <h2>Track 4: Cross-Entity Validation</h2>
+  <div class="section-label">9 Trials &middot; M2 Studio</div>
 
-<div class="section">
-  <div class="section-label">Track 4 &mdash; Cross-Entity Validation</div>
-  <h2>Do the Prompts Generalize?</h2>
   <div class="cols">
-    <div class="col-wide">
+    <div class="col" style="flex: 2;">
       <div class="chart-card">
         <div class="chart-title">Cross-Entity Correctness Scores</div>
         <div class="chart-area short"><canvas id="chart-cross-entity"></canvas></div>
-        <div class="chart-caption">Three entities, three sectors, three evidence profiles. Reproducibility is perfect across all. Score differences reflect evidence quality, not prompt overfitting.</div>
+        <div class="chart-caption">Three entities, three sectors, three evidence profiles. Reproducibility is perfect across all. Score differences reflect evidence quality, not overfitting.</div>
       </div>
     </div>
-    <div class="col-narrow">
-      <div class="stat-row" style="flex-direction:column">
-        <div class="stat-box"><div class="stat-val green">0.0</div><div class="stat-lbl">Sustained Count Stdev</div></div>
+    <div class="col">
+      <div class="stat-row" style="flex-direction: column;">
+        <div class="stat-box"><div class="stat-val c-green">0.0</div><div class="stat-lbl">Sustained Count Stdev</div></div>
         <div class="stat-box"><div class="stat-val">0.997</div><div class="stat-lbl">Mean Reproducibility</div></div>
-        <div class="stat-box"><div class="stat-val gold">3/3</div><div class="stat-lbl">Entities Confirmed Stable</div></div>
+        <div class="stat-box"><div class="stat-val c-accent">3/3</div><div class="stat-lbl">Entities Confirmed Stable</div></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- REPRODUCIBILITY -->
-<div class="section">
-  <div class="section-label">The Core Result</div>
+  <!-- ── Reproducibility ── -->
   <h2>Perfect Reproducibility</h2>
+
   <div class="chart-card">
     <div class="chart-title">Standard Deviation Across All 73 Experiments = 0.000</div>
     <div class="chart-area short"><canvas id="chart-reproducibility"></canvas></div>
     <div class="chart-caption">Every experiment produced identical results across all trials. The system is fully deterministic given the same inputs. This was not a design goal&mdash;it is an emergent property of careful system engineering and fixed evidence corpora.</div>
   </div>
-</div>
 
-<!-- LEARNINGS -->
-<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
-
-<div class="section">
-  <div class="section-label">Learnings</div>
+  <!-- ── Learnings ── -->
   <h2>What the System Taught Us</h2>
-  <div class="cols" style="margin-top:1rem">
+
+  <div class="cols">
     <div class="col">
       <ul class="points">
         <li><strong>1. Evidence verification is the bottleneck, not reasoning.</strong> A single change to how evidence is grounded produced the largest single improvement (4x). The model reasons well&mdash;it just doesn't naturally anchor reasoning to source material.</li>
@@ -423,51 +719,44 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
       </ul>
     </div>
   </div>
-</div>
 
-<!-- LEVERAGE -->
-<div class="section">
-  <div class="section-label">Learnings</div>
+  <!-- ── Leverage ── -->
   <h2>Where the Leverage Is</h2>
+
   <div class="cols">
-    <div class="col-wide">
+    <div class="col" style="flex: 2;">
       <div class="chart-card">
         <div class="chart-title">Scoring vs. Extraction Improvement</div>
         <div class="chart-area short"><canvas id="chart-leverage"></canvas></div>
-        <div class="chart-caption">Scoring prompt changes dominate. Resource allocation should reflect the leverage difference.</div>
+        <div class="chart-caption">Scoring changes dominate. Resource allocation should reflect the leverage difference.</div>
       </div>
     </div>
-    <div class="col-narrow">
-      <div class="stat-row" style="flex-direction:column">
-        <div class="stat-box"><div class="stat-val gold">11.5x</div><div class="stat-lbl">Scoring Improvement</div></div>
+    <div class="col">
+      <div class="stat-row" style="flex-direction: column;">
+        <div class="stat-box"><div class="stat-val c-accent">11.5x</div><div class="stat-lbl">Scoring Improvement</div></div>
         <div class="stat-box"><div class="stat-val">1.6x</div><div class="stat-lbl">Extraction Improvement</div></div>
       </div>
     </div>
   </div>
-</div>
 
-<!-- WHAT SHIPS -->
-<div class="gem-div"><svg width="12" height="12" viewBox="0 0 12 12"><path d="M6 0L12 6L6 12L0 6Z" fill="var(--g)" opacity=".5"/></svg></div>
-
-<div class="section">
-  <div class="section-label">Production State</div>
+  <!-- ── What Ships ── -->
   <h2>What Ships</h2>
-  <div class="cols" style="margin-top:1rem">
+
+  <div class="cols">
     <div class="col">
-      <div class="stat-row" style="flex-direction:column">
+      <div class="stat-row" style="flex-direction: column;">
         <div class="stat-box">
-          <div class="stat-val gold" style="font-size:1.2rem">Scoring Configuration</div>
+          <div class="stat-val c-accent" style="font-size: 1.2rem;">Scoring Configuration</div>
           <div class="stat-lbl">cr_021 era &middot; 0.267 correctness</div>
         </div>
         <div class="stat-box">
-          <div class="stat-val gold" style="font-size:1.2rem">Extraction Configuration</div>
+          <div class="stat-val c-accent" style="font-size: 1.2rem;">Extraction Configuration</div>
           <div class="stat-lbl">arx_017 &middot; 0.450 throughput</div>
         </div>
       </div>
-      <p style="margin-top:1rem"><strong>Why cr_021 and not cr_032?</strong> The 0.667 experiments achieve scores through extreme concentration&mdash;a single finding. The cr_021 config produces <strong>3 sustained findings across multiple dimensions</strong>. It is the more diagnostically useful output.</p>
+      <p><strong>Why cr_021 and not cr_032?</strong> The 0.667 experiments achieve scores through extreme concentration&mdash;a single finding. The cr_021 config produces <strong>3 sustained findings across multiple dimensions</strong>. It is the more diagnostically useful output.</p>
     </div>
     <div class="col">
-      <h3 style="font-size:1.2rem;margin-bottom:.75rem">What Changed</h3>
       <ul class="points">
         <li><strong>Scoring:</strong> Rewritten to produce concise, evidence-grounded findings with calibrated quality thresholds.</li>
         <li><strong>Extraction:</strong> Asymmetric limits tuned per source type. Adversarial filtering. Calibrated confidence thresholds.</li>
@@ -476,22 +765,29 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
       </ul>
     </div>
   </div>
-</div>
 
-</div><!-- /wrap -->
-
-<!-- GOVERNANCE -->
-<div class="governance">
+  <!-- ── Governance ── -->
   <div class="gov-bar">
     <div class="gov-tag">AR-001</div>
     <div class="gov-text">&ldquo;Automation may observe, measure, and report. It may not decide, approve, or publish.&rdquo;</div>
   </div>
+
 </div>
 
-<!-- CHARTS -->
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-l">Greenbaum Labs &middot; 2026</div>
+  <div class="footer-r">
+    <a href="/">Home</a>
+    <a href="/lab">Lab</a>
+    <a href="/pipeline">Pipeline</a>
+  </div>
+</footer>
+
+<!-- ═══════════════ CHARTS ═══════════════ -->
 <script>
-Chart.defaults.color='#6B7A6E';
-Chart.defaults.borderColor='rgba(255,255,255,.06)';
+Chart.defaults.color='#8a857f';
+Chart.defaults.borderColor='rgba(240,236,228,.07)';
 Chart.defaults.font.family="'JetBrains Mono',monospace";
 Chart.defaults.font.size=10;
 Chart.defaults.plugins.legend.labels.boxWidth=12;
@@ -499,9 +795,9 @@ Chart.defaults.plugins.legend.labels.padding=16;
 
 const GOLD='#c9a84c',GOLD_A='rgba(201,168,76,.3)';
 const WARM='#c8553a',WARM_A='rgba(200,85,58,.3)';
-const GREEN='#34D399',GREEN_A='rgba(52,211,153,.25)';
+const GREEN='#5dba5d',GREEN_A='rgba(93,186,93,.2)';
 const BLUE='#5b8def',BLUE_A='rgba(91,141,239,.3)';
-const DIM='#3A4A3D';
+const DIM='#4d4945';
 
 // 1. Distribution
 new Chart(document.getElementById('chart-distribution'),{
@@ -646,40 +942,33 @@ new Chart(document.getElementById('chart-reproducibility'),{
   options:{responsive:true,maintainAspectRatio:false,scales:{x:{ticks:{maxRotation:90,font:{size:7},maxTicksLimit:30}},y:{min:-0.05,max:0.5,title:{display:true,text:'Stdev of Sustained Count'}}}}
 });
 
-// 10. Pipeline Instability (Simchi-Levi bullwhip parallel)
-// Variance data by pipeline stage across all experiments
-// Extraction: score range across 19 arx experiments
-// Scoring (pre-skeptic): evidence scores across 41 cr experiments
-// Scoring (post-skeptic): correctness scores across 41 cr experiments
-// Output: sustained count spread
+// 10. Pipeline Instability
 const stageLabels=['Extraction\n(19 experiments)','Evidence Score\n(pre-skeptic)','Correctness\n(post-skeptic)','Sustained\nFindings'];
-// [min, Q1, median, Q3, max] for each stage
 const stageData=[
   {min:0.1167,q1:0.2833,med:0.3333,q3:0.4,max:0.45},
   {min:0.1333,q1:0.2222,med:0.3333,q3:0.5,max:0.6667},
   {min:0.0,q1:0.0444,med:0.1167,q3:0.4,max:0.6667},
   {min:0.167,q1:0.333,med:0.5,q3:0.667,max:0.833}
 ];
-// Render as floating bars showing IQR + line for full range
 new Chart(document.getElementById('chart-instability'),{
   type:'bar',
   data:{
     labels:stageLabels,
     datasets:[
-      {label:'Full Range (min–max)',data:stageData.map(d=>[d.min,d.max]),backgroundColor:['rgba(91,141,239,.08)','rgba(201,168,76,.08)','rgba(200,85,58,.08)','rgba(52,211,153,.08)'],borderColor:['rgba(91,141,239,.3)','rgba(201,168,76,.3)','rgba(200,85,58,.3)','rgba(52,211,153,.3)'],borderWidth:1,borderSkipped:false,barPercentage:0.9},
-      {label:'IQR (25th–75th)',data:stageData.map(d=>[d.q1,d.q3]),backgroundColor:[BLUE_A,GOLD_A,WARM_A,GREEN_A],borderColor:[BLUE,GOLD,WARM,GREEN],borderWidth:2,barPercentage:0.5},
-      {label:'Median',data:stageData.map(d=>d.med),type:'line',borderColor:'#F0F0F0',backgroundColor:'rgba(240,240,240,.8)',pointRadius:6,pointStyle:'diamond',borderWidth:0,showLine:false}
+      {label:'Full Range (min\u2013max)',data:stageData.map(d=>[d.min,d.max]),backgroundColor:['rgba(91,141,239,.08)','rgba(201,168,76,.08)','rgba(200,85,58,.08)','rgba(93,186,93,.08)'],borderColor:['rgba(91,141,239,.3)','rgba(201,168,76,.3)','rgba(200,85,58,.3)','rgba(93,186,93,.3)'],borderWidth:1,borderSkipped:false,barPercentage:0.9},
+      {label:'IQR (25th\u201375th)',data:stageData.map(d=>[d.q1,d.q3]),backgroundColor:[BLUE_A,GOLD_A,WARM_A,GREEN_A],borderColor:[BLUE,GOLD,WARM,GREEN],borderWidth:2,barPercentage:0.5},
+      {label:'Median',data:stageData.map(d=>d.med),type:'line',borderColor:'#e8e4dc',backgroundColor:'rgba(232,228,220,.8)',pointRadius:6,pointStyle:'diamond',borderWidth:0,showLine:false}
     ]
   },
   options:{
     responsive:true,maintainAspectRatio:false,
     scales:{
-      y:{min:0,max:0.9,title:{display:true,text:'Score / Normalized Value'},grid:{color:'rgba(255,255,255,.04)'}},
+      y:{min:0,max:0.9,title:{display:true,text:'Score / Normalized Value'},grid:{color:'rgba(240,236,228,.04)'}},
       x:{grid:{display:false}}
     },
     plugins:{
       tooltip:{callbacks:{label:function(ctx){
-        if(Array.isArray(ctx.raw))return ctx.dataset.label+': '+ctx.raw[0].toFixed(3)+' – '+ctx.raw[1].toFixed(3);
+        if(Array.isArray(ctx.raw))return ctx.dataset.label+': '+ctx.raw[0].toFixed(3)+' \u2013 '+ctx.raw[1].toFixed(3);
         return 'Median: '+ctx.raw.toFixed(3);
       }}}
     }
@@ -692,7 +981,7 @@ const PURPLE='#a78bfa',PURPLE_A='rgba(167,139,250,.3)';
 new Chart(document.getElementById('chart-layers'),{
   type:'bar',
   data:{
-    labels:['Reasoning\nModel','+ Prompt\nEngineering','+ Orchestrator\n(Multi-Agent)','+ Policy\n(Constraints)','+ Orch. + Policy\n(Full Stack)'],
+    labels:['Reasoning\nModel','+ Evidence\nGrounding','+ Multi-Agent\nOrchestration','+ Policy\nConstraints','+ Full Stack\nIntegration'],
     datasets:[{
       label:'Correctness Score',
       data:[0.058,0.233,0.267,0.400,0.667],
@@ -713,7 +1002,7 @@ new Chart(document.getElementById('chart-layers'),{
 new Chart(document.getElementById('chart-leverage'),{
   type:'bar',
   data:{
-    labels:['Scoring v2\n(cr_001 → cr_032)','Extraction\n(arx_001 → arx_017)'],
+    labels:['Scoring v2\n(cr_001 \u2192 cr_032)','Extraction\n(arx_001 \u2192 arx_017)'],
     datasets:[
       {label:'Baseline',data:[0.058,0.283],backgroundColor:BLUE_A,borderColor:BLUE,borderWidth:1},
       {label:'Best Result',data:[0.667,0.450],backgroundColor:GOLD_A,borderColor:GOLD,borderWidth:1}
