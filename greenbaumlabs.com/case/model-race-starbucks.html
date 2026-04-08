@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="icon" href="/favicon.ico" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <title>Model Race: Gemma 4 vs Qwen3 &mdash; Starbucks &mdash; Greenbaum Labs</title>
+  <meta name="description" content="Head-to-head pipeline benchmark: Gemma 4 31B vs Qwen3 32B on the same 709-document Starbucks corpus. Speed, extraction quality, scoring fidelity, and diagnostic depth compared.">
+
+  <meta property="og:title" content="Model Race: Gemma 4 vs Qwen3 — Starbucks">
+  <meta property="og:description" content="Head-to-head pipeline benchmark: Gemma 4 31B vs Qwen3 32B on the same 709-document Starbucks corpus.">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://greenbaumlabs.com/case/og-model-race-starbucks.png">
+  <meta property="og:url" content="https://greenbaumlabs.com/case/model-race-starbucks">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Model Race: Gemma 4 vs Qwen3 — Starbucks">
+  <meta name="twitter:description" content="Head-to-head pipeline benchmark on the same 709-document corpus. Speed, extraction, scoring, diagnostic depth.">
+  <meta name="twitter:image" content="https://greenbaumlabs.com/case/og-model-race-starbucks.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0a;
+      --bg-secondary: #161616;
+      --bg-card: #1c1c1c;
+      --bg-terminal: #0c0c0c;
+      --text-primary: #e8e4dc;
+      --text-secondary: #8a857f;
+      --text-dim: #4d4945;
+      --green: #5dba5d;
+      --green-dim: rgba(93, 186, 93, 0.08);
+      --green-glow: rgba(93, 186, 93, 0.15);
+      --accent: #c9a84c;
+      --accent-dim: rgba(201, 168, 76, 0.12);
+      --warm: #c8553a;
+      --warm-dim: rgba(200, 85, 58, 0.1);
+      --red: #e85d4a;
+      --orange: #e8a84a;
+      --yellow: #d4c45a;
+      --cyan: #5eb8c4;
+      --border: rgba(240, 236, 228, 0.07);
+      --border-accent: rgba(201, 168, 76, 0.2);
+
+      --gemma: #5eb8c4;
+      --gemma-dim: rgba(94, 184, 196, 0.1);
+      --qwen: #c8553a;
+      --qwen-dim: rgba(200, 85, 58, 0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.7;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: 0.025;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .back-link {
+      position: fixed;
+      top: 2rem;
+      left: 2rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+      z-index: 100;
+    }
+    .back-link:hover { color: var(--accent); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 8rem 3rem 4rem;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .hero-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .hero-label::before {
+      content: '';
+      width: 30px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .hero h1 {
+      font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      line-height: 1.12;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-sub {
+      font-size: 1.1rem;
+      color: var(--text-secondary);
+      max-width: 600px;
+      line-height: 1.8;
+    }
+
+    /* ── Context Box ── */
+    .context-box {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-accent);
+      padding: 2rem;
+      margin: 3rem auto;
+      max-width: 800px;
+    }
+
+    .context-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .context-text {
+      font-size: 1.1rem;
+      font-style: italic;
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
+
+    /* ── Content ── */
+    .content {
+      max-width: 700px;
+      margin: 0 auto;
+      padding: 0 3rem 6rem;
+    }
+
+    .content h2 {
+      font-weight: 700;
+      font-size: 1.5rem;
+      letter-spacing: -0.02em;
+      margin: 4rem 0 1.5rem;
+      padding-top: 2rem;
+      border-top: 1px solid var(--border);
+      color: var(--text-primary);
+    }
+
+    .content h2:first-of-type {
+      border-top: none;
+      padding-top: 0;
+    }
+
+    .content h3 {
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1rem;
+      margin: 2.5rem 0 0.75rem;
+      color: var(--text-primary);
+    }
+
+    .content p {
+      font-size: 1rem;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .content strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ── Glance Grid ── */
+    .glance-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border-accent);
+      margin: 2rem 0;
+    }
+
+    .glance-item {
+      background: var(--bg-secondary);
+      padding: 1.5rem;
+    }
+
+    .glance-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .glance-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.8rem;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .glance-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Race Grid (2-col comparison) ── */
+    .race-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin: 2rem 0;
+    }
+
+    .race-header {
+      background: var(--bg-terminal);
+      padding: 1rem 1.5rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .race-header.gemma { color: var(--gemma); border-bottom: 2px solid var(--gemma); }
+    .race-header.qwen { color: var(--qwen); border-bottom: 2px solid var(--qwen); }
+
+    .race-cell {
+      background: var(--bg-secondary);
+      padding: 1.25rem 1.5rem;
+    }
+
+    .race-metric {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.25rem;
+    }
+
+    .race-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    .race-note {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      color: var(--text-dim);
+      margin-top: 0.25rem;
+    }
+
+    /* ── Metric Row (label + 2 values) ── */
+    .metric-table {
+      margin: 2rem 0;
+    }
+
+    .metric-row {
+      display: grid;
+      grid-template-columns: 140px 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      margin-bottom: 1px;
+    }
+
+    .metric-row.header {
+      background: transparent;
+      margin-bottom: 0;
+    }
+
+    .metric-label {
+      background: var(--bg-terminal);
+      padding: 0.75rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+    }
+
+    .metric-val {
+      background: var(--bg-secondary);
+      padding: 0.75rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .metric-val.winner {
+      position: relative;
+    }
+    .metric-val.winner::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+    }
+    .metric-val.winner.gemma::after { background: var(--gemma); }
+    .metric-val.winner.qwen::after { background: var(--qwen); }
+
+    .metric-header {
+      background: var(--bg-terminal);
+      padding: 0.5rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .metric-header.gemma { color: var(--gemma); }
+    .metric-header.qwen { color: var(--qwen); }
+
+    /* ── Velocity Bars ── */
+    .velocity-bar-container { margin: 2rem 0; }
+
+    .velocity-row {
+      display: grid;
+      grid-template-columns: 100px 1fr 60px;
+      align-items: center;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid var(--border);
+      gap: 1rem;
+    }
+
+    .velocity-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+    }
+
+    .velocity-bar {
+      height: 8px;
+      border-radius: 1px;
+    }
+
+    .velocity-number {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.65rem;
+      text-align: right;
+    }
+
+    /* ── Finding Cards ── */
+    .finding-card {
+      background: var(--bg-secondary);
+      border-left: 2px solid var(--accent);
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+    .finding-card.gemma { border-left-color: var(--gemma); }
+    .finding-card.qwen { border-left-color: var(--qwen); }
+
+    .finding-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+    .finding-card.gemma .finding-label { color: var(--gemma); }
+    .finding-card.qwen .finding-label { color: var(--qwen); }
+
+    .finding-text {
+      font-size: 0.95rem;
+      color: var(--text-primary);
+      line-height: 1.7;
+      margin-bottom: 0.75rem;
+    }
+
+    .finding-evidence {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      letter-spacing: 0.05em;
+    }
+
+    /* ── Field Notes ── */
+    .field-note {
+      padding: 0.75rem 0;
+      border-bottom: 1px solid var(--border);
+      display: grid;
+      grid-template-columns: 80px 1fr;
+      gap: 1rem;
+      align-items: baseline;
+    }
+
+    .field-note-id {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.1em;
+    }
+    .field-note-id.gemma { color: var(--gemma); }
+    .field-note-id.qwen { color: var(--qwen); }
+
+    .field-note-signal {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Skeptic Box ── */
+    .skeptic-box {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+      margin: 2rem 0;
+    }
+
+    .skeptic-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--warm);
+      margin-bottom: 0.75rem;
+    }
+
+    .skeptic-text {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+      font-style: italic;
+    }
+
+    /* ── Verdict Box ── */
+    .verdict-box {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border-accent);
+      padding: 2rem;
+      margin: 2rem 0;
+    }
+
+    .verdict-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 1rem;
+    }
+
+    .verdict-winner {
+      font-size: 1.3rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      letter-spacing: -0.02em;
+    }
+
+    .verdict-text {
+      font-size: 0.95rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    /* ── Watch List ── */
+    .watch-list {
+      list-style: none;
+      margin: 1.5rem 0;
+    }
+
+    .watch-list li {
+      padding: 0.75rem 0;
+      padding-left: 1.5rem;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      position: relative;
+      line-height: 1.7;
+    }
+
+    .watch-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 1.1rem;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .watch-list li strong {
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+
+    /* ── Method Grid ── */
+    .method-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--border);
+      margin: 2rem 0;
+    }
+
+    .method-item {
+      background: var(--bg-secondary);
+      padding: 1.25rem;
+    }
+
+    .method-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.5rem;
+    }
+
+    .method-value {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* ── Footer ── */
+    footer {
+      padding: 2rem 3rem;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .footer-l {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    .footer-r a {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.5rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      text-decoration: none;
+      margin-left: 1.5rem;
+      transition: color 0.3s ease;
+    }
+    .footer-r a:hover { color: var(--text-secondary); }
+
+    /* ── Inline helpers ── */
+    .c-red { color: var(--red); }
+    .c-orange { color: var(--orange); }
+    .c-yellow { color: var(--yellow); }
+    .c-green { color: var(--green); }
+    .c-accent { color: var(--accent); }
+    .c-dim { color: var(--text-dim); }
+    .c-warm { color: var(--warm); }
+    .c-gemma { color: var(--gemma); }
+    .c-qwen { color: var(--qwen); }
+
+    /* ── Responsive ── */
+    @media (max-width: 768px) {
+      .hero { padding: 6rem 1.5rem 3rem; }
+      .content { padding: 0 1.5rem 4rem; }
+      .context-box { margin: 2rem 1.5rem; }
+      .glance-grid { grid-template-columns: 1fr; }
+      .race-grid { grid-template-columns: 1fr; }
+      .metric-row { grid-template-columns: 1fr; }
+      .method-grid { grid-template-columns: 1fr; }
+      .back-link { top: 1rem; left: 1rem; }
+      footer { flex-direction: column; gap: 1rem; text-align: center; }
+      .footer-r a { margin: 0 0.75rem; }
+      .velocity-row { grid-template-columns: 80px 1fr 50px; }
+    }
+  </style>
+</head>
+<body>
+
+<a href="/" class="back-link">
+  <span>&larr;</span> Greenbaum Labs
+</a>
+
+<!-- ═══════════════ HERO ═══════════════ -->
+<div class="hero">
+  <div class="hero-label">Pipeline Model Race</div>
+  <h1>Gemma 4 vs Qwen3<br>on Starbucks</h1>
+  <p class="hero-sub">
+    Two 30B-class models ran the full Coherence External Diagnostic Pipeline against the same 709-document Starbucks corpus. Same entity, same data, same prompts. Different engines. Here's what happened.
+  </p>
+</div>
+
+<!-- ═══════════════ CONTEXT ═══════════════ -->
+<div class="context-box">
+  <div class="context-label">What this tests</div>
+  <div class="context-text">
+    The pipeline runs entirely on local inference &mdash; no cloud APIs. Model choice directly affects extraction speed, classification accuracy, scoring fidelity, and diagnostic depth. This race measures all four dimensions on a real entity with a large, noisy corpus.
+  </div>
+</div>
+
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<div class="content">
+
+  <!-- ── At a Glance ── -->
+  <h2>At a Glance</h2>
+
+  <div class="glance-grid">
+    <div class="glance-item">
+      <div class="glance-label">Entity</div>
+      <div class="glance-value" style="font-size: 1.2rem;">Starbucks</div>
+      <div class="glance-note">company_starbucks_20260327</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Corpus Size</div>
+      <div class="glance-value">709</div>
+      <div class="glance-note">7 center + 593 edge documents</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Data Quality</div>
+      <div class="glance-value c-orange">C</div>
+      <div class="glance-note">No employee reviews or job postings</div>
+    </div>
+  </div>
+
+  <div class="race-grid">
+    <div class="race-header gemma">Gemma 4 &mdash; 31B</div>
+    <div class="race-header qwen">Qwen3 &mdash; 32B</div>
+    <div class="race-cell">
+      <div class="race-metric">Overall Coherence</div>
+      <div class="race-value c-gemma">0.498</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Overall Coherence</div>
+      <div class="race-value c-qwen">0.432</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Total Runtime</div>
+      <div class="race-value c-gemma">4h 36m</div>
+      <div class="race-note">16,578 seconds</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Total Runtime</div>
+      <div class="race-value">5h 12m</div>
+      <div class="race-note">18,753 seconds</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Most Stressed Vertex</div>
+      <div class="race-value" style="font-size: 1rem;">Truth</div>
+      <div class="race-note">Omission</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Most Stressed Vertex</div>
+      <div class="race-value" style="font-size: 1rem;">Authority</div>
+      <div class="race-note">Misalignment</div>
+    </div>
+  </div>
+
+  <p>Both models identified real structural conditions in the same organization, but they stressed different vertices and told different stories about why. That divergence is itself a finding.</p>
+
+  <!-- ── Speed ── -->
+  <h2>Speed</h2>
+
+  <p>Gemma 4 was consistently faster across every pipeline phase except synthesis. On a DGX Spark running Ollama, it processed the same 709 documents <strong>14% faster</strong> end-to-end.</p>
+
+  <div class="velocity-bar-container">
+    <div class="velocity-row">
+      <div class="velocity-label c-gemma">Gemma 4</div>
+      <div class="velocity-bar" style="width: 88%; background: var(--gemma);"></div>
+      <div class="velocity-number c-gemma">4h 36m</div>
+    </div>
+    <div class="velocity-row">
+      <div class="velocity-label c-qwen">Qwen3</div>
+      <div class="velocity-bar" style="width: 100%; background: var(--qwen);"></div>
+      <div class="velocity-number c-qwen">5h 12m</div>
+    </div>
+  </div>
+
+  <div class="metric-table">
+    <div class="metric-row header">
+      <div class="metric-label" style="background: transparent;"></div>
+      <div class="metric-header gemma">Gemma 4</div>
+      <div class="metric-header qwen">Qwen3</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Extraction</div>
+      <div class="metric-val winner gemma">4h 29m</div>
+      <div class="metric-val">5h 04m</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Scoring</div>
+      <div class="metric-val winner gemma">4m 19s</div>
+      <div class="metric-val">6m 05s</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Synthesis</div>
+      <div class="metric-val">2m 39s</div>
+      <div class="metric-val winner qwen">1m 59s</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Total Tokens</div>
+      <div class="metric-val">1,065K</div>
+      <div class="metric-val winner qwen">1,037K</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Effective t/s</div>
+      <div class="metric-val winner gemma">~66 t/s</div>
+      <div class="metric-val">~57 t/s</div>
+    </div>
+  </div>
+
+  <p>Gemma 4's speed advantage comes from extraction &mdash; the longest phase. It processes documents faster per-token despite generating slightly more total tokens. Qwen3 was faster only at synthesis, where it produced a more compressed case summary.</p>
+
+  <!-- ── Extraction Quality ── -->
+  <h2>Extraction Quality</h2>
+
+  <p>Both models extracted the same number of claims (23) from the 7 center documents. The divergence is in edge extraction and classification discipline.</p>
+
+  <div class="metric-table">
+    <div class="metric-row header">
+      <div class="metric-label" style="background: transparent;"></div>
+      <div class="metric-header gemma">Gemma 4</div>
+      <div class="metric-header qwen">Qwen3</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Claims</div>
+      <div class="metric-val">23</div>
+      <div class="metric-val">23</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Observations</div>
+      <div class="metric-val">1,490</div>
+      <div class="metric-val winner qwen">2,014</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Unclassified</div>
+      <div class="metric-val winner gemma">0</div>
+      <div class="metric-val c-warm">72 (3.4%)</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Total Segments</div>
+      <div class="metric-val">1,513</div>
+      <div class="metric-val">2,109</div>
+    </div>
+  </div>
+
+  <p>Qwen3 extracted <strong>35% more observations</strong>, particularly from customer reviews (985 vs 782) and social media (947 vs 657). But it also produced 72 segments it couldn't classify &mdash; all in social media and news. Gemma 4 had zero classification failures across the entire corpus.</p>
+
+  <p>More extraction isn't necessarily better. The question is whether the additional volume improves diagnostic signal or adds noise. In this case, Qwen3's extra observations did not produce more sustained findings or higher scores. The additional volume made the corpus noisier without sharpening the diagnosis.</p>
+
+  <h3>Source Breakdown</h3>
+
+  <div class="metric-table">
+    <div class="metric-row header">
+      <div class="metric-label" style="background: transparent;"></div>
+      <div class="metric-header gemma">Gemma 4</div>
+      <div class="metric-header qwen">Qwen3</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Press Releases</div>
+      <div class="metric-val">14 claims</div>
+      <div class="metric-val">17 claims</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Customer Reviews</div>
+      <div class="metric-val">782 obs</div>
+      <div class="metric-val">985 obs</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Social Media</div>
+      <div class="metric-val winner gemma">657 obs, 0 unc</div>
+      <div class="metric-val">947 obs, 22 unc</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">News Coverage</div>
+      <div class="metric-val winner gemma">51 obs, 0 unc</div>
+      <div class="metric-val">82 obs, 50 unc</div>
+    </div>
+  </div>
+
+  <!-- ── Scoring ── -->
+  <h2>Scoring</h2>
+
+  <p>Both runs used the <strong>finding_derived_v1</strong> scoring mode with agent-powered vertex assessment and adversarial debate. Same caps were applied to both &mdash; limited center source types, no job postings, no employee reviews in the edge corpus.</p>
+
+  <div class="race-grid">
+    <div class="race-header gemma">Gemma 4 Scores</div>
+    <div class="race-header qwen">Qwen3 Scores</div>
+    <div class="race-cell">
+      <div class="race-metric">Truth</div>
+      <div class="race-value c-orange">0.496</div>
+      <div class="race-note">Stressed: omission</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Truth</div>
+      <div class="race-value c-orange">0.450</div>
+      <div class="race-note">Stressed: omission</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Authority</div>
+      <div class="race-value">0.500</div>
+      <div class="race-note">Stressed: compression</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Authority</div>
+      <div class="race-value c-warm">0.410</div>
+      <div class="race-note">Stressed: misalignment</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Continuity</div>
+      <div class="race-value c-dim">&mdash;</div>
+      <div class="race-note">Deferred (single period)</div>
+    </div>
+    <div class="race-cell">
+      <div class="race-metric">Continuity</div>
+      <div class="race-value c-dim">&mdash;</div>
+      <div class="race-note">Deferred (single period)</div>
+    </div>
+  </div>
+
+  <p>The 0.066 gap in overall score is meaningful at this scale. But the more interesting divergence is in <strong>what each model identified as the primary stress point</strong>. Gemma 4 saw Truth under omission &mdash; the center narrative talks digital innovation but ignores labor conditions. Qwen3 saw Authority under misalignment &mdash; no single point of accountability for app or customer support.</p>
+
+  <p>Both reads are defensible. The same organization can have both conditions simultaneously. The question for pipeline development is whether the model should converge on the same diagnosis, or whether model-level divergence itself reveals complementary structural signals.</p>
+
+  <!-- ── Skeptic Debate ── -->
+  <h2>Skeptic Debate</h2>
+
+  <p>Both models proposed 5 initial findings and sustained 2 through 2 rounds of adversarial debate. Identical throughput: 40%.</p>
+
+  <div class="metric-table">
+    <div class="metric-row header">
+      <div class="metric-label" style="background: transparent;"></div>
+      <div class="metric-header gemma">Gemma 4</div>
+      <div class="metric-header qwen">Qwen3</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Initial Findings</div>
+      <div class="metric-val">5</div>
+      <div class="metric-val">5</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Pre-filtered</div>
+      <div class="metric-val">1</div>
+      <div class="metric-val">0</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Sustained</div>
+      <div class="metric-val">2</div>
+      <div class="metric-val">2</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Rejected</div>
+      <div class="metric-val">3</div>
+      <div class="metric-val">3</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Debate Tokens</div>
+      <div class="metric-val winner gemma">4,001</div>
+      <div class="metric-val">6,250</div>
+    </div>
+    <div class="metric-row">
+      <div class="metric-label">Debate Time</div>
+      <div class="metric-val winner gemma">107s</div>
+      <div class="metric-val">162s</div>
+    </div>
+  </div>
+
+  <p>Gemma 4 pre-filtered 1 finding before debate, catching a weak candidate early. Qwen3 sent all 5 to the full debate process and used 56% more tokens to reach the same conclusion. In adversarial reasoning, Gemma 4 is more efficient &mdash; tighter arguments, less verbosity.</p>
+
+  <!-- ── Diagnostic Depth ── -->
+  <h2>Diagnostic Depth</h2>
+
+  <h3>Sustained Findings</h3>
+
+  <div class="finding-card gemma">
+    <div class="finding-label">Gemma 4 &mdash; Truth: Alignment</div>
+    <div class="finding-text">Customers report the app is "intuitive and pleasing to use" and "easy to use," aligning with the company's stated focus on digital platforms.</div>
+    <div class="finding-evidence">Strength: Moderate &middot; Vertex: Truth &middot; Dimension: Alignment &middot; Scope: Product</div>
+  </div>
+
+  <div class="finding-card gemma">
+    <div class="finding-label">Gemma 4 &mdash; Truth: Omission</div>
+    <div class="finding-text">Edge observations report baristas "doing shift-level work without the title or pay" and feeling "rushed and more stressed," yet the center narrative is silent on internal labor conditions.</div>
+    <div class="finding-evidence">Strength: Strong &middot; Vertex: Truth &middot; Dimension: Omission &middot; Scope: Labor</div>
+  </div>
+
+  <div class="finding-card qwen">
+    <div class="finding-label">Qwen3 &mdash; Truth: Omission</div>
+    <div class="finding-text">Numerous complaints about app and customer support issues exist, but no center claims address these support-related concerns.</div>
+    <div class="finding-evidence">Strength: Moderate &middot; Vertex: Truth &middot; Dimension: Omission &middot; Scope: Product</div>
+  </div>
+
+  <div class="finding-card qwen">
+    <div class="finding-label">Qwen3 &mdash; Authority: Misalignment</div>
+    <div class="finding-text">Operations ownership is diffused across multiple roles and teams, with no single point of accountability for app functionality or customer support, leading to inconsistent and unresolved issues.</div>
+    <div class="finding-evidence">Strength: Moderate &middot; Vertex: Authority &middot; Dimension: Misalignment &middot; Scope: Operations</div>
+  </div>
+
+  <p>Gemma 4 found both an alignment (what works) and an omission (what's hidden). The labor finding &mdash; baristas overworked without recognition &mdash; is a deeper structural insight that Qwen3 missed entirely. Qwen3's authority finding about diffused ownership is valid but more surface-level.</p>
+
+  <h3>Field Notes</h3>
+
+  <p>Gemma 4 generated 8 field notes to Qwen3's 6. The additional signals Gemma 4 surfaced:</p>
+
+  <div class="field-note">
+    <div class="field-note-id gemma">Gemma Only</div>
+    <div class="field-note-signal"><strong>Metric displacement:</strong> 1 metric mentioned against 179 complaints &mdash; performance metrics may be replacing actual outcomes.</div>
+  </div>
+  <div class="field-note">
+    <div class="field-note-id gemma">Gemma Only</div>
+    <div class="field-note-signal"><strong>Horizon collapse:</strong> 4 short-term mentions against 40 strategy observations &mdash; planning horizon may be shrinking.</div>
+  </div>
+  <div class="field-note">
+    <div class="field-note-id gemma">Gemma Only</div>
+    <div class="field-note-signal"><strong>Now-over-later:</strong> Long-term consequences acknowledged but not weighted in decisions.</div>
+  </div>
+
+  <div class="field-note">
+    <div class="field-note-id qwen">Qwen Only</div>
+    <div class="field-note-signal"><strong>Signal classification gap:</strong> 72 unclassified segments (12% rate) &mdash; a self-diagnostic artifact, not an organizational signal.</div>
+  </div>
+
+  <div class="field-note">
+    <div class="field-note-id" style="color: var(--accent);">Both</div>
+    <div class="field-note-signal"><strong>Context gap, defensive escalation, concentrated complaint pattern in product</strong> &mdash; detected by both models with comparable evidence counts.</div>
+  </div>
+
+  <skeptic class="skeptic-box">
+    <div class="skeptic-label">Observation</div>
+    <div class="skeptic-text">Qwen3's unique field note &mdash; "signal classification gap" &mdash; is a reflection of its own extraction failures, not an organizational finding. Gemma 4's unique field notes (metric displacement, horizon collapse, now-over-later) are all structural signals about the organization itself. This is the clearest quality gap in the comparison.</div>
+  </skeptic>
+
+  <!-- ── Verdict ── -->
+  <h2>Verdict</h2>
+
+  <div class="verdict-box">
+    <div class="verdict-label">Pipeline Recommendation</div>
+    <div class="verdict-winner"><span class="c-gemma">Gemma 4 31B</span> is the stronger pipeline model.</div>
+    <div class="verdict-text">
+      Faster extraction (14%), zero classification failures, higher scores, richer field notes, and a deeper diagnostic insight (the labor omission). Qwen3's volume advantage &mdash; 35% more observations &mdash; did not translate to better findings. The extra observations added noise without improving signal. The 0.066 overall score gap is meaningful at pipeline scale.
+    </div>
+  </div>
+
+  <div class="glance-grid">
+    <div class="glance-item">
+      <div class="glance-label">Speed</div>
+      <div class="glance-value c-gemma" style="font-size: 1rem;">Gemma 4</div>
+      <div class="glance-note">14% faster end-to-end</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Precision</div>
+      <div class="glance-value c-gemma" style="font-size: 1rem;">Gemma 4</div>
+      <div class="glance-note">Zero unclassified segments</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Volume</div>
+      <div class="glance-value c-qwen" style="font-size: 1rem;">Qwen3</div>
+      <div class="glance-note">35% more observations</div>
+    </div>
+  </div>
+  <div class="glance-grid">
+    <div class="glance-item">
+      <div class="glance-label">Scoring</div>
+      <div class="glance-value c-gemma" style="font-size: 1rem;">Gemma 4</div>
+      <div class="glance-note">0.498 vs 0.432</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Diagnostic Depth</div>
+      <div class="glance-value c-gemma" style="font-size: 1rem;">Gemma 4</div>
+      <div class="glance-note">8 field notes, labor insight</div>
+    </div>
+    <div class="glance-item">
+      <div class="glance-label">Debate Efficiency</div>
+      <div class="glance-value c-gemma" style="font-size: 1rem;">Gemma 4</div>
+      <div class="glance-note">37% fewer debate tokens</div>
+    </div>
+  </div>
+
+  <p>The one thing Qwen3 did differently &mdash; not better, differently &mdash; is that it stressed Authority where Gemma 4 stressed Truth. In a production context, running both models on the same entity and comparing vertex stress could surface complementary conditions. But if you're picking one model for fleet runs, Gemma 4 wins on every axis that matters for pipeline reliability.</p>
+
+  <!-- ── Methodology ── -->
+  <h2>Methodology</h2>
+
+  <div class="method-grid">
+    <div class="method-item">
+      <div class="method-label">Pipeline</div>
+      <div class="method-value">Coherence External Diagnostic Pipeline v0.1.0, agent-powered extraction and scoring</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Scoring Mode</div>
+      <div class="method-value">finding_derived_v1 with 2-round adversarial skeptic debate</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Infrastructure</div>
+      <div class="method-value">DGX Spark (NVIDIA GB10, 128GB unified), Ollama local inference</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Corpus</div>
+      <div class="method-value">709 documents: press releases, customer reviews, social media, news coverage. Collected 2026-03-27.</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Controls</div>
+      <div class="method-value">Same entity, same corpus, same prompts, same scoring pipeline. Only the inference model differed.</div>
+    </div>
+    <div class="method-item">
+      <div class="method-label">Execution</div>
+      <div class="method-value">Qwen3 ran first (15:47 Apr 7), Gemma 4 ran second (19:45 Apr 7). Sequential, not parallel, on the same Spark.</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div class="footer-l">Greenbaum Labs &middot; 2026</div>
+  <div class="footer-r">
+    <a href="/">Home</a>
+    <a href="/pipeline">Pipeline</a>
+    <a href="/method">Method</a>
+  </div>
+</footer>
+
+</body>
+</html>
