@@ -74,7 +74,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display
 .diag-link a{color:var(--g2);text-decoration:none;border-bottom:1px solid rgba(94,234,212,.2);transition:border-color .3s}
 .diag-link a:hover{border-color:var(--g2)}
 
-.doors-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
+.doors-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.25rem} /* was repeat(3) — restore when pre-entry card returns */
 .door{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:3px;padding:2rem 1.75rem;display:flex;flex-direction:column;transition:all .3s}
 .door:hover{background:var(--bg3);border-color:var(--bdr2);border-left-color:var(--g)}
 .door-question{font-size:1.2rem;font-weight:700;color:var(--t1);line-height:1.2;margin-bottom:.4rem}
@@ -200,6 +200,7 @@ nav{padding:1rem 1.5rem}
 </div>
 
 <div class="doors-grid">
+<!-- HIDDEN during Culligan process — reactivate after
 <div class="door rv">
 <h3 class="door-question">Hiring a leader?</h3>
 <span class="door-service">Pre-Entry Diagnostic</span>
@@ -214,6 +215,7 @@ nav{padding:1rem 1.5rem}
 <a href="https://dripractice.com/start-here" target="_blank" class="secondary">About the methodology &#8594;</a>
 </div>
 </div>
+-->
 
 <div class="door rv">
 <h3 class="door-question">Leading an organization?</h3>
