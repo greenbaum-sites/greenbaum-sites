@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+body { width:1200px; height:630px; background:#0a0f0c; font-family:'Instrument Sans',sans-serif; display:flex; align-items:center; justify-content:center; overflow:hidden; position:relative; }
+body::before { content:''; position:absolute; inset:0; background-image:radial-gradient(circle,rgba(52,211,153,.06) 1px,transparent 1px); background-size:40px 40px; mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 80%); -webkit-mask-image:radial-gradient(ellipse 70% 70% at 50% 50%,black 20%,transparent 80%); }
+.content { position:relative; z-index:1; text-align:center; max-width:900px; }
+.mark { color:#34D399; margin-bottom:2rem; }
+.brand { font-weight:700; font-size:1.1rem; letter-spacing:.2em; text-transform:uppercase; color:#f0ece4; margin-bottom:2.5rem; }
+.headline { font-weight:700; font-size:2.8rem; line-height:1.15; letter-spacing:-.03em; color:#f0ece4; margin-bottom:1.5rem; }
+.sub { font-size:1.2rem; color:#b0ada6; line-height:1.6; }
+.scores { display:flex; justify-content:center; gap:4rem; margin-top:2.5rem; margin-bottom:2rem; }
+.score-block { text-align:center; }
+.score-label { font-family:'JetBrains Mono',monospace; font-size:.7rem; letter-spacing:.15em; text-transform:uppercase; margin-bottom:.5rem; }
+.score-label.gemma { color:#5eb8c4; }
+.score-label.qwen { color:#c8553a; }
+.score-value { font-family:'JetBrains Mono',monospace; font-size:2.4rem; font-weight:600; color:#f0ece4; }
+.score-note { font-family:'JetBrains Mono',monospace; font-size:.6rem; color:#706d68; margin-top:.25rem; }
+.vs { display:flex; align-items:center; justify-content:center; color:#706d68; font-family:'JetBrains Mono',monospace; font-size:.7rem; letter-spacing:.1em; }
+.rule { display:flex; align-items:center; justify-content:center; gap:1.5rem; margin-top:1rem; }
+.rule span { font-family:'JetBrains Mono',monospace; font-size:.65rem; letter-spacing:.15em; text-transform:uppercase; color:#706d68; }
+.rule-line { width:40px; height:1px; background:rgba(52,211,153,.3); }
+</style>
+</head>
+<body>
+<div class="content">
+<svg class="mark" viewBox="0 0 400 400" width="48" height="48"><polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round" fill="none"/><polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="14" stroke-linejoin="round" fill="none"/><line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/><line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/><line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"/></svg>
+<div class="brand">Greenbaum Labs</div>
+<div class="headline">Model Race: Gemma 4 vs Qwen3<br>on Starbucks</div>
+<div class="sub">Head-to-head pipeline benchmark. 709 documents.<br>Same corpus, same prompts, different engines.</div>
+<div class="scores">
+<div class="score-block">
+<div class="score-label gemma">Gemma 4 31B</div>
+<div class="score-value">0.498</div>
+<div class="score-note">4h 36m &middot; 0 unclassified</div>
+</div>
+<div class="vs">vs</div>
+<div class="score-block">
+<div class="score-label qwen">Qwen3 32B</div>
+<div class="score-value">0.432</div>
+<div class="score-note">5h 12m &middot; 72 unclassified</div>
+</div>
+</div>
+<div class="rule"><div class="rule-line"></div><span>greenbaumlabs.com</span><div class="rule-line"></div></div>
+</div>
+</body>
+</html>
