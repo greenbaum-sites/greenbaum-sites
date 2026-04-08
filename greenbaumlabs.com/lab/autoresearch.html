@@ -165,10 +165,10 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
   <h2>When the System Found Itself</h2>
   <div class="cols" style="margin-top:1.5rem">
     <div class="col">
-      <p>Failure Mode 04 is <strong>Metric Shadowing</strong>&mdash;when a measurement becomes the target and ceases to be useful. The pipeline diagnosed this on itself during Track 1.</p>
+      <p>One of our framework's failure modes describes <strong>Metric Shadowing</strong>&mdash;when a measurement becomes the target and ceases to be useful. The pipeline diagnosed this condition on itself during Track 1.</p>
       <div class="callout" style="margin-top:1.5rem">
         <div class="callout-label">What Happened</div>
-        <p style="font-size:.9rem">The v1 metric was <code style="color:var(--g)">sustain_rate &times; mean_strength_weight</code>. The system optimized for highest score&mdash;but the skeptic had been softened so much it was barely challenging anything. The metric went up. The quality went down.</p>
+        <p style="font-size:.9rem">The v1 scoring metric rewarded throughput. The system optimized for highest score&mdash;but the adversarial agent had been weakened so much it was barely challenging anything. The metric went up. The quality went down.</p>
       </div>
     </div>
     <div class="col">
@@ -176,7 +176,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
         <div class="callout-label">Why This Matters</div>
         <p style="font-size:.9rem">The Coherence pipeline diagnosed FM-04 on itself. The same framework built to detect metric shadowing in organizations caught metric shadowing in its own scoring logic.</p>
       </div>
-      <p style="margin-top:1.5rem">The fix was structural: <strong>replace the metric entirely</strong>. The v2 correctness metric uses reproducibility as a multiplicative gate and verifies evidence through Jaccard overlap. You cannot game evidence verification by softening the skeptic.</p>
+      <p style="margin-top:1.5rem">The fix was structural: <strong>replace the metric entirely</strong>. The v2 correctness metric uses reproducibility as a gate and verifies that evidence actually supports each conclusion. You cannot game evidence verification by weakening the adversarial agent.</p>
     </div>
   </div>
 </div>
@@ -188,15 +188,15 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
   <div class="section-label">Methodology</div>
   <h2>The Autoresearch Loop</h2>
   <div class="steps">
-    <div class="step"><div class="step-num">Step 1</div><div class="step-title">Hypothesis</div><div class="step-desc">Agent proposes a specific prompt change. Scoped to a single variable.</div></div>
-    <div class="step"><div class="step-num">Step 2</div><div class="step-title">Modification</div><div class="step-desc">Prompt file modified programmatically. Diff recorded.</div></div>
-    <div class="step"><div class="step-num">Step 3</div><div class="step-title">Triple-Blind Trial</div><div class="step-desc">3 independent trials against Nike run_079. Same evidence, different scoring runs.</div></div>
+    <div class="step"><div class="step-num">Step 1</div><div class="step-title">Hypothesis</div><div class="step-desc">Agent proposes a specific change to the scoring or extraction logic. One variable at a time.</div></div>
+    <div class="step"><div class="step-num">Step 2</div><div class="step-title">Modification</div><div class="step-desc">Configuration modified programmatically. Diff recorded.</div></div>
+    <div class="step"><div class="step-num">Step 3</div><div class="step-title">Triple-Blind Trial</div><div class="step-desc">3 independent trials against the same entity corpus. Same evidence, different scoring runs.</div></div>
     <div class="step"><div class="step-num">Step 4</div><div class="step-title">Measurement</div><div class="step-desc">Mean, stdev, and component metrics computed and logged to JSONL.</div></div>
     <div class="step"><div class="step-num">Step 5</div><div class="step-title">Decision</div><div class="step-desc">Score improves &rarr; keep. Regresses &rarr; revert. Propose next hypothesis.</div></div>
   </div>
   <div class="callout gold" style="margin-top:1.5rem">
     <div class="callout-label">The Correctness Metric (v2)</div>
-    <p style="font-size:.9rem;font-family:'JetBrains Mono',monospace"><code>correctness = reproducibility &times; stability_rate &times; mean(evidence_score &times; diagnostic_weight &times; strength_weight)</code></p>
+    <p style="font-size:.9rem">The v2 metric is a composite that gates on reproducibility first, then evaluates evidence quality and diagnostic significance. It rewards fewer, higher-quality findings over a larger volume of weaker ones.</p>
   </div>
 </div>
 
@@ -261,11 +261,11 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
       <h3 style="font-size:1.2rem;margin-bottom:.5rem"><span class="phase blue">Phase 1</span> Foundation</h3>
       <p>Baseline 0.058. Explored evidence-first processes, citation verification, dimension-specific matching. Incremental gains to 0.156 (2.7x).</p>
       <h3 style="font-size:1.2rem;margin-top:1.5rem;margin-bottom:.5rem"><span class="phase gold">Phase 2</span> Evidence Breakthrough</h3>
-      <p>Forcing <strong>verbatim word-copying</strong> in contradiction findings (cr_017) jumped Jaccard overlap from ~0.17 to 0.50. Score: 0.233, a <strong>4x improvement</strong> over baseline.</p>
+      <p>A single change to how the model grounds its reasoning in source evidence (cr_017) jumped evidence verification scores from ~0.17 to 0.50. Score: 0.233, a <strong>4x improvement</strong> over baseline.</p>
     </div>
     <div class="col">
       <h3 style="font-size:1.2rem;margin-bottom:.5rem"><span class="phase gold">Phase 3</span> Structural Concentration</h3>
-      <p>Dropping misalignment dimension from Authority (cr_024) jumped to 0.400. <strong>Fewer findings of higher quality beat more findings of mixed quality.</strong></p>
+      <p>Concentrating the scoring on fewer diagnostic dimensions (cr_024) jumped to 0.400. <strong>Fewer findings of higher quality beat more findings of mixed quality.</strong></p>
       <h3 style="font-size:1.2rem;margin-top:1.5rem;margin-bottom:.5rem"><span class="phase green">Phase 4</span> Maximum Extraction</h3>
       <p>Five different experiments reached the 0.667 ceiling through different mechanisms but the same outcome: <strong>one perfect finding</strong> with maximum diagnostic weight and verified evidence.</p>
     </div>
@@ -305,14 +305,14 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
       <div class="chart-card">
         <div class="chart-title">Extraction Score vs. Total Items Extracted</div>
         <div class="chart-area short"><canvas id="chart-extraction"></canvas></div>
-        <div class="chart-caption">Inverse relationship. Baseline: 57 items, 0.283 score. Optimal (arx_017): 45 items, 0.450 score. Star = best result with asymmetric limits: center=3, edge=5.</div>
+        <div class="chart-caption">Inverse relationship. Baseline: 57 items, 0.283 score. Optimal (arx_017): 45 items, 0.450 score. Star = best result with calibrated extraction limits.</div>
       </div>
     </div>
     <div class="col-narrow">
       <h3 style="font-size:1.2rem;margin-bottom:.5rem">Key Insight</h3>
       <p><strong>98% of extracted items are never cited in any finding.</strong> Broad extraction ensures coverage; aggressive filtering ensures quality.</p>
       <h3 style="font-size:1.2rem;margin-top:1.25rem;margin-bottom:.5rem">Edge vs. Center</h3>
-      <p>Edge documents (employee reviews, regulatory filings) are scarce but high-signal. Setting asymmetric limits preserved edge signal while reducing center noise.</p>
+      <p>Some document types are scarce but high-signal. Setting asymmetric extraction limits preserved those signals while reducing noise from higher-volume sources.</p>
     </div>
   </div>
 </div>
@@ -323,7 +323,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
   <div class="chart-card">
     <div class="chart-title">Score Trajectory with Penalty Markers</div>
     <div class="chart-area"><canvas id="chart-extraction-trajectory"></canvas></div>
-    <div class="chart-caption">Red markers = skeptic_too_harsh penalties. Pattern: upstream rigidity (rigid/verbose extractions) cascades into downstream scoring failures. The extraction and scoring systems are coupled.</div>
+    <div class="chart-caption">Red markers = downstream penalties from overly rigid extractions. Pattern: upstream rigidity cascades into downstream scoring failures. The extraction and scoring systems are coupled.</div>
   </div>
 </div>
 
@@ -349,7 +349,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
       </div>
       <div class="callout" style="border-left-color:var(--warm);background:rgba(200,85,58,.08)">
         <div class="callout-label" style="color:var(--warm)">Cascade Evidence</div>
-        <p style="font-size:.8rem">4 of 19 extraction experiments triggered <code style="color:var(--warm)">skeptic_too_harsh</code> penalties downstream. Rigid/verbose extractions didn't just score poorly &mdash; they <strong>poisoned the scoring stage</strong>.</p>
+        <p style="font-size:.8rem">4 of 19 extraction experiments triggered downstream penalties. Rigid or verbose extractions didn't just score poorly &mdash; they <strong>poisoned the scoring stage</strong>.</p>
       </div>
     </div>
   </div>
@@ -359,11 +359,11 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
 <div class="section">
   <div class="section-label">Infrastructure Layers</div>
   <h2>It&rsquo;s Not the Model &mdash; It&rsquo;s the System</h2>
-  <p style="margin-bottom:.5rem">Simchi-Levi proved that each infrastructure layer &mdash; prompt engineering, orchestration, policy &mdash; compounds AI performance. The same model (qwen3:32b) with different system layers produces dramatically different results.</p>
+  <p style="margin-bottom:.5rem">Simchi-Levi proved that each infrastructure layer compounds AI performance. The same model (qwen3:32b) with different system layers produces dramatically different results.</p>
   <div class="chart-card" style="margin-top:1rem">
     <div class="chart-title">Correctness by Setup Layer (Same Model: qwen3:32b)</div>
     <div class="chart-area short"><canvas id="chart-layers"></canvas></div>
-    <div class="chart-caption">Each bar = best result at that layer from 73 experiments. Single model throughout. Zero API cost. The 11.5x improvement comes entirely from <strong>prompt engineering, multi-agent orchestration, and policy constraints</strong> &mdash; all portable across models.</div>
+    <div class="chart-caption">Each bar = best result at that layer from 73 experiments. Single model throughout. Zero API cost. The 11.5x improvement comes entirely from <strong>system-level engineering</strong> &mdash; not the model itself, and portable across models.</div>
   </div>
 </div>
 
@@ -398,7 +398,7 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
   <div class="chart-card">
     <div class="chart-title">Standard Deviation Across All 73 Experiments = 0.000</div>
     <div class="chart-area short"><canvas id="chart-reproducibility"></canvas></div>
-    <div class="chart-caption">Every experiment produced identical results across all trials. The system is fully deterministic given the same inputs. This was not a design goal&mdash;it is an emergent property of structured prompts with seeded sampling and fixed evidence corpora.</div>
+    <div class="chart-caption">Every experiment produced identical results across all trials. The system is fully deterministic given the same inputs. This was not a design goal&mdash;it is an emergent property of careful system engineering and fixed evidence corpora.</div>
   </div>
 </div>
 
@@ -411,9 +411,9 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
   <div class="cols" style="margin-top:1rem">
     <div class="col">
       <ul class="points">
-        <li><strong>1. Evidence verification is the bottleneck, not reasoning.</strong> Forcing verbatim word-copying produced the largest single improvement (4x). The model reasons well&mdash;it just doesn't naturally ground reasoning in evidence language.</li>
-        <li><strong>2. Constraints hurt more than they help.</strong> Templates, citation limits, format requirements produced regressions in 11 experiments. Tell the model what to attend to, not how to format.</li>
-        <li><strong>3. Alignment findings are dead weight.</strong> Diagnostic weight 0.2. Removing alignment entirely produced the highest scores. &ldquo;Your narrative matches reality&rdquo; is not actionable intelligence.</li>
+        <li><strong>1. Evidence verification is the bottleneck, not reasoning.</strong> A single change to how evidence is grounded produced the largest single improvement (4x). The model reasons well&mdash;it just doesn't naturally anchor reasoning to source material.</li>
+        <li><strong>2. Constraints hurt more than they help.</strong> Rigid formatting and structural constraints produced regressions in 11 experiments. Tell the model what to attend to, not how to format.</li>
+        <li><strong>3. Not all findings carry equal weight.</strong> Some categories of findings are diagnostically inert. Removing low-value categories entirely produced the highest scores.</li>
       </ul>
     </div>
     <div class="col">
@@ -456,11 +456,11 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
     <div class="col">
       <div class="stat-row" style="flex-direction:column">
         <div class="stat-box">
-          <div class="stat-val gold" style="font-size:1.2rem">scoring_prompts_best.py</div>
+          <div class="stat-val gold" style="font-size:1.2rem">Scoring Configuration</div>
           <div class="stat-lbl">cr_021 era &middot; 0.267 correctness</div>
         </div>
         <div class="stat-box">
-          <div class="stat-val gold" style="font-size:1.2rem">extractor_prompts_best.py</div>
+          <div class="stat-val gold" style="font-size:1.2rem">Extraction Configuration</div>
           <div class="stat-lbl">arx_017 &middot; 0.450 throughput</div>
         </div>
       </div>
@@ -469,9 +469,9 @@ body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-ser
     <div class="col">
       <h3 style="font-size:1.2rem;margin-bottom:.75rem">What Changed</h3>
       <ul class="points">
-        <li><strong>Scoring prompts:</strong> 1&ndash;2 sentence findings with topic vocabulary. Evidence discipline blocks. Rewritten few-shot examples.</li>
-        <li><strong>Extraction prompts:</strong> Asymmetric limits (center=3, edge=5). Adversarial scrutiny filter. Confidence floor 0.6.</li>
-        <li><strong>Metric:</strong> finding_derived_v1 is production standard.</li>
+        <li><strong>Scoring:</strong> Rewritten to produce concise, evidence-grounded findings with calibrated quality thresholds.</li>
+        <li><strong>Extraction:</strong> Asymmetric limits tuned per source type. Adversarial filtering. Calibrated confidence thresholds.</li>
+        <li><strong>Metric:</strong> Production scoring standard locked in from this research.</li>
         <li><strong>Reproducibility:</strong> 0.000 stdev confirmed across all configs and entities.</li>
       </ul>
     </div>
@@ -569,7 +569,7 @@ new Chart(document.getElementById('chart-v2-evidence'),{
       type:'line',borderColor:DIM,borderDash:[4,4],borderWidth:1,pointRadius:0,fill:false
     }]
   },
-  options:{responsive:true,maintainAspectRatio:false,scales:{x:{min:0,max:0.75,title:{display:true,text:'Mean Evidence Score (Jaccard)'}},y:{min:0,max:0.75,title:{display:true,text:'Correctness Score'}}}}
+  options:{responsive:true,maintainAspectRatio:false,scales:{x:{min:0,max:0.75,title:{display:true,text:'Mean Evidence Score'}},y:{min:0,max:0.75,title:{display:true,text:'Correctness Score'}}}}
 });
 
 // 5. Sustained vs Diagnostic Weight
@@ -625,7 +625,7 @@ new Chart(document.getElementById('chart-extraction-trajectory'),{
 new Chart(document.getElementById('chart-cross-entity'),{
   type:'bar',
   data:{
-    labels:['Boeing\n(Defense)','Tesla\n(EV)','Ford\n(Auto)'],
+    labels:['Entity A\n(Defense)','Entity B\n(EV)','Entity C\n(Auto)'],
     datasets:[
       {label:'Correctness',data:[0.2994,0.1182,0.0703],backgroundColor:GOLD_A,borderColor:GOLD,borderWidth:1},
       {label:'Reproducibility',data:[0.9924,1.0,1.0],backgroundColor:GREEN_A,borderColor:GREEN,borderWidth:1}
