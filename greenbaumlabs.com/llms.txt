@@ -58,5 +58,9 @@ Measures alignment between what organizations say (center) and what the world ob
 - [Greenbaum Photography](https://greenbaumphotography.com): Documentary photography
 - [Megabrixels](https://megabrixels.com): Lego photography
 
+## Legal
+- [Privacy Policy](https://greenbaumlabs.com/privacy): What this site collects, how Microsoft Clarity analytics works, your rights
+- [Terms of Use](https://greenbaumlabs.com/terms): Acceptable use, diagnostic-instrument disclaimers, IP, limitation of liability, New Jersey governing law
+
 ## Contact
 - Email: justin@greenbaumlabs.com
