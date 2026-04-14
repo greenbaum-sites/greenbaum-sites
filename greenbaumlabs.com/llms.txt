@@ -7,18 +7,37 @@ Measures alignment between what organizations say (center) and what the world ob
 
 ## Key Pages
 - [Home](https://greenbaumlabs.com/): Workshop overview, infrastructure, projects, instruments, operating principles
-- [The Field](https://greenbaumlabs.com/field.html): Orientation map of diagnostic and record regions
-- [Agentforce](https://greenbaumlabs.com/agentforce.html): Personnel roster — 6 autonomous agents + 1 human architect
-- [Case Study: Diagnostic Engine](https://greenbaumlabs.com/case-study-diagnostic-engine.html): Technical deep-dive on the Coherence engine
+- [The Field](https://greenbaumlabs.com/field): Orientation map of diagnostic and record regions
+- [How the Instrument Works](https://greenbaumlabs.com/method): Measurement model behind the Coherence Scan — scoring, adversarial debate, evidence lineage
+- [Multi-Agent Pipeline](https://greenbaumlabs.com/pipeline): Architecture of the six-agent Coherence Diagnostic Pipeline
+- [Our Data Strategy, Published](https://greenbaumlabs.com/datastrategy): Prompting over fine-tuning, why collection is the ballgame
+- [Autoresearch: Pipeline Hardening](https://greenbaumlabs.com/autoresearch): 73 experiments, 0.000 standard deviation — systematic pipeline hardening record
+- [Agentforce](https://greenbaumlabs.com/agentforce): Personnel roster — 6 autonomous agents + 1 human architect
+- [Sample Scan: Consumer Fintech](https://greenbaumlabs.com/sample-scan): Coherence Weather Map of a high-growth fintech — what organizational physics look like measured
+- [Case Study: Diagnostic Engine](https://greenbaumlabs.com/case-study-diagnostic-engine): Technical deep-dive on the Coherence engine
+
+## Diagnostic Offerings (Case Demonstrations)
+- [Coherence Sprint](https://greenbaumlabs.com/case/coherence-sprint): What a Coherence Sprint reveals for leaders navigating structural dysfunction
+- [Portfolio Diagnostic](https://greenbaumlabs.com/case/portfolio): What a Portfolio Diagnostic surfaces for PE firms evaluating acquisitions
+- [Pre-Entry Diagnostic](https://greenbaumlabs.com/case/pre-entry): What a Pre-Entry Diagnostic surfaces before an executive hire accepts a role
+
+## Coherence Lens — 18 Role Perspectives
+- [Lens Landing](https://greenbaumlabs.com/lens): Same system, different lens — 18 seats, 90 reveals
+- Roles include: Operator, Customer, Executive, Chief of Staff, New Leader, Investor, HR, AI Integration, Finance, Legal & Compliance, Product, Engineering, Sales, Marketing, IT & Infrastructure, Procurement, Program Management, The Board
+
+## Lab — Experiments & Benchmarks
+- [Lab Index](https://greenbaumlabs.com/lab): Experiments, benchmarks, field notes from the diagnostic infrastructure
+- [Model Race: Gemma 4 vs Qwen3](https://greenbaumlabs.com/lab/gemma4-vs-qwen3): Head-to-head pipeline benchmark on a 709-document corpus
+- [Autoresearch (Lab)](https://greenbaumlabs.com/lab/autoresearch): Pipeline hardening research record
 
 ## Diagnostic Instruments
-- [FM Scanner](https://greenbaumlabs.com/tools/fm-scanner.html): Detect organizational failure modes
-- [FFN Surface](https://greenbaumlabs.com/tools/ffn-surface.html): Surface early-warning field notes
-- [System Nav Locator](https://greenbaumlabs.com/tools/system-nav-locator.html): Navigate the diagnostic map
-- [Declaration Log](https://greenbaumlabs.com/tools/declaration-log.html): Record when authority acted
-- [Verified Independence](https://greenbaumlabs.com/tools/verified-independence.html): Prove fixes are real
-- [Regression Watch](https://greenbaumlabs.com/tools/regression-watch.html): Test if fixes hold over time
-- [Continuity Chain](https://greenbaumlabs.com/tools/continuity-chain.html): Maintain meaning across time
+- [FM Scanner](https://greenbaumlabs.com/tools/fm-scanner): Detect organizational failure modes
+- [FFN Surface](https://greenbaumlabs.com/tools/ffn-surface): Surface early-warning field notes
+- [System Nav Locator](https://greenbaumlabs.com/tools/system-nav-locator): Navigate the diagnostic map
+- [Declaration Log](https://greenbaumlabs.com/tools/declaration-log): Record when authority acted
+- [Verified Independence](https://greenbaumlabs.com/tools/verified-independence): Prove fixes are real
+- [Regression Watch](https://greenbaumlabs.com/tools/regression-watch): Test if fixes hold over time
+- [Continuity Chain](https://greenbaumlabs.com/tools/continuity-chain): Maintain meaning across time
 
 ## Infrastructure
 - NVIDIA DGX Spark (Grace Blackwell GB10, 128GB unified memory) — primary compute
