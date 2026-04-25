@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>When the Skeptic Was the Variable — Greenbaum Labs</title>
+<meta name="description" content="Twenty-five experiments testing gemma4:31b against its own calibration. What the gates caught.">
+<link rel="canonical" href="https://greenbaumlabs.com/lab/skeptic-calibration">
+<meta property="og:title" content="When the Skeptic Was the Variable — Greenbaum Labs">
+<meta property="og:description" content="Twenty-five experiments. The skeptic was the variable. What the gates caught.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+<meta property="og:url" content="https://greenbaumlabs.com/lab/skeptic-calibration">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="When the Skeptic Was the Variable — Greenbaum Labs">
+<meta name="twitter:description" content="Twenty-five experiments. The skeptic was the variable.">
+<meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07110C;--bg2:#0A1812;--bg3:#0D1E17;
+  --g:#34D399;--g2:#5EEAD4;
+  --g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);--g-hi:rgba(52,211,153,.2);--g-glow:rgba(52,211,153,.3);
+  --t1:#F0F0F0;--t2:#A8B0A8;--t3:#6B7A6E;--t4:#3A4A3D;
+  --bdr:rgba(255,255,255,.07);--bdr2:rgba(255,255,255,.12);
+  --gold:#c9a84c;--gold-dim:rgba(201,168,76,.12);
+  --warm:#c8553a;--warm-dim:rgba(200,85,58,.12);
+}
+body{background:var(--bg);color:var(--t1);font-family:'Instrument Sans',sans-serif;-webkit-font-smoothing:antialiased;line-height:1.7}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");opacity:.025;pointer-events:none;z-index:9999}
+
+.back-link{position:fixed;top:2rem;left:2rem;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t2);text-decoration:none;display:flex;align-items:center;gap:.5rem;z-index:100;transition:color .3s}
+.back-link:hover{color:var(--g)}
+
+/* HEADER */
+.header{text-align:center;padding:6rem 2rem 2rem;position:relative}
+.header::after{content:'';position:absolute;bottom:0;left:10%;right:10%;height:1px;background:linear-gradient(90deg,transparent,var(--g-glow),transparent)}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.35em;text-transform:uppercase;color:var(--g);margin-bottom:1rem}
+.header h1{font-size:clamp(2rem,4.5vw,3.2rem);font-weight:700;letter-spacing:-.03em;line-height:1.1}
+.header h1 span{color:var(--g)}
+.header-sub{font-size:1rem;color:var(--t3);margin-top:1rem;max-width:680px;margin-left:auto;margin-right:auto;line-height:1.7}
+.header-stats{display:flex;gap:2rem;justify-content:center;flex-wrap:wrap;margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid rgba(255,255,255,.04)}
+.hstat{text-align:center;min-width:100px}
+.hstat-val{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:600;color:var(--t1)}
+.hstat-val.green{color:var(--g)}
+.hstat-val.gold{color:var(--gold)}
+.hstat-val.warm{color:var(--warm)}
+.hstat-lbl{font-family:'JetBrains Mono',monospace;font-size:.5rem;letter-spacing:.2em;text-transform:uppercase;color:var(--t3);margin-top:.4rem}
+
+/* CONTENT */
+.content{max-width:900px;margin:0 auto;padding:3rem 3rem 6rem}
+.content h2{font-weight:700;font-size:1.5rem;letter-spacing:-.02em;margin:4rem 0 1.5rem;padding-top:2rem;border-top:1px solid var(--bdr);color:var(--t1)}
+.content h2:first-of-type{border-top:none;padding-top:0;margin-top:0}
+.content h3{font-weight:600;font-size:1.05rem;margin:2.5rem 0 .75rem;color:var(--t1)}
+.content p{font-size:1rem;color:var(--t2);margin-bottom:1.25rem}
+.content p strong{color:var(--t1);font-weight:600}
+.content ul,.content ol{margin:0 0 1.25rem 1.5rem;color:var(--t2)}
+.content li{margin-bottom:.4rem}
+.content code{font-family:'JetBrains Mono',monospace;font-size:.85rem;background:var(--bg3);padding:.1rem .4rem;border-radius:2px;color:var(--g2)}
+.content pre{font-family:'JetBrains Mono',monospace;font-size:.85rem;background:var(--bg2);padding:1.25rem;border:1px solid var(--bdr);margin:1.25rem 0;overflow-x:auto;line-height:1.6;color:var(--t1)}
+.content pre code{background:none;padding:0;color:inherit}
+.content a{color:var(--g);text-decoration:none;border-bottom:1px dotted var(--t3)}
+.content a:hover{color:var(--g2);border-bottom-color:var(--g)}
+.content blockquote{border-left:2px solid var(--g);padding-left:1rem;margin:1.5rem 0;color:var(--t2);font-style:italic}
+
+/* TABLES */
+.content table{width:100%;border-collapse:collapse;margin:1.5rem 0;font-size:.9rem}
+.content th{text-align:left;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);padding:.6rem .8rem;border-bottom:1px solid var(--bdr2);font-weight:500}
+.content td{padding:.6rem .8rem;border-bottom:1px solid var(--bdr);color:var(--t2)}
+.content td strong{color:var(--t1)}
+.content table tr:hover td{background:var(--g-lo)}
+
+/* CALLOUT */
+.callout{background:var(--bg2);border-left:2px solid var(--g);padding:1.5rem 1.75rem;margin:2rem 0}
+.callout-label{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:.75rem}
+.callout p:last-child{margin-bottom:0}
+.callout.gold{border-left-color:var(--gold);background:var(--gold-dim)}
+.callout.gold .callout-label{color:var(--gold)}
+.callout.warm{border-left-color:var(--warm);background:var(--warm-dim)}
+.callout.warm .callout-label{color:var(--warm)}
+
+/* FOOTER */
+footer{border-top:1px solid var(--bdr);padding:2.5rem 3rem;margin-top:4rem;font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.18em;text-transform:uppercase;color:var(--t3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem}
+footer a{color:var(--t3);text-decoration:none;margin-left:1.5rem}
+footer a:hover{color:var(--g)}
+</style>
+</head>
+<body>
+
+<a href="/lab" class="back-link"><span>&larr;</span> Lab</a>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header class="header">
+  <div class="eyebrow">Calibration · Phase 1 + Phase 2</div>
+  <h1>When the Skeptic Was the <span>Variable</span></h1>
+  <p class="header-sub">Twenty-five experiments testing gemma4:31b against its own calibration. What the gates caught.</p>
+  <div class="header-stats">
+    <div class="hstat"><div class="hstat-val">25</div><div class="hstat-lbl">Experiments</div></div>
+    <div class="hstat"><div class="hstat-val">11h26m</div><div class="hstat-lbl">Compute</div></div>
+    <div class="hstat"><div class="hstat-val">9</div><div class="hstat-lbl">Variants</div></div>
+    <div class="hstat"><div class="hstat-val warm">0</div><div class="hstat-lbl">Variants Won</div></div>
+    <div class="hstat"><div class="hstat-val green">0.000</div><div class="hstat-lbl">Baseline Drift</div></div>
+  </div>
+</header>
+
+<!-- ═══════════════ CONTENT ═══════════════ -->
+<div class="content">
+
+<h2>The Setup</h2>
+
+<p>The original autoresearch (cr_001 through cr_041, March 2026) hardened the diagnostic pipeline against qwen3:32b. Output was deterministic. Standard deviation across identical reruns: 0.000. The system was diagnostic, not stochastic.</p>
+
+<p>On 2026-03-27, Gemma 4 31B replaced qwen3:32b as the production extraction standard after a head-to-head <a href="/lab/gemma4-vs-qwen3">race study</a>. Scoring was supposed to remain locked to qwen3:32b. The intent was preserved in writing. It was not preserved in code.</p>
+
+<p>On 2026-04-16, a full sandbox fleet ran end-to-end on gemma4:31b. FM-01 detection across 16 entities collapsed from the qwen3 baseline of 14 of 15 to <strong>2 of 16</strong>. The investigation that followed traced the cause to a single point: the skeptic, now also running on gemma4, was systematically rejecting findings that gemma4 had written.</p>
+
+<p>The skeptic was tuned for qwen3 finding-text style. Gemma 4 phrases inferences differently. The skeptic read those differences as speculative. Round 2 killed them.</p>
+
+<p>This Lab note documents the autoresearch effort to recalibrate.</p>
+
+<h2>Methodology</h2>
+
+<p>The loop is the same one that hardened qwen3. Adapted for the new target.</p>
+
+<pre>1. Hypothesis    → one focused change, recorded
+2. Variant       → prompt edit, applied to a non-production scoring_prompts.py
+3. Three trials  → identical inputs, three runs, measure variance
+4. Gates         → 5 correctness gates evaluated on the aggregated result
+5. Decision      → keep or revert; log to experiments.jsonl
+6. Stop rules    → metric shadow, regression streak, plateau, budget, manual</pre>
+
+<h3>Reference run</h3>
+<p>Boeing fleet_101_20260220 (sandbox, 2026-04-16). Three rejected findings on the original gemma4 run, all carrying correct dimension tags (compression, diffusion). A correctly calibrated skeptic should sustain at least the compression and diffusion findings.</p>
+
+<h3>Gates</h3>
+<p>Every variant had to pass all five:</p>
+<pre>1. Reproducibility stdev      ≤ 0.02 across 3 trials
+2. Evidence verification      ≥ baseline (catches inflation)
+3. Mean weighted strength     ≥ baseline (catches dimension collapse)
+4. FM-01 detected             in ≥ 2 of 3 trials
+5. most_stressed_dimension    ≠ misalignment (compliance gate)</pre>
+
+<p>Plus a metric-shadowing tripwire: if sustain rises +30% while evidence drops −20%, halt. The original autoresearch's FM-04 Moment showed this is necessary. We did not repeat that mistake.</p>
+
+<h3>Compute</h3>
+<p>Both Sparks. Round-robin dispatch in Phase 1; Spark 2 only in Phase 2 (qwen2.5:72b is loaded only there). Six hours forty minutes wall clock for Phase 1's 19 experiments. Four hours forty-six for Phase 2's 6 experiments. Mean per-experiment: 21 minutes on gemma4:31b, 47 minutes on qwen2.5:72b.</p>
+
+<h2>Phase 1 Results — Gemma 4:31B End-to-End</h2>
+
+<table>
+<thead><tr><th>Variant</th><th>Sustain</th><th>Stdev</th><th>Correctness</th><th>FM-01</th><th>Decision</th><th>n</th></tr></thead>
+<tbody>
+<tr><td>v00 baseline (current production)</td><td>0.200</td><td>0.000</td><td>0.800</td><td>3/3</td><td><strong>keep</strong></td><td>3</td></tr>
+<tr><td>v01 inference-tolerant skeptic</td><td>0.200</td><td>0.000</td><td>0.800</td><td>3/3</td><td>keep</td><td>2</td></tr>
+<tr><td>v02 evidence-allowlist skeptic</td><td>0.200</td><td>0.000</td><td>0.800</td><td>3/3</td><td>keep</td><td>2</td></tr>
+<tr><td>v03 R2-softened skeptic</td><td><strong>0.467</strong></td><td><strong>0.231</strong></td><td>0.000</td><td>3/3</td><td>gate_fail</td><td>2</td></tr>
+<tr><td>v04 sustain-floor skeptic</td><td>0.267</td><td>0.116</td><td>0.352</td><td>3/3</td><td>gate_fail</td><td>2</td></tr>
+<tr><td>v05 quote-the-flaw skeptic</td><td>0.267</td><td>0.116</td><td>0.352</td><td>3/3</td><td>gate_fail</td><td>2</td></tr>
+<tr><td>v06 alternative-bar skeptic</td><td>0.200</td><td>0.000</td><td>0.800</td><td>3/3</td><td>keep</td><td>2</td></tr>
+<tr><td>v07 authority-verbatim quotation</td><td><strong>0.067</strong></td><td>0.116</td><td>0.047</td><td><strong>0/3</strong></td><td>gate_fail</td><td>2</td></tr>
+<tr><td>v08 combined v01+v07</td><td>0.200</td><td>0.000</td><td>0.800</td><td>3/3</td><td>keep</td><td>3</td></tr>
+</tbody>
+</table>
+
+<p>Three patterns emerged.</p>
+
+<h3>The variants that did nothing</h3>
+<p>v01, v02, v06, and the v08 combined version all returned 0.200 sustain, 0.000 stdev, 0.800 correctness. Identical numbers. Three different prompt edits, zero behavioral change. The skeptic ignored them. Either the changes landed in inactive parts of the prompt, or the skeptic's decision logic on this dataset is dominated by signals these edits did not touch.</p>
+
+<h3>The variant that broke reproducibility</h3>
+<p>v03 (R2-softened) lifted sustain from 0.200 to 0.467. Cleanly reproducible across both runs. <strong>And</strong> introduced 0.231 stdev within trial sets. Cleanly reproducible on that too. The same variant produced the same trial-distribution every time we tested it. The destabilization is not noise. It is what gemma4 does when the skeptic prompt allows more latitude.</p>
+
+<p>The reproducibility gate killed it. Correctness 0.000.</p>
+
+<div class="callout">
+<div class="callout-label">Key Finding</div>
+<p>This is the most important finding of Phase 1. The 0.02 stdev gate that defined the previous autoresearch is not achievable on gemma4 under any prompt that meaningfully softens skeptic decisions. Gemma 4 at temperature 0.0 is not deterministic the way qwen3:32b was.</p>
+</div>
+
+<h3>The variant that regressed</h3>
+<p>v07 forced the Authority agent to include verbatim quoted text from cited evidence in its reasoning. This is the cr_017 pattern from the original autoresearch, where verbatim word-copying produced the largest single improvement (4x evidence verification). Authority does not respond the same way.</p>
+
+<p>Sustain crashed from 0.200 to 0.067. FM-01 detection dropped to 0 of 3. The structural inferences that authority findings are made of cannot be expressed as direct quotes from any single source. They emerge from combining evidence types (job postings + employee reviews + customer reviews) into a structural read. Forcing verbatim quoting destroyed the inference pattern.</p>
+
+<p>Negative result. Clean evidence. <em>Authority is not Truth.</em></p>
+
+<h2>What the Gates Caught</h2>
+
+<p>Two of Phase 1's gates were load-bearing:</p>
+
+<p><strong>Reproducibility (stdev ≤ 0.02).</strong> Killed v03, v04, v05. All three lifted sustain. None did so deterministically. The gate prevented promotion of variants that would have produced different scores on different days, defeating the entire purpose of the diagnostic.</p>
+
+<p><strong>FM-01 detection (≥ 2 of 3 trials).</strong> Killed v07. Sustain numbers and evidence scores looked superficially fine on aggregate. But the actual FM-01 detection rate was zero. The gate refused to call a variant a winner just because its arithmetic looked acceptable.</p>
+
+<p>The metric-shadow tripwire never fired. The variants that lifted sustain did so without inflating evidence scores. Gemma 4 is honest in that one respect.</p>
+
+<h2>Reference Stability</h2>
+
+<p>Three baseline runs across the queue (positions 1, 10, 20) all produced exactly 0.200 sustain, 0.000 stdev, 0.800 correctness, FM-01 detected 3 of 3. Six hours and forty minutes apart. Same model, same prompts, same data. The harness has zero drift over a full day.</p>
+
+<p>This matters. It means the variance we saw in v03, v04, v05, v07 is a property of the variants, not of the harness. The autoresearch instrument is sound. What it surfaced is real.</p>
+
+<h2>Phase 2 Results — Dual-Model</h2>
+
+<p>If gemma4 cannot be calibrated to deterministic high-sustain through prompt changes alone, the alternative is a different model for the skeptic. Phase 2 tested dual-model: extraction stays on gemma4:31b; scoring and skeptic move to qwen2.5:72b — the largest model on the fleet, and the same lineage the original calibration was tuned against.</p>
+
+<p>Six experiments. Spark 2 only. Four hours forty-six minutes wall clock. Forty-seven minutes per experiment (qwen2.5:72b is roughly twice as slow as gemma4:31b at this corpus size).</p>
+
+<table>
+<thead><tr><th>Variant on qwen2.5:72b</th><th>Sustain</th><th>Stdev</th><th>Correctness</th><th>FM-01</th><th>Decision</th></tr></thead>
+<tbody>
+<tr><td>v00 baseline (run 1)</td><td>0.400</td><td>0.000</td><td>0.500</td><td>3/3</td><td>keep</td></tr>
+<tr><td>v00 baseline (rerun)</td><td>0.400</td><td>0.000</td><td>0.500</td><td>3/3</td><td>keep</td></tr>
+<tr><td>v03 R2-softened</td><td>0.400</td><td>0.000</td><td>0.500</td><td>3/3</td><td>keep</td></tr>
+<tr><td>v03 R2-softened (rerun)</td><td>0.400</td><td>0.000</td><td>0.500</td><td>3/3</td><td>keep</td></tr>
+<tr><td>v04 sustain-floor</td><td>0.400</td><td>0.000</td><td>0.500</td><td>3/3</td><td>keep</td></tr>
+<tr><td>v00 final drift check</td><td>0.400</td><td>0.000</td><td>0.500</td><td>3/3</td><td>keep</td></tr>
+</tbody>
+</table>
+
+<p>Six experiments, six identical results. qwen2.5:72b on Boeing fleet_101 produces sustain 0.400 deterministically, regardless of prompt variant. This is a stronger constraint than Phase 1 surfaced. Gemma 4 had a low-sustain deterministic mode AND a higher-sustain unstable mode. Qwen 2.5:72b has only the deterministic mode, anchored at 0.400.</p>
+
+<h3>What this means</h3>
+<p>Cross-phase baseline comparison on Boeing fleet_101:</p>
+
+<table>
+<thead><tr><th>Model configuration</th><th>Sustain</th><th>Stdev</th><th>Notes</th></tr></thead>
+<tbody>
+<tr><td>gemma4:31b end-to-end</td><td>0.200</td><td>0.000</td><td>Deterministic floor</td></tr>
+<tr><td>gemma4:31b + R2-softened</td><td>0.467</td><td>0.231</td><td>Lifts sustain, breaks stability</td></tr>
+<tr><td>qwen2.5:72b skeptic + gemma4 extraction</td><td>0.400</td><td>0.000</td><td>Deterministic, prompt-invariant</td></tr>
+<tr><td>qwen3:32b skeptic + gemma4 extraction <em>(production)</em></td><td><strong>0.580</strong></td><td>low</td><td>Ledger avg n=113</td></tr>
+</tbody>
+</table>
+
+<p>The dual-model alternative is better than gemma4-only on every gate. It is worse than qwen3:32b on the primary metric. <strong>Larger model did not win.</strong></p>
+
+<div class="callout gold">
+<div class="callout-label">Counter-Intuitive Finding</div>
+<p>qwen2.5:72b has 2.25x the parameters of qwen3:32b. On aggregate across the production fleet (n=8 across multiple entities), qwen2.5:72b sustains at 0.62 — slightly higher than qwen3's 0.58. On Boeing specifically, qwen2.5:72b sits at 0.40. The model size advantage does not transfer. <strong>Calibration to the specific corpus matters more than parameter count.</strong></p>
+</div>
+
+<h2>The Decision</h2>
+
+<p>The qwen3:32b split is the production answer. Not provisional. Not a bridge to anything.</p>
+
+<pre>extraction:        gemma4:31b
+scoring + skeptic: qwen3:32b</pre>
+
+<p><code>run_pipeline.sh</code> has been carrying this configuration since 2026-04-23 as a temporary measure pending the autoresearch outcome. The autoresearch confirms it. The configuration is now permanent.</p>
+
+<p>Two ways this decision could shift in the future, neither active:</p>
+
+<ul>
+<li>A future model release (qwen 4, gemma 5, something else) reaches qwen3:32b's calibration profile while running faster. We rerun this study with that model in the comparison set.</li>
+<li>The reference corpus changes substantially. Calibration is corpus-specific; if Boeing's evidence shape stops being representative, we re-baseline.</li>
+</ul>
+
+<p>Until either condition triggers, the split is fixed.</p>
+
+<h2>What This Cost. What It Returned.</h2>
+
+<p>25 experiments. 11 hours 26 minutes of compute. Two Sparks. One Boeing reference run. One harness, one orchestrator, nine prompt variants. Three stable baseline reruns in Phase 1, three in Phase 2.</p>
+
+<p>Returned: a clean negative result. The hypothesis that the skeptic could be re-tuned to recover deterministic high-sustain on gemma4 through prompt changes alone is wrong. The data is unambiguous. The gates worked.</p>
+
+<p>Also returned: a structural understanding the original autoresearch did not need to develop. Qwen 3 was deterministic at temperature zero. Gemma 4 is not. The 0.000 stdev that defined the original hardening was a property of the model, not a property of the methodology. The methodology applied to gemma4 surfaces real variance that the previous methodology hid.</p>
+
+<p>The split (extraction gemma4, scoring qwen3:32b) was restored on 2026-04-23. The autoresearch confirms it on 2026-04-25.</p>
+
+<div class="callout">
+<div class="callout-label">Investigation Trail</div>
+<ul style="margin:0 0 0 1rem">
+<li>2026-04-16: Sandbox fleet on gemma4:31b drops FM-01 detection from 14/15 to 2/16</li>
+<li>2026-04-23: Investigation traces cause to skeptic calibration mismatch. Split restored.</li>
+<li>2026-04-23: Phase 1 autoresearch scaffolded.</li>
+<li>2026-04-24: Phase 1 runs. 19 experiments, 6h40m.</li>
+<li>2026-04-24 to 25: Phase 2 runs. 6 experiments, 4h46m.</li>
+<li>2026-04-25: Split locked as permanent production configuration.</li>
+</ul>
+</div>
+
+</div>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  <div>Greenbaum Labs &middot; April 2026</div>
+  <div>
+    <a href="/lab">Lab</a>
+    <a href="/">Home</a>
+    <a href="/method">Method</a>
+    <a href="/sample-scan">Sample Scan</a>
+  </div>
+</footer>
+
+</body>
+</html>
