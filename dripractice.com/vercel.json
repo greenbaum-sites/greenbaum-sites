@@ -1,0 +1,23 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/lens/01", "destination": "/lens/the-operator", "permanent": true },
+    { "source": "/lens/02", "destination": "/lens/the-customer", "permanent": true },
+    { "source": "/lens/03", "destination": "/lens/the-executive", "permanent": true },
+    { "source": "/lens/04", "destination": "/lens/the-chief-of-staff", "permanent": true },
+    { "source": "/lens/05", "destination": "/lens/the-new-leader", "permanent": true },
+    { "source": "/lens/06", "destination": "/lens/the-investor", "permanent": true },
+    { "source": "/lens/07", "destination": "/lens/hr", "permanent": true },
+    { "source": "/lens/08", "destination": "/lens/ai-integration", "permanent": true },
+    { "source": "/lens/09", "destination": "/lens/finance", "permanent": true },
+    { "source": "/lens/10", "destination": "/lens/legal-and-compliance", "permanent": true },
+    { "source": "/lens/11", "destination": "/lens/product", "permanent": true },
+    { "source": "/lens/12", "destination": "/lens/engineering", "permanent": true },
+    { "source": "/lens/13", "destination": "/lens/sales", "permanent": true },
+    { "source": "/lens/14", "destination": "/lens/marketing", "permanent": true },
+    { "source": "/lens/15", "destination": "/lens/it-and-infrastructure", "permanent": true },
+    { "source": "/lens/16", "destination": "/lens/procurement", "permanent": true },
+    { "source": "/lens/17", "destination": "/lens/program-management", "permanent": true },
+    { "source": "/lens/18", "destination": "/lens/the-board", "permanent": true }
+  ]
+}
