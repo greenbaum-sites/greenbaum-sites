@@ -46,8 +46,9 @@ greenbaum-sites/
 │   ├── lens/                      # DRI™ | Coherence Lens system
 │   │   ├── index.html             # Landing page (eighteen-lens grid)
 │   │   ├── _nav.js                # Shared cross-lens navigation module
-│   │   └── 01-18/                 # 18 interactive drag-to-reveal lenses
+│   │   └── {slug}/                # 18 named lenses (e.g. the-operator, engineering)
 │   │       └── index.html         # Each: 5 FM cards + closing statement
+│   ├── vercel.json                # cleanUrls + 301 redirects from /lens/01→/lens/the-operator etc.
 │   └── tools/                     # 7 diagnostic instruments
 │       ├── declaration-log.html
 │       ├── fm-scanner.html
