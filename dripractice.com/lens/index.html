@@ -977,16 +977,16 @@
 
       grid.addEventListener('click', function (e) {
         var card = e.target.closest('.grid-card');
-        if (!card || loading) return;
-        openLens(card.dataset.lens, card);
+        if (!card) return;
+        window.location.href = '/lens/' + card.dataset.lens;
       });
 
       grid.addEventListener('keydown', function (e) {
         if (e.key !== 'Enter' && e.key !== ' ') return;
         var card = e.target.closest('.grid-card');
-        if (!card || loading) return;
+        if (!card) return;
         e.preventDefault();
-        openLens(card.dataset.lens, card);
+        window.location.href = '/lens/' + card.dataset.lens;
       });
 
       // ================================================================
