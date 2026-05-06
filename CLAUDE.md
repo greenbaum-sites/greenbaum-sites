@@ -1,6 +1,6 @@
 # Greenbaum Sites
 
-Four-site portfolio ecosystem for Justin R. Greenbaum. Static HTML, no build step, deployed on Vercel.
+Five-site portfolio ecosystem for Justin R. Greenbaum. Static HTML, no build step, deployed on Vercel.
 
 ## Sites
 
@@ -9,6 +9,7 @@ Four-site portfolio ecosystem for Justin R. Greenbaum. Static HTML, no build ste
 | Professional hub | `justingreenbaum.com/` | justingreenbaum.com | Gold (#c9a84c) |
 | AI workshop | `greenbaumlabs.com/` | greenbaumlabs.com | Green (#5dba5d) |
 | Photography | `greenbaumphotography.com/` | greenbaumphotography.com | Gold (#c9a84c) |
+| DRI Practice | `dripractice.com/` | dripractice.com | Gold (#c9a84c) |
 | Lego art studio | `megabrixels.com/` | megabrixels.com | Gold (#c9a84c) |
 
 ## Stack
@@ -40,14 +41,11 @@ greenbaum-sites/
 │   ├── coherence-deep.html        # Deep dive on Coherence
 │   ├── decision-responsibility-infrastructure.html
 │   └── sitemap.xml
-├── greenbaumlabs.com/
+├── dripractice.com/
 │   ├── index.html                 # Landing page
-│   ├── agentforce.html            # Agentforce page
-│   ├── field.html                 # The Field — tool orientation
-│   ├── case-study-diagnostic-engine.html
-│   ├── sitemap.xml
 │   ├── lens/                      # DRI™ | Coherence Lens system
-│   │   ├── index.html             # Landing page (three-act experience)
+│   │   ├── index.html             # Landing page (eighteen-lens grid)
+│   │   ├── _nav.js                # Shared cross-lens navigation module
 │   │   └── 01-18/                 # 18 interactive drag-to-reveal lenses
 │   │       └── index.html         # Each: 5 FM cards + closing statement
 │   └── tools/                     # 7 diagnostic instruments
@@ -58,6 +56,12 @@ greenbaum-sites/
 │       ├── system-nav-locator.html
 │       ├── verified-independence.html
 │       └── continuity-chain.html
+├── greenbaumlabs.com/
+│   ├── index.html                 # Landing page
+│   ├── agentforce.html            # Agentforce page
+│   ├── field.html                 # The Field — tool orientation
+│   ├── case-study-diagnostic-engine.html
+│   └── sitemap.xml
 ├── greenbaumphotography.com/
 │   ├── index.html
 │   └── (photo assets)
