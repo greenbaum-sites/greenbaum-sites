@@ -339,7 +339,7 @@
       white-space: nowrap;
     }
 
-    .fm-label.visible { opacity: 1; }
+    .fm-label.visible { opacity: 1; pointer-events: auto; }
 
     .fm-code {
       font-family: 'JetBrains Mono', monospace;
@@ -349,6 +349,16 @@
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 0.75rem;
+    }
+
+    .fm-code a {
+      color: inherit;
+      text-decoration: none;
+      transition: text-decoration 0.3s ease;
+    }
+    .fm-code a:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
     }
 
     .fm-line {
@@ -592,7 +602,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-04 &middot; Metric Shadowing</div>
+        <div class="fm-code"><a href="/fm/fm-04" target="_blank" rel="noopener">FM-04 &middot; Metric Shadowing</a></div>
         <p class="fm-line">When the SLA is green and users are frustrated, the metric isn&rsquo;t measuring what the user experiences.</p>
       </div>
     </section>
@@ -622,7 +632,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-02 &middot; Escalation Inversion</div>
+        <div class="fm-code"><a href="/fm/fm-02" target="_blank" rel="noopener">FM-02 &middot; Escalation Inversion</a></div>
         <p class="fm-line">When ticket volume drops without service improvement, the problems migrated &mdash; they didn&rsquo;t disappear.</p>
       </div>
     </section>
@@ -652,7 +662,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-05 &middot; Normalized Workarounds</div>
+        <div class="fm-code"><a href="/fm/fm-05" target="_blank" rel="noopener">FM-05 &middot; Normalized Workarounds</a></div>
         <p class="fm-line">When integration depends on scripts nobody owns, the architecture has already been replaced by artifacts.</p>
       </div>
     </section>
@@ -682,7 +692,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-17 &middot; Structural Amnesia</div>
+        <div class="fm-code"><a href="/fm/fm-17" target="_blank" rel="noopener">FM-17 &middot; Structural Amnesia</a></div>
         <p class="fm-line">When the infrastructure has rules nobody can explain, the system is governed by inherited risk.</p>
       </div>
     </section>
@@ -712,7 +722,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-01 &middot; Responsibility Compression</div>
+        <div class="fm-code"><a href="/fm/fm-01" target="_blank" rel="noopener">FM-01 &middot; Responsibility Compression</a></div>
         <p class="fm-line">When a function is only visible during failure, the organization will always underinvest in it.</p>
       </div>
     </section>
