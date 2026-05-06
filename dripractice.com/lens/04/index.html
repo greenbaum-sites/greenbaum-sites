@@ -24,7 +24,7 @@
     html, body { height: 100%; overflow: hidden; background: var(--bg); color: var(--text-primary); font-family: 'Instrument Sans', sans-serif; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; user-select: none; -webkit-user-select: none; touch-action: manipulation; }
     body::after { content: ''; position: fixed; inset: 0; z-index: 200; pointer-events: none; background-image: var(--grain-bg, url('images/grain.png')); background-repeat: repeat; background-size: 512px 512px; mix-blend-mode: overlay; opacity: var(--grain-opacity); }
     .header { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; justify-content: center; padding: 2.2rem 2rem 0; pointer-events: none; }
-    .header-label { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; font-weight: 300; letter-spacing: 0.22em;
+    .header-label { font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; font-weight: 300; letter-spacing: 0.22em;
       padding-left: 0.22em; text-transform: uppercase; color: var(--text-dim); opacity: 0; animation: softIn 1.4s ease 0.5s forwards; }
     .carousel { position: relative; width: 100vw; height: 100vh; overflow: hidden; }
     .card { position: absolute; inset: 0; overflow: hidden; will-change: transform; }
@@ -32,14 +32,14 @@
     .card:first-child .prompt { opacity: 0; animation: softIn 1.4s ease 2.8s forwards; }
     .card:not(:first-child) .prompt { opacity: 1; }
     .prompt.hidden { opacity: 0 !important; animation: none; }
-    .prompt-button { display: inline-flex; align-items: center; gap: 0.6em; font-family: 'JetBrains Mono', monospace; font-size: 0.6rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold-dim); border-radius: 100px; padding: 0.7em 1.8em; background: rgba(13, 13, 13, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); cursor: ew-resize; transition: border-color 0.4s ease, color 0.4s ease; }
+    .prompt-button { display: inline-flex; align-items: center; gap: 0.6em; font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); border: 1px solid var(--gold-dim); border-radius: 100px; padding: 0.7em 1.8em; background: rgba(13, 13, 13, 0.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); cursor: ew-resize; transition: border-color 0.4s ease, color 0.4s ease; }
     .prompt-button:hover { border-color: var(--gold); color: #dfc06a; }
     .prompt-arrow { display: inline-block; font-size: 0.75rem; opacity: 0.7; animation: nudge 2s ease-in-out infinite; }
     @keyframes nudge { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
     .layer { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; padding: 5rem 4rem; }
     .layer-content { max-width: 560px; text-align: center; position: absolute; top: 34%; left: 50%; transform: translateX(-50%); z-index: 2; }
-    .layer-headline { font-weight: 400; font-size: clamp(1.5rem, 3.2vw, 2.6rem); line-height: 1.35; margin-bottom: 1.5rem; }
-    .layer-body { font-weight: 300; font-size: clamp(1rem, 1.3vw, 1.08rem); line-height: 1.85; }
+    .layer-headline { font-weight: 400; font-size: clamp(1.8rem, 3.8vw, 3rem); line-height: 1.35; margin-bottom: 1.5rem; }
+    .layer-body { font-weight: 300; font-size: clamp(1.1rem, 1.5vw, 1.25rem); line-height: 1.85; }
     .layer-narrative { z-index: 1; transition: opacity 0.8s ease; }
     .layer-narrative::before { content: ''; position: absolute; inset: 0; z-index: 0; background-image: var(--narrative-bg); background-size: cover; background-position: center; opacity: var(--img-narrative-opacity); transition: opacity 0.8s ease; }
     .layer-narrative::after { content: ''; position: absolute; inset: 0; z-index: 1; background: radial-gradient(ellipse at center, rgba(13, 13, 13, 0.4) 0%, rgba(13, 13, 13, 0.65) 50%, rgba(13, 13, 13, 0.9) 100%); }
@@ -60,8 +60,8 @@
     .handle:hover .handle-grip, .handle.active .handle-grip { width: 15px; height: 15px; opacity: 1; box-shadow: 0 0 20px var(--gold-glow); }
     .fm-label { position: absolute; bottom: 2.8rem; left: 50%; transform: translateX(-50%); z-index: 60; text-align: center; opacity: 0; transition: opacity 1s ease; pointer-events: none; white-space: nowrap; }
     .fm-label.visible { opacity: 1; }
-    .fm-code { font-family: 'JetBrains Mono', monospace; font-size: 0.7rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
-    .fm-line { font-family: 'Instrument Sans', sans-serif; font-weight: 400; font-size: clamp(0.95rem, 1.3vw, 1.1rem); color: var(--text-muted); line-height: 1.65; white-space: normal; max-width: 520px; margin: 0 auto; }
+    .fm-code { font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; font-weight: 400; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.75rem; }
+    .fm-line { font-family: 'Instrument Sans', sans-serif; font-weight: 400; font-size: clamp(1.05rem, 1.5vw, 1.2rem); color: var(--text-muted); line-height: 1.65; white-space: normal; max-width: 520px; margin: 0 auto; }
     .carousel-nav { position: fixed; bottom: 0.6rem; left: 50%; transform: translateX(-50%); z-index: 80; display: flex; align-items: center; gap: 1rem; }
     .carousel-arrow { background: none; border: 1px solid var(--gold-dim); border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; color: var(--gold); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; cursor: pointer; opacity: 0.4; transition: opacity 0.3s, border-color 0.3s; padding: 0; }
     .carousel-arrow:hover { opacity: 1; border-color: var(--gold); }
@@ -72,17 +72,17 @@
     .footer-right { position: fixed; bottom: 1.5rem; right: 2rem; z-index: 60; opacity: 0; transition: opacity 0.8s ease; pointer-events: none; }
     .footer-right.visible { opacity: 1; pointer-events: auto; }
     .footer-left { position: fixed; bottom: 1.5rem; left: 2rem; z-index: 60; opacity: 0; animation: softIn 1s ease 4s forwards; }
-    .footer-mono { font-family: 'JetBrains Mono', monospace; font-size: 0.45rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.3s ease; }
+    .footer-mono { font-family: 'JetBrains Mono', monospace; font-size: 0.55rem; font-weight: 300; letter-spacing: 0.15em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; transition: color 0.3s ease; }
     .footer-mono:hover { color: var(--gold); }
     /* ========== CLOSING STATEMENT ========== */
     .closing-statement { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 2rem; text-align: center; background: var(--bg); will-change: transform; }
-    .closing-line { font-family: 'Instrument Sans', sans-serif; font-weight: 400; font-size: clamp(0.95rem, 1.3vw, 1.1rem); line-height: 1.8; color: var(--gold); max-width: 520px; margin: 0 auto; }
+    .closing-line { font-family: 'Instrument Sans', sans-serif; font-weight: 400; font-size: clamp(1.05rem, 1.5vw, 1.2rem); line-height: 1.8; color: var(--gold); max-width: 520px; margin: 0 auto; }
     .closing-line + .closing-line { margin-top: 1.2rem; }
     @keyframes softIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     @keyframes handleIn { from { opacity: 0; } to { opacity: 1; } }
     @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.01ms !important; animation-delay: 0.01ms !important; transition-duration: 0.01ms !important; } .layer-structure { clip-path: none !important; } .layer-narrative { clip-path: none !important; } .handle { display: none; } .layer-narrative { width: 50%; position: absolute; right: 50%; } .layer-structure { width: 50%; position: absolute; left: 50%; } .fm-label { opacity: 1 !important; } }
-    @media (max-height: 700px) { .layer-content { top: 30%; } .fm-label { bottom: 1.5rem; } .fm-line { font-size: 0.85rem; } .footer-left, .footer-right { bottom: 0.5rem; } .carousel-nav { bottom: 0.2rem; } }
-    @media (max-width: 768px) { .layer { padding: 0; } .layer-content { max-width: 85%; top: 14%; bottom: 6rem; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; justify-content: center; } .layer-headline { font-size: 1.25rem; margin-bottom: 0.6rem; } .layer-body { font-size: 0.88rem; line-height: 1.55; } .prompt-button { font-size: 0.6rem; padding: 0.6em 1.4em; } .prompt { margin-top: 1rem; } .handle { width: 54px; } .handle-grip { width: 16px; height: 16px; } .fm-label { bottom: 4rem; padding: 0 1.5rem; white-space: normal; } .fm-code { font-size: 0.55rem; } .fm-line { font-size: 0.82rem; line-height: 1.45; } .footer-left, .footer-right { bottom: 0.6rem; } .header { padding: 1.5rem 1.5rem 0; } .header-label { font-size: 0.45rem; } .carousel-nav { bottom: 0.3rem; } .carousel-arrow { width: 36px; height: 36px; font-size: 0.9rem; } }
+    @media (max-height: 700px) { .layer-content { top: 30%; } .fm-label { bottom: 1.5rem; } .fm-line { font-size: 0.95rem; } .footer-left, .footer-right { bottom: 0.5rem; } .carousel-nav { bottom: 0.2rem; } }
+    @media (max-width: 768px) { .layer { padding: 0; } .layer-content { max-width: 85%; top: 14%; bottom: 6rem; overflow-y: auto; overscroll-behavior: contain; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; justify-content: center; } .layer-headline { font-size: 1.5rem; margin-bottom: 0.6rem; } .layer-body { font-size: 1rem; line-height: 1.55; } .prompt-button { font-size: 0.7rem; padding: 0.6em 1.4em; } .prompt { margin-top: 1rem; } .handle { width: 54px; } .handle-grip { width: 16px; height: 16px; } .fm-label { bottom: 4rem; padding: 0 1.5rem; white-space: normal; } .fm-code { font-size: 0.65rem; } .fm-line { font-size: 0.92rem; line-height: 1.45; } .footer-left, .footer-right { bottom: 0.6rem; } .header { padding: 1.5rem 1.5rem 0; } .header-label { font-size: 0.55rem; } .carousel-nav { bottom: 0.3rem; } .carousel-arrow { width: 36px; height: 36px; font-size: 0.9rem; } }
   </style>
   <script defer src="/lens/_nav.js"></script>
 </head>
