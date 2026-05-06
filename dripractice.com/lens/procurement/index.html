@@ -339,7 +339,7 @@
       white-space: nowrap;
     }
 
-    .fm-label.visible { opacity: 1; }
+    .fm-label.visible { opacity: 1; pointer-events: auto; }
 
     .fm-code {
       font-family: 'JetBrains Mono', monospace;
@@ -349,6 +349,16 @@
       text-transform: uppercase;
       color: var(--gold);
       margin-bottom: 0.75rem;
+    }
+
+    .fm-code a {
+      color: inherit;
+      text-decoration: none;
+      transition: text-decoration 0.3s ease;
+    }
+    .fm-code a:hover {
+      text-decoration: underline;
+      text-underline-offset: 0.25em;
     }
 
     .fm-line {
@@ -592,7 +602,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-03 &middot; Responsibility Without Authority</div>
+        <div class="fm-code"><a href="/fm/fm-03" target="_blank" rel="noopener">FM-03 &middot; Responsibility Without Authority</a></div>
         <p class="fm-line">When procurement owns the scorecard but not the exit decision, accountability is documentation without power.</p>
       </div>
     </section>
@@ -622,7 +632,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-06 &middot; Exception Inflation</div>
+        <div class="fm-code"><a href="/fm/fm-06" target="_blank" rel="noopener">FM-06 &middot; Exception Inflation</a></div>
         <p class="fm-line">When 40% of spend bypasses procurement, the process isn&rsquo;t governing &mdash; it&rsquo;s observing.</p>
       </div>
     </section>
@@ -652,7 +662,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-04 &middot; Metric Shadowing</div>
+        <div class="fm-code"><a href="/fm/fm-04" target="_blank" rel="noopener">FM-04 &middot; Metric Shadowing</a></div>
         <p class="fm-line">When the vendor meets the SLA and the team is still struggling, the contract is measuring the wrong things.</p>
       </div>
     </section>
@@ -682,7 +692,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-17 &middot; Structural Amnesia</div>
+        <div class="fm-code"><a href="/fm/fm-17" target="_blank" rel="noopener">FM-17 &middot; Structural Amnesia</a></div>
         <p class="fm-line">When vendor relationships outlive the people who chose them, the organization is locked into decisions it can no longer explain.</p>
       </div>
     </section>
@@ -712,7 +722,7 @@
         <div class="handle-grip"></div>
       </div>
       <div class="fm-label">
-        <div class="fm-code">FM-07 &middot; Coordination Decay</div>
+        <div class="fm-code"><a href="/fm/fm-07" target="_blank" rel="noopener">FM-07 &middot; Coordination Decay</a></div>
         <p class="fm-line">When three teams use the same vendor and none of them coordinate, centralization is a label, not a function.</p>
       </div>
     </section>
