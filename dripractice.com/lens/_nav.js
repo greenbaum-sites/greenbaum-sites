@@ -9,7 +9,7 @@
     '  z-index: 60;' +
     '  top: 1.5rem;' +
     '  font-family: "JetBrains Mono", monospace;' +
-    '  font-size: 0.45rem;' +
+    '  font-size: 0.55rem;' +
     '  font-weight: 300;' +
     '  letter-spacing: 0.15em;' +
     '  text-transform: uppercase;' +
@@ -32,8 +32,8 @@
     '  }' +
     '}' +
     '@media (max-width: 768px) {' +
-    '  .lens-nav-back { left: 1rem; top: 1rem; font-size: 0.4rem; }' +
-    '  .lens-nav-taxonomy { right: 1rem; top: 1rem; font-size: 0.4rem; }' +
+    '  .lens-nav-back { left: 1rem; top: 1rem; font-size: 0.5rem; }' +
+    '  .lens-nav-taxonomy { right: 1rem; top: 1rem; font-size: 0.5rem; }' +
     '}';
   document.head.appendChild(style);
 
