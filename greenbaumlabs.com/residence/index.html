@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Coherence in Residence — Fractional Chief Customer Officer · Greenbaum Labs</title>
+<meta name="description" content="A fractional Chief Customer Officer / COO seat for customer operations. Two days a week, embedded, diagnostic-first. Operations that hold under pressure.">
+<meta property="og:title" content="Coherence in Residence — Fractional Chief Customer Officer">
+<meta property="og:description" content="Operations that hold under pressure. A fractional seat that starts with evidence, not a leap.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+<meta property="og:url" content="https://greenbaumlabs.com/residence">
+<link rel="canonical" href="https://greenbaumlabs.com/residence">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Coherence in Residence — Fractional Chief Customer Officer">
+<meta name="twitter:description" content="Operations that hold under pressure. A fractional seat that starts with evidence, not a leap.">
+<meta name="twitter:image" content="https://greenbaumlabs.com/og-card.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0a0f0c;--bg2:#111a14;--bg3:#162119;
+  --g:#34D399;--g2:#5EEAD4;
+  --g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);
+  --t1:#f0ece4;--t2:#b0ada6;--t3:#706d68;--t4:#3a3936;
+  --bdr:rgba(240,236,228,.08);--bdr2:rgba(240,236,228,.14);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{font-size:16px;-webkit-font-smoothing:antialiased}
+body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--t2);line-height:1.6;overflow-x:hidden}
+body::after{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");opacity:.02;pointer-events:none;z-index:9999}
+::selection{background:rgba(52,211,153,.2);color:var(--t1)}
+a{color:var(--g);text-decoration:none}
+a:hover{color:var(--g2)}
+
+/* Toolbar (screen only) */
+.toolbar{position:fixed;top:1rem;right:1rem;z-index:200}
+.toolbar button{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#000;background:var(--g);border:none;border-radius:3px;padding:.7rem 1.3rem;cursor:pointer;transition:all .3s}
+.toolbar button:hover{background:var(--g2);transform:translateY(-1px);box-shadow:0 4px 20px rgba(52,211,153,.18)}
+
+.sheet{max-width:840px;margin:0 auto;padding:3.5rem 3rem 4rem}
+
+/* Brand header */
+.brand{display:flex;align-items:center;justify-content:space-between;gap:.7rem;padding-bottom:1.5rem;border-bottom:1px solid var(--bdr);margin-bottom:2.75rem;flex-wrap:wrap}
+.brand-left{display:flex;flex-direction:column}
+.brand-name{font-weight:700;font-size:1rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t1);line-height:1.1}
+.brand-role{font-family:'JetBrains Mono',monospace;font-size:.5rem;font-weight:400;letter-spacing:.15em;text-transform:uppercase;color:var(--t3);margin-top:3px}
+.brand-nav{display:flex;gap:1.4rem}
+.brand-nav a{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+.brand-nav a:hover{color:var(--g)}
+
+/* Eyebrow */
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--g);opacity:.6}
+
+h1{font-weight:700;font-size:2.6rem;line-height:1.12;letter-spacing:-.03em;color:var(--t1);margin-bottom:.9rem}
+.byline{font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);margin-bottom:1.75rem}
+.byline strong{color:var(--g)}
+.lead{font-size:1.1rem;line-height:1.78;color:var(--t2);max-width:660px}
+.lead+.lead{margin-top:.9rem}
+
+/* Section scaffolding */
+section{padding-top:2.75rem}
+.sec-label{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--g);margin-bottom:1.1rem;display:flex;align-items:center;gap:.75rem}
+.sec-label::before{content:'';width:24px;height:1px;background:var(--g);opacity:.6}
+h2{font-weight:700;font-size:1.35rem;letter-spacing:-.02em;color:var(--t1);margin-bottom:1rem}
+p{font-size:.96rem;line-height:1.78;color:var(--t2)}
+p+p{margin-top:.85rem}
+p strong{color:var(--t1);font-weight:600}
+
+/* Panel */
+.panel{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:3px;padding:1.5rem 1.7rem}
+
+/* Ninety days */
+.phases{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:.4rem}
+.phase{background:var(--bg2);border:1px solid var(--bdr);border-top:2px solid var(--g);border-radius:3px;padding:1.3rem 1.25rem}
+.phase h3{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--g);margin-bottom:.7rem}
+.phase p{font-size:.85rem;line-height:1.7;color:var(--t2)}
+.phase-note{font-size:.85rem;color:var(--t3);margin-top:1rem;font-style:italic}
+
+/* Terms */
+.terms{list-style:none;display:flex;flex-direction:column;gap:.2rem;margin-top:.4rem}
+.terms li{display:flex;gap:1rem;align-items:baseline;padding:.75rem 0;border-bottom:1px solid var(--bdr)}
+.terms .k{min-width:160px;flex-shrink:0}
+.terms li:last-child{border-bottom:none}
+.terms .k{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--g)}
+.terms .v{font-size:.92rem;color:var(--t1)}
+
+/* Contact / closing */
+.closing{margin-top:3rem;padding-top:2rem;border-top:1px solid var(--bdr)}
+.closing p{font-size:1rem;line-height:1.8}
+.contact-line{margin-top:1.4rem;display:flex;gap:1.4rem;flex-wrap:wrap}
+.contact-line a{font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase}
+
+footer{margin-top:2.5rem;padding-top:1.5rem;border-top:1px solid var(--bdr);display:flex;justify-content:space-between;flex-wrap:wrap;gap:.5rem}
+.foot{font-family:'JetBrains Mono',monospace;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;color:var(--t4)}
+.foot a{color:var(--t4)}
+.foot a:hover{color:var(--g)}
+
+@media(max-width:680px){
+  .sheet{padding:2.5rem 1.5rem 3rem}
+  h1{font-size:2.05rem}
+  .phases{grid-template-columns:1fr}
+  .terms li{flex-direction:column;gap:.2rem}
+  .brand-nav{display:none}
+}
+
+/* ═══════════ PRINT: clean, ink-friendly, on-brand ═══════════ */
+@media print{
+  @page{margin:0.6in}
+  *{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  html,body{background:#fff !important;color:#333 !important}
+  body::after{display:none !important}
+  .toolbar,.brand-nav{display:none !important}
+  .sheet{max-width:100%;margin:0;padding:0}
+  .brand{border-color:rgba(0,0,0,.1)}
+  .brand-name{color:#111}
+  .brand-role{color:#777}
+  h1,h2,.terms .v,p strong{color:#111 !important}
+  p,.lead,.phase p{color:#555 !important}
+  .eyebrow,.sec-label,.phase h3,.terms .k,.closing .kick,a{color:#059669 !important}
+  .eyebrow::before,.sec-label::before{background:#34D399}
+  .byline{color:#777 !important}
+  .byline strong{color:#059669 !important}
+  .panel,.phase{background:#fff !important;border-color:rgba(0,0,0,.12) !important}
+  .panel{border-left-color:#34D399 !important}
+  .phase{border-top-color:#34D399 !important}
+  .terms li{border-color:rgba(0,0,0,.1)}
+  .phase-note{color:#777 !important}
+  .closing,footer{border-color:rgba(0,0,0,.1)}
+  .foot,.foot a{color:#999 !important}
+  section,.panel,.phase{break-inside:avoid}
+  h1{font-size:2.1rem}
+  .lead{font-size:.98rem;line-height:1.65}
+  p{font-size:.88rem;line-height:1.62}
+  section{padding-top:1.4rem}
+  .brand{margin-bottom:1.8rem;padding-bottom:1.1rem}
+  .eyebrow{margin-bottom:1rem}
+  .panel{padding:1rem 1.2rem}
+  .phases{gap:.7rem}
+  .phase{padding:.85rem .95rem}
+  .phase p{font-size:.78rem}
+  .phase-note{margin-top:.7rem;font-size:.78rem}
+  .sec-label{margin-bottom:.8rem}
+  .terms li{padding:.4rem 0}
+  .closing{margin-top:1.4rem;padding-top:1.1rem}
+  .closing p{font-size:.92rem}
+  .contact-line{margin-top:1rem}
+  footer{margin-top:1.2rem;padding-top:.9rem}
+}
+</style>
+<script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "wbl6utr5w3");
+</script>
+</head>
+<body>
+
+<div class="toolbar"><button onclick="window.print()">Print / Save PDF</button></div>
+
+<div class="sheet">
+
+  <header class="brand">
+    <div class="brand-left">
+      <div class="brand-name">Greenbaum Labs</div>
+      <div class="brand-role">Structural Diagnostics</div>
+    </div>
+    <nav class="brand-nav">
+      <a href="https://greenbaumlabs.com/lab">Lab</a>
+      <a href="https://dripractice.com/start-here">Methodology</a>
+      <a href="mailto:justin@greenbaumlabs.com">Contact</a>
+    </nav>
+  </header>
+
+  <div class="eyebrow">Coherence in Residence</div>
+
+  <h1>Operations that hold under pressure.</h1>
+
+  <div class="byline">Justin R. Greenbaum · <strong>Fractional Chief Customer Officer / COO</strong></div>
+
+  <p class="lead">Twenty years inside a Fortune 50 operation, from the frontline to vice president, running the side of the business where failure was public and ownership was unclear: regulatory escalations, executive complaints, privacy and accessibility response, customer security assurance, and the breakdowns that happen at the seams between teams.</p>
+
+  <p class="lead">I now run Greenbaum Labs, a diagnostic practice with a working instrument: seventeen named failure modes, a structural scan that runs on real company evidence, and an AI tool bench I built and operate myself.</p>
+
+  <section>
+    <div class="sec-label">The Seat I Take</div>
+    <p>Fractional Chief Customer Officer or COO for customer operations. Two days a week, embedded, accountable to the CEO. PE-backed and founder-led services or subscription businesses that have outgrown their operating structure or are putting AI into an operation that was not designed for it.</p>
+  </section>
+
+  <section>
+    <div class="sec-label">How an Engagement Starts</div>
+    <div class="panel">
+      <p><strong>With evidence, not a leap.</strong> A two-to-three week fixed-fee diagnostic maps your decision rights, escalation paths, exception load, and what your metrics actually measure, then names what it finds in plain language. If the findings warrant a seat, we both know exactly what the seat is for. If they do not, you keep the map.</p>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-label">The First Ninety Days</div>
+    <div class="phases">
+      <div class="phase">
+        <h3>Diagnose</h3>
+        <p>The scan, a decision-rights map, findings to the CEO straight.</p>
+      </div>
+      <div class="phase">
+        <h3>Stabilize</h3>
+        <p>Outcomes get owners, the two worst escalation paths get repaired, recurring exceptions become root-cause fixes.</p>
+      </div>
+      <div class="phase">
+        <h3>Build</h3>
+        <p>An operating cadence that survives without me, governance rails for AI in the operation, and a written handoff plan.</p>
+      </div>
+    </div>
+    <p class="phase-note">Automation may summarize, suggest, and predict; it never decides. The seat is designed to make itself unnecessary, which is why it works.</p>
+  </section>
+
+  <section>
+    <div class="sec-label">What Makes This Different</div>
+    <p>Most fractional operators bring experience. This seat comes instrumented: a structural diagnostic that shows you the organization the org chart hides, and an operator who has run AI against real operations rather than read about it. The experience tells us where to look. The instrument proves what we find.</p>
+  </section>
+
+  <section>
+    <div class="sec-label">Engagement Terms</div>
+    <ul class="terms">
+      <li><span class="k">Diagnostic</span><span class="v">Fixed fee, two to three weeks</span></li>
+      <li><span class="k">Seat</span><span class="v">Monthly retainer, two-day weekly cadence</span></li>
+      <li><span class="k">Commitment</span><span class="v">Two-quarter minimum, thirty-day mutual out</span></li>
+      <li><span class="k">Capacity</span><span class="v">One to two clients at a time, by design</span></li>
+    </ul>
+  </section>
+
+  <div class="closing">
+    <p>If your operation has outgrown its structure, the diagnostic will show you where. Start there.</p>
+    <div class="contact-line">
+      <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a>
+      <a href="https://greenbaumlabs.com">greenbaumlabs.com</a>
+      <a href="https://dripractice.com">dripractice.com</a>
+    </div>
+  </div>
+
+  <footer>
+    <span class="foot">© 2026 Greenbaum Labs, LLC · New Jersey</span>
+    <span class="foot"><a href="https://dripractice.com">DRI Practice</a> · <a href="https://writing.justingreenbaum.com">Coherence Record</a></span>
+  </footer>
+
+</div>
+
+</body>
+</html>
