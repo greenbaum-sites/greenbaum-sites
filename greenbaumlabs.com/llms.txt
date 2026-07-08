@@ -17,6 +17,7 @@ Measures alignment between what organizations say (center) and what the world ob
 - [Case Study: Diagnostic Engine](https://greenbaumlabs.com/case-study-diagnostic-engine): Technical deep-dive on the Coherence engine
 
 ## Diagnostic Offerings (Case Demonstrations)
+- [Coherence in Residence](https://greenbaumlabs.com/residence): Fractional Chief Customer Officer / COO seat for customer operations — two days a week, embedded, diagnostic-first
 - [Coherence Sprint](https://greenbaumlabs.com/case/coherence-sprint): What a Coherence Sprint reveals for leaders navigating structural dysfunction
 - [Portfolio Diagnostic](https://greenbaumlabs.com/case/portfolio): What a Portfolio Diagnostic surfaces for PE firms evaluating acquisitions
 - [Pre-Entry Diagnostic](https://greenbaumlabs.com/case/pre-entry): What a Pre-Entry Diagnostic surfaces before an executive hire accepts a role
