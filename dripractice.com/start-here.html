@@ -477,6 +477,132 @@
       to { opacity: 1; transform: translateY(0); }
     }
 
+    /* ---- HERO ADDITIONS (quieter second sub-line, dual CTA, byline) ---- */
+    .hero-sub-2 {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-dim);
+      max-width: 480px;
+      margin: -1.75rem 0 3rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.58s forwards;
+    }
+
+    .hero-cta {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .hero-cta a.secondary {
+      background: transparent;
+      color: var(--text-dim);
+      border: 1px solid var(--border);
+    }
+
+    .hero-cta a.secondary:hover {
+      background: transparent;
+      color: var(--text);
+      border-color: var(--border-hover);
+    }
+
+    .hero-byline {
+      font-size: 0.78rem;
+      line-height: 1.7;
+      color: var(--text-dim);
+      max-width: 460px;
+      margin-top: 1.75rem;
+      opacity: 0;
+      animation: fadeUp 0.7s ease 0.95s forwards;
+    }
+
+    .hero-byline a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-bottom: 1px solid var(--border);
+      transition: color 0.3s ease;
+    }
+
+    .hero-byline a:hover { color: var(--accent); }
+
+    /* ---- CHOOSER (two ways in) ---- */
+    .chooser-intro {
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .chooser {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      text-align: left;
+    }
+
+    .chooser-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1.75rem;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .chooser-label {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.75rem;
+    }
+
+    .chooser-body {
+      font-size: 0.85rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+      flex-grow: 1;
+    }
+
+    /* ---- USE THIS TO (orientation block after hero) ---- */
+    .use-this {
+      max-width: 760px;
+      margin: 0 auto;
+      padding: 4rem 3rem 1rem;
+    }
+
+    .use-this-list {
+      list-style: none;
+      margin-top: 1.25rem;
+    }
+
+    .use-this-list li {
+      font-size: 0.9rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      padding-left: 1.35rem;
+      margin-bottom: 0.85rem;
+      position: relative;
+    }
+
+    .use-this-list li:last-child { margin-bottom: 0; }
+
+    .use-this-list li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0.6rem;
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+    }
+
     /* ---- RESPONSIVE ---- */
     @media (max-width: 768px) {
       nav { padding: 1rem 1.5rem; }
@@ -490,6 +616,8 @@
       .fm-grid { grid-template-columns: 1fr; }
       .cta-section { padding: 3.5rem 1.5rem; }
       .cta-buttons { flex-direction: column; align-items: center; }
+      .chooser { grid-template-columns: 1fr; }
+      .use-this { padding: 3rem 1.5rem 0.5rem; }
       .about-section { padding: 3rem 1.5rem; }
     }
   </style>
@@ -518,6 +646,7 @@
     <p class="hero-eyebrow">Organizational Diagnosis</p>
     <h1>Decisions break.<br>Organizations forget&nbsp;why.</h1>
     <p class="hero-sub">There are 17 structural patterns behind organizational failure. They&rsquo;re predictable, diagnosable, and&nbsp;invisible from the&nbsp;inside.</p>
+    <p class="hero-sub-2">For the operators and leaders who carry these patterns. Learn all seventeen, or run a pilot diagnosis on your own organization in about five minutes.</p>
 
     <div class="triangle-hero">
       <svg viewBox="0 0 280 250" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -538,8 +667,21 @@
 
     <div class="hero-cta">
       <a href="#the-problem">Learn how it works</a>
+      <a href="/diagnose" class="secondary" onclick="window.va &amp;&amp; window.va('event',{name:'starthere_hero_diagnose'})">Run a pilot diagnosis &rarr;</a>
     </div>
 
+    <p class="hero-byline">A field instrument from <a href="https://greenbaumlabs.com">Justin R. Greenbaum</a> at Greenbaum Labs. Twenty years inside Fortune 50 customer operations; a hundred-plus diagnostic runs on public-company evidence.</p>
+
+  </div>
+
+  <!-- USE THIS TO -->
+  <div class="use-this">
+    <p class="section-label">Use this to</p>
+    <ul class="use-this-list">
+      <li>Run a first-pass structural read on a real organization, using public evidence only.</li>
+      <li>Put names to the patterns your team already feels.</li>
+      <li>See which dimension is under strain: Truth, Authority, or Continuity.</li>
+    </ul>
   </div>
 
   <!-- THE PROBLEM -->
@@ -630,6 +772,7 @@
     </div>
 
     <p>Each finding is then subjected to <em>adversarial review</em> &mdash; a second, skeptical pass designed to tear it apart. Only findings that survive that scrutiny count. What remains is signal. What doesn&rsquo;t is noise.</p>
+    <p><a href="https://greenbaumlabs.com/sample-scan">See what the output looks like: review a sample scan &rarr;</a></p>
   </section>
 
   <!-- WHAT THIS MEANS -->
@@ -647,9 +790,18 @@
     <div class="cta-inner">
       <h2>See the patterns</h2>
       <p>Explore the 17 failure modes. Run a pilot diagnosis.<br>Start recognizing what&rsquo;s been hiding in plain sight.</p>
-      <div class="cta-buttons">
-        <a href="/#taxonomy" class="cta-btn primary">Explore the Taxonomy</a>
-        <a href="/diagnose" class="cta-btn secondary">Run a Pilot Diagnosis</a>
+      <p class="chooser-intro">Two ways in, depending on where you stand.</p>
+      <div class="chooser">
+        <div class="chooser-card">
+          <p class="chooser-label">Learning the framework</p>
+          <p class="chooser-body">Explore the seventeen failure modes and the three structural dimensions behind them. Reading, at your pace, no inputs required.</p>
+          <a href="/#taxonomy" class="cta-btn secondary" onclick="window.va &amp;&amp; window.va('event',{name:'starthere_chooser_taxonomy'})">Explore the Taxonomy &rarr;</a>
+        </div>
+        <div class="chooser-card">
+          <p class="chooser-label">Naming a live problem</p>
+          <p class="chooser-body">Run a pilot diagnosis on your own organization. About five minutes, and you leave with a first-pass structural read.</p>
+          <a href="/diagnose" class="cta-btn primary" onclick="window.va &amp;&amp; window.va('event',{name:'starthere_chooser_diagnose'})">Run a Pilot Diagnosis &rarr;</a>
+        </div>
       </div>
     </div>
   </div>
