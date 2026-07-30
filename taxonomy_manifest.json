@@ -2,9 +2,9 @@
   "schema_version": "2.0",
   "role": "UPSTREAM CANONICAL SOURCE OF TRUTH",
   "authority_note": "This manifest is the authority. Public HTML must conform to it, not the reverse. Any HTML/JS/JSON-LD/SVG ID-name pair that disagrees with this file is a defect in the page, not in the manifest. Changing a canonical_name requires human approval and a bump to approved_at.",
-  "approved_by": "PENDING \u2014 Justin R. Greenbaum",
-  "approved_at": null,
-  "status": "awaiting_human_approval",
+  "approved_by": "Justin R. Greenbaum",
+  "approved_at": "2026-07-30",
+  "status": "approved",
   "generated_at": "2026-07-30",
   "derivation": "Names initially read from dripractice.com/fm/ and /ffn/ individual pages and cross-checked against both index pages, then promoted to upstream. Tier assignments supplied by operator instruction 2026-07-30, not derived from HTML.",
   "alias_policy": "Aliases in pending_alias_review must NOT be displayed publicly until explicitly approved. The three listed aliases appeared as '(aka ...)' in individual page titles; they are removed from canonical_name and held here.",
@@ -434,5 +434,6 @@
       "status": "active",
       "last_verified": "2026-07-30"
     }
-  ]
+  ],
+  "approval_note": "38-entry table reviewed and approved 2026-07-30. Tier assignments and the three canonical names with aliases stripped (FM-05, FM-07, FM-09) are approved as listed. Shadow Ops, Orphaned Work and Risk Offloading remain in pending_alias_review and are still not approved for public display."
 }
