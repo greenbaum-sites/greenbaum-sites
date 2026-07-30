@@ -29,18 +29,18 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #0a0a0a;
-      --bg-secondary: #161616;
-      --bg-card: #1c1c1c;
-      --bg-elevated: #242424;
+      --bg-primary: #0a0f0c;
+      --bg-secondary: #111a14;
+      --bg-card: #162119;
+      --bg-elevated: #1e2d24;
       --text-primary: #f0ece4;
       --text-secondary: #8a8580;
       --text-dim: #4d4945;
-      --accent: #c9a84c;
-      --accent-dim: rgba(201, 168, 76, 0.12);
+      --accent: #34D399;
+      --accent-dim: rgba(52, 211, 153, 0.12);
       --border: rgba(240, 236, 228, 0.07);
       --border-hover: rgba(240, 236, 228, 0.14);
     }
@@ -89,10 +89,10 @@
     }
 
     .nav-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: 1.3rem;
-      letter-spacing: 0.12em;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-primary);
     }
@@ -171,9 +171,9 @@
 
     .wordmark-letter {
       display: inline-block;
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(3rem, 8vw, 5rem);
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 400;
+      font-size: clamp(2.4rem, 6.5vw, 4rem);
       opacity: 0;
       color: #262626;
       animation: letterEmerge 2.5s ease-out forwards;
@@ -337,9 +337,10 @@
     .tri-card.continuity { border-left-color: var(--text-secondary); }
 
     .tri-card h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
       margin-bottom: 0.5rem;
     }
 
@@ -429,7 +430,7 @@
       margin-top: 2.5rem;
       padding: 1.5rem 2rem;
       background: var(--accent-dim);
-      border: 1px solid rgba(201, 168, 76, 0.2);
+      border: 1px solid rgba(52, 211, 153, 0.2);
       font-size: 0.9rem;
       line-height: 1.7;
       color: var(--text-secondary);
@@ -454,10 +455,10 @@
 
     .diagnostic-sig {
       padding: 1.5rem 2rem;
-      background: rgba(201, 168, 76, 0.06);
-      border: 1px solid rgba(201, 168, 76, 0.25);
+      background: rgba(52, 211, 153, 0.06);
+      border: 1px solid rgba(52, 211, 153, 0.25);
       margin-bottom: 2rem;
-      box-shadow: 0 0 20px rgba(201, 168, 76, 0.08);
+      box-shadow: 0 0 20px rgba(52, 211, 153, 0.08);
     }
 
     .diagnostic-sig-label {
@@ -574,7 +575,7 @@
 
     .constraint-box {
       background: #0c0c0c;
-      border: 1px solid rgba(201, 168, 76, 0.2);
+      border: 1px solid rgba(52, 211, 153, 0.2);
       padding: 2rem;
       margin-bottom: 2rem;
     }
@@ -589,8 +590,10 @@
     }
 
     .constraint-text {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.4rem;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
       font-style: italic;
       color: var(--text-primary);
       line-height: 1.5;
@@ -643,9 +646,10 @@
     }
 
     .footer-link-title {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem;
-      font-weight: 400;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
       transition: color 0.3s ease;
     }
 
@@ -760,7 +764,7 @@
       <div class="section-label">The Framework</div>
       <p><strong>Center</strong> is the narrative an organization projects: press releases, job postings, earnings calls. <strong>Edge</strong> is what actually reaches the world: customer reviews, employee sentiment, social media, news coverage. The distance between center and edge is where coherence breaks down.</p>
       <p>This is not a survey tool. It is not sentiment analysis. Coherence is a structural alignment measurement — built on publicly available data, scored through adversarial validation, and designed to make invisible failure observable.</p>
-      <p>It is a running system, not a slide deck. Thirteen pipeline runs completed. Structured outputs. Scored findings. A real diagnostic record.</p>
+      <p>It is a running system, not a slide deck. 135 pipeline runs across 31 companies. Structured outputs. Scored findings. A real diagnostic record.</p>
     </div>
   </section>
 
@@ -775,8 +779,8 @@
           <div class="triangle-container">
             <svg viewBox="0 0 320 260" style="width: 100%; height: 100%;">
               <defs>
-                <linearGradient id="edge-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                  <stop offset="0%" style="stop-color:#c9a84c"/>
+                <linearGradient id="edge-mint" x1="0%" y1="0%" x2="100%" y2="100%">
+                  <stop offset="0%" style="stop-color:#34D399"/>
                   <stop offset="100%" style="stop-color:#4a4744"/>
                 </linearGradient>
                 <linearGradient id="edge-gray" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -785,13 +789,13 @@
                 </linearGradient>
                 <linearGradient id="edge-return" x1="100%" y1="100%" x2="0%" y2="0%">
                   <stop offset="0%" style="stop-color:#8a8580"/>
-                  <stop offset="100%" style="stop-color:#c9a84c"/>
+                  <stop offset="100%" style="stop-color:#34D399"/>
                 </linearGradient>
               </defs>
-              <line x1="160" y1="30" x2="40" y2="220" stroke="url(#edge-gold)" stroke-width="2"/>
+              <line x1="160" y1="30" x2="40" y2="220" stroke="url(#edge-mint)" stroke-width="2"/>
               <line x1="40" y1="220" x2="280" y2="220" stroke="url(#edge-gray)" stroke-width="2"/>
               <line x1="280" y1="220" x2="160" y2="30" stroke="url(#edge-return)" stroke-width="2"/>
-              <circle cx="160" cy="30" r="10" fill="#c9a84c"/>
+              <circle cx="160" cy="30" r="10" fill="#34D399"/>
               <circle cx="40" cy="220" r="8" fill="none" stroke="#4a4744" stroke-width="2"/>
               <circle cx="280" cy="220" r="8" fill="none" stroke="#8a8580" stroke-width="2"/>
             </svg>
