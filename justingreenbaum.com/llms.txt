@@ -1,19 +1,19 @@
 # justingreenbaum.com
 
-> Personal site of Justin R. Greenbaum — enterprise operations executive, advisor, and founder of Greenbaum Labs. 20+ years in operations (Comcast, frontline to VP). Now building Decision & Responsibility Infrastructure (DRI) — diagnostic systems that measure organizational alignment.
+> Personal site of Justin R. Greenbaum — enterprise strategy and operations executive, former Comcast Vice President, and founder of Greenbaum Labs. 20+ years leading customer, service-delivery, trust, regulatory, partner, and transformation operations. Now building Decision & Responsibility Infrastructure (DRI) — evidence systems that make organizational conditions observable.
 
 ## About Justin
-- Enterprise operations veteran (2005–present)
-- Founder, Greenbaum Labs — AI diagnostic systems on local compute
-- MIT Sloan Executive Education, Prosci Certified Change Practitioner
+- Enterprise strategy and operations executive (2005–present); Comcast frontline to Vice President
+- Founder, Greenbaum Labs — independent applied-AI lab running on owned infrastructure
+- MIT Sloan AI Executive Academy, NVIDIA infrastructure training, Prosci Certified Change Practitioner
 - Creator of the Coherence diagnostic framework
 
 ## Key Pages
 - [Home](https://justingreenbaum.com/): Thesis on structural failure and Decision & Responsibility Infrastructure
-- [About](https://justingreenbaum.com/about.html): Professional biography, career arc, services, credentials
-- [Coherence Framework](https://justingreenbaum.com/coherence.html): Interactive overview of the Coherence diagnostic system
-- [Coherence Deep Dive](https://justingreenbaum.com/coherence-deep.html): Failure modes, field notes, evidence discipline, AI governance
-- [Decision & Responsibility Infrastructure](https://justingreenbaum.com/decision-responsibility-infrastructure.html): Field definition of DRI as a discipline
+- [About](https://justingreenbaum.com/about): Professional biography, career arc, current work, credentials
+- [Coherence Framework](https://justingreenbaum.com/coherence): Interactive overview of the Coherence diagnostic system
+- [Coherence Deep Dive](https://justingreenbaum.com/coherence-deep): Failure modes, field notes, evidence discipline, AI governance
+- [Decision & Responsibility Infrastructure](https://justingreenbaum.com/decision-responsibility-infrastructure): Field definition of DRI as a discipline
 
 ## Core Concepts
 - **Coherence Triangle:** Truth (center-edge alignment), Authority (signal strength), Continuity (temporal consistency)
@@ -22,10 +22,10 @@
 - **Functional Field Notes:** 21 early-warning observations from diagnostic fieldwork
 
 ## Related Properties
-- [Greenbaum Labs](https://greenbaumlabs.com): AI workshop and diagnostic tools
+- [Greenbaum Labs](https://greenbaumlabs.com): independent applied-AI lab — organizational diagnostics, evidence systems, decision infrastructure
 - [Writing](https://writing.justingreenbaum.com): Essays on systems, responsibility, and governance
 - [Greenbaum Photography](https://greenbaumphotography.com): Fine art and documentary photography
 - [Megabrixels](https://megabrixels.com): Lego photography
 
 ## Contact
-- Email: justin@greenbaumlabs.com
+- Email: justinrgreenbaum@gmail.com
