@@ -1,34 +1,24 @@
 {
-  "schema_version": "1.0",
-  "last_verified": "2026-07-30",
-  "source": "dripractice.com/fm/ and dripractice.com/ffn/ (individual pages; index cross-checked)",
-  "conflicts": [
-    {
-      "id": "FM-05",
-      "title": "Normalized Workarounds (aka Shadow Ops)",
-      "h1": "Normalized Workarounds (aka Shadow Ops)",
-      "index": "Normalized Workarounds"
-    },
-    {
-      "id": "FM-07",
-      "title": "Coordination Decay (aka Orphaned Work)",
-      "h1": "Coordination Decay (aka Orphaned Work)",
-      "index": "Coordination Decay"
-    },
-    {
-      "id": "FM-09",
-      "title": "Over-Escalation (aka Risk Offloading)",
-      "h1": "Over-Escalation (aka Risk Offloading)",
-      "index": "Over-Escalation"
-    }
-  ],
+  "schema_version": "2.0",
+  "role": "UPSTREAM CANONICAL SOURCE OF TRUTH",
+  "authority_note": "This manifest is the authority. Public HTML must conform to it, not the reverse. Any HTML/JS/JSON-LD/SVG ID-name pair that disagrees with this file is a defect in the page, not in the manifest. Changing a canonical_name requires human approval and a bump to approved_at.",
+  "approved_by": "PENDING \u2014 Justin R. Greenbaum",
+  "approved_at": null,
+  "status": "awaiting_human_approval",
+  "generated_at": "2026-07-30",
+  "derivation": "Names initially read from dripractice.com/fm/ and /ffn/ individual pages and cross-checked against both index pages, then promoted to upstream. Tier assignments supplied by operator instruction 2026-07-30, not derived from HTML.",
+  "alias_policy": "Aliases in pending_alias_review must NOT be displayed publicly until explicitly approved. The three listed aliases appeared as '(aka ...)' in individual page titles; they are removed from canonical_name and held here.",
+  "tier_source": "operator instruction 2026-07-30",
   "entries": [
     {
       "id": "FFN-01",
       "type": "FFN",
       "canonical_name": "Responsibility Compression at the Edge",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-01",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -36,7 +26,10 @@
       "type": "FFN",
       "canonical_name": "Interpretive Drift",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-02",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -44,7 +37,10 @@
       "type": "FFN",
       "canonical_name": "Authority Without Commitment",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-03",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -52,7 +48,10 @@
       "type": "FFN",
       "canonical_name": "Escalation Friction",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-04",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -60,7 +59,10 @@
       "type": "FFN",
       "canonical_name": "Escalation Bounceback",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-05",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -68,7 +70,10 @@
       "type": "FFN",
       "canonical_name": "Signal Misread",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-06",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -76,7 +81,10 @@
       "type": "FFN",
       "canonical_name": "Orphaned Escalation",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-07",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -84,7 +92,10 @@
       "type": "FFN",
       "canonical_name": "Authority Fog",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-08",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -92,7 +103,10 @@
       "type": "FFN",
       "canonical_name": "Shadow Infrastructure",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-09",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -100,7 +114,10 @@
       "type": "FFN",
       "canonical_name": "Metric Displacement",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-10",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -108,7 +125,10 @@
       "type": "FFN",
       "canonical_name": "Context Gap",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-11",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -116,7 +136,10 @@
       "type": "FFN",
       "canonical_name": "Authority Without Permission",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-12",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -124,7 +147,10 @@
       "type": "FFN",
       "canonical_name": "Alignment Creep",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-13",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -132,7 +158,10 @@
       "type": "FFN",
       "canonical_name": "Frozen Recognition",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-14",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -140,7 +169,10 @@
       "type": "FFN",
       "canonical_name": "Permission Cascade",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-15",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -148,7 +180,10 @@
       "type": "FFN",
       "canonical_name": "Defensive Escalation",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-16",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -156,7 +191,10 @@
       "type": "FFN",
       "canonical_name": "Horizon Collapse",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-17",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -164,7 +202,10 @@
       "type": "FFN",
       "canonical_name": "Now Over Later",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-18",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -172,7 +213,10 @@
       "type": "FFN",
       "canonical_name": "Judgment Erosion",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-19",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -180,7 +224,10 @@
       "type": "FFN",
       "canonical_name": "Memory Scatter",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-20",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
@@ -188,160 +235,204 @@
       "type": "FFN",
       "canonical_name": "Opaque Logic Drift",
       "tier": null,
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/ffn/ffn-21",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-01",
       "type": "FM",
       "canonical_name": "Responsibility Compression",
-      "tier": null,
+      "tier": "Foundational",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-01",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-02",
       "type": "FM",
       "canonical_name": "Escalation Inversion",
-      "tier": null,
+      "tier": "Mechanism",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-02",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-03",
       "type": "FM",
       "canonical_name": "Responsibility Without Authority",
-      "tier": null,
+      "tier": "Foundational",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-03",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-04",
       "type": "FM",
       "canonical_name": "Metric Shadowing",
-      "tier": null,
+      "tier": "Mechanism",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-04",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-05",
       "type": "FM",
-      "canonical_name": "Normalized Workarounds (aka Shadow Ops)",
-      "tier": null,
+      "canonical_name": "Normalized Workarounds",
+      "tier": "Mechanism",
+      "aliases": [],
+      "pending_alias_review": [
+        "Shadow Ops"
+      ],
       "canonical_url": "https://dripractice.com/fm/fm-05",
-      "last_verified": "2026-07-30",
-      "index_name": "Normalized Workarounds",
-      "accepted_names": [
-        "Normalized Workarounds (aka Shadow Ops)",
-        "Normalized Workarounds"
-      ]
+      "status": "active",
+      "last_verified": "2026-07-30"
     },
     {
       "id": "FM-06",
       "type": "FM",
       "canonical_name": "Exception Inflation",
-      "tier": null,
+      "tier": "Mechanism",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-06",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-07",
       "type": "FM",
-      "canonical_name": "Coordination Decay (aka Orphaned Work)",
-      "tier": null,
+      "canonical_name": "Coordination Decay",
+      "tier": "Foundational",
+      "aliases": [],
+      "pending_alias_review": [
+        "Orphaned Work"
+      ],
       "canonical_url": "https://dripractice.com/fm/fm-07",
-      "last_verified": "2026-07-30",
-      "index_name": "Coordination Decay",
-      "accepted_names": [
-        "Coordination Decay (aka Orphaned Work)",
-        "Coordination Decay"
-      ]
+      "status": "active",
+      "last_verified": "2026-07-30"
     },
     {
       "id": "FM-08",
       "type": "FM",
       "canonical_name": "Decision Latency",
-      "tier": null,
+      "tier": "Mechanism",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-08",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-09",
       "type": "FM",
-      "canonical_name": "Over-Escalation (aka Risk Offloading)",
-      "tier": null,
+      "canonical_name": "Over-Escalation",
+      "tier": "Mechanism",
+      "aliases": [],
+      "pending_alias_review": [
+        "Risk Offloading"
+      ],
       "canonical_url": "https://dripractice.com/fm/fm-09",
-      "last_verified": "2026-07-30",
-      "index_name": "Over-Escalation",
-      "accepted_names": [
-        "Over-Escalation (aka Risk Offloading)",
-        "Over-Escalation"
-      ]
+      "status": "active",
+      "last_verified": "2026-07-30"
     },
     {
       "id": "FM-10",
       "type": "FM",
       "canonical_name": "Leadership Saturation",
-      "tier": null,
+      "tier": "Terminal",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-10",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-11",
       "type": "FM",
       "canonical_name": "Metric Authority Drift",
-      "tier": null,
+      "tier": "Mechanism",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-11",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-12",
       "type": "FM",
       "canonical_name": "Strategic Myopia",
-      "tier": null,
+      "tier": "Terminal",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-12",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-13",
       "type": "FM",
       "canonical_name": "Capability Atrophy",
-      "tier": null,
+      "tier": "Terminal",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-13",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-14",
       "type": "FM",
       "canonical_name": "Narrative Collapse",
-      "tier": null,
+      "tier": "Terminal",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-14",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-15",
       "type": "FM",
       "canonical_name": "Trust Exhaustion",
-      "tier": null,
+      "tier": "Terminal",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-15",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-16",
       "type": "FM",
       "canonical_name": "Process Inflation",
-      "tier": null,
+      "tier": "Mechanism",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-16",
+      "status": "active",
       "last_verified": "2026-07-30"
     },
     {
       "id": "FM-17",
       "type": "FM",
       "canonical_name": "Structural Amnesia",
-      "tier": null,
+      "tier": "Terminal",
+      "aliases": [],
+      "pending_alias_review": [],
       "canonical_url": "https://dripractice.com/fm/fm-17",
+      "status": "active",
       "last_verified": "2026-07-30"
     }
-  ],
-  "conflict_policy": "FM-05, FM-07 and FM-09 carry an '(aka \u2026)' alias in the individual page title and h1 while the index lists only the base name. Both strings are read from the authoritative source; neither was inferred. No source page was changed. Validation accepts either form for these three IDs."
+  ]
 }
