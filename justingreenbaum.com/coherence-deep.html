@@ -93,19 +93,19 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400;1,700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 
   <style>
     :root {
-      --bg-primary: #0a0a0a;
-      --bg-secondary: #161616;
-      --bg-card: #1c1c1c;
-      --bg-elevated: #242424;
+      --bg-primary: #0a0f0c;
+      --bg-secondary: #111a14;
+      --bg-card: #162119;
+      --bg-elevated: #1e2d24;
       --text-primary: #f0ece4;
       --text-secondary: #8a8580;
       --text-dim: #4d4945;
-      --accent: #c9a84c;
-      --accent-dim: rgba(201, 168, 76, 0.12);
+      --accent: #34D399;
+      --accent-dim: rgba(52, 211, 153, 0.12);
       --border: rgba(240, 236, 228, 0.07);
       --border-hover: rgba(240, 236, 228, 0.14);
     }
@@ -158,10 +158,10 @@
     }
 
     .nav-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: 1.3rem;
-      letter-spacing: 0.12em;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 700;
+      font-size: 1.05rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       color: var(--text-primary);
     }
@@ -227,7 +227,7 @@
       position: absolute;
       inset: 0;
       background:
-        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(201, 168, 76, 0.03), transparent),
+        radial-gradient(ellipse 60% 50% at 70% 30%, rgba(52, 211, 153, 0.03), transparent),
         var(--bg-primary);
     }
 
@@ -250,11 +250,11 @@
     }
 
     .hero h1 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 700;
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      letter-spacing: -0.03em;
       line-height: 1.15;
-      letter-spacing: -0.01em;
       margin-bottom: 2rem;
       opacity: 0;
       animation: fadeUp 0.8s ease forwards 0.5s;
@@ -325,17 +325,19 @@
     }
 
     h2 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 300;
-      font-size: clamp(2rem, 3.5vw, 3rem);
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.6rem, 2.9vw, 2.15rem);
+      letter-spacing: -0.025em;
       line-height: 1.2;
       margin-bottom: 2rem;
     }
 
     h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-weight: 400;
-      font-size: 1.5rem;
+      font-family: 'Instrument Sans', sans-serif;
+      font-weight: 600;
+      font-size: 1.2rem;
+      letter-spacing: -0.015em;
       line-height: 1.3;
       margin-top: 3rem;
       margin-bottom: 1.5rem;
@@ -427,9 +429,10 @@
     .triangle-card.continuity { border-left-color: var(--text-secondary); }
 
     .triangle-card h4 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.2rem;
-      font-weight: 400;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1.05rem;
+      font-weight: 600;
+      letter-spacing: -0.015em;
       margin-bottom: 0.75rem;
       color: var(--text-primary);
     }
@@ -469,16 +472,18 @@
 
     /* Principle box */
     .principle-box {
-      background: rgba(201, 168, 76, 0.08);
-      border: 1px solid rgba(201, 168, 76, 0.3);
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.3);
       padding: 2.5rem;
       margin: 3rem 0;
       text-align: center;
     }
 
     .principle-box p {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.3rem;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
       font-style: italic;
       line-height: 1.7;
       color: var(--text-primary);
@@ -495,7 +500,7 @@
       color: var(--accent);
       text-decoration: none;
       padding: 0.8rem 1.8rem;
-      border: 1px solid rgba(201, 168, 76, 0.3);
+      border: 1px solid rgba(52, 211, 153, 0.3);
       margin-top: 1.5rem;
       transition: all 0.3s ease;
     }
@@ -515,9 +520,10 @@
     }
 
     .cta-section h3 {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.8rem;
-      font-weight: 300;
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
       margin: 0 0 1.5rem 0;
       color: var(--text-primary);
     }
@@ -688,8 +694,8 @@
         <div class="triangle-container">
           <svg viewBox="0 0 320 260" style="width: 100%; height: 100%;">
             <defs>
-              <linearGradient id="edge-gold" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" style="stop-color:#c9a84c"/>
+              <linearGradient id="edge-mint" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#34D399"/>
                 <stop offset="100%" style="stop-color:#4a4744"/>
               </linearGradient>
               <linearGradient id="edge-gray" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -698,13 +704,13 @@
               </linearGradient>
               <linearGradient id="edge-return" x1="100%" y1="100%" x2="0%" y2="0%">
                 <stop offset="0%" style="stop-color:#8a8580"/>
-                <stop offset="100%" style="stop-color:#c9a84c"/>
+                <stop offset="100%" style="stop-color:#34D399"/>
               </linearGradient>
             </defs>
-            <line x1="160" y1="30" x2="40" y2="220" stroke="url(#edge-gold)" stroke-width="2"/>
+            <line x1="160" y1="30" x2="40" y2="220" stroke="url(#edge-mint)" stroke-width="2"/>
             <line x1="40" y1="220" x2="280" y2="220" stroke="url(#edge-gray)" stroke-width="2"/>
             <line x1="280" y1="220" x2="160" y2="30" stroke="url(#edge-return)" stroke-width="2"/>
-            <circle cx="160" cy="30" r="10" fill="#c9a84c"/>
+            <circle cx="160" cy="30" r="10" fill="#34D399"/>
             <circle cx="40" cy="220" r="8" fill="none" stroke="#4a4744" stroke-width="2"/>
             <circle cx="280" cy="220" r="8" fill="none" stroke="#8a8580" stroke-width="2"/>
           </svg>
@@ -855,13 +861,13 @@
   <section>
     <div class="section-inner">
       <div class="cta-section reveal">
-        <h3>Work With Coherence</h3>
+        <h3>Engage With Coherence</h3>
         <p>There are three ways to engage with the Coherence framework:</p>
 
         <div class="cta-buttons">
           <a href="https://writing.justingreenbaum.com" class="cta-button" target="_blank">Read the Failure Mode Library</a>
           <a href="https://writing.justingreenbaum.com/subscribe" class="cta-button secondary" target="_blank">Subscribe for Updates</a>
-          <a href="mailto:justin@greenbaumlabs.com" class="cta-button secondary">Contact for Diagnostic Work</a>
+          <a href="mailto:justin@greenbaumlabs.com" class="cta-button secondary">Start a Conversation</a>
         </div>
       </div>
     </div>
@@ -890,7 +896,7 @@
 
       <p>The Coherence framework is developed and maintained by <a href="/" style="color: var(--accent); text-decoration: none;">Justin R. Greenbaum</a>, founder of <a href="https://greenbaumlabs.com" style="color: var(--accent); text-decoration: none;" target="_blank">Greenbaum Labs</a>. The Failure Mode library is published regularly on <a href="https://writing.justingreenbaum.com" style="color: var(--accent); text-decoration: none;" target="_blank">Substack</a>, where each mode is explored in depth with structural signatures, field notes, and diagnostic guidance.</p>
 
-      <p>For diagnostic engagements, organizational assessments, or questions about applying Coherence to decision infrastructure and AI governance contexts, contact <a href="mailto:justin@greenbaumlabs.com" style="color: var(--accent); text-decoration: none;">justin@greenbaumlabs.com</a>.</p>
+      <p>For questions about applying Coherence to decision infrastructure or AI governance contexts — or to compare notes with someone working the same problems — contact <a href="mailto:justin@greenbaumlabs.com" style="color: var(--accent); text-decoration: none;">justin@greenbaumlabs.com</a>.</p>
     </div>
   </section>
 
