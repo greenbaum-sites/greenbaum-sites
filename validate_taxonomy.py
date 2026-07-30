@@ -38,33 +38,53 @@ STOP = (r'\s+(?:is|are|was|were|and|in|for|to|the|that|which|when|appears|feeds|
         r'adds|showed|at|a|an|its|their|has|have|because|while|but|so|as|on|by|from)\b')
 
 
-def clean(name: str) -> str:
+CANON_LOWER = None  # set in main(); longest-first for prefix matching
+
+
+def clean(name: str, expected: str = None) -> str:
+    """Trim a captured name to its most plausible form.
+
+    A canonical name may itself contain a stop word ('Responsibility Compression
+    at the Edge'), so try full canonical matches BEFORE splitting on stop words.
+    The canonical name for THIS id is tried first, otherwise a longer name
+    belonging to a different id can shadow the correct shorter one.
+    """
     name = re.sub(r'&[a-z]+;|&#\d+;', ' ', name)
+    name = re.sub(r'\s+', ' ', name).strip()
+    low = name.lower()
+    if expected and low.startswith(expected.lower()):
+        return name[:len(expected)]
+    if CANON_LOWER:
+        for c in CANON_LOWER:                 # longest first
+            if low.startswith(c):
+                return name[:len(c)]
     name = re.split(STOP, name)[0]
     name = re.sub(r'[\s\-–—:·|,.;)(]+$', '', name.strip())
     return re.sub(r'\s+', ' ', name).strip()
 
 
-def pairs(text: str):
+def pairs(text: str, CANON=None):
     """Yield (id, name, how) for every id/name pair, including split-element forms."""
     # 1. same-run: FM-01 · Name   /  FM-01: Name  /  FM-01 — Name
     for m in re.finditer(r'((?:FM|FFN)-\d\d)\s*(?:·|:|&middot;|&mdash;|—|–|-|\||\()\s*'
                          r'([A-Z][A-Za-z\'’ \-]{3,50})', text):
-        yield m.group(1), clean(m.group(2)), "inline"
+        yield m.group(1), clean(m.group(2), (CANON or {}).get(m.group(1))), "inline"
     # 2. split across tags. The ID must be the ENTIRE content of its own element —
     #    >FM-01</div> — otherwise ordinary prose ("FM-01 detection across 16 entities",
     #    "The FM-04 Moment") is misread as a name mapping. Same for the name.
     #    <th> is excluded: adjacent column headers are labels, not id/name mappings.
     for m in re.finditer(r'>\s*((?:FM|FFN)-\d\d)\s*</(?!th)[^>]+>\s*(?:' + TAG + r'\s*){0,4}'
                          r'>?\s*([A-Z][A-Za-z\'’ \-]{3,50}?)\s*</(?!th)', text):
-        yield m.group(1), clean(m.group(2)), "split-element"
+        yield m.group(1), clean(m.group(2), (CANON or {}).get(m.group(1))), "split-element"
     # 3. reverse order: >Name</y> ... >FM-01</x>
     for m in re.finditer(r'>\s*([A-Z][A-Za-z\'’ \-]{3,50}?)\s*</(?!th)[^>]+>\s*(?:' + TAG + r'\s*){0,2}'
                          r'>\s*((?:FM|FFN)-\d\d)\s*</(?!th)', text):
-        yield m.group(2), clean(m.group(1)), "split-element-reverse"
+        yield m.group(2), clean(m.group(1), (CANON or {}).get(m.group(2))), "split-element-reverse"
 
 
 def main():
+    global CANON_LOWER
+    CANON_LOWER = sorted((n.lower() for n in CANON.values()), key=len, reverse=True)
     mismatches, unapproved, ok = [], [], 0
     files = []
     for s in SITES:
@@ -77,7 +97,7 @@ def main():
             continue
         text = f.read_text(errors="replace")
         seen = set()
-        for cid, name, how in pairs(text):
+        for cid, name, how in pairs(text, CANON):
             if len(name) < 4:
                 continue
             key = (cid, name.lower())
