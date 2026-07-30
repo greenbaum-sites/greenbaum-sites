@@ -1,0 +1,10 @@
+{
+  "cleanUrls": true,
+  "redirects": [
+    { "source": "/case/pre-entry", "destination": "/lab", "permanent": true },
+    { "source": "/case/coherence-sprint", "destination": "/lab", "permanent": true },
+    { "source": "/case/portfolio", "destination": "/lab", "permanent": true },
+    { "source": "/case", "destination": "/lab", "permanent": true },
+    { "source": "/residence", "destination": "/founder", "permanent": true }
+  ]
+}
