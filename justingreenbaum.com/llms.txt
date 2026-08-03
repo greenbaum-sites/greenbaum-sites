@@ -10,6 +10,8 @@
 
 ## Key Pages
 - [Home](https://justingreenbaum.com/): Thesis on structural failure and Decision & Responsibility Infrastructure
+- [Selected Work](https://justingreenbaum.com/selected-work): Selected executive work in AI, customer operations, and operating transformation
+- [AI & Customer Experience](https://justingreenbaum.com/selected-work/ai-cx): Answer-engine measurement, AI system evaluation, global delivery, operating-model design
 - [About](https://justingreenbaum.com/about): Professional biography, career arc, current work, credentials
 - [Coherence Framework](https://justingreenbaum.com/coherence): Interactive overview of the Coherence diagnostic system
 - [Coherence Deep Dive](https://justingreenbaum.com/coherence-deep): Failure modes, field notes, evidence discipline, AI governance
