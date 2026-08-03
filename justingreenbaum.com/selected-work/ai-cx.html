@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI &amp; Customer Experience — Selected Work — Justin R. Greenbaum</title>
+  <meta name="description" content="Selected work at the intersection of AI systems and customer operations: answer-engine measurement, model evaluation and reliability, global service delivery, operating-model design, and enterprise CX platform adoption.">
+  <link rel="canonical" href="https://justingreenbaum.com/selected-work/ai-cx">
+
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://justingreenbaum.com/selected-work/ai-cx">
+  <meta property="og:title" content="AI &amp; Customer Experience — Selected Work — Justin R. Greenbaum">
+  <meta property="og:description" content="Selected work at the intersection of AI systems and customer operations: answer-engine measurement, model evaluation and reliability, global service delivery, operating-model design, and enterprise CX platform adoption.">
+  <meta property="og:image" content="https://justingreenbaum.com/og-image.jpg">
+  <meta property="og:site_name" content="Justin R. Greenbaum">
+
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:url" content="https://justingreenbaum.com/selected-work/ai-cx">
+  <meta name="twitter:title" content="AI &amp; Customer Experience — Selected Work — Justin R. Greenbaum">
+  <meta name="twitter:description" content="Selected work at the intersection of AI systems and customer operations: answer-engine measurement, model evaluation and reliability, global service delivery, operating-model design, and enterprise CX platform adoption.">
+  <meta name="twitter:image" content="https://justingreenbaum.com/og-image.jpg">
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg-primary:#0a0f0c; --bg-secondary:#111a14; --bg-card:#162119; --bg-elevated:#1e2d24;
+      --text-primary:#f0ece4; --text-secondary:#8a8580; --text-dim:#4d4945;
+      --accent:#34D399; --accent-dim:rgba(52,211,153,0.12);
+      --warm:#c8553a; --border:rgba(240,236,228,0.07); --border-hover:rgba(240,236,228,0.14);
+      --light-bg:#f6f5f2; --light-bg-card:#e6e4de; --light-bg-elevated:#fbfaf8;
+      --light-text-primary:#1a1816; --light-text-secondary:#5c5650; --light-text-dim:#9e9690;
+      --light-accent:#047857; --light-border:rgba(26,24,22,0.08);
+    }
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg-primary); color: var(--text-primary);
+      font-family: 'Instrument Sans', sans-serif; line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: fixed; top:0; left:0; right:0; z-index:100; padding:1.5rem 3rem;
+      display:flex; justify-content:space-between; align-items:center;
+      background: linear-gradient(to bottom, rgba(10,10,10,0.95), transparent);
+      backdrop-filter: blur(8px); transition: all .4s ease;
+    }
+    nav.scrolled { background: rgba(10,10,10,0.97); padding:1rem 3rem; border-bottom:1px solid var(--border); }
+    .nav-brand { text-decoration:none; display:flex; flex-direction:column; }
+    .nav-name { font-weight:700; font-size:1.05rem; letter-spacing:.1em; text-transform:uppercase; color:var(--text-primary); }
+    .nav-role { font-family:'JetBrains Mono',monospace; font-size:.5rem; letter-spacing:.3em; text-transform:uppercase; color:var(--text-dim); margin-top:2px; }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; align-items:center; }
+    .nav-links a { font-family:'JetBrains Mono',monospace; font-size:.6rem; font-weight:300; letter-spacing:.2em; text-transform:uppercase; color:var(--text-secondary); text-decoration:none; transition:color .3s ease; }
+    .nav-links a:hover, .nav-links a[aria-current="page"] { color: var(--text-primary); }
+    .nav-toggle { display:none; background:none; border:none; cursor:pointer; padding:.5rem; z-index:101; }
+    .nav-toggle span { display:block; width:20px; height:1px; background:var(--text-primary); margin:5px 0; transition:all .3s ease; }
+
+    .hero { padding: 12rem 3rem 3rem; max-width: 1200px; margin: 0 auto; }
+    .eyebrow { font-family:'JetBrains Mono',monospace; font-size:.55rem; letter-spacing:.3em; text-transform:uppercase; color:var(--accent); margin-bottom:1.5rem; }
+    .hero h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight:700; letter-spacing:-.03em; line-height:1.1; margin-bottom:1.5rem; max-width: 20ch; }
+    .hero .lede { font-size:1.05rem; line-height:1.85; color:#b4aea6; max-width:64ch; }
+    .hero .lede + .lede { margin-top: 1.1rem; }
+
+    section { padding: 5rem 3rem; }
+    .section-inner { max-width: 1200px; margin: 0 auto; }
+    .section-light { background: var(--light-bg); color: var(--light-text-primary); }
+    .section-light .section-eyebrow { color: var(--light-accent); }
+    .section-light .case-card { background: var(--light-bg-elevated); }
+    .section-light .case-h { color: var(--light-text-primary); }
+    .section-light .case-field-label { color: var(--light-text-dim); }
+    .section-light .case-field p, .section-light .section-sub { color: var(--light-text-secondary); }
+    .section-light .case-field-label { color: var(--light-text-dim); }
+    .section-light .case-cards { background: var(--light-border); }
+    .section-eyebrow { font-family:'JetBrains Mono',monospace; font-size:.55rem; letter-spacing:.3em; text-transform:uppercase; color:var(--accent); margin-bottom:1rem; }
+    .section-h { font-size: clamp(1.5rem,3vw,2.1rem); font-weight:600; letter-spacing:-.02em; margin-bottom:.75rem; }
+    .section-sub { font-size:.95rem; color:#b4aea6; max-width:62ch; margin-bottom:3rem; line-height:1.85; }
+
+    .case-cards { display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--border); }
+    .case-card { background: var(--bg-secondary); padding: 3rem; transition: background .3s ease; }
+    .case-card:hover { background: var(--bg-card); }
+    .case-eyebrow { font-family:'JetBrains Mono',monospace; font-size:.5rem; letter-spacing:.25em; text-transform:uppercase; color:var(--text-dim); margin-bottom:1rem; }
+    .case-h { font-size:1.3rem; font-weight:600; letter-spacing:-.02em; margin-bottom:.9rem; line-height:1.35; }
+    .case-outcome { font-size:.95rem; font-weight:600; line-height:1.55; color:var(--accent); margin-bottom:1.75rem; padding-bottom:1.25rem; border-bottom:1px solid var(--border); }
+    .section-light .case-outcome { color: var(--light-accent); border-bottom-color: var(--light-border); }
+    .case-field { margin-bottom:1.4rem; }
+    .case-field:last-child { margin-bottom:0; }
+    .case-field-label { font-family:'JetBrains Mono',monospace; font-size:.55rem; letter-spacing:.22em; text-transform:uppercase; color:#8f8a83; display:block; margin-bottom:.6rem; }
+    .case-field p { font-size:.925rem; line-height:1.85; color:#b4aea6; }
+
+    .proof { background: var(--bg-secondary); border-left: 2px solid var(--accent); padding: 2.5rem 3rem; }
+    .proof .case-eyebrow { color: var(--accent); }
+    .proof-h { font-size:1.15rem; font-weight:600; margin-bottom:1rem; letter-spacing:-.02em; }
+    .proof p { font-size:.925rem; line-height:1.85; color:#b4aea6; max-width:70ch; }
+    .section-light .proof { background: var(--light-bg-elevated); border-left-color: var(--light-accent); }
+    .section-light .proof .case-eyebrow { color: var(--light-accent); }
+    .section-light .proof-h { color: var(--light-text-primary); }
+    .section-light .proof p { color: var(--light-text-secondary); }
+    .section-light .endnote a { color: var(--light-text-secondary); border-color: var(--light-border); }
+    .section-light .endnote a:hover { color: var(--light-accent); border-color: var(--light-accent); }
+
+    .links { display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:1px; background:var(--border); }
+    .link-card { background:var(--bg-secondary); padding:2rem; text-decoration:none; color:inherit; transition:background .3s ease; display:block; }
+    .link-card:hover { background: var(--bg-card); }
+    .link-card .lc-name { font-size:.95rem; font-weight:600; margin-bottom:.5rem; }
+    .link-card .lc-url { font-family:'JetBrains Mono',monospace; font-size:.55rem; letter-spacing:.15em; color:#8f8a83; text-transform:uppercase; }
+    .link-card .lc-cta { display:block; margin-top:1.25rem; font-family:'JetBrains Mono',monospace; font-size:.58rem; letter-spacing:.18em; text-transform:uppercase; color:var(--accent); }
+    .link-card:hover .lc-cta { text-decoration: underline; }
+    .link-card { border:1px solid var(--border); }
+    .link-card:hover { border-color: var(--accent); }
+    .link-card:hover .lc-url { color: var(--accent); }
+
+    .endnote { max-width:1200px; margin:0 auto; display:flex; gap:2rem; flex-wrap:wrap; }
+    .endnote a { font-family:'JetBrains Mono',monospace; font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--text-secondary); text-decoration:none; border-bottom:1px solid var(--border); padding-bottom:.3rem; transition:all .3s ease; }
+    .endnote a:hover { color:var(--accent); border-color:var(--accent); }
+
+    footer { padding:2.5rem 3rem; display:flex; justify-content:space-between; align-items:center; border-top:1px solid var(--border); background:var(--bg-primary); }
+    .footer-l, .footer-r { font-family:'JetBrains Mono',monospace; font-size:.5rem; letter-spacing:.15em; color:var(--text-dim); text-transform:uppercase; }
+    .footer-r a { color:var(--text-secondary); text-decoration:none; transition:color .3s ease; }
+    .footer-r a:hover { color: var(--accent); }
+
+    @media (max-width: 1024px) {
+      .case-cards { grid-template-columns: 1fr; }
+      .hero { padding: 10rem 2rem 4rem; }
+      section { padding: 4rem 2rem; }
+    }
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      nav.open { background: rgba(10,10,10,0.98); }
+      .nav-toggle { display:block; }
+      .nav-links {
+        display:none; position:absolute; top:100%; left:0; right:0;
+        flex-direction:column; gap:1.5rem; padding:2rem 1.5rem;
+        background: rgba(10,10,10,0.98); border-bottom:1px solid var(--border);
+      }
+      nav.open .nav-links { display:flex; }
+      .hero { padding: 8rem 1.5rem 3rem; }
+      section { padding: 3rem 1.5rem; }
+      .case-card { padding: 2rem 1.5rem; }
+      .proof { padding: 2rem 1.5rem; }
+      footer { flex-direction:column; gap:1rem; text-align:center; }
+    }
+  </style>
+</head>
+<body>
+  <nav id="nav">
+    <a href="/" class="nav-brand">
+      <span class="nav-name">Justin R. Greenbaum</span>
+      <span class="nav-role">Enterprise Strategy &amp; Operations</span>
+    </a>
+    <ul class="nav-links" id="nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about">Experience</a></li>
+      <li><a href="/selected-work">Selected Work</a></li>
+      <li><a href="/#writing">Writing</a></li>
+      <li><a href="https://greenbaumlabs.com" target="_blank" rel="noopener">Greenbaum Labs</a></li>
+      <li><a href="/#contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <header class="hero">
+    <div class="eyebrow">AI &amp; customer experience</div>
+    <h1>Where AI meets the contact center.</h1>
+    <p class="lede">I spent twenty years running the operations that AI is now being sold into — global partner delivery, high-risk customer portfolios, enterprise platform migrations. I now build and evaluate AI systems on owned infrastructure.</p>
+    <p class="lede">That combination is the point. Understanding what a model does is one problem. Understanding the operating environment it lands in — and what has to be true before it works — is the other.</p>
+  </header>
+
+  <section>
+    <div class="section-inner">
+      <div class="section-eyebrow">The bridge</div>
+      <h2 class="section-h">Operator first, then the AI.</h2>
+      <p class="section-sub">Contact-center and service-delivery organizations are where AI either earns its business case or quietly fails to. These four cases run in that order — what the systems do, then the operating environment they land in.</p>
+      <div class="case-cards">
+      <article class="case-card">
+        <div class="case-eyebrow">Answer-engine measurement</div>
+        <h3 class="case-h">Measuring how AI answer engines represent an organization</h3>
+        <p class="case-outcome">Two controlled answer collections exposed low recurrence and changed the methodology</p>
+        <div class="case-field"><span class="case-field-label">Condition</span><p>Organizations measure what they publish and what customers say back. Almost none measure what AI answer engines tell people who ask about them.</p></div>
+        <div class="case-field"><span class="case-field-label">Role</span><p>Architect and sole operator — spec, schema decision, hand-curated panel, collection, and the companion value model.</p></div>
+        <div class="case-field"><span class="case-field-label">Actions</span><p>Defined machine answers as a third collection surface rather than folding them into social listening. Scored three gaps: divergence from the organization's own account, from its ecosystem's, and assertions neither supports. Recorded two lanes per answer — trained belief versus live retrieval with citations. Derived prompts from the organization's own ecosystem, then curated by hand.</p></div>
+        <div class="case-field"><span class="case-field-label">Operating change</span><p>Sampling standard set empirically rather than by instinct: measured 9% recurrence at three samples, which killed single-shot collection and triggered a staged convergence experiment.</p></div>
+        <div class="case-field"><span class="case-field-label">Outcome</span><p>324 answers collected in the first run, 400 in the second, across four engines. A companion value model — Decision Exposure, not cost — with a measurement ladder that must resolve to material mismatch before any figure touches money, and a published validation cascade naming which of its own stages remain unproven.</p></div>
+        <div class="case-field"><span class="case-field-label">What it demonstrates</span><p>That he can evaluate model behavior, contain over-claiming, and build a business case without inventing a number — in his own words rather than a vendor's.</p></div>
+      </article>
+      <article class="case-card">
+        <div class="case-eyebrow">AI system evaluation</div>
+        <h3 class="case-h">Building a diagnostic that questions its own output</h3>
+        <p class="case-outcome">73 experiments produced deterministic scoring and identified a more reliable model architecture</p>
+        <div class="case-field"><span class="case-field-label">Condition</span><p>An LLM pipeline that scores organizational evidence is only useful if it is diagnostic rather than stochastic. Ask it the same question twice and get two answers, and it is a generator wearing an instrument's clothes.</p></div>
+        <div class="case-field"><span class="case-field-label">Role</span><p>Designer, builder and operator. Published under his own name.</p></div>
+        <div class="case-field"><span class="case-field-label">Actions</span><p>Built extract, score, adversarial-skeptic and synthesize stages, where findings must survive challenge before entering the evidence ledger. Defined a correctness metric weighting reproducibility across repeated trials, evidence verification that checks whether cited identifiers actually exist, diagnostic value by finding type, and cross-run stability. Ran controlled model comparisons on a fixed corpus. Locked a production model standard with an explicit rationale, and a rule that scoring stays on the calibrated model even when extraction moves.</p></div>
+        <div class="case-field"><span class="case-field-label">Operating change</span><p>Model and prompt changes stopped being judgment calls and became measured decisions with go/no-go gates — schema pass rate, unclassified rate, minimum finding counts.</p></div>
+        <div class="case-field"><span class="case-field-label">Outcome</span><p>Scoring determinism reached zero variance across identical runs. 73 experiments across four research tracks. A published head-to-head finding that the larger model did not win, and that prompt edits raising acceptance rates broke reproducibility — a tradeoff most teams never measure.</p></div>
+        <div class="case-field"><span class="case-field-label">What it demonstrates</span><p>That he can hold a technical conversation about model behavior, limitations and deployment architecture without being an engineer — and that when his own system produced plausible but inaccurate output, he stopped using it and rebuilt it rather than shipping around the problem.</p></div>
+      </article>
+      <article class="case-card">
+        <div class="case-eyebrow">Global delivery</div>
+        <h3 class="case-h">Scaling a service operation from pilot to global delivery</h3>
+        <p class="case-outcome">50 → 5,000 partner agents in one year, including a new Cairo delivery site</p>
+        <div class="case-field"><span class="case-field-label">Condition</span><p>A mobile product growing faster than the operation supporting it. Fifty agents needed to become five thousand within a year, across global partners, without customer experience degrading during the transition.</p></div>
+        <div class="case-field"><span class="case-field-label">Role</span><p>Led the scaling and the new-market partner launch.</p></div>
+        <div class="case-field"><span class="case-field-label">Actions</span><p>Treated it as a design problem rather than a hiring problem — establishing what had to be true before capacity was allowed to land: work routing, quality ownership, how a new site reaches standard rather than merely opening, and escalation paths across time zones. Stood up an entirely new partner operation in a market the organization had not operated in.</p></div>
+        <div class="case-field"><span class="case-field-label">Operating change</span><p>A partner delivery model that held its quality bar while multiplying a hundredfold.</p></div>
+        <div class="case-field"><span class="case-field-label">Outcome</span><p>50 to 5,000 agents in one year, including a new site in Cairo.</p></div>
+        <div class="case-field"><span class="case-field-label">What it demonstrates</span><p>That he can build the delivery system behind a growth promise — the half most scaling stories skip.</p></div>
+      </article>
+      <article class="case-card">
+        <div class="case-eyebrow">Operating model</div>
+        <h3 class="case-h">Installing decision rights across fifty-plus lines of business</h3>
+        <p class="case-outcome">A unified decision model across more than 50 specialized businesses</p>
+        <div class="case-field"><span class="case-field-label">Condition</span><p>Fifty-plus high-risk lines of business — regulatory, privacy, executive escalation, social, cybersecurity — each accumulated separately, each with its own governance and escalation path. No shared operating model.</p></div>
+        <div class="case-field"><span class="case-field-label">Role</span><p>Designed and stood up the unified model.</p></div>
+        <div class="case-field"><span class="case-field-label">Actions</span><p>Mapped the portfolio by risk tier, separating high-trust, high-consequence work from operational queues, then designed governance to match: explicit decision rights, defined escalation, named ownership per tier. Stood up a strategy function that had not existed, connecting frontline operations to enterprise decision-making.</p></div>
+        <div class="case-field"><span class="case-field-label">Operating change</span><p>The question "who decides" acquired a documented answer in a portfolio where it had only ever had an informal one.</p></div>
+        <div class="case-field"><span class="case-field-label">Outcome</span><p>A unified operating model across 50+ lines of business, at roughly $200M operating budget, up to 1,300 internal employees and thousands of partner resources globally.</p></div>
+        <div class="case-field"><span class="case-field-label">What it demonstrates</span><p>That he installs structure rather than becoming it — the difference between holding an organization together personally and building something that holds without him.</p></div>
+      </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="section-inner">
+      <div class="proof">
+        <div class="case-eyebrow">Enterprise platform adoption</div>
+        <h3 class="proof-h">A multi-year enterprise CX platform lifecycle, from the buyer's side</h3>
+        <p>Owned the buyer's side of a multi-year enterprise CX platform adoption — the seat a platform vendor sells into. Migration completed against a dated 2019 target, forums transitioned on schedule in 2021, expansion into further operating groups the year after.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="section-inner">
+      <div class="section-eyebrow">Canonical technical record</div>
+      <h2 class="section-h">Experiments, benchmarks and published limits.</h2>
+      <p class="section-sub">Greenbaum Labs holds the full record — methodology, results, and what each system does not do.</p>
+      <div class="links">
+        <a class="link-card" href="https://greenbaumlabs.com/lab/gemma4-vs-qwen3.html" rel="noopener"><div class="lc-name">Model race: Gemma 4 vs Qwen3</div><div class="lc-url">greenbaumlabs.com/lab/gemma4-vs-qwen3.html</div><span class="lc-cta">Read the technical record &#8594;</span></a>
+        <a class="link-card" href="https://greenbaumlabs.com/lab/skeptic-calibration.html" rel="noopener"><div class="lc-name">Skeptic calibration</div><div class="lc-url">greenbaumlabs.com/lab/skeptic-calibration.html</div><span class="lc-cta">Read the technical record &#8594;</span></a>
+        <a class="link-card" href="https://greenbaumlabs.com/autoresearch.html" rel="noopener"><div class="lc-name">Autoresearch: pipeline hardening</div><div class="lc-url">greenbaumlabs.com/autoresearch.html</div><span class="lc-cta">Read the technical record &#8594;</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-light">
+    <div class="endnote">
+      <a href="/selected-work">All selected work</a>
+      <a href="/about">Experience</a>
+      <a href="https://www.linkedin.com/in/justingreenbaum/" rel="noopener">LinkedIn</a>
+      <a href="/#contact">Contact</a>
+    </div>
+  </section>
+
+  <footer>
+    <div class="footer-l">&copy; 2026 Justin R. Greenbaum — All Rights Reserved</div>
+    <div class="footer-r">
+      <a href="https://greenbaumphotography.com">Photography</a> &middot; <a href="https://megabrixels.com">Megabrixels</a> &middot; <a href="https://greenbaumlabs.com">Labs</a>
+    </div>
+  </footer>
+  <script>
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
+    const toggle = document.getElementById('nav-toggle');
+    toggle.addEventListener('click', () => { nav.classList.toggle('open'); toggle.classList.toggle('active'); });
+    document.querySelectorAll('.nav-links a').forEach(a =>
+      a.addEventListener('click', () => { nav.classList.remove('open'); toggle.classList.remove('active'); }));
+  </script>
+</body>
+</html>
