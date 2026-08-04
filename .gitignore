@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editors
+.vscode/
+.idea/
+*.swp
+
+# Python (validators / generators run from this repo)
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Local build + preview scratch
+.vercel/
+node_modules/
+*.log
