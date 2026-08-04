@@ -9,17 +9,17 @@
 - Creator of the Coherence diagnostic framework
 
 ## Key Pages
-- [Home](https://justingreenbaum.com/): Thesis on structural failure and Decision & Responsibility Infrastructure
-- [About](https://justingreenbaum.com/about): Professional biography, career arc, current work, credentials
-- [Coherence Framework](https://justingreenbaum.com/coherence): Interactive overview of the Coherence diagnostic system
-- [Coherence Deep Dive](https://justingreenbaum.com/coherence-deep): Failure modes, field notes, evidence discipline, AI governance
-- [Decision & Responsibility Infrastructure](https://justingreenbaum.com/decision-responsibility-infrastructure): Field definition of DRI as a discipline
+- [Home](https://justingreenbaum.com/): Executive positioning, scope, where he creates value, selected work
+- [Experience](https://justingreenbaum.com/about): Career arc, signature outcomes, education and credentials
+- [Selected Work](https://justingreenbaum.com/selected-work): Four case studies with condition, role, action, and documented outcome
+- [AI & Customer Experience](https://justingreenbaum.com/selected-work/ai-cx): Answer-engine measurement, AI system evaluation, global delivery, operating-model design
+- [Operating Method](https://justingreenbaum.com/operating-method): How he diagnoses operating failure — truth, authority, continuity
 
 ## Core Concepts
-- **Coherence Triangle:** Truth (center-edge alignment), Authority (signal strength), Continuity (temporal consistency)
-- **Decision & Responsibility Infrastructure (DRI):** Designing structural conditions where good decisions and clear accountability are the default
-- **Failure Modes:** Taxonomy of 17 structural failure patterns in organizations (FM-01 through FM-17)
-- **Functional Field Notes:** 21 early-warning observations from diagnostic fieldwork
+- **Truth:** Whether narrative aligns with evidence
+- **Authority:** Whether decision rights match accountability
+- **Continuity:** Whether decisions, rationale, and learning persist over time
+- Technical and diagnostic work lives at greenbaumlabs.com
 
 ## Related Properties
 - [Greenbaum Labs](https://greenbaumlabs.com): independent applied-AI lab — organizational diagnostics, evidence systems, decision infrastructure
