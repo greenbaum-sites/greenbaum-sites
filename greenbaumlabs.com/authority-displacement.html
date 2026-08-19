@@ -15,9 +15,9 @@
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Answer Is Right. The Authority Is Displaced.">
 <style>
-  html,body{margin:0;padding:0;background:#EDEBE6;}
+  html,body{margin:0;padding:0;background:#EDEBE6;overflow-x:hidden;max-width:100%;}
   .stage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;}
-  .frame{width:1500px;max-width:96vw;aspect-ratio:16/9;background:#FFFFFF;border:1px solid #DDDDDD;box-sizing:border-box;
+  .frame{width:1500px;max-width:96vw;min-width:0;aspect-ratio:16/9;background:#FFFFFF;border:1px solid #DDDDDD;box-sizing:border-box;
          padding:42px 70px 30px;display:flex;flex-direction:column;font-family:Garamond,'EB Garamond',Georgia,serif;color:#333333;}
   .top{display:flex;justify-content:space-between;align-items:baseline;}
   .mark{font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#666666;letter-spacing:0.5em;}
@@ -25,7 +25,8 @@
   .rule{border:none;border-top:1px solid #CCCCCC;margin:14px 0 18px;}
   h1{font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:25px;color:#1A1A1A;letter-spacing:0.11em;margin:0 0 20px;}
   .chain{flex:1;display:flex;flex-direction:column;}
-  .step{display:flex;gap:26px;padding:10.5px 0;border-top:1px solid #EAEAEA;}
+  .step{display:flex;gap:26px;padding:10.5px 0;border-top:1px solid #EAEAEA;min-width:0;}
+  .step>*{min-width:0;overflow-wrap:break-word;}
   .step:first-child{border-top:none;}
   .label{font-family:Arial,Helvetica,sans-serif;font-size:10.5px;letter-spacing:0.16em;color:#999999;width:265px;flex-shrink:0;padding-top:3px;}
   .label b{color:#1A1A1A;font-size:11.5px;display:block;letter-spacing:0.16em;}
@@ -39,7 +40,8 @@
   @media (max-width:760px){
     .stage{padding:56px 12px 24px;align-items:flex-start;}
     .frame{aspect-ratio:auto;width:100%;max-width:100%;padding:26px 22px 20px;}
-    h1{font-size:19px;letter-spacing:0.06em;}
+    h1{font-size:19px;letter-spacing:0.06em;overflow-wrap:break-word;}
+    .mark{letter-spacing:0.32em;font-size:12px;}
     .step{flex-direction:column;gap:6px;padding:12px 0;}
     .label{width:auto;}
     .body{font-size:15px;}
