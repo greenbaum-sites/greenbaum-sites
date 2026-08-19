@@ -61,6 +61,17 @@
     .wordmark{font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--text);text-decoration:none;}
     .wordmark span{color:var(--green);}
     footer small{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--dim);letter-spacing:0.08em;}
+    @media (max-width:640px){
+      .tablewrap{overflow-x:visible;}
+      table,tbody{display:block;min-width:0;}
+      tr{display:block;padding:0.9rem 0;border-bottom:1px solid var(--border);}
+      tr:first-child{display:none;}
+      th,td{display:block;border:none;padding:0;}
+      td:first-child{white-space:normal;padding:0 0 0.45rem;}
+      td:nth-child(2){padding:0 0 0.6rem;}
+      td:nth-child(2)::before{content:"Refraction";display:block;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:0.2rem;}
+      td:nth-child(3)::before{content:"Profound & the AEO tools";display:block;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);margin-bottom:0.2rem;}
+    }
   </style>
 </head>
 <body>
