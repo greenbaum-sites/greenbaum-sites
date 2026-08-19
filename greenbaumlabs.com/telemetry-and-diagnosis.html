@@ -90,9 +90,14 @@
     .rl{width:auto;}
     .exhibit{padding:24px 20px;margin-left:0;margin-right:0;}
     .judge{margin:16px -20px 0;padding:14px 20px;}
-    table{display:block;overflow-x:auto;white-space:normal;min-width:0;}
-    th,td{min-width:150px;}
-    td.q{min-width:100px;width:auto;}
+    table,tbody{display:block;min-width:0;}
+    tr{display:block;padding:16px 0;border-bottom:1px solid var(--border-l);}
+    tr:first-child{display:none;}
+    th,td{display:block;border:none;padding:0;min-width:0;width:auto;}
+    td.q{width:auto;padding:0 0 8px;font-size:10.5px;color:var(--hl);}
+    td:nth-child(2){padding:2px 0 10px;}
+    td:nth-child(2)::before{content:"Telemetry — the score";display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9CA3AF;margin-bottom:3px;}
+    td:nth-child(3)::before{content:"Diagnosis — the why";display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);margin-bottom:3px;}
     .tri{grid-template-columns:1fr;}
     .cards2{grid-template-columns:1fr;}
     .tv .tn{font-size:38px;}
