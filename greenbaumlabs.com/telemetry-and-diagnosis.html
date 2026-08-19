@@ -1,0 +1,102 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Telemetry and Diagnosis &mdash; Greenbaum Labs</title>
+<meta name="description" content="Two layers of the AI-answer problem. Telemetry measures visibility at scale — the score. Diagnosis asks what telemetry structurally cannot: is what the machines say supported, what evidence shaped it, and who owns fixing it.">
+<link rel="canonical" href="https://greenbaumlabs.com/telemetry-and-diagnosis">
+<meta property="og:title" content="Telemetry and Diagnosis — Greenbaum Labs">
+<meta property="og:description" content="Buy telemetry. Own the evidence model, judgment, responsibility, and retest.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+<meta property="og:url" content="https://greenbaumlabs.com/telemetry-and-diagnosis">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Telemetry and Diagnosis — Greenbaum Labs">
+<meta name="twitter:description" content="The score is not the why. Buy telemetry; own the diagnosis."><style>
+  :root{--green:#3FD37E;--black:#000;--ink:#0A0A0A;--card-dark:#0D0D0D;--white:#FFF;--border-l:#E6E6E6;--border-d:#1F1F1F;
+    --gd:#9CA3AF;--dim:#6B7280;--gl:#52525B;--hl:#111111;
+    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;--mono:'SF Mono',ui-monospace,Menlo,Consolas,monospace;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{font-family:var(--sans);background:var(--black);color:var(--white);-webkit-font-smoothing:antialiased;}
+  .wrap{max-width:880px;margin:0 auto;padding:0 40px;}
+  section{padding:90px 0;}
+  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.22em;color:var(--green);text-transform:uppercase;margin-bottom:26px;}
+  .eyebrow::before{content:"\2014\2014  ";color:var(--green);}
+  h1{font-size:44px;line-height:1.12;font-weight:700;letter-spacing:-0.01em;margin-bottom:24px;}
+  h2{font-size:26px;line-height:1.25;font-weight:700;margin-bottom:16px;}
+  p.lead{font-size:16px;line-height:1.75;color:var(--gd);max-width:640px;}
+  .s-light{background:var(--white);color:var(--hl);} .s-light p.lead{color:var(--gl);}
+  .exhibit{background:var(--card-dark);border-left:2px solid var(--green);padding:38px 42px;margin-top:34px;}
+  .row{padding:15px 0;border-top:1px solid var(--border-d);display:flex;gap:28px;}
+  .row:first-of-type{border-top:none;}
+  .rl{width:225px;flex-shrink:0;}
+  .rl b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--green);text-transform:uppercase;}
+  .rl span{font-size:11.5px;color:var(--dim);line-height:1.4;display:block;margin-top:4px;}
+  .row p{font-size:15px;line-height:1.6;color:#D6D6D6;} .row p em{color:var(--gd);}
+  .judge{background:var(--green);margin:16px -42px 0;padding:16px 42px;}
+  .judge p{color:var(--black);font-weight:700;font-size:15px;}
+  .stab{font-size:13px;color:var(--dim);font-style:italic;margin-top:20px;}
+  .bars{margin-top:40px;display:flex;flex-direction:column;gap:24px;}
+  .bl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
+  .bl b{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--hl);text-transform:uppercase;}
+  .bl span{font-family:var(--mono);font-size:12px;color:var(--gl);}
+  .bar{height:16px;background:#F1F1F1;} .bar i{display:block;height:100%;background:var(--hl);}
+  .bar.owned i{background:transparent;border:1.5px solid var(--green);} .bar.comp i{background:var(--green);}
+  .bd{font-size:12.5px;color:var(--gl);margin-top:7px;}
+  .kick{font-size:14.5px;color:var(--hl);margin-top:32px;line-height:1.65;} .kick small{color:var(--gl);font-size:12px;}
+  .tri{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:40px;}
+  .tv{border-top:1px solid var(--border-d);padding-top:18px;}
+  .tv .tl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;}
+  .tv .tn{font-family:var(--mono);font-size:50px;margin:8px 0 4px;} .tv .ts{font-family:var(--mono);font-size:11px;color:var(--dim);}
+  .tv.stressed .tn,.tv.stressed .ts{color:var(--green);}
+  .fcards{display:flex;flex-direction:column;gap:14px;margin-top:40px;}
+  .fcard{background:var(--white);border:1px solid var(--border-l);padding:22px 26px;display:flex;gap:22px;align-items:flex-start;}
+  .chip{font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--green);border:1px solid var(--green);padding:4px 10px;flex-shrink:0;margin-top:2px;}
+  .fcard p{font-size:15px;line-height:1.6;color:var(--hl);}
+  .fnote{font-size:13px;color:var(--gl);margin-top:20px;line-height:1.6;}
+  table{width:100%;border-collapse:collapse;margin-top:36px;}
+  th{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--hl);text-align:left;border-bottom:1px solid var(--hl);padding:8px 12px 8px 0;}
+  td{font-size:14px;line-height:1.5;vertical-align:top;border-bottom:1px solid var(--border-l);padding:12px 16px 12px 0;color:var(--gl);}
+  td.q{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:#9CA3AF;width:140px;text-transform:uppercase;padding-top:14px;}
+  .callout{border-left:2px solid var(--green);background:#FAFAFA;padding:16px 20px;font-size:14px;color:var(--gl);line-height:1.6;margin-top:28px;font-style:italic;}
+  .ladder{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;color:var(--hl);text-align:center;border-top:1px solid var(--border-l);border-bottom:1px solid var(--border-l);padding:14px 0;margin-top:32px;}
+  .cards2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;}
+  .wcard{background:var(--white);border:1px solid var(--border-l);padding:26px 28px;}
+  .wcard .opt{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--green);margin-bottom:8px;}
+  .wcard h3{font-size:17px;font-weight:700;color:var(--hl);margin-bottom:10px;}
+  .wcard p{font-size:13.5px;line-height:1.6;color:var(--gl);margin-bottom:10px;}
+  .wcard ul{padding-left:18px;} .wcard li{font-size:13.5px;line-height:1.7;color:var(--gl);}
+  .idx{display:flex;flex-direction:column;gap:12px;margin-top:44px;}
+  .irow{border:1px solid var(--border-d);background:var(--ink);padding:20px 24px;display:flex;gap:24px;align-items:baseline;}
+  .irow .n{font-family:var(--mono);font-size:12px;color:var(--green);width:34px;flex-shrink:0;}
+  .irow b{font-size:15px;color:var(--white);display:block;margin-bottom:3px;}
+  .irow p{font-size:13px;color:var(--gd);line-height:1.5;}
+  footer{border-top:1px solid var(--border-d);padding:30px 0;}
+  footer .wrap{display:flex;justify-content:space-between;align-items:baseline;}
+  .wordmark{font-family:var(--mono);font-size:14px;color:var(--white);} .wordmark span{color:var(--green);}
+  footer small{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:0.08em;}
+
+  /* legibility: dark green on light backgrounds */
+  .s-light .eyebrow,.s-light .eyebrow::before{color:#0A7C43;}
+  .chip{color:#0A7C43;border-color:#0A7C43;}
+  .wcard .opt{color:#0A7C43;}
+  .s-light .bar.owned i{border-color:#0A7C43;}
+  .s-light .callout{border-left-color:#0A7C43;}
+</style></head><body>
+<section class="s-light"><div class="wrap">
+<div class="eyebrow">Greenbaum Labs &middot; AI reputation &amp; answer integrity</div>
+<h1 style="color:#111;">Telemetry and diagnosis.</h1>
+<p class="lead">Two layers of the same problem. Most organizations need both. Many have not operationalized the second. <b style="color:#111;">Telemetry</b> &mdash; prompt-tracking platforms &mdash; measures visibility at scale: how often you appear, where, trending which way. If the question is the score, buying it is the right call. <b style="color:#111;">Diagnosis</b> asks what telemetry structurally cannot: is what the machines say supported, what evidence shaped it, does it matter, and who owns fixing it.</p>
+<table>
+<tr><th style="width:140px;"></th><th>Telemetry &mdash; the score</th><th>Diagnosis &mdash; the why</th></tr>
+<tr><td class="q">The prompts</td><td>A library you supply, plus market-aggregate prompt volumes.</td><td>Derived from your own ecosystem &mdash; questions your customers already ask, each traceable to public evidence.</td></tr>
+<tr><td class="q">The measure</td><td>Appearance rate, share of voice, sentiment, citation counts.</td><td>Each machine assertion judged against the evidence record: supported by your statements, the ecosystem&rsquo;s, or neither &mdash; the class no score reports.</td></tr>
+<tr><td class="q">A finding</td><td>&ldquo;You appear in 6 of 10 runs; these domains are cited most.&rdquo;</td><td>&ldquo;In this run, machine claims aligned more often with ecosystem evidence than with company statements &mdash; and nearly half of company-owned citations were support content, not marketing.&rdquo;</td></tr>
+<tr><td class="q">Validation</td><td>Sampling methodology at platform scale.</td><td>Adversarial &mdash; every finding survives a challenge against cited evidence before it is reported.</td></tr>
+<tr><td class="q">The output</td><td>A dashboard the team monitors.</td><td>A decision instrument: the gap map, the ownership map, and the intervention sequence with a retest condition.</td></tr>
+<tr><td class="q">The action</td><td>Watch the trend; brief the team.</td><td>Change the evidence: fix the condition, resolve issues in public, publish truth where the engines demonstrably read &mdash; then re-probe.</td></tr>
+</table>
+<div class="callout">The pattern is already visible inside operating companies: teams buy telemetry for scale, then reconstruct the why-layer by hand &mdash; finding the gaps between what the company says and what the ecosystem says, and building against them. Diagnosis systematizes exactly the half that can&rsquo;t be bought off the shelf.</div>
+<p style="font-size:14px;line-height:1.7;color:#52525B;margin-top:28px;"><b style="color:#111;">On build versus buy:</b> calling the models is the cheap part. The real build is the evidence system underneath &mdash; collectors that survive a closing web, a panel with provenance, adjudication that distinguishes absence from falsity, and the discipline to say only what the receipts support. <b style="color:#111;">Buy telemetry. Own the evidence model, judgment, responsibility, and retest.</b></p>
+<div class="ladder">RECEIPTS &nbsp;&rarr;&nbsp; STATEMENT &nbsp;&rarr;&nbsp; AUDIT &nbsp;&rarr;&nbsp; NEW RECEIPTS</div>
+</div></section><section class="closer" style="text-align:center;padding:80px 0;"><div class="wrap"><div class="eyebrow" style="display:inline-block;">Who owns the answer?</div></div></section>
+<footer><div class="wrap"><div class="wordmark">greenbaum<span>labs</span></div><small>PUBLIC DEMONSTRATION &middot; JULY 2026</small></div></footer>
+</body></html>
