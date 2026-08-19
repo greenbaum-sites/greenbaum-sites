@@ -1,5 +1,11 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <title>Telemetry and Diagnosis &mdash; Greenbaum Labs</title>
 <meta name="description" content="Two layers of the AI-answer problem. Telemetry measures visibility at scale — the score. Diagnosis asks what telemetry structurally cannot: is what the machines say supported, what evidence shaped it, and who owns fixing it.">
 <link rel="canonical" href="https://greenbaumlabs.com/telemetry-and-diagnosis">
@@ -10,118 +16,172 @@
 <meta property="og:url" content="https://greenbaumlabs.com/telemetry-and-diagnosis">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Telemetry and Diagnosis — Greenbaum Labs">
-<meta name="twitter:description" content="The score is not the why. Buy telemetry; own the diagnosis."><style>
-  :root{--green:#3FD37E;--black:#000;--ink:#0A0A0A;--card-dark:#0D0D0D;--white:#FFF;--border-l:#E6E6E6;--border-d:#1F1F1F;
-    --gd:#9CA3AF;--dim:#6B7280;--gl:#52525B;--hl:#111111;
-    --sans:'Inter',-apple-system,BlinkMacSystemFont,'Helvetica Neue',Arial,sans-serif;--mono:'SF Mono',ui-monospace,Menlo,Consolas,monospace;}
-  *{box-sizing:border-box;margin:0;padding:0;}
-  html,body{overflow-x:hidden;max-width:100%;} body{font-family:var(--sans);background:var(--black);color:var(--white);-webkit-font-smoothing:antialiased;}
-  .wrap{max-width:880px;margin:0 auto;padding:0 40px;}
-  section{padding:90px 0;}
-  .eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:0.22em;color:var(--green);text-transform:uppercase;margin-bottom:26px;}
-  .eyebrow::before{content:"\2014\2014  ";color:var(--green);}
-  h1{font-size:44px;line-height:1.12;font-weight:700;letter-spacing:-0.01em;margin-bottom:24px;}
-  h2{font-size:26px;line-height:1.25;font-weight:700;margin-bottom:16px;}
-  p.lead{font-size:16px;line-height:1.75;color:var(--gd);max-width:640px;}
-  .s-light{background:var(--white);color:var(--hl);} .s-light p.lead{color:var(--gl);}
-  .exhibit{background:var(--card-dark);border-left:2px solid var(--green);padding:38px 42px;margin-top:34px;}
-  .row{padding:15px 0;border-top:1px solid var(--border-d);display:flex;gap:28px;}
-  .row:first-of-type{border-top:none;}
-  .rl{width:225px;flex-shrink:0;}
-  .rl b{display:block;font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--green);text-transform:uppercase;}
-  .rl span{font-size:11.5px;color:var(--dim);line-height:1.4;display:block;margin-top:4px;}
-  .row p{font-size:15px;line-height:1.6;color:#D6D6D6;} .row p em{color:var(--gd);}
-  .judge{background:var(--green);margin:16px -42px 0;padding:16px 42px;}
-  .judge p{color:var(--black);font-weight:700;font-size:15px;}
-  .stab{font-size:13px;color:var(--dim);font-style:italic;margin-top:20px;}
-  .bars{margin-top:40px;display:flex;flex-direction:column;gap:24px;}
-  .bl{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:8px;}
-  .bl b{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;color:var(--hl);text-transform:uppercase;}
-  .bl span{font-family:var(--mono);font-size:12px;color:var(--gl);}
-  .bar{height:16px;background:#F1F1F1;} .bar i{display:block;height:100%;background:var(--hl);}
-  .bar.owned i{background:transparent;border:1.5px solid var(--green);} .bar.comp i{background:var(--green);}
-  .bd{font-size:12.5px;color:var(--gl);margin-top:7px;}
-  .kick{font-size:14.5px;color:var(--hl);margin-top:32px;line-height:1.65;} .kick small{color:var(--gl);font-size:12px;}
-  .tri{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;margin-top:40px;}
-  .tv{border-top:1px solid var(--border-d);padding-top:18px;}
-  .tv .tl{font-family:var(--mono);font-size:10.5px;letter-spacing:0.2em;color:var(--dim);text-transform:uppercase;}
-  .tv .tn{font-family:var(--mono);font-size:50px;margin:8px 0 4px;} .tv .ts{font-family:var(--mono);font-size:11px;color:var(--dim);}
-  .tv.stressed .tn,.tv.stressed .ts{color:var(--green);}
-  .fcards{display:flex;flex-direction:column;gap:14px;margin-top:40px;}
-  .fcard{background:var(--white);border:1px solid var(--border-l);padding:22px 26px;display:flex;gap:22px;align-items:flex-start;}
-  .chip{font-family:var(--mono);font-size:10px;letter-spacing:0.16em;color:var(--green);border:1px solid var(--green);padding:4px 10px;flex-shrink:0;margin-top:2px;}
-  .fcard p{font-size:15px;line-height:1.6;color:var(--hl);}
-  .fnote{font-size:13px;color:var(--gl);margin-top:20px;line-height:1.6;}
-  table{width:100%;border-collapse:collapse;margin-top:36px;}
-  th{font-family:var(--mono);font-size:10.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--hl);text-align:left;border-bottom:1px solid var(--hl);padding:8px 12px 8px 0;}
-  td{font-size:14px;line-height:1.5;vertical-align:top;border-bottom:1px solid var(--border-l);padding:12px 16px 12px 0;color:var(--gl);}
-  td.q{font-family:var(--mono);font-size:10px;letter-spacing:0.12em;color:#9CA3AF;width:140px;text-transform:uppercase;padding-top:14px;}
-  .callout{border-left:2px solid var(--green);background:#FAFAFA;padding:16px 20px;font-size:14px;color:var(--gl);line-height:1.6;margin-top:28px;font-style:italic;}
-  .ladder{font-family:var(--mono);font-size:12px;letter-spacing:0.14em;color:var(--hl);text-align:center;border-top:1px solid var(--border-l);border-bottom:1px solid var(--border-l);padding:14px 0;margin-top:32px;}
-  .cards2{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px;}
-  .wcard{background:var(--white);border:1px solid var(--border-l);padding:26px 28px;}
-  .wcard .opt{font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--green);margin-bottom:8px;}
-  .wcard h3{font-size:17px;font-weight:700;color:var(--hl);margin-bottom:10px;}
-  .wcard p{font-size:13.5px;line-height:1.6;color:var(--gl);margin-bottom:10px;}
-  .wcard ul{padding-left:18px;} .wcard li{font-size:13.5px;line-height:1.7;color:var(--gl);}
-  .idx{display:flex;flex-direction:column;gap:12px;margin-top:44px;}
-  .irow{border:1px solid var(--border-d);background:var(--ink);padding:20px 24px;display:flex;gap:24px;align-items:baseline;}
-  .irow .n{font-family:var(--mono);font-size:12px;color:var(--green);width:34px;flex-shrink:0;}
-  .irow b{font-size:15px;color:var(--white);display:block;margin-bottom:3px;}
-  .irow p{font-size:13px;color:var(--gd);line-height:1.5;}
-  footer{border-top:1px solid var(--border-d);padding:30px 0;}
-  footer .wrap{display:flex;justify-content:space-between;align-items:baseline;}
-  .wordmark{font-family:var(--mono);font-size:14px;color:var(--white);} .wordmark span{color:var(--green);}
-  footer small{font-family:var(--mono);font-size:10.5px;color:var(--dim);letter-spacing:0.08em;}
+<meta name="twitter:description" content="The score is not the why. Buy telemetry; own the diagnosis.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0f0c;--bg2:#111a14;--bg3:#162119;--t1:#f0ece4;--t2:#b5b0a8;--t3:#756f69;--t4:#3a3936;
+--g:#34D399;--g2:#5EEAD4;--gl:#059669;--g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);
+--bdr:rgba(240,236,228,.08);--bdr-hi:rgba(240,236,228,.18);--bone:#F6F5F2;--ease:cubic-bezier(.16,1,.3,1);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+html,body{overflow-x:hidden;max-width:100%}
+body{font-family:'Instrument Sans',system-ui,sans-serif;background:var(--bg);color:var(--t2);font-size:1rem;line-height:1.8;-webkit-font-smoothing:antialiased}
+::selection{background:var(--g-md);color:var(--t1)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.02;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:var(--g);text-decoration:none}
+a:hover{color:var(--g2)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 2rem;background:rgba(10,15,12,.92);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-brand{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nav-brand svg{color:var(--g);flex-shrink:0}
+.nav-name{font-weight:700;font-size:.88rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t1);white-space:nowrap}
+.nav-links{display:flex;gap:1.9rem}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);transition:color .3s}
+.nav-links a:hover{color:var(--t1)}
+.col{max-width:800px;margin:0 auto;padding:0 2rem}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:.75rem;margin-bottom:1.4rem}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--g);opacity:.5;flex-shrink:0}
+.hero{padding:9.5rem 0 4rem}
+h1{font-weight:700;font-size:clamp(2.1rem,5.5vw,3.2rem);line-height:1.1;letter-spacing:-.035em;color:var(--t1);margin-bottom:1.5rem}
+.lead{font-size:1.05rem;line-height:1.8;color:var(--t2);max-width:680px}
+.lead b{color:var(--t1);font-weight:600}
+.fu{animation:fadeUp .8s var(--ease) both}
+.fu-2{animation-delay:.15s}.fu-3{animation-delay:.3s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.light{background:var(--bone);color:#54514a;padding:4.2rem 0 4.6rem}
+.light .eyebrow{color:var(--gl)}
+.light .eyebrow::before{background:var(--gl)}
+.light p b,.light p strong{color:#141310}
+.light a{color:var(--gl);font-weight:600;border-bottom:1px solid rgba(5,150,105,.25)}
+.light a:hover{color:#047857;border-color:#047857}
+.tablewrap{overflow-x:auto}
+table{width:100%;min-width:640px;border-collapse:collapse}
+th{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;text-align:left;color:#9a958b;padding:0 1.4rem .7rem 0;border-bottom:1px solid #141310}
+th:nth-child(3){color:var(--gl)}
+td{font-size:.9rem;line-height:1.65;vertical-align:top;color:#6f6b62;padding:1rem 1.4rem 1rem 0;border-bottom:1px solid rgba(0,0,0,.08)}
+td.q{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#9a958b;white-space:nowrap;padding-top:1.2rem;width:105px}
+td:nth-child(3){color:#141310;font-weight:500}
+.callout{border-left:3px solid var(--gl);border-radius:0 6px 6px 0;background:#fff;border-top:1px solid rgba(0,0,0,.05);border-right:1px solid rgba(0,0,0,.05);border-bottom:1px solid rgba(0,0,0,.05);padding:1.4rem 1.7rem;font-size:.92rem;line-height:1.75;font-style:italic;margin-top:2.4rem}
+.buildbuy{font-size:.95rem;margin-top:2.2rem}
+.ladder{list-style:none;display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:.4rem 1.3rem;border-top:1px solid rgba(0,0,0,.12);border-bottom:1px solid rgba(0,0,0,.12);padding:1.15rem 0;margin:2.6rem 0 0}
+.ladder li{font-family:'JetBrains Mono',monospace;font-size:.72rem;font-weight:500;letter-spacing:.15em;color:#141310;display:flex;align-items:center;gap:1.3rem}
+.ladder li:not(:last-child)::after{content:'\2192';color:var(--gl)}
+.seeit{font-size:.98rem;margin-top:2.6rem}
+.closer{text-align:center;padding:5.5rem 0}
+.closer .eyebrow{display:inline-flex;margin-bottom:0}
+.closer .eyebrow::after{content:'';width:24px;height:1px;background:var(--g);opacity:.5;flex-shrink:0}
+footer{border-top:1px solid var(--bdr);padding:1.9rem 0}
+.f-inner{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.6rem}
+.wordmark{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--t1)}
+.wordmark span{color:var(--g)}
+.wordmark:hover{color:var(--t1)}
+footer small{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--t4)}
+.js .rv{opacity:0;transform:translateY(16px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+@media (max-width:640px){
+nav{padding:.9rem 1.25rem}
+.nav-name{font-size:.78rem}
+.nav-links{gap:1.1rem}
+.nav-links a{font-size:.56rem}
+.col{padding:0 1.35rem}
+.hero{padding:7.5rem 0 3rem}
+.light{padding:3.2rem 0 3.6rem}
+.tablewrap{overflow-x:visible}
+table{min-width:0}
+table,tbody{display:block}
+tr{display:block;padding:1rem 0;border-bottom:1px solid rgba(0,0,0,.1)}
+tr:first-child{display:none}
+th,td{display:block;border:none;padding:0;width:auto}
+td.q{white-space:normal;padding:0 0 .55rem;color:#141310}
+td:nth-child(2){padding:0 0 .7rem}
+td:nth-child(2)::before{content:"Telemetry — the score";display:block;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:#9a958b;margin-bottom:.2rem}
+td:nth-child(3)::before{content:"Diagnosis — the why";display:block;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gl);margin-bottom:.2rem}
+.ladder{flex-direction:column;gap:.55rem;padding:1.3rem 0}
+.ladder li{flex-direction:column;gap:.55rem}
+.ladder li:not(:last-child)::after{content:'\2193'}
+.closer{padding:4rem 0}
+}
+@media (prefers-reduced-motion:reduce){
+.fu{animation:none}
+.js .rv{opacity:1;transform:none;transition:none}
+}
+</style>
+<script>document.documentElement.classList.add('js');</script>
+</head>
+<body>
+<nav>
+  <a class="nav-brand" href="/">
+    <svg viewBox="0 0 400 400" width="26" height="26" fill="none" aria-hidden="true">
+      <polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="14" stroke-linejoin="round"></polygon>
+      <line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+      <line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+      <line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+    </svg>
+    <span class="nav-name">Greenbaum Labs</span>
+  </a>
+  <div class="nav-links">
+    <a href="/refraction">&larr; Refraction</a>
+    <a href="/authority-displacement">Worked example</a>
+  </div>
+</nav>
 
-  /* legibility: dark green on light backgrounds */
-  .s-light .eyebrow,.s-light .eyebrow::before{color:#0A7C43;}
-  .chip{color:#0A7C43;border-color:#0A7C43;}
-  .wcard .opt{color:#0A7C43;}
-  .s-light .bar.owned i{border-color:#0A7C43;}
-  .s-light .callout{border-left-color:#0A7C43;}
+<header class="hero">
+  <div class="col">
+    <div class="eyebrow fu">Greenbaum Labs &middot; AI reputation &amp; answer integrity</div>
+    <h1 class="fu fu-2">Telemetry and diagnosis.</h1>
+    <p class="lead fu fu-3">Two layers of the same problem. Most organizations need both. Many have not operationalized the second. <b>Telemetry</b> &mdash; prompt-tracking platforms &mdash; measures visibility at scale: how often you appear, where, trending which way. If the question is the score, buying it is the right call. <b>Diagnosis</b> asks what telemetry structurally cannot: is what the machines say supported, what evidence shaped it, does it matter, and who owns fixing it.</p>
+  </div>
+</header>
 
-  @media (max-width:720px){
-    .wrap{padding:0 20px;}
-    section{padding:56px 0;}
-    h1{font-size:30px;}
-    h2{font-size:21px;}
-    .row{flex-direction:column;gap:8px;}
-    .rl{width:auto;}
-    .exhibit{padding:24px 20px;margin-left:0;margin-right:0;}
-    .judge{margin:16px -20px 0;padding:14px 20px;}
-    table,tbody{display:block;min-width:0;}
-    tr{display:block;padding:16px 0;border-bottom:1px solid var(--border-l);}
-    tr:first-child{display:none;}
-    th,td{display:block;border:none;padding:0;min-width:0;width:auto;}
-    td.q{width:auto;padding:0 0 8px;font-size:10.5px;color:var(--hl);}
-    td:nth-child(2){padding:2px 0 10px;}
-    td:nth-child(2)::before{content:"Telemetry — the score";display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:#9CA3AF;margin-bottom:3px;}
-    td:nth-child(3)::before{content:"Diagnosis — the why";display:block;font-family:var(--mono);font-size:9.5px;letter-spacing:0.14em;text-transform:uppercase;color:var(--green);margin-bottom:3px;}
-    .tri{grid-template-columns:1fr;}
-    .cards2{grid-template-columns:1fr;}
-    .tv .tn{font-size:38px;}
-  }
-</style></head><body>
-<a href="/refraction" style="position:fixed;top:1.6rem;left:1.8rem;font-family:var(--mono);font-size:11px;letter-spacing:0.18em;text-transform:uppercase;color:var(--dim);text-decoration:none;z-index:100;">&larr; REFRACTION</a>
+<section class="light">
+  <div class="col rv">
+    <div class="eyebrow">Side by side</div>
+    <div class="tablewrap">
+      <table>
+        <tr><th style="width:105px;"></th><th>Telemetry &mdash; the score</th><th>Diagnosis &mdash; the why</th></tr>
+        <tr><td class="q">The prompts</td><td>A library you supply, plus market-aggregate prompt volumes.</td><td>Derived from your own ecosystem &mdash; questions your customers already ask, each traceable to public evidence.</td></tr>
+        <tr><td class="q">The measure</td><td>Appearance rate, share of voice, sentiment, citation counts.</td><td>Each machine assertion judged against the evidence record: supported by your statements, the ecosystem&rsquo;s, or neither &mdash; the class no score reports.</td></tr>
+        <tr><td class="q">A finding</td><td>&ldquo;You appear in 6 of 10 runs; these domains are cited most.&rdquo;</td><td>&ldquo;In this run, machine claims aligned more often with ecosystem evidence than with company statements &mdash; and nearly half of company-owned citations were support content, not marketing.&rdquo;</td></tr>
+        <tr><td class="q">Validation</td><td>Sampling methodology at platform scale.</td><td>Adversarial &mdash; every finding survives a challenge against cited evidence before it is reported.</td></tr>
+        <tr><td class="q">The output</td><td>A dashboard the team monitors.</td><td>A decision instrument: the gap map, the ownership map, and the intervention sequence with a retest condition.</td></tr>
+        <tr><td class="q">The action</td><td>Watch the trend; brief the team.</td><td>Change the evidence: fix the condition, resolve issues in public, publish truth where the engines demonstrably read &mdash; then re-probe.</td></tr>
+      </table>
+    </div>
+    <div class="callout">The pattern is already visible inside operating companies: teams buy telemetry for scale, then reconstruct the why-layer by hand &mdash; finding the gaps between what the company says and what the ecosystem says, and building against them. Diagnosis systematizes exactly the half that can&rsquo;t be bought off the shelf.</div>
+    <p class="buildbuy"><b>On build versus buy:</b> calling the models is the cheap part. The real build is the evidence system underneath &mdash; collectors that survive a closing web, a panel with provenance, adjudication that distinguishes absence from falsity, and the discipline to say only what the receipts support. <b>Buy telemetry. Own the evidence model, judgment, responsibility, and retest.</b></p>
+    <ul class="ladder">
+      <li>RECEIPTS</li>
+      <li>STATEMENT</li>
+      <li>AUDIT</li>
+      <li>NEW RECEIPTS</li>
+    </ul>
+    <p class="seeit"><b>See it end to end:</b> one finding from a live diagnostic &mdash; a real churn question, a correct machine answer, and the wrong authority cited for the company&rsquo;s own pricing. <a href="/authority-displacement">The Answer Is Right. The Authority Is Displaced. &rarr;</a></p>
+  </div>
+</section>
 
-<section class="s-light"><div class="wrap">
-<div class="eyebrow">Greenbaum Labs &middot; AI reputation &amp; answer integrity</div>
-<h1 style="color:#111;">Telemetry and diagnosis.</h1>
-<p class="lead">Two layers of the same problem. Most organizations need both. Many have not operationalized the second. <b style="color:#111;">Telemetry</b> &mdash; prompt-tracking platforms &mdash; measures visibility at scale: how often you appear, where, trending which way. If the question is the score, buying it is the right call. <b style="color:#111;">Diagnosis</b> asks what telemetry structurally cannot: is what the machines say supported, what evidence shaped it, does it matter, and who owns fixing it.</p>
-<table>
-<tr><th style="width:140px;"></th><th>Telemetry &mdash; the score</th><th>Diagnosis &mdash; the why</th></tr>
-<tr><td class="q">The prompts</td><td>A library you supply, plus market-aggregate prompt volumes.</td><td>Derived from your own ecosystem &mdash; questions your customers already ask, each traceable to public evidence.</td></tr>
-<tr><td class="q">The measure</td><td>Appearance rate, share of voice, sentiment, citation counts.</td><td>Each machine assertion judged against the evidence record: supported by your statements, the ecosystem&rsquo;s, or neither &mdash; the class no score reports.</td></tr>
-<tr><td class="q">A finding</td><td>&ldquo;You appear in 6 of 10 runs; these domains are cited most.&rdquo;</td><td>&ldquo;In this run, machine claims aligned more often with ecosystem evidence than with company statements &mdash; and nearly half of company-owned citations were support content, not marketing.&rdquo;</td></tr>
-<tr><td class="q">Validation</td><td>Sampling methodology at platform scale.</td><td>Adversarial &mdash; every finding survives a challenge against cited evidence before it is reported.</td></tr>
-<tr><td class="q">The output</td><td>A dashboard the team monitors.</td><td>A decision instrument: the gap map, the ownership map, and the intervention sequence with a retest condition.</td></tr>
-<tr><td class="q">The action</td><td>Watch the trend; brief the team.</td><td>Change the evidence: fix the condition, resolve issues in public, publish truth where the engines demonstrably read &mdash; then re-probe.</td></tr>
-</table>
-<div class="callout">The pattern is already visible inside operating companies: teams buy telemetry for scale, then reconstruct the why-layer by hand &mdash; finding the gaps between what the company says and what the ecosystem says, and building against them. Diagnosis systematizes exactly the half that can&rsquo;t be bought off the shelf.</div>
-<p style="font-size:14px;line-height:1.7;color:#52525B;margin-top:28px;"><b style="color:#111;">On build versus buy:</b> calling the models is the cheap part. The real build is the evidence system underneath &mdash; collectors that survive a closing web, a panel with provenance, adjudication that distinguishes absence from falsity, and the discipline to say only what the receipts support. <b style="color:#111;">Buy telemetry. Own the evidence model, judgment, responsibility, and retest.</b></p>
-<div class="ladder">RECEIPTS &nbsp;&rarr;&nbsp; STATEMENT &nbsp;&rarr;&nbsp; AUDIT &nbsp;&rarr;&nbsp; NEW RECEIPTS</div>
-<p style="font-size:15px;margin-top:34px;color:#111;"><b>See it end to end:</b> one finding from a live diagnostic &mdash; a real churn question, a correct machine answer, and the wrong authority cited for the company&rsquo;s own pricing. <a href="/authority-displacement" style="color:#0A7C43;font-weight:700;">The Answer Is Right. The Authority Is Displaced. &rarr;</a></p>
-</div></section><section class="closer" style="text-align:center;padding:80px 0;"><div class="wrap"><div class="eyebrow" style="display:inline-block;">Who owns the answer?</div></div></section>
-<footer><div class="wrap"><a href="/" class="wordmark" style="text-decoration:none;">greenbaum<span>labs</span></a><small>PUBLIC DEMONSTRATION &middot; JULY 2026</small></div></footer>
-</body></html>
+<section class="closer">
+  <div class="col rv">
+    <div class="eyebrow">Who owns the answer?</div>
+  </div>
+</section>
+
+<footer>
+  <div class="col f-inner">
+    <a class="wordmark" href="/">greenbaum<span>labs</span></a>
+    <small>PUBLIC DEMONSTRATION &middot; JULY 2026</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+var els=document.querySelectorAll(".rv");
+if(!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in");});return;}
+var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}});},{threshold:.08,rootMargin:"0px 0px -40px 0px"});
+els.forEach(function(e){io.observe(e);});
+})();
+</script>
+</body>
+</html>

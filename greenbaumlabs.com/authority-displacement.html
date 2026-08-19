@@ -2,9 +2,10 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<link rel="icon" href="/favicon.svg" type="image/svg+xml"><link rel="icon" href="/favicon.ico" sizes="32x32">
-<title>The Answer Is Right. The Authority Is Displaced. &mdash; Greenbaum Labs</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<title>The Answer Is Right. The Authority Is Displaced. &mdash; Greenbaum Labs</title>
 <meta name="description" content="One finding, end to end: a real churn question, a materially correct machine answer, and an affiliate cited as the authority for the company's own pricing. Not factual absence — authority displacement. Who owns changing the evidence path?">
 <link rel="canonical" href="https://greenbaumlabs.com/authority-displacement">
 <meta property="og:title" content="The Answer Is Right. The Authority Is Displaced.">
@@ -14,85 +15,182 @@
 <meta property="og:url" content="https://greenbaumlabs.com/authority-displacement">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="The Answer Is Right. The Authority Is Displaced.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wght@0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-  html,body{margin:0;padding:0;background:#EDEBE6;overflow-x:hidden;max-width:100%;}
-  .stage{min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;box-sizing:border-box;}
-  .frame{width:1500px;max-width:96vw;min-width:0;aspect-ratio:16/9;background:#FFFFFF;border:1px solid #DDDDDD;box-sizing:border-box;
-         padding:42px 70px 30px;display:flex;flex-direction:column;font-family:Garamond,'EB Garamond',Georgia,serif;color:#333333;}
-  .top{display:flex;justify-content:space-between;align-items:baseline;}
-  .mark{font-family:Arial,Helvetica,sans-serif;font-size:14px;color:#666666;letter-spacing:0.5em;}
-  .eyebrow{font-family:Arial,Helvetica,sans-serif;font-size:10.5px;color:#999999;letter-spacing:0.2em;}
-  .rule{border:none;border-top:1px solid #CCCCCC;margin:14px 0 18px;}
-  h1{font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:25px;color:#1A1A1A;letter-spacing:0.11em;margin:0 0 20px;}
-  .chain{flex:1;display:flex;flex-direction:column;}
-  .step{display:flex;gap:26px;padding:10.5px 0;border-top:1px solid #EAEAEA;min-width:0;}
-  .step>*{min-width:0;overflow-wrap:break-word;}
-  .step:first-child{border-top:none;}
-  .label{font-family:Arial,Helvetica,sans-serif;font-size:10.5px;letter-spacing:0.16em;color:#999999;width:265px;flex-shrink:0;padding-top:3px;}
-  .label b{color:#1A1A1A;font-size:11.5px;display:block;letter-spacing:0.16em;}
-  .body{font-size:17px;line-height:1.45;}
-  .quote{font-style:italic;}
-  .verdict{font-family:Arial,Helvetica,sans-serif;font-weight:bold;font-size:14px;letter-spacing:0.08em;color:#1A1A1A;}
-  .foot-stat{font-size:14.5px;font-style:italic;color:#666666;border-top:1px solid #CCCCCC;padding-top:11px;margin-top:6px;}
-  .foot{display:flex;justify-content:space-between;font-family:Arial,Helvetica,sans-serif;font-size:10px;color:#999999;
-        letter-spacing:0.14em;margin-top:11px;}
-
-  @media (max-width:760px){
-    .stage{padding:56px 12px 24px;align-items:flex-start;}
-    .frame{aspect-ratio:auto;width:100%;max-width:100%;padding:26px 22px 20px;}
-    h1{font-size:19px;letter-spacing:0.06em;overflow-wrap:break-word;}
-    .mark{letter-spacing:0.32em;font-size:12px;}
-    .step{flex-direction:column;gap:6px;padding:12px 0;}
-    .label{width:auto;}
-    .body{font-size:15px;}
-    .top{flex-direction:column;gap:6px;}
-    .foot{flex-direction:column;gap:4px;align-items:center;text-align:center;}
-  }
+:root{--bg:#0a0f0c;--bg2:#111a14;--bg3:#162119;--t1:#f0ece4;--t2:#b5b0a8;--t3:#756f69;--t4:#3a3936;
+--g:#34D399;--g2:#5EEAD4;--g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);
+--bdr:rgba(240,236,228,.08);--bdr-hi:rgba(240,236,228,.18);--ease:cubic-bezier(.16,1,.3,1);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+html,body{overflow-x:hidden;max-width:100%}
+body{font-family:'Instrument Sans',system-ui,sans-serif;background:var(--bg);color:var(--t2);font-size:1rem;line-height:1.8;-webkit-font-smoothing:antialiased}
+::selection{background:var(--g-md);color:var(--t1)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.02;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:var(--g);text-decoration:none}
+a:hover{color:var(--g2)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 2rem;background:rgba(10,15,12,.92);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-brand{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nav-brand svg{color:var(--g);flex-shrink:0}
+.nav-name{font-weight:700;font-size:.88rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t1);white-space:nowrap}
+.nav-links{display:flex;gap:1.9rem}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);transition:color .3s}
+.nav-links a:hover{color:var(--t1)}
+.col{max-width:800px;margin:0 auto;padding:0 2rem}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;flex-wrap:wrap;gap:.75rem;margin-bottom:1.4rem}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--g);opacity:.5;flex-shrink:0}
+.hero{padding:9.5rem 0 2.5rem}
+h1{font-weight:700;font-size:clamp(1.9rem,5vw,3rem);line-height:1.12;letter-spacing:-.03em;color:var(--t1);max-width:720px}
+.fu{animation:fadeUp .8s var(--ease) both}
+.fu-2{animation-delay:.15s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.chain{padding:2rem 0 1rem}
+.step{display:grid;grid-template-columns:240px 1fr;gap:2rem;padding:1.6rem 0;border-top:1px solid var(--bdr)}
+.step:first-child{border-top:none}
+.s-meta{padding-top:.15rem}
+.s-num{display:block;font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.14em;color:var(--g);margin-bottom:.5rem}
+.s-label{display:block;font-family:'JetBrains Mono',monospace;font-size:.66rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--t1)}
+.s-note{display:block;font-size:.78rem;line-height:1.55;color:var(--t3);margin-top:.35rem}
+.s-body{font-size:1rem;line-height:1.7;color:var(--t2)}
+.s-body b{color:var(--t1);font-weight:600}
+.quote{font-style:italic;color:var(--t1)}
+.q-big{font-size:1.2rem;line-height:1.55}
+.judge{border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:0 6px 6px 0;background:var(--bg2);padding:1.6rem 1.9rem;margin:.6rem 0}
+.judge+.step{border-top:none}
+.verdict{display:block;font-family:'JetBrains Mono',monospace;font-size:.78rem;font-weight:600;letter-spacing:.08em;color:var(--g);margin-bottom:.5rem}
+.foot-stat{font-size:.9rem;font-style:italic;color:var(--t3);border-top:1px solid var(--bdr);padding:1.3rem 0 0;margin:1.2rem 0 0}
+.closer{text-align:center;padding:5rem 0 5.5rem}
+.closer .eyebrow{display:inline-flex;margin-bottom:0}
+.closer .eyebrow::after{content:'';width:24px;height:1px;background:var(--g);opacity:.5;flex-shrink:0}
+footer{border-top:1px solid var(--bdr);padding:1.9rem 0}
+.f-inner{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.6rem}
+.wordmark{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--t1)}
+.wordmark span{color:var(--g)}
+.wordmark:hover{color:var(--t1)}
+footer small{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--t4)}
+.js .rv{opacity:0;transform:translateY(16px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+@media (max-width:760px){
+.step{grid-template-columns:1fr;gap:.7rem;padding:1.4rem 0}
+.s-num{display:inline;margin-right:.7rem}
+.s-label{display:inline}
+.judge{padding:1.3rem 1.3rem;margin:.6rem 0}
+}
+@media (max-width:640px){
+nav{padding:.9rem 1.25rem}
+.nav-name{font-size:.78rem}
+.nav-links{gap:1.1rem}
+.nav-links a{font-size:.56rem}
+.col{padding:0 1.35rem}
+.hero{padding:7.5rem 0 1.6rem}
+.closer{padding:3.6rem 0 4rem}
+}
+@media (prefers-reduced-motion:reduce){
+.fu{animation:none}
+.js .rv{opacity:1;transform:none;transition:none}
+}
 </style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-<a href="/telemetry-and-diagnosis" style="position:fixed;top:1.4rem;left:1.6rem;font-family:Arial,Helvetica,sans-serif;font-size:10px;letter-spacing:0.16em;color:#999;text-decoration:none;z-index:100;">&larr; TELEMETRY AND DIAGNOSIS</a>
-<div class="stage">
-<div class="frame">
-  <div class="top">
-    <div class="mark">G R E E N B A U M &nbsp; L A B S</div>
-    <div class="eyebrow">COINBASE &middot; RETRIEVAL FINDING &middot; STABLE IN 3 OF 3 SAMPLES</div>
+<nav>
+  <a class="nav-brand" href="/">
+    <svg viewBox="0 0 400 400" width="26" height="26" fill="none" aria-hidden="true">
+      <polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="14" stroke-linejoin="round"></polygon>
+      <line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+      <line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+      <line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+    </svg>
+    <span class="nav-name">Greenbaum Labs</span>
+  </a>
+  <div class="nav-links">
+    <a href="/telemetry-and-diagnosis">&larr; Telemetry and diagnosis</a>
   </div>
-  <hr class="rule">
-  <h1>THE ANSWER IS RIGHT. THE AUTHORITY IS DISPLACED.</h1>
-  <div class="chain">
-    <div class="step">
-      <div class="label"><b>THE QUESTION</b>a real churn discussion, typed in public</div>
-      <div class="body quote">&ldquo;Is Coinbase One worth it compared to just using advanced trade?&rdquo;</div>
-    </div>
-    <div class="step">
-      <div class="label"><b>THE MACHINE</b>sonar-pro &middot; live retrieval &middot; same claim, all three asks</div>
-      <div class="body quote">&ldquo;If you're already comfortable with Advanced Trade, that usually remains the cheaper and more efficient choice&rdquo; &mdash; resting on: <b>Advanced Trade uses a maker-taker fee schedule.</b> The fee-boundary facts are supported; the recommendation is conditional on usage.</div>
-    </div>
-    <div class="step">
-      <div class="label"><b>WHO GOT CITED</b>cited URL fetched; passage confirmed on page</div>
-      <div class="body">An affiliate fee-guide &mdash; <span class="quote">&ldquo;&hellip;Coinbase Advanced offers maker-taker pricing&hellip;&rdquo;</span> &mdash; plus two r/Coinbase threads. Not the company.</div>
-    </div>
-    <div class="step">
-      <div class="label"><b>WHAT THE COMPANY PUBLISHES</b>verified by hand, same morning</div>
-      <div class="body">The truth exists on owned surfaces &mdash; fee docs on the help center, the exclusion in Coinbase One documentation &mdash; <b>fragmented</b> across pages. Our collector received ~60 bytes from the subscription page during inspection.</div>
-    </div>
-    <div class="step">
-      <div class="label"><b>THE JUDGMENT</b></div>
-      <div class="body"><span class="verdict">NOT FACTUAL ABSENCE — AUTHORITY DISPLACEMENT.</span>&nbsp; A third party became the authority for explaining the company&rsquo;s own pricing.</div>
-    </div>
-    <div class="step">
-      <div class="label"><b>THE EXECUTIVE QUESTION</b>owner &middot; candidate intervention &middot; retest</div>
-      <div class="body">Why does an affiliate answer this instead of us &mdash; and who owns changing the evidence path? Candidate intervention: one authoritative, machine-readable fee-boundary page on the most-read owned surface. Retest: whether owned evidence begins appearing in the citation path while the answer stays accurate.</div>
-    </div>
+</nav>
+
+<header class="hero">
+  <div class="col">
+    <div class="eyebrow fu">Coinbase &middot; Retrieval finding &middot; Stable in 3 of 3 samples</div>
+    <h1 class="fu fu-2">The answer is right. The authority is displaced.</h1>
   </div>
-  <p class="foot-stat">This assertion recurred across all three samples under the current matching rule. One answer &mdash; or one screenshot &mdash; is not a measurement.</p>
-  <div class="foot">
-    <span>PUBLIC DEMONSTRATION &middot; JULY 2026</span>
-    <span>WHO OWNS THE ANSWER?</span>
-    <span><a href="/" style="color:#999;text-decoration:none;">GREENBAUMLABS.COM</a></span>
+</header>
+
+<div class="chain">
+  <div class="col">
+    <div class="step rv">
+      <div class="s-meta">
+        <span class="s-num">01</span>
+        <span class="s-label">The question</span>
+        <span class="s-note">a real churn discussion, typed in public</span>
+      </div>
+      <div class="s-body quote q-big">&ldquo;Is Coinbase One worth it compared to just using advanced trade?&rdquo;</div>
+    </div>
+    <div class="step rv">
+      <div class="s-meta">
+        <span class="s-num">02</span>
+        <span class="s-label">The machine</span>
+        <span class="s-note">sonar-pro &middot; live retrieval &middot; same claim, all three asks</span>
+      </div>
+      <div class="s-body"><span class="quote">&ldquo;If you're already comfortable with Advanced Trade, that usually remains the cheaper and more efficient choice&rdquo;</span> &mdash; resting on: <b>Advanced Trade uses a maker-taker fee schedule.</b> The fee-boundary facts are supported; the recommendation is conditional on usage.</div>
+    </div>
+    <div class="step rv">
+      <div class="s-meta">
+        <span class="s-num">03</span>
+        <span class="s-label">Who got cited</span>
+        <span class="s-note">cited URL fetched; passage confirmed on page</span>
+      </div>
+      <div class="s-body">An affiliate fee-guide &mdash; <span class="quote">&ldquo;&hellip;Coinbase Advanced offers maker-taker pricing&hellip;&rdquo;</span> &mdash; plus two r/Coinbase threads. Not the company.</div>
+    </div>
+    <div class="step rv">
+      <div class="s-meta">
+        <span class="s-num">04</span>
+        <span class="s-label">What the company publishes</span>
+        <span class="s-note">verified by hand, same morning</span>
+      </div>
+      <div class="s-body">The truth exists on owned surfaces &mdash; fee docs on the help center, the exclusion in Coinbase One documentation &mdash; <b>fragmented</b> across pages. Our collector received ~60 bytes from the subscription page during inspection.</div>
+    </div>
+    <div class="step judge rv">
+      <div class="s-meta">
+        <span class="s-num">05</span>
+        <span class="s-label">The judgment</span>
+      </div>
+      <div class="s-body"><span class="verdict">NOT FACTUAL ABSENCE &mdash; AUTHORITY DISPLACEMENT.</span>A third party became the authority for explaining the company&rsquo;s own pricing.</div>
+    </div>
+    <div class="step rv">
+      <div class="s-meta">
+        <span class="s-num">06</span>
+        <span class="s-label">The executive question</span>
+        <span class="s-note">owner &middot; candidate intervention &middot; retest</span>
+      </div>
+      <div class="s-body">Why does an affiliate answer this instead of us &mdash; and who owns changing the evidence path? Candidate intervention: one authoritative, machine-readable fee-boundary page on the most-read owned surface. Retest: whether owned evidence begins appearing in the citation path while the answer stays accurate.</div>
+    </div>
+    <p class="foot-stat rv">This assertion recurred across all three samples under the current matching rule. One answer &mdash; or one screenshot &mdash; is not a measurement.</p>
   </div>
 </div>
-</div>
+
+<section class="closer">
+  <div class="col rv">
+    <div class="eyebrow">Who owns the answer?</div>
+  </div>
+</section>
+
+<footer>
+  <div class="col f-inner">
+    <a class="wordmark" href="/">greenbaum<span>labs</span></a>
+    <small>PUBLIC DEMONSTRATION &middot; JULY 2026</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+var els=document.querySelectorAll(".rv");
+if(!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in");});return;}
+var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}});},{threshold:.08,rootMargin:"0px 0px -40px 0px"});
+els.forEach(function(e){io.observe(e);});
+})();
+</script>
 </body>
 </html>

@@ -1,139 +1,268 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-  <link rel="icon" href="/favicon.ico" sizes="32x32">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <title>Refraction &mdash; A Greenbaum Labs Assessment</title>
-  <meta name="description" content="The AEO tools tell you your score. Refraction tells you what it means and what to do — an operator-led read on how AI engines describe your brand, why, and who owns fixing it.">
-  <link rel="canonical" href="https://greenbaumlabs.com/refraction">
-  <meta property="og:title" content="Refraction — A Greenbaum Labs Assessment">
-  <meta property="og:description" content="The AEO tools tell you your score. Refraction tells you what it means and what to do.">
-  <meta property="og:type" content="website">
-  <meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
-  <meta property="og:url" content="https://greenbaumlabs.com/refraction">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Refraction — A Greenbaum Labs Assessment">
-  <meta name="twitter:description" content="The score is not the why. An operator-led AEO assessment.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-  <style>
-    :root{--bg:#0a0a0a;--bg2:#161616;--card:#1c1c1c;--text:#e8e4dc;--text2:#8a857f;--dim:#4d4945;
-      --green:#5dba5d;--accent:#34D399;--accent-dim:rgba(52,211,153,0.12);--border:rgba(240,236,228,0.07);}
-    *{margin:0;padding:0;box-sizing:border-box;min-width:0;}
-    html,body{overflow-x:hidden;max-width:100%;}
-    body{font-family:'Instrument Sans',sans-serif;background:var(--bg);color:var(--text);-webkit-font-smoothing:antialiased;line-height:1.7;}
-    .back{position:fixed;top:1.6rem;left:1.6rem;font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--text2);text-decoration:none;z-index:100;}
-    .back:hover{color:var(--accent);}
-    .wrap{max-width:860px;margin:0 auto;padding:0 1.5rem;}
-    .hero{padding:7rem 0 3rem;}
-    .kicker{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:1.6rem;}
-    h1{font-size:clamp(2rem,6.4vw,4rem);font-weight:700;letter-spacing:0.2em;line-height:1.1;overflow-wrap:anywhere;}
-    .tagline{font-size:clamp(1.05rem,2.5vw,1.3rem);color:var(--text);max-width:640px;margin-top:1.4rem;line-height:1.65;}
-    .tagline b{color:var(--accent);font-weight:600;}
-    section{padding:2.6rem 0;}
-    .label{font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--accent);margin-bottom:1rem;display:flex;align-items:center;gap:0.8rem;}
-    .label::before{content:'';width:26px;height:1px;background:var(--accent);}
-    h2{font-size:1.4rem;font-weight:700;letter-spacing:-0.01em;margin-bottom:0.9rem;}
-    p{color:var(--text2);font-size:1rem;margin-bottom:1rem;max-width:680px;}
-    p b, p strong{color:var(--text);font-weight:600;}
-    .problem{background:var(--bg2);border-left:2px solid var(--accent);padding:1.6rem 1.8rem;margin:1.2rem 0;}
-    .problem p{margin-bottom:0.8rem;} .problem p:last-child{margin-bottom:0;}
-    .tablewrap{overflow-x:auto;margin:1.4rem 0;}
-    table{width:100%;min-width:520px;border-collapse:collapse;}
-    th{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.14em;text-transform:uppercase;text-align:left;padding:0.7rem 1rem 0.7rem 0;border-bottom:1px solid var(--accent);color:var(--text);}
-    th:first-child{color:var(--dim);}
-    td{font-size:0.92rem;padding:0.8rem 1rem 0.8rem 0;border-bottom:1px solid var(--border);color:var(--text2);vertical-align:top;line-height:1.55;}
-    td:first-child{font-family:'JetBrains Mono',monospace;font-size:0.62rem;letter-spacing:0.12em;text-transform:uppercase;color:var(--dim);padding-top:1rem;white-space:nowrap;}
-    td:nth-child(2){color:var(--text);}
-    .go{display:block;background:var(--card);border:1px solid var(--border);padding:1.5rem 1.7rem;margin:0.9rem 0;text-decoration:none;transition:border-color .25s;}
-    .go:hover{border-color:var(--accent);}
-    .go b{color:var(--text);font-size:1.02rem;display:block;margin-bottom:0.3rem;}
-    .go span{color:var(--text2);font-size:0.9rem;line-height:1.55;display:block;}
-    .go .cta{font-family:'JetBrains Mono',monospace;font-size:0.6rem;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);margin-top:0.7rem;display:block;}
-    .contact{border-top:1px solid var(--border);margin-top:2rem;padding:2.6rem 0 4rem;}
-    .contact a{color:var(--accent);text-decoration:none;font-weight:600;}
-    footer{border-top:1px solid var(--border);padding:1.8rem 0;}
-    footer .wrap{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:0.5rem;}
-    .wordmark{font-family:'JetBrains Mono',monospace;font-size:0.85rem;color:var(--text);text-decoration:none;}
-    .wordmark span{color:var(--green);}
-    footer small{font-family:'JetBrains Mono',monospace;font-size:0.58rem;color:var(--dim);letter-spacing:0.08em;}
-    @media (max-width:640px){
-      .tablewrap{overflow-x:visible;}
-      table,tbody{display:block;min-width:0;}
-      tr{display:block;padding:0.9rem 0;border-bottom:1px solid var(--border);}
-      tr:first-child{display:none;}
-      th,td{display:block;border:none;padding:0;}
-      td:first-child{white-space:normal;padding:0 0 0.45rem;}
-      td:nth-child(2){padding:0 0 0.6rem;}
-      td:nth-child(2)::before{content:"Refraction";display:block;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--accent);margin-bottom:0.2rem;}
-      td:nth-child(3)::before{content:"Profound & the AEO tools";display:block;font-family:'JetBrains Mono',monospace;font-size:0.58rem;letter-spacing:0.14em;text-transform:uppercase;color:var(--dim);margin-bottom:0.2rem;}
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<title>Refraction &mdash; A Greenbaum Labs Assessment</title>
+<meta name="description" content="The AEO tools tell you your score. Refraction tells you what it means and what to do — an operator-led read on how AI engines describe your brand, why, and who owns fixing it.">
+<link rel="canonical" href="https://greenbaumlabs.com/refraction">
+<meta property="og:title" content="Refraction — A Greenbaum Labs Assessment">
+<meta property="og:description" content="The AEO tools tell you your score. Refraction tells you what it means and what to do.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://greenbaumlabs.com/og-card.png">
+<meta property="og:url" content="https://greenbaumlabs.com/refraction">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Refraction — A Greenbaum Labs Assessment">
+<meta name="twitter:description" content="The score is not the why. An operator-led AEO assessment.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0a0f0c;--bg2:#111a14;--bg3:#162119;--t1:#f0ece4;--t2:#b5b0a8;--t3:#756f69;--t4:#3a3936;
+--g:#34D399;--g2:#5EEAD4;--gl:#059669;--g-lo:rgba(52,211,153,.06);--g-md:rgba(52,211,153,.12);
+--bdr:rgba(240,236,228,.08);--bdr-hi:rgba(240,236,228,.18);--bone:#F6F5F2;--ease:cubic-bezier(.16,1,.3,1);}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;min-width:0}
+html{scroll-behavior:smooth}
+html,body{overflow-x:hidden;max-width:100%}
+body{font-family:'Instrument Sans',system-ui,sans-serif;background:var(--bg);color:var(--t2);font-size:1rem;line-height:1.8;-webkit-font-smoothing:antialiased}
+::selection{background:var(--g-md);color:var(--t1)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.02;
+background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+a{color:var(--g);text-decoration:none}
+a:hover{color:var(--g2)}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;justify-content:space-between;align-items:center;gap:1rem;padding:1.1rem 2rem;background:rgba(10,15,12,.92);border-bottom:1px solid var(--bdr);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}
+.nav-brand{display:flex;align-items:center;gap:.65rem;text-decoration:none}
+.nav-brand svg{color:var(--g);flex-shrink:0}
+.nav-name{font-weight:700;font-size:.88rem;letter-spacing:.15em;text-transform:uppercase;color:var(--t1);white-space:nowrap}
+.nav-links{display:flex;gap:1.9rem}
+.nav-links a{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--t3);transition:color .3s}
+.nav-links a:hover{color:var(--t1)}
+.col{max-width:800px;margin:0 auto;padding:0 2rem}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:.62rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--g);display:flex;align-items:center;gap:.75rem;margin-bottom:1.4rem}
+.eyebrow::before{content:'';width:24px;height:1px;background:var(--g);opacity:.5;flex-shrink:0}
+.hero{padding:9.5rem 0 3.5rem}
+h1{font-weight:700;font-size:clamp(2.5rem,6.5vw,4rem);line-height:1.06;letter-spacing:-.035em;color:var(--t1);margin-bottom:1.5rem}
+.tagline{font-size:clamp(1.02rem,2.3vw,1.2rem);line-height:1.75;color:var(--t2);max-width:640px}
+.tagline b{color:var(--t1);font-weight:600}
+.fu{animation:fadeUp .8s var(--ease) both}
+.fu-2{animation-delay:.15s}.fu-3{animation-delay:.3s}.fu-4{animation-delay:.45s}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.diagram{margin-top:3.5rem}
+.d-wide{display:block;width:100%;height:auto}
+.d-tall{display:none}
+section{padding:3.4rem 0}
+h2{font-weight:700;font-size:clamp(1.5rem,3vw,2rem);line-height:1.2;letter-spacing:-.02em;color:var(--t1);margin-bottom:1.2rem}
+p{max-width:680px}
+p b,p strong{color:var(--t1);font-weight:600}
+p+p{margin-top:1rem}
+.problem{background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:0 6px 6px 0;padding:1.8rem 2rem;margin-top:1.6rem}
+.problem p{font-size:.98rem}
+.light{background:var(--bone);color:#54514a;padding:4.2rem 0 4.6rem}
+.light .eyebrow{color:var(--gl)}
+.light .eyebrow::before{background:var(--gl)}
+.light p b,.light p strong{color:#141310}
+.light a{color:var(--gl)}
+.light a:hover{color:#047857}
+.tablewrap{margin:2.2rem 0 0;overflow-x:auto}
+table{width:100%;min-width:600px;border-collapse:collapse}
+th{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;text-align:left;color:#141310;padding:0 1.2rem .7rem 0;border-bottom:1px solid #141310}
+th:nth-child(2){color:var(--gl)}
+td{font-size:.9rem;line-height:1.6;vertical-align:top;color:#6f6b62;padding:.95rem 1.2rem .95rem 0;border-bottom:1px solid rgba(0,0,0,.08)}
+td.q{font-family:'JetBrains Mono',monospace;font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;color:#9a958b;white-space:nowrap;padding-top:1.15rem;width:110px}
+td:nth-child(2){color:#141310;font-weight:500}
+.table-close{margin-top:2.4rem}
+.go-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.1rem;margin-top:1.8rem}
+.go{display:flex;flex-direction:column;background:var(--bg2);border:1px solid var(--bdr);border-left:3px solid var(--g);border-radius:0 6px 6px 0;padding:1.7rem 1.8rem;transition:border-color .3s var(--ease),transform .3s var(--ease)}
+.go:hover{border-color:var(--g);transform:translateY(-2px)}
+.go b{color:var(--t1);font-size:1.05rem;font-weight:600;line-height:1.35;display:block;margin-bottom:.45rem}
+.go span{color:var(--t2);font-size:.88rem;line-height:1.7;display:block;flex-grow:1}
+.go .cta{font-family:'JetBrains Mono',monospace;font-size:.6rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase;color:var(--g);margin-top:1.1rem;flex-grow:0}
+.start{border-top:1px solid var(--bdr);padding:4rem 0 5rem}
+.btn{display:inline-block;font-family:'JetBrains Mono',monospace;font-size:.68rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:#04110a;background:var(--g);border-radius:4px;padding:1rem 2.2rem;margin-top:1.6rem;transition:all .3s var(--ease)}
+.btn:hover{background:var(--g2);color:#04110a;transform:translateY(-1px);box-shadow:0 4px 20px rgba(52,211,153,.15)}
+footer{border-top:1px solid var(--bdr);padding:1.9rem 0}
+.f-inner{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:.6rem}
+.wordmark{font-family:'JetBrains Mono',monospace;font-size:.85rem;color:var(--t1)}
+.wordmark span{color:var(--g)}
+.wordmark:hover{color:var(--t1)}
+footer small{font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.08em;color:var(--t4)}
+.js .rv{opacity:0;transform:translateY(16px);transition:opacity .85s var(--ease),transform .85s var(--ease)}
+.js .rv.in{opacity:1;transform:none}
+@media (max-width:720px){
+.d-wide{display:none}
+.d-tall{display:flex;flex-direction:column;gap:0;border-left:1px solid var(--bdr-hi);margin-left:4px}
+.dt-row{font-family:'JetBrains Mono',monospace;font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--t3);display:flex;align-items:center;gap:.9rem;padding:.55rem 0}
+.dt-row::before{content:'';width:9px;height:9px;border:1px solid var(--t3);margin-left:-5px;background:var(--bg);flex-shrink:0;border-radius:50%}
+.dt-row.you{color:var(--g)}
+.dt-row.you::before{border-color:var(--g)}
+.dt-row.machine{color:var(--t1);padding:.9rem 0}
+.dt-row.machine::before{width:11px;height:11px;border-radius:0;transform:rotate(45deg);border-color:var(--g);background:var(--g-lo);margin-left:-6px}
+.dt-row.out{color:var(--g)}
+.dt-row.out::before{border-color:var(--g);background:var(--g)}
+}
+@media (max-width:640px){
+nav{padding:.9rem 1.25rem}
+.nav-name{font-size:.78rem}
+.nav-links{gap:1.1rem}
+.nav-links a{font-size:.56rem}
+.col{padding:0 1.35rem}
+.hero{padding:7.5rem 0 2.8rem}
+section{padding:2.6rem 0}
+.light{padding:3.2rem 0 3.6rem}
+.problem{padding:1.4rem 1.3rem}
+.go-grid{grid-template-columns:1fr}
+.tablewrap{overflow-x:visible}
+table{min-width:0}
+table,tbody{display:block}
+tr{display:block;padding:1rem 0;border-bottom:1px solid rgba(0,0,0,.1)}
+tr:first-child{display:none}
+th,td{display:block;border:none;padding:0;width:auto}
+td.q{white-space:normal;padding:0 0 .5rem;color:#141310}
+td:nth-child(2){padding:0 0 .7rem}
+td:nth-child(2)::before{content:"Refraction";display:block;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gl);margin-bottom:.2rem}
+td:nth-child(3)::before{content:"Profound & the AEO tools";display:block;font-family:'JetBrains Mono',monospace;font-size:.56rem;letter-spacing:.14em;text-transform:uppercase;color:#9a958b;margin-bottom:.2rem}
+}
+@media (prefers-reduced-motion:reduce){
+.fu{animation:none}
+.js .rv{opacity:1;transform:none;transition:none}
+}
+</style>
+<script>document.documentElement.classList.add('js');</script>
 </head>
 <body>
-<a class="back" href="/">&larr; greenbaumlabs</a>
-
-<div class="hero"><div class="wrap">
-  <div class="kicker">A Greenbaum Labs Assessment</div>
-  <h1>REFRACTION</h1>
-  <p class="tagline">The AEO tools tell you your score. <b>Refraction tells you what it means and what to do</b> &mdash; from an operator who ran the functions AI answers are built from, at Fortune 50 scale.</p>
-</div></div>
-
-<section><div class="wrap">
-  <div class="label">The business problem</div>
-  <h2>Someone is answering for you.</h2>
-  <div class="problem">
-    <p>When a customer asks ChatGPT, Perplexity, or Gemini about your company &mdash; is it worth it, is it safe, why was I charged &mdash; the machine composes an answer from evidence. Some of that evidence is yours. Most of it is not: reviews, forums, affiliates, complaint threads, the residue of every customer experience you ever shipped.</p>
-    <p><b>The answer your customers hear may be accurate and still not yours.</b> Your pricing explained by an affiliate. Your reliability narrated by Reddit. Your story, told by whoever published the most legible evidence &mdash; at the exact moment a buying or leaving decision is being made.</p>
-    <p>Executives already sense this. They ask the machine about their own company, read the answer, and walk into Monday asking their teams why it says that. Almost nobody can answer &mdash; because the tools measure how often you appear, not <b>why the machine believes what it believes, or who owns changing it.</b></p>
+<nav>
+  <a class="nav-brand" href="/">
+    <svg viewBox="0 0 400 400" width="26" height="26" fill="none" aria-hidden="true">
+      <polyline points="148,82 36,196 148,310" stroke="currentColor" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      <polygon points="204,136 264,196 204,256 144,196" stroke="currentColor" stroke-width="14" stroke-linejoin="round"></polygon>
+      <line x1="366" y1="196" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+      <line x1="204" y1="256" x2="148" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+      <line x1="204" y1="256" x2="254" y2="310" stroke="currentColor" stroke-width="14" stroke-linecap="round"></line>
+    </svg>
+    <span class="nav-name">Greenbaum Labs</span>
+  </a>
+  <div class="nav-links">
+    <a href="/telemetry-and-diagnosis">Method</a>
+    <a href="/authority-displacement">Example</a>
+    <a href="mailto:justin@greenbaumlabs.com">Contact</a>
   </div>
-</div></section>
+</nav>
 
-<section><div class="wrap">
-  <div class="label">The category in one line</div>
-  <p>Profound, Scrunch, Otterly, AthenaHQ, Peec, SEMrush&rsquo;s AI Toolkit, Ahrefs Brand Radar &mdash; underneath the names, they are the same thing: <b>monitoring software for marketing teams.</b> They run the prompts you supply, score how often the AI engines cite you, and the better ones suggest content edits. The dashboard is the product. What it means, and what to do about it, is left to you.</p>
-</div></section>
+<header class="hero">
+  <div class="col">
+    <div class="eyebrow fu">A Greenbaum Labs Assessment</div>
+    <h1 class="fu fu-2">Refraction</h1>
+    <p class="tagline fu fu-3">The AEO tools tell you your score. <b>Refraction tells you what it means and what to do</b> &mdash; from an operator who ran the functions AI answers are built from, at Fortune 50 scale.</p>
+    <div class="diagram fu fu-4" role="img" aria-label="Three signals — what you say, what customers say, what third parties say — converge in the machine and come out as the answer your customers hear.">
+      <svg class="d-wide" viewBox="0 0 720 200" xmlns="http://www.w3.org/2000/svg">
+        <g font-family="'JetBrains Mono',monospace" font-size="11" letter-spacing="1.8">
+          <text x="0" y="30" fill="#34D399">WHAT YOU SAY</text>
+          <text x="0" y="90" fill="#756f69">WHAT CUSTOMERS SAY</text>
+          <text x="0" y="180" fill="#756f69">WHAT THIRD PARTIES SAY</text>
+          <text x="475" y="164" fill="#756f69" text-anchor="middle" font-size="10">THE MACHINE</text>
+          <text x="720" y="72" fill="#34D399" text-anchor="end"><tspan x="720" dy="0">THE ANSWER YOUR</tspan><tspan x="720" dy="15">CUSTOMERS HEAR</tspan></text>
+        </g>
+        <line x1="0" y1="42" x2="441" y2="97" stroke="#34D399" stroke-width="1.2" opacity=".85"></line>
+        <line x1="0" y1="102" x2="441" y2="100" stroke="#756f69" stroke-width="1.2" opacity=".8"></line>
+        <line x1="0" y1="162" x2="441" y2="103" stroke="#756f69" stroke-width="1.2" opacity=".55"></line>
+        <polygon points="475,66 509,100 475,134 441,100" fill="rgba(52,211,153,.06)" stroke="#34D399" stroke-width="1.4" stroke-linejoin="round"></polygon>
+        <line x1="509" y1="100" x2="666" y2="100" stroke="#34D399" stroke-width="1.4"></line>
+        <polyline points="659,94 668,100 659,106" fill="none" stroke="#34D399" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"></polyline>
+      </svg>
+      <div class="d-tall">
+        <div class="dt-row you">What you say</div>
+        <div class="dt-row">What customers say</div>
+        <div class="dt-row">What third parties say</div>
+        <div class="dt-row machine">The machine</div>
+        <div class="dt-row out">The answer your customers hear</div>
+      </div>
+    </div>
+  </div>
+</header>
 
-<section><div class="wrap">
-  <div class="label">What Refraction is</div>
-  <p>An operator-led read on how AI engines actually describe your brand, why they describe it that way, and what to do about it. It measures the gap between what you say about yourself and what the edge &mdash; customers, reviews, forums, third-party citations &mdash; is telling the machine, then <b>traces that gap back to the customer experience and operations producing it.</b> Fixed scope. Not a subscription.</p>
-  <div class="tablewrap"><table>
-    <tr><th></th><th>Refraction</th><th>Profound &amp; the AEO tools</th></tr>
-    <tr><td>What it is</td><td>A senior-operator assessment</td><td>Monitoring software, sold by subscription</td></tr>
-    <tr><td>The question it answers</td><td>Why AI describes you this way &mdash; and what to do</td><td>Where you&rsquo;re cited, and how often</td></tr>
-    <tr><td>What it reads</td><td>The full signal, whether or not you thought to track it</td><td>Only the prompts you supply</td></tr>
-    <tr><td>What you get</td><td>Judgment and a prioritized plan</td><td>A dashboard; execution is your problem</td></tr>
-    <tr><td>Root cause</td><td>Traces the gap to real customer experience and operations</td><td>Treats it as a content problem</td></tr>
-    <tr><td>Who delivers it</td><td>An operator who ran the underlying functions at Fortune 50 scale</td><td>Software, plus your in-house analysts</td></tr>
-    <tr><td>Cost model</td><td>Fixed-scope engagement</td><td>Subscription, self-serve to enterprise tiers</td></tr>
-    <tr><td>Best for</td><td>Leaders who need to know what the score means</td><td>Teams who want the numbers on a screen</td></tr>
-  </table></div>
-  <p>Every tool stops at the score. Refraction connects the machine&rsquo;s version of your brand to the reality generating it, and hands you a prioritized plan &mdash; some of it content, but also the experience fixes that change what the edge says in the first place. Proactive, not damage control. Built by the operator who ran social care, reputation, executive relations, and the regulatory record at Comcast &mdash; <b>the functions AI answers now read as receipts</b> &mdash; before the category had a name.</p>
-</div></section>
+<section>
+  <div class="col rv">
+    <div class="eyebrow">The business problem</div>
+    <h2>Someone is answering for you.</h2>
+    <div class="problem">
+      <p>When a customer asks ChatGPT, Perplexity, or Gemini about your company &mdash; is it worth it, is it safe, why was I charged &mdash; the machine composes an answer from evidence. Some of that evidence is yours. Most of it is not: reviews, forums, affiliates, complaint threads, the residue of every customer experience you ever shipped.</p>
+      <p><b>The answer your customers hear may be accurate and still not yours.</b> Your pricing explained by an affiliate. Your reliability narrated by Reddit. Your story, told by whoever published the most legible evidence &mdash; at the exact moment a buying or leaving decision is being made.</p>
+      <p>Executives already sense this. They ask the machine about their own company, read the answer, and walk into Monday asking their teams why it says that. Almost nobody can answer &mdash; because the tools measure how often you appear, not <b>why the machine believes what it believes, or who owns changing it.</b></p>
+    </div>
+  </div>
+</section>
 
-<section><div class="wrap">
-  <div class="label">Go deeper</div>
-  <a class="go" href="/telemetry-and-diagnosis">
-    <b>Telemetry and Diagnosis</b>
-    <span>The method in one page: what monitoring can measure, what it structurally cannot, and the workflow that turns an AI answer into an owned decision &mdash; receipts, statement, audit, new receipts.</span>
-    <span class="cta">Read the method &rarr;</span>
-  </a>
-  <a class="go" href="/authority-displacement">
-    <b>The Answer Is Right. The Authority Is Displaced.</b>
-    <span>One finding, end to end, from a live diagnostic: a real churn question, a correct machine answer &mdash; and an affiliate cited as the authority for the company&rsquo;s own pricing. With the executive question: who owns changing the evidence path?</span>
-    <span class="cta">See a worked example &rarr;</span>
-  </a>
-</div></section>
+<section>
+  <div class="col rv">
+    <div class="eyebrow">The category in one line</div>
+    <p>Profound, Scrunch, Otterly, AthenaHQ, Peec, SEMrush&rsquo;s AI Toolkit, Ahrefs Brand Radar &mdash; underneath the names, they are the same thing: <b>monitoring software for marketing teams.</b> They run the prompts you supply, score how often the AI engines cite you, and the better ones suggest content edits. The dashboard is the product. What it means, and what to do about it, is left to you.</p>
+  </div>
+</section>
 
-<section class="contact"><div class="wrap">
-  <div class="label">Start</div>
-  <p>Refraction is delivered as a fixed-scope engagement: your entity, your ecosystem, your machine layer &mdash; read, adjudicated, and returned as a plan with owners. <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a></p>
-</div></section>
+<section class="light">
+  <div class="col rv">
+    <div class="eyebrow">What Refraction is</div>
+    <p>An operator-led read on how AI engines actually describe your brand, why they describe it that way, and what to do about it. It measures the gap between what you say about yourself and what the edge &mdash; customers, reviews, forums, third-party citations &mdash; is telling the machine, then <b>traces that gap back to the customer experience and operations producing it.</b> Fixed scope. Not a subscription.</p>
+    <div class="tablewrap">
+      <table>
+        <tr><th></th><th>Refraction</th><th>Profound &amp; the AEO tools</th></tr>
+        <tr><td class="q">What it is</td><td>A senior-operator assessment</td><td>Monitoring software, sold by subscription</td></tr>
+        <tr><td class="q">The question it answers</td><td>Why AI describes you this way &mdash; and what to do</td><td>Where you&rsquo;re cited, and how often</td></tr>
+        <tr><td class="q">What it reads</td><td>The full signal, whether or not you thought to track it</td><td>Only the prompts you supply</td></tr>
+        <tr><td class="q">What you get</td><td>Judgment and a prioritized plan</td><td>A dashboard; execution is your problem</td></tr>
+        <tr><td class="q">Root cause</td><td>Traces the gap to real customer experience and operations</td><td>Treats it as a content problem</td></tr>
+        <tr><td class="q">Who delivers it</td><td>An operator who ran the underlying functions at Fortune 50 scale</td><td>Software, plus your in-house analysts</td></tr>
+        <tr><td class="q">Cost model</td><td>Fixed-scope engagement</td><td>Subscription, self-serve to enterprise tiers</td></tr>
+        <tr><td class="q">Best for</td><td>Leaders who need to know what the score means</td><td>Teams who want the numbers on a screen</td></tr>
+      </table>
+    </div>
+    <p class="table-close">Every tool stops at the score. Refraction connects the machine&rsquo;s version of your brand to the reality generating it, and hands you a prioritized plan &mdash; some of it content, but also the experience fixes that change what the edge says in the first place. Proactive, not damage control. Built by the operator who ran social care, reputation, executive relations, and the regulatory record at Comcast &mdash; <b>the functions AI answers now read as receipts</b> &mdash; before the category had a name.</p>
+  </div>
+</section>
 
-<footer><div class="wrap"><a class="wordmark" href="/">greenbaum<span>labs</span></a><small>REFRACTION &middot; A GREENBAUM LABS ASSESSMENT</small></div></footer>
+<section>
+  <div class="col rv">
+    <div class="eyebrow">Go deeper</div>
+    <div class="go-grid">
+      <a class="go" href="/telemetry-and-diagnosis">
+        <b>Telemetry and Diagnosis</b>
+        <span>The method in one page: what monitoring can measure, what it structurally cannot, and the workflow that turns an AI answer into an owned decision &mdash; receipts, statement, audit, new receipts.</span>
+        <span class="cta">Read the method &rarr;</span>
+      </a>
+      <a class="go" href="/authority-displacement">
+        <b>The Answer Is Right. The Authority Is Displaced.</b>
+        <span>One finding, end to end, from a live diagnostic: a real churn question, a correct machine answer &mdash; and an affiliate cited as the authority for the company&rsquo;s own pricing. With the executive question: who owns changing the evidence path?</span>
+        <span class="cta">See a worked example &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section class="start" id="start">
+  <div class="col rv">
+    <div class="eyebrow">Start</div>
+    <p>Refraction is delivered as a fixed-scope engagement: your entity, your ecosystem, your machine layer &mdash; read, adjudicated, and returned as a plan with owners. <a href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a></p>
+    <a class="btn" href="mailto:justin@greenbaumlabs.com">justin@greenbaumlabs.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="col f-inner">
+    <a class="wordmark" href="/">greenbaum<span>labs</span></a>
+    <small>REFRACTION &middot; A GREENBAUM LABS ASSESSMENT</small>
+  </div>
+</footer>
+
+<script>
+(function(){
+var els=document.querySelectorAll(".rv");
+if(!("IntersectionObserver" in window)){els.forEach(function(e){e.classList.add("in");});return;}
+var io=new IntersectionObserver(function(en){en.forEach(function(x){if(x.isIntersecting){x.target.classList.add("in");io.unobserve(x.target);}});},{threshold:.08,rootMargin:"0px 0px -40px 0px"});
+els.forEach(function(e){io.observe(e);});
+})();
+</script>
 </body>
 </html>
